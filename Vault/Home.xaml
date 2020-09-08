@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <local:IconedTextBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="66,87,0,0" Width="175" IconSize="32" Height="37" VerticalContentAlignment="Center" TextWrapping="Wrap" Text="Test" Source="Icons/ic_null.png"/>
+        <local:VaultButton Content="VaultButton" HorizontalAlignment="Left" Margin="111,178,0,0" VerticalAlignment="Top" Width="86" Height="48" CornerRadius="10"/>
+        <local:ElementPreview CornerRadius="10" HorizontalAlignment="Left" Height="61" Margin="66,257,0,0" VerticalAlignment="Top" Width="341"/>
     </Grid>
 </Window>

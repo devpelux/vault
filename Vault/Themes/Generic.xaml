@@ -1,7 +1,9 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Vault;component/Themes/InputText.xaml" />
+        <ResourceDictionary Source="/Vault;component/Themes/IconedTextBox.xaml"/>
+        <ResourceDictionary Source="/Vault;component/Themes/VaultButton.xaml"/>
+        <ResourceDictionary Source="/Vault;component/Themes/ElementPreview.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
