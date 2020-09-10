@@ -10,29 +10,35 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Vault
 {
     /// <summary>
-    /// Logica di interazione per Home.xaml
+    /// Logica di interazione per ElementPasswordWindow.xaml
     /// </summary>
-    public partial class Home : Window
+    public partial class ElementPasswordWindow : Window
     {
-        public Home()
+        public ElementPasswordWindow()
         {
             InitializeComponent();
         }
 
-        private void NewElement_Click(object sender, RoutedEventArgs e)
+
+        private void Ok_Click(object sender, RoutedEventArgs e)
         {
-            Container.Add(new ElementPreview());
+            Save();
         }
 
-        private void Refresh_Click(object sender, RoutedEventArgs e)
+        private void Cancel_Click(object sender, RoutedEventArgs e)
         {
-            Container.Clear();
+            Close();
+        }
+
+
+        private void Save()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -3,11 +3,11 @@
                     xmlns:local="clr-namespace:Vault">
 
     <Style TargetType="{x:Type local:VaultButton}" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}"/>
-        <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
         <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"/>
-        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="10"/>
 
         <Setter Property="Template">
             <Setter.Value>

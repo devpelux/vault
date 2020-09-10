@@ -17,92 +17,52 @@ namespace Vault
 {
     public class ElementPreview : Control
     {
-        public string Title
-        {
-            get { return (string)GetValue(TitleProperty); }
-            set { SetValue(TitleProperty, value); }
-        }
+        public string Title { get => (string)GetValue(TitleProperty); set => SetValue(TitleProperty, value); }
 
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register(nameof(Title), typeof(string), typeof(ElementPreview));
 
-        public string Category
-        {
-            get { return (string)GetValue(CategoryProperty); }
-            set { SetValue(CategoryProperty, value); }
-        }
+        public string Category { get => (string)GetValue(CategoryProperty); set => SetValue(CategoryProperty, value); }
 
         public static readonly DependencyProperty CategoryProperty =
             DependencyProperty.Register(nameof(Category), typeof(string), typeof(ElementPreview));
 
-        public string Details
-        {
-            get { return (string)GetValue(DetailsProperty); }
-            set { SetValue(DetailsProperty, value); }
-        }
+        public string Details { get => (string)GetValue(DetailsProperty); set => SetValue(DetailsProperty, value); }
 
         public static readonly DependencyProperty DetailsProperty =
             DependencyProperty.Register(nameof(Details), typeof(string), typeof(ElementPreview));
 
-        public CornerRadius CornerRadius
-        {
-            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
-            set { SetValue(CornerRadiusProperty, value); }
-        }
+        public CornerRadius CornerRadius { get => (CornerRadius)GetValue(CornerRadiusProperty); set => SetValue(CornerRadiusProperty, value); }
 
         public static readonly DependencyProperty CornerRadiusProperty =
             DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(ElementPreview));
 
-        public Brush TitleForeground
-        {
-            get { return (Brush)GetValue(TitleForegroundProperty); }
-            set { SetValue(TitleForegroundProperty, value); }
-        }
+        public Brush TitleForeground { get => (Brush)GetValue(TitleForegroundProperty); set => SetValue(TitleForegroundProperty, value); }
 
         public static readonly DependencyProperty TitleForegroundProperty =
             DependencyProperty.Register(nameof(TitleForeground), typeof(Brush), typeof(ElementPreview));
 
-        public Brush CategoryForeground
-        {
-            get { return (Brush)GetValue(CategoryForegroundProperty); }
-            set { SetValue(CategoryForegroundProperty, value); }
-        }
+        public Brush CategoryForeground { get => (Brush)GetValue(CategoryForegroundProperty); set => SetValue(CategoryForegroundProperty, value); }
 
         public static readonly DependencyProperty CategoryForegroundProperty =
             DependencyProperty.Register(nameof(CategoryForeground), typeof(Brush), typeof(ElementPreview));
 
-        public Brush DetailsForeground
-        {
-            get { return (Brush)GetValue(DetailsForegroundProperty); }
-            set { SetValue(DetailsForegroundProperty, value); }
-        }
+        public Brush DetailsForeground { get => (Brush)GetValue(DetailsForegroundProperty); set => SetValue(DetailsForegroundProperty, value); }
 
         public static readonly DependencyProperty DetailsForegroundProperty =
             DependencyProperty.Register(nameof(DetailsForeground), typeof(Brush), typeof(ElementPreview));
 
-        public double TitleFontSize
-        {
-            get { return (double)GetValue(TitleFontSizeProperty); }
-            set { SetValue(TitleFontSizeProperty, value); }
-        }
+        public double TitleFontSize { get => (double)GetValue(TitleFontSizeProperty); set => SetValue(TitleFontSizeProperty, value); }
 
         public static readonly DependencyProperty TitleFontSizeProperty =
             DependencyProperty.Register(nameof(TitleFontSize), typeof(double), typeof(ElementPreview));
 
-        public double CategoryFontSize
-        {
-            get { return (double)GetValue(CategoryFontSizeProperty); }
-            set { SetValue(CategoryFontSizeProperty, value); }
-        }
+        public double CategoryFontSize { get => (double)GetValue(CategoryFontSizeProperty); set => SetValue(CategoryFontSizeProperty, value); }
 
         public static readonly DependencyProperty CategoryFontSizeProperty =
             DependencyProperty.Register(nameof(CategoryFontSize), typeof(double), typeof(ElementPreview));
 
-        public double DetailsFontSize
-        {
-            get { return (double)GetValue(DetailsFontSizeProperty); }
-            set { SetValue(DetailsFontSizeProperty, value); }
-        }
+        public double DetailsFontSize { get => (double)GetValue(DetailsFontSizeProperty); set => SetValue(DetailsFontSizeProperty, value); }
 
         public static readonly DependencyProperty DetailsFontSizeProperty =
             DependencyProperty.Register(nameof(DetailsFontSize), typeof(double), typeof(ElementPreview));

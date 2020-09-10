@@ -3,16 +3,15 @@
                     xmlns:local="clr-namespace:Vault">
 
     <Style TargetType="{x:Type local:ElementPreview}">
-        <Setter Property="Title" Value="Title"/>
-        <Setter Property="Details" Value="Details"/>
-        <Setter Property="Category" Value="CAT"/>
-        <Setter Property="Width" Value="150"/>
-        <Setter Property="Height" Value="50"/>
-        <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Background" Value="SteelBlue"/>
         <Setter Property="TitleForeground" Value="Black"/>
         <Setter Property="DetailsForeground" Value="Black"/>
         <Setter Property="CategoryForeground" Value="White"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Title" Value="Title"/>
+        <Setter Property="Details" Value="Details"/>
+        <Setter Property="Category" Value="CAT"/>
+        <Setter Property="Height" Value="50"/>
         <Setter Property="TitleFontSize" Value="24"/>
         <Setter Property="CategoryFontSize" Value="12"/>
         <Setter Property="DetailsFontSize" Value="10"/>
@@ -26,8 +25,8 @@
                             CornerRadius="{TemplateBinding CornerRadius}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="200"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="100"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="10,0,10,0" FontSize="{TemplateBinding TitleFontSize}"
                                        Foreground="{TemplateBinding TitleForeground}" Text="{TemplateBinding Title}"/>

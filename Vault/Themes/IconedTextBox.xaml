@@ -3,13 +3,12 @@
                     xmlns:local="clr-namespace:Vault">
 
     <Style TargetType="{x:Type local:IconedTextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
-
-        <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
-        <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Background" Value="{DynamicResource InputBackground}"/>
         <Setter Property="Foreground" Value="{DynamicResource InputForeground}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
 
-        <Setter Property="IconSize" Value="40"/>
+        <Setter Property="IconSize" Value="24"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -23,7 +22,7 @@
                                Grid.Column="0"
                                Width="{TemplateBinding IconSize}"
                                Margin="0,0,5,0"
-                               Source="{TemplateBinding Source}"/>
+                               Source="{TemplateBinding Source}" Stretch="Uniform"/>
                         <Border x:Name="border"
                                 Grid.Column="1"
                                 BorderBrush="{TemplateBinding BorderBrush}"

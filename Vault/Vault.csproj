@@ -58,8 +58,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Element.cs" />
+    <Compile Include="ElementContainer.cs" />
     <Compile Include="ElementPreview.cs" />
+    <Compile Include="ElementPasswordWindow.xaml.cs">
+      <DependentUpon>ElementPasswordWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ElementsManager.cs" />
     <Compile Include="VaultButton.cs" />
+    <Page Include="ElementPasswordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Home.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -73,6 +83,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="GenericResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ElementContainer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -120,9 +134,20 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Resource Include="Icons\ic_null.png" />
+    <Resource Include="Icons\ic_card.png" />
+    <Resource Include="Icons\ic_cross.png" />
+    <Resource Include="Icons\ic_done.png" />
+    <Resource Include="Icons\ic_edit.png" />
+    <Resource Include="Icons\ic_lock.png" />
+    <Resource Include="Icons\ic_notes.png" />
+    <Resource Include="Icons\ic_user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_world.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_label.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
