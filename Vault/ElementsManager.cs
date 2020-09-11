@@ -13,6 +13,9 @@ namespace Vault
         private static ElementsManager instance = null;
         int id = 1;
 
+        public int Count => elements.Count;
+        public Element this[int index] { get => elements[index]; set => elements[index] = value; }
+
         public static ElementsManager Instance
         {
             get
@@ -41,6 +44,11 @@ namespace Vault
         public void RemoveElement(Element element)
         {
             elements.Remove(element);
+        }
+
+        public Element GetElementAt(int index)
+        {
+            return elements[index];
         }
     }
 }

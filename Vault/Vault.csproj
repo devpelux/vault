@@ -65,6 +65,7 @@
       <DependentUpon>ElementPasswordWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ElementsManager.cs" />
+    <Compile Include="IMessageReceiver.cs" />
     <Compile Include="VaultButton.cs" />
     <Page Include="ElementPasswordWindow.xaml">
       <SubType>Designer</SubType>

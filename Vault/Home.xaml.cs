@@ -18,7 +18,7 @@ namespace Vault
     /// <summary>
     /// Logica di interazione per Home.xaml
     /// </summary>
-    public partial class Home : Window
+    public partial class Home : Window, IMessageReceiver
     {
         public Home()
         {
@@ -27,12 +27,45 @@ namespace Vault
 
         private void NewElement_Click(object sender, RoutedEventArgs e)
         {
-            Container.Add(new ElementPreview());
+            ElementPasswordWindow passwordWindow = new ElementPasswordWindow();
+            passwordWindow.SetReceiver(this);
+            passwordWindow.ShowDialog();
         }
 
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
             Container.Clear();
+            for (int i = 0; i < ElementsManager.Instance.Count; i++)
+            {
+                _ = Container.Add(CreatePreview(ElementsManager.Instance[i]));
+            }
+        }
+        
+        private void CloseWindow_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void ToolbarMouseHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+
+        public void SendMessage(string message, object obj)
+        {
+            if (message == "ok")
+            {
+                _ = Container.Add(CreatePreview((Element)obj));
+            }
+        }
+
+        private ElementPreview CreatePreview(Element e)
+        {
+            ElementPreview ep = new ElementPreview();
+            ep.Title = e.Title;
+            ep.Category = e.Category;
+            ep.Details = e.Details;
+            return ep;
         }
     }
 }

@@ -3,12 +3,12 @@
                     xmlns:local="clr-namespace:Vault">
 
     <Style TargetType="{x:Type local:ElementContainer}">
-        <Setter Property="Background" Value="Black" />
+        <Setter Property="Background" Value="{DynamicResource WindowBackground}" />
         <Setter Property="BorderBrush" Value="White" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Padding" Value="10" />
-        <Setter Property="Space" Value="20" />
+        <Setter Property="Space" Value="10" />
 
         <Setter Property="Template">
             <Setter.Value>

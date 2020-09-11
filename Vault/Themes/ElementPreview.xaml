@@ -28,7 +28,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="100"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="10,0,10,0" FontSize="{TemplateBinding TitleFontSize}"
+                            <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="10,0,10,5" FontSize="{TemplateBinding TitleFontSize}"
                                        Foreground="{TemplateBinding TitleForeground}" Text="{TemplateBinding Title}"/>
                             <TextBlock Grid.Column="0" VerticalAlignment="Bottom" Margin="12,0,12,5" FontSize="{TemplateBinding DetailsFontSize}"
                                        Foreground="{TemplateBinding DetailsForeground}" Text="{TemplateBinding Details}"/>
