@@ -59,15 +59,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Element.cs" />
-    <Compile Include="ElementContainer.cs" />
-    <Compile Include="ElementPreview.cs" />
-    <Compile Include="ElementPasswordWindow.xaml.cs">
-      <DependentUpon>ElementPasswordWindow.xaml</DependentUpon>
+    <Compile Include="ItemsContainer.cs" />
+    <Compile Include="ItemElementPreview.cs" />
+    <Compile Include="PasswordWindow.cs">
+      <DependentUpon>PasswordWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ElementsManager.cs" />
     <Compile Include="IMessageReceiver.cs" />
     <Compile Include="VaultButton.cs" />
-    <Page Include="ElementPasswordWindow.xaml">
+    <Page Include="PasswordWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -87,11 +87,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\ElementContainer.xaml">
+    <Page Include="Themes\ItemsContainer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\ElementPreview.xaml">
+    <Page Include="Themes\ItemElementPreview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

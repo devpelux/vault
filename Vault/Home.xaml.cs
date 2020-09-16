@@ -20,6 +20,8 @@ namespace Vault
     /// </summary>
     public partial class Home : Window, IMessageReceiver
     {
+        private ItemElementPreview selectedElementPreview = null;
+
         public Home()
         {
             InitializeComponent();
@@ -27,7 +29,7 @@ namespace Vault
 
         private void NewElement_Click(object sender, RoutedEventArgs e)
         {
-            ElementPasswordWindow passwordWindow = new ElementPasswordWindow();
+            PasswordWindow passwordWindow = new PasswordWindow();
             passwordWindow.SetReceiver(this);
             passwordWindow.ShowDialog();
         }
@@ -51,21 +53,40 @@ namespace Vault
             DragMove();
         }
 
-        public void SendMessage(string message, object obj)
+        public void ReceiveMessage(string message, object obj)
         {
-            if (message == "ok")
-            {
-                _ = Container.Add(CreatePreview((Element)obj));
-            }
+            if (message == "add") _ = Container.Add(CreatePreview((Element)obj));
+            else if (message == "edit") EditPreview(selectedElementPreview, (Element)obj);
+            else if (message == "delete") Container.Remove(selectedElementPreview);
+            selectedElementPreview = null;
         }
 
-        private ElementPreview CreatePreview(Element e)
+        private ItemElementPreview CreatePreview(Element e)
         {
-            ElementPreview ep = new ElementPreview();
+            ItemElementPreview ep = new ItemElementPreview();
+            ep.MouseLeftButtonDown += ElementPreviewMouseLeftButtonDown;
+            ep.ElementID = e.ID;
             ep.Title = e.Title;
             ep.Category = e.Category;
             ep.Details = e.Details;
             return ep;
+        }
+
+        private void EditPreview(ItemElementPreview preview, Element e)
+        {
+            preview.ElementID = e.ID;
+            preview.Title = e.Title;
+            preview.Category = e.Category;
+            preview.Details = e.Details;
+        }
+
+        private void ElementPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            selectedElementPreview = (ItemElementPreview)sender;
+            PasswordWindow passwordWindow = new PasswordWindow();
+            passwordWindow.SetReceiver(this);
+            passwordWindow.SetElement(ElementsManager.Instance.GetElementByID(selectedElementPreview.ElementID));
+            passwordWindow.ShowDialog();
         }
     }
 }

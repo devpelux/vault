@@ -16,8 +16,7 @@ using System.Windows.Shapes;
 
 namespace Vault
 {
-    
-    public class ElementContainer : Control, ICollection, IEnumerable, IList<Control>
+    public class ItemsContainer : Control, ICollection, IEnumerable, IList<Control>
     {
         private Grid container = null;
         private UIElementCollection Children => container?.Children;
@@ -38,17 +37,17 @@ namespace Vault
         public double Space { get => (double)GetValue(SpaceProperty); set => SetValue(SpaceProperty, value); }
 
         public static readonly DependencyProperty SpaceProperty =
-            DependencyProperty.Register(nameof(Space), typeof(double), typeof(ElementContainer));
+            DependencyProperty.Register(nameof(Space), typeof(double), typeof(ItemsContainer));
 
         public CornerRadius CornerRadius { get => (CornerRadius)GetValue(CornerRadiusProperty); set => SetValue(CornerRadiusProperty, value); }
 
         public static readonly DependencyProperty CornerRadiusProperty =
-            DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(ElementContainer));
+            DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(ItemsContainer));
 
 
-        static ElementContainer()
+        static ItemsContainer()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ElementContainer), new FrameworkPropertyMetadata(typeof(ElementContainer)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ItemsContainer), new FrameworkPropertyMetadata(typeof(ItemsContainer)));
         }
 
 

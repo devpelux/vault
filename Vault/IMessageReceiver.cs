@@ -8,6 +8,6 @@ namespace Vault
 {
     public interface IMessageReceiver
     {
-        void SendMessage(string message, object obj);
+        void ReceiveMessage(string message, object obj);
     }
 }

@@ -20,7 +20,7 @@
             <Grid x:Name="ContentWindow" Grid.Row="1">
                 <local:VaultButton x:Name="NewElement" Content="Nuovo" HorizontalAlignment="Left" Margin="39,128,0,0" VerticalAlignment="Top" Width="65" Height="37" Click="NewElement_Click"/>
                 <local:VaultButton x:Name="Refresh" Content="Aggiorna" HorizontalAlignment="Left" Margin="39,86,0,0" VerticalAlignment="Top" Width="65" Height="37" Click="Refresh_Click"/>
-                <local:ElementContainer x:Name="Container" HorizontalAlignment="Left" Margin="167,29,0,0" VerticalAlignment="Top" Height="316" Width="298"/>
+                <local:ItemsContainer x:Name="Container" HorizontalAlignment="Left" Margin="167,29,0,0" VerticalAlignment="Top" Height="316" Width="298"/>
             </Grid>
         </Grid>
     </Border>

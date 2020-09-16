@@ -8,7 +8,7 @@ namespace Vault
 {
     public class Element : IEquatable<Element>
     {
-        public int ID { get; set; }
+        public int ID { get; set; } = -1;
         public string Title { get; set; }
         public string Category { get; set; }
         public string Website { get; set; }
