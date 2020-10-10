@@ -4,7 +4,7 @@
         <ResourceDictionary Source="/Vault;component/Themes/ItemsContainer.xaml"/>
         <ResourceDictionary Source="/Vault;component/Themes/ItemElementPreview.xaml"/>
         <ResourceDictionary Source="/Vault;component/Themes/IconedTextBox.xaml"/>
-        <ResourceDictionary Source="/Vault;component/Themes/VaultButton.xaml"/>
+        <ResourceDictionary Source="/Vault;component/Themes/FullButton.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

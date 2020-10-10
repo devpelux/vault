@@ -66,7 +66,7 @@
     </Compile>
     <Compile Include="ElementsManager.cs" />
     <Compile Include="IMessageReceiver.cs" />
-    <Compile Include="VaultButton.cs" />
+    <Compile Include="FullButton.cs" />
     <Page Include="PasswordWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -103,7 +103,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\VaultButton.xaml">
+    <Page Include="Themes\FullButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

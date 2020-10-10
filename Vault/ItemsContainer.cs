@@ -1,20 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace Vault
+namespace CustomControls
 {
     public class ItemsContainer : Control, ICollection, IEnumerable, IList<Control>
     {
@@ -22,11 +12,19 @@ namespace Vault
         private UIElementCollection Children => container?.Children;
 
 
-        public Control this[int index] { get => (Control)Children[index]; set => Children[index] = value; }
+        public Control this[int index]
+        {
+            get => (Control)Children[index];
+            set => Children[index] = value;
+        }
 
         public bool IsReadOnly => ((IList)Children).IsReadOnly;
 
-        public int Capacity { get => Children.Capacity; set => Children.Capacity = value; }
+        public int Capacity
+        {
+            get => Children.Capacity;
+            set => Children.Capacity = value;
+        }
 
         public object SyncRoot => Children.SyncRoot;
 
@@ -34,12 +32,20 @@ namespace Vault
 
         public int Count => Children.Count;
 
-        public double Space { get => (double)GetValue(SpaceProperty); set => SetValue(SpaceProperty, value); }
+        public double Space
+        {
+            get => (double)GetValue(SpaceProperty);
+            set => SetValue(SpaceProperty, value);
+        }
 
         public static readonly DependencyProperty SpaceProperty =
             DependencyProperty.Register(nameof(Space), typeof(double), typeof(ItemsContainer));
 
-        public CornerRadius CornerRadius { get => (CornerRadius)GetValue(CornerRadiusProperty); set => SetValue(CornerRadiusProperty, value); }
+        public CornerRadius CornerRadius
+        {
+            get => (CornerRadius)GetValue(CornerRadiusProperty);
+            set => SetValue(CornerRadiusProperty, value);
+        }
 
         public static readonly DependencyProperty CornerRadiusProperty =
             DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(ItemsContainer));
@@ -54,7 +60,7 @@ namespace Vault
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            container = (Grid)Template.FindName("container", this);
+            container = (Grid)Template.FindName("PART_Container", this);
         }
 
 
