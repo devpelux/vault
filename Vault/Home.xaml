@@ -6,22 +6,67 @@
         xmlns:local="clr-namespace:Vault"
         xmlns:cust="clr-namespace:CustomControls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="412" Width="514" AllowsTransparency="True" WindowStyle="None" Background="{x:Null}" WindowStartupLocation="CenterScreen">
-    <Border CornerRadius="5" Background="{DynamicResource WindowBackground}" BorderBrush="CornflowerBlue" BorderThickness="1">
+        Title="MainWindow"
+        Height="412"
+        Width="514"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Background="{x:Null}"
+        WindowStartupLocation="CenterScreen">
+    <Border CornerRadius="5"
+            Background="{DynamicResource WindowBackground}"
+            BorderBrush="CornflowerBlue"
+            BorderThickness="1">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="32"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid x:Name="Toolbar" Grid.Row="0">
-                <cust:FullButton x:Name="CloseWindow" Content="X" HorizontalAlignment="Right" Margin="0,0,2,0" Width="28" Height="28" Click="CloseWindow_Click"/>
-                <TextBlock HorizontalAlignment="Left" Margin="10,0,10,0" TextWrapping="NoWrap" Text="MainWindow" VerticalAlignment="Center" Foreground="White"/>
-                <Grid x:Name="ToolbarMouseHandler" Margin="0,0,50,0" Background="Transparent" MouseLeftButtonDown="ToolbarMouseHandler_MouseLeftButtonDown"/>
+            <Grid x:Name="Toolbar"
+                  Grid.Row="0">
+                <cust:FullButton x:Name="CloseWindow"
+                                 Content="X"
+                                 HorizontalAlignment="Right"
+                                 Margin="0,0,2,0"
+                                 Width="28"
+                                 Height="28"
+                                 Click="CloseWindow_Click"/>
+                <TextBlock HorizontalAlignment="Left"
+                           Margin="10,0,10,0"
+                           TextWrapping="NoWrap"
+                           Text="MainWindow"
+                           VerticalAlignment="Center"
+                           Foreground="White"/>
+                <Grid x:Name="ToolbarMouseHandler"
+                      Margin="0,0,50,0"
+                      Background="Transparent"
+                      MouseLeftButtonDown="ToolbarMouseHandler_MouseLeftButtonDown"/>
             </Grid>
-            <Grid x:Name="ContentWindow" Grid.Row="1">
-                <cust:FullButton x:Name="NewElement" Content="Nuovo" HorizontalAlignment="Left" Margin="39,128,0,0" VerticalAlignment="Top" Width="65" Height="37" Click="NewElement_Click"/>
-                <cust:FullButton x:Name="Refresh" Content="Aggiorna" HorizontalAlignment="Left" Margin="39,86,0,0" VerticalAlignment="Top" Width="65" Height="37" Click="Refresh_Click"/>
-                <cust:ItemsContainer x:Name="Container" HorizontalAlignment="Left" Margin="167,29,0,0" VerticalAlignment="Top" Height="316" Width="298"/>
+            <Grid x:Name="ContentWindow"
+                  Grid.Row="1">
+                <cust:FullButton x:Name="NewElement"
+                                 Content="Nuovo" HorizontalAlignment="Left"
+                                 Margin="39,128,0,0"
+                                 VerticalAlignment="Top"
+                                 Width="65"
+                                 Height="37"
+                                 Click="NewElement_Click"/>
+                <cust:FullButton x:Name="Refresh"
+                                 Content="Aggiorna"
+                                 HorizontalAlignment="Left"
+                                 Margin="39,86,0,0"
+                                 VerticalAlignment="Top"
+                                 Width="65"
+                                 Height="37"
+                                 Click="Refresh_Click"/>
+                <cust:ItemsContainer x:Name="Container"
+                                     HorizontalAlignment="Left"
+                                     Margin="167,29,0,0"
+                                     VerticalAlignment="Top"
+                                     Height="316"
+                                     Width="298"
+                                     Space="4"
+                                     Padding="4"/>
             </Grid>
         </Grid>
     </Border>

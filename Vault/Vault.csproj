@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CBorder.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="ItemsContainer.cs" />
     <Compile Include="ItemElementPreview.cs" />

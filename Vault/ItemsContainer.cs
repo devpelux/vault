@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -41,6 +42,15 @@ namespace CustomControls
         public static readonly DependencyProperty SpaceProperty =
             DependencyProperty.Register(nameof(Space), typeof(double), typeof(ItemsContainer));
 
+        public double OverflowShadowHeight
+        {
+            get => (double)GetValue(OverflowShadowHeightProperty);
+            set => SetValue(OverflowShadowHeightProperty, value);
+        }
+
+        public static readonly DependencyProperty OverflowShadowHeightProperty =
+            DependencyProperty.Register(nameof(OverflowShadowHeight), typeof(double), typeof(ItemsContainer));
+
         public CornerRadius CornerRadius
         {
             get => (CornerRadius)GetValue(CornerRadiusProperty);
@@ -61,8 +71,8 @@ namespace CustomControls
         {
             base.OnApplyTemplate();
             container = (Grid)Template.FindName("PART_Container", this);
+            ((ScrollViewer)Template.FindName("PART_ScrollViewer", this)).ScrollChanged += OnScrollViewerScrollChanged;
         }
-
 
         public int Add(Control element)
         {
@@ -134,6 +144,17 @@ namespace CustomControls
                     double marginTop = i == 0 ? 0 : this[i - 1].Margin.Top + this[i - 1].Height + Space;
                     this[i].Margin = new Thickness(0, marginTop, 0, 0);
                 }
+            }
+        }
+
+        private void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            if (e.ExtentHeight <= e.ViewportHeight) _ = VisualStateManager.GoToState(this, "TotallyVisible", true);
+            else
+            {
+                if (e.VerticalOffset == 0) _ = VisualStateManager.GoToState(this, "TopVisible", true);
+                else if (e.VerticalOffset == e.ExtentHeight - e.ViewportHeight) _ = VisualStateManager.GoToState(this, "BottomVisible", true);
+                else _ = VisualStateManager.GoToState(this, "CenterVisible", true);
             }
         }
     }

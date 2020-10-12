@@ -8,6 +8,7 @@ namespace Vault
         public int ID { get; set; } = -1;
         public string Title { get; set; }
         public string Category { get; set; }
+        public string Group { get; set; }
         public string Website { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
@@ -21,19 +22,20 @@ namespace Vault
             ID = id;
         }
 
-        public Element(int id, string title, string category, string website, string username, string password, string details)
+        public Element(int id, string title, string category, string group, string website, string username, string password, string details)
         {
             ID = id;
             Title = title;
             Category = category;
+            Group = group;
             Website = website;
             Username = username;
             Password = password;
             Details = details;
         }
 
-        public Element(string title, string category, string website, string username, string password, string details) :
-            this(-1, title, category, website, username, password, details)
+        public Element(string title, string category, string group, string website, string username, string password, string details) :
+            this(-1, title, category, group, website, username, password, details)
         { }
 
 

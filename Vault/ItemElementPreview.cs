@@ -127,25 +127,25 @@ namespace CustomControls
         protected override void OnMouseEnter(MouseEventArgs e)
         {
             base.OnMouseEnter(e);
-            VisualStateManager.GoToState(this, "MouseOver", true);
+            _ = VisualStateManager.GoToState(this, "MouseOver", true);
         }
 
         protected override void OnMouseLeave(MouseEventArgs e)
         {
             base.OnMouseLeave(e);
-            VisualStateManager.GoToState(this, "Normal", true);
+            _ = VisualStateManager.GoToState(this, "Normal", true);
         }
 
         protected override void OnGotFocus(RoutedEventArgs e)
         {
             base.OnGotFocus(e);
-            VisualStateManager.GoToState(this, "Focused", true);
+            _ = VisualStateManager.GoToState(this, "Focused", true);
         }
 
         protected override void OnLostFocus(RoutedEventArgs e)
         {
             base.OnLostFocus(e);
-            VisualStateManager.GoToState(this, "Unfocused", true);
+            _ = VisualStateManager.GoToState(this, "Unfocused", true);
         }
     }
 }

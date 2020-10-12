@@ -120,7 +120,7 @@ namespace CustomControls
 
         private void UpdateHintState()
         {
-            VisualStateManager.GoToState(this, Text.Length == 0 && !IsFocused && ShowHint ? "Hinted" : "Unhinted", true);
+            _ = VisualStateManager.GoToState(this, Text.Length == 0 && !IsFocused && ShowHint ? "Hinted" : "Unhinted", true);
         }
     }
 }
