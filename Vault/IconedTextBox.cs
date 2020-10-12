@@ -6,23 +6,14 @@ namespace CustomControls
 {
     public class IconedTextBox : TextBox
     {
-        public Brush BackgroundOnMouseOver
+        public Brush BackgroundOnSelected
         {
-            get => (Brush)GetValue(BackgroundOnMouseOverProperty);
-            set => SetValue(BackgroundOnMouseOverProperty, value);
+            get => (Brush)GetValue(BackgroundOnSelectedProperty);
+            set => SetValue(BackgroundOnSelectedProperty, value);
         }
 
-        public static readonly DependencyProperty BackgroundOnMouseOverProperty =
-            DependencyProperty.Register(nameof(BackgroundOnMouseOver), typeof(Brush), typeof(IconedTextBox));
-
-        public Brush BackgroundOnFocused
-        {
-            get => (Brush)GetValue(BackgroundOnFocusedProperty);
-            set => SetValue(BackgroundOnFocusedProperty, value);
-        }
-
-        public static readonly DependencyProperty BackgroundOnFocusedProperty =
-            DependencyProperty.Register(nameof(BackgroundOnFocused), typeof(Brush), typeof(IconedTextBox));
+        public static readonly DependencyProperty BackgroundOnSelectedProperty =
+            DependencyProperty.Register(nameof(BackgroundOnSelected), typeof(Brush), typeof(IconedTextBox));
 
         public Brush BackgroundOnDisabled
         {
@@ -33,23 +24,14 @@ namespace CustomControls
         public static readonly DependencyProperty BackgroundOnDisabledProperty =
             DependencyProperty.Register(nameof(BackgroundOnDisabled), typeof(Brush), typeof(IconedTextBox));
 
-        public Brush BorderBrushOnMouseOver
+        public Brush BorderBrushOnSelected
         {
-            get => (Brush)GetValue(BorderBrushOnMouseOverProperty);
-            set => SetValue(BorderBrushOnMouseOverProperty, value);
+            get => (Brush)GetValue(BorderBrushOnSelectedProperty);
+            set => SetValue(BorderBrushOnSelectedProperty, value);
         }
 
-        public static readonly DependencyProperty BorderBrushOnMouseOverProperty =
-            DependencyProperty.Register(nameof(BorderBrushOnMouseOver), typeof(Brush), typeof(IconedTextBox));
-
-        public Brush BorderBrushOnFocused
-        {
-            get => (Brush)GetValue(BorderBrushOnFocusedProperty);
-            set => SetValue(BorderBrushOnFocusedProperty, value);
-        }
-
-        public static readonly DependencyProperty BorderBrushOnFocusedProperty =
-            DependencyProperty.Register(nameof(BorderBrushOnFocused), typeof(Brush), typeof(IconedTextBox));
+        public static readonly DependencyProperty BorderBrushOnSelectedProperty =
+            DependencyProperty.Register(nameof(BorderBrushOnSelected), typeof(Brush), typeof(IconedTextBox));
 
         public Brush BorderBrushOnDisabled
         {
@@ -115,14 +97,7 @@ namespace CustomControls
 
         static void OnTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            IconedTextBox tb = (IconedTextBox)sender;
-            tb.UpdateHintState();
-        }
-
-        private void UpdateHintState()
-        {
-            if (Text.Length == 0 && !IsFocused && ShowHint) VisualStateManager.GoToState(this, "Hinted", true);
-            else VisualStateManager.GoToState(this, "Unhinted", true);
+            ((IconedTextBox)sender).UpdateHintState();
         }
 
         protected override void OnGotFocus(RoutedEventArgs e)
@@ -140,7 +115,12 @@ namespace CustomControls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            VisualStateManager.GoToState(this, "Hinted", true);
+            UpdateHintState();
+        }
+
+        private void UpdateHintState()
+        {
+            VisualStateManager.GoToState(this, Text.Length == 0 && !IsFocused && ShowHint ? "Hinted" : "Unhinted", true);
         }
     }
 }

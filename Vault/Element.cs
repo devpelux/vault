@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Vault
 {
@@ -15,6 +12,30 @@ namespace Vault
         public string Username { get; set; }
         public string Password { get; set; }
         public string Details { get; set; }
+
+
+        public Element() { }
+
+        public Element(int id)
+        {
+            ID = id;
+        }
+
+        public Element(int id, string title, string category, string website, string username, string password, string details)
+        {
+            ID = id;
+            Title = title;
+            Category = category;
+            Website = website;
+            Username = username;
+            Password = password;
+            Details = details;
+        }
+
+        public Element(string title, string category, string website, string username, string password, string details) :
+            this(-1, title, category, website, username, password, details)
+        { }
+
 
         public override bool Equals(object obj) => Equals(obj as Element);
 

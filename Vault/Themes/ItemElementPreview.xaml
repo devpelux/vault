@@ -4,9 +4,9 @@
 
     <Style TargetType="{x:Type local:ItemElementPreview}">
         <Setter Property="Background" Value="SteelBlue"/>
-        <Setter Property="BackgroundOnMouseOver" Value="LightSteelBlue"/>
+        <Setter Property="BackgroundOnSelected" Value="LightSteelBlue"/>
         <Setter Property="BorderBrush" Value="SteelBlue"/>
-        <Setter Property="BorderBrushOnMouseOver" Value="LightSteelBlue"/>
+        <Setter Property="BorderBrushOnSelected" Value="LightSteelBlue"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="TitleForeground" Value="Black"/>
         <Setter Property="DetailsForeground" Value="Black"/>
@@ -25,12 +25,12 @@
                 <ControlTemplate TargetType="{x:Type local:ItemElementPreview}">
                     <Grid>
                         <Grid.Resources>
-                            <Storyboard x:Key="ItemElementPreviewOnMouseOver">
+                            <Storyboard x:Key="ItemElementPreviewOnSelected">
                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="Background">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BackgroundOnMouseOver, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BackgroundOnSelected, RelativeSource={RelativeSource TemplatedParent}}"/>
                                 </ObjectAnimationUsingKeyFrames>
                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="BorderBrush">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BorderBrushOnMouseOver, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BorderBrushOnSelected, RelativeSource={RelativeSource TemplatedParent}}"/>
                                 </ObjectAnimationUsingKeyFrames>
                             </Storyboard>
                         </Grid.Resources>
@@ -38,7 +38,11 @@
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal"/>
-                                <VisualState x:Name="MouseOver" Storyboard="{StaticResource ItemElementPreviewOnMouseOver}"/>
+                                <VisualState x:Name="MouseOver" Storyboard="{StaticResource ItemElementPreviewOnSelected}"/>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualState x:Name="Unfocused"/>
+                                <VisualState x:Name="Focused" Storyboard="{StaticResource ItemElementPreviewOnSelected}"/>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
@@ -46,7 +50,8 @@
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}">
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                SnapsToDevicePixels="True">
                             <Grid x:Name="PART_ComponentsGrid">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -58,14 +63,16 @@
                                            Margin="10,0,10,5"
                                            FontSize="{TemplateBinding TitleFontSize}"
                                            Foreground="{TemplateBinding TitleForeground}"
-                                           Text="{TemplateBinding Title}"/>
+                                           Text="{TemplateBinding Title}"
+                                           Focusable="False"/>
                                 <TextBlock x:Name="PART_Details"
                                            Grid.Column="0"
                                            VerticalAlignment="Bottom"
                                            Margin="12,0,12,5"
                                            FontSize="{TemplateBinding DetailsFontSize}"
                                            Foreground="{TemplateBinding DetailsForeground}"
-                                           Text="{TemplateBinding Details}"/>
+                                           Text="{TemplateBinding Details}"
+                                           Focusable="False"/>
                                 <TextBlock x:Name="PART_Category"
                                            Grid.Column="1"
                                            HorizontalAlignment="Right"
@@ -74,7 +81,8 @@
                                            FontSize="{TemplateBinding CategoryFontSize}"
                                            FontWeight="Bold"
                                            Foreground="{TemplateBinding CategoryForeground}"
-                                           Text="{TemplateBinding Category}"/>
+                                           Text="{TemplateBinding Category}"
+                                           Focusable="False"/>
                             </Grid>
                         </Border>
                     </Grid>

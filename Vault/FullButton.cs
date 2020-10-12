@@ -6,23 +6,14 @@ namespace CustomControls
 {
     public class FullButton : Button
     {
-        public Brush BackgroundOnMouseOver
+        public Brush BackgroundOnSelected
         {
-            get => (Brush)GetValue(BackgroundOnMouseOverProperty);
-            set => SetValue(BackgroundOnMouseOverProperty, value);
+            get => (Brush)GetValue(BackgroundOnSelectedProperty);
+            set => SetValue(BackgroundOnSelectedProperty, value);
         }
 
-        public static readonly DependencyProperty BackgroundOnMouseOverProperty =
-            DependencyProperty.Register(nameof(BackgroundOnMouseOver), typeof(Brush), typeof(FullButton));
-
-        public Brush BackgroundOnFocused
-        {
-            get => (Brush)GetValue(BackgroundOnFocusedProperty);
-            set => SetValue(BackgroundOnFocusedProperty, value);
-        }
-
-        public static readonly DependencyProperty BackgroundOnFocusedProperty =
-            DependencyProperty.Register(nameof(BackgroundOnFocused), typeof(Brush), typeof(FullButton));
+        public static readonly DependencyProperty BackgroundOnSelectedProperty =
+            DependencyProperty.Register(nameof(BackgroundOnSelected), typeof(Brush), typeof(FullButton));
 
         public Brush BackgroundOnPressed
         {
@@ -42,23 +33,14 @@ namespace CustomControls
         public static readonly DependencyProperty BackgroundOnDisabledProperty =
             DependencyProperty.Register(nameof(BackgroundOnDisabled), typeof(Brush), typeof(FullButton));
 
-        public Brush BorderBrushOnMouseOver
+        public Brush BorderBrushOnSelected
         {
-            get => (Brush)GetValue(BorderBrushOnMouseOverProperty);
-            set => SetValue(BorderBrushOnMouseOverProperty, value);
+            get => (Brush)GetValue(BorderBrushOnSelectedProperty);
+            set => SetValue(BorderBrushOnSelectedProperty, value);
         }
 
-        public static readonly DependencyProperty BorderBrushOnMouseOverProperty =
-            DependencyProperty.Register(nameof(BorderBrushOnMouseOver), typeof(Brush), typeof(FullButton));
-
-        public Brush BorderBrushOnFocused
-        {
-            get => (Brush)GetValue(BorderBrushOnFocusedProperty);
-            set => SetValue(BorderBrushOnFocusedProperty, value);
-        }
-
-        public static readonly DependencyProperty BorderBrushOnFocusedProperty =
-            DependencyProperty.Register(nameof(BorderBrushOnFocused), typeof(Brush), typeof(FullButton));
+        public static readonly DependencyProperty BorderBrushOnSelectedProperty =
+            DependencyProperty.Register(nameof(BorderBrushOnSelected), typeof(Brush), typeof(FullButton));
 
         public Brush BorderBrushOnPressed
         {
@@ -78,23 +60,14 @@ namespace CustomControls
         public static readonly DependencyProperty BorderBrushOnDisabledProperty =
             DependencyProperty.Register(nameof(BorderBrushOnDisabled), typeof(Brush), typeof(FullButton));
 
-        public Brush ForegroundOnMouseOver
+        public Brush ForegroundOnSelected
         {
-            get => (Brush)GetValue(ForegroundOnMouseOverProperty);
-            set => SetValue(ForegroundOnMouseOverProperty, value);
+            get => (Brush)GetValue(ForegroundOnSelectedProperty);
+            set => SetValue(ForegroundOnSelectedProperty, value);
         }
 
-        public static readonly DependencyProperty ForegroundOnMouseOverProperty =
-            DependencyProperty.Register(nameof(ForegroundOnMouseOver), typeof(Brush), typeof(FullButton));
-
-        public Brush ForegroundOnFocused
-        {
-            get => (Brush)GetValue(ForegroundOnFocusedProperty);
-            set => SetValue(ForegroundOnFocusedProperty, value);
-        }
-
-        public static readonly DependencyProperty ForegroundOnFocusedProperty =
-            DependencyProperty.Register(nameof(ForegroundOnFocused), typeof(Brush), typeof(FullButton));
+        public static readonly DependencyProperty ForegroundOnSelectedProperty =
+            DependencyProperty.Register(nameof(ForegroundOnSelected), typeof(Brush), typeof(FullButton));
 
         public Brush ForegroundOnPressed
         {

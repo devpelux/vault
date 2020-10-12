@@ -18,8 +18,9 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{TemplateBinding CornerRadius}"
-                            Padding="{TemplateBinding Padding}">
-                        <Grid x:Name="PART_Container"/>
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="True">
+                        <Grid x:Name="PART_Container" Focusable="False"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

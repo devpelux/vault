@@ -4,12 +4,10 @@
 
     <Style TargetType="{x:Type local:IconedTextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
         <Setter Property="Background" Value="White"/>
-        <Setter Property="BackgroundOnMouseOver" Value="White"/>
-        <Setter Property="BackgroundOnFocused" Value="White"/>
+        <Setter Property="BackgroundOnSelected" Value="White"/>
         <Setter Property="BackgroundOnDisabled" Value="White"/>
         <Setter Property="BorderBrush" Value="Black"/>
-        <Setter Property="BorderBrushOnMouseOver" Value="Black"/>
-        <Setter Property="BorderBrushOnFocused" Value="Black"/>
+        <Setter Property="BorderBrushOnSelected" Value="Black"/>
         <Setter Property="BorderBrushOnDisabled" Value="Gray"/>
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="HintForeground" Value="Gray"/>
@@ -23,20 +21,12 @@
                 <ControlTemplate TargetType="{x:Type local:IconedTextBox}">
                     <Grid>
                         <Grid.Resources>
-                            <Storyboard x:Key="IconedTextBoxOnMouseOver">
+                            <Storyboard x:Key="IconedTextBoxOnSelected">
                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="Background">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BackgroundOnMouseOver, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BackgroundOnSelected, RelativeSource={RelativeSource TemplatedParent}}"/>
                                 </ObjectAnimationUsingKeyFrames>
                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="BorderBrush">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BorderBrushOnMouseOver, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                </ObjectAnimationUsingKeyFrames>
-                            </Storyboard>
-                            <Storyboard x:Key="IconedTextBoxOnFocused">
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="Background">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BackgroundOnFocused, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                </ObjectAnimationUsingKeyFrames>
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="BorderBrush">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BorderBrushOnFocused, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BorderBrushOnSelected, RelativeSource={RelativeSource TemplatedParent}}"/>
                                 </ObjectAnimationUsingKeyFrames>
                             </Storyboard>
                             <Storyboard x:Key="IconedTextBoxOnDisabled">
@@ -52,12 +42,12 @@
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
-                                <VisualState x:Name="MouseOver" Storyboard="{StaticResource IconedTextBoxOnMouseOver}"/>
+                                <VisualState x:Name="MouseOver" Storyboard="{StaticResource IconedTextBoxOnSelected}"/>
                                 <VisualState x:Name="Disabled" Storyboard="{StaticResource IconedTextBoxOnDisabled}"/>
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="FocusStates">
                                 <VisualState x:Name="Unfocused"/>
-                                <VisualState x:Name="Focused" Storyboard="{StaticResource IconedTextBoxOnFocused}"/>
+                                <VisualState x:Name="Focused" Storyboard="{StaticResource IconedTextBoxOnSelected}"/>
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="HintStates">
                                 <VisualState x:Name="Hinted">
@@ -86,7 +76,9 @@
                                    Grid.Column="0"
                                    Width="{TemplateBinding IconSize}"
                                    Margin="0,0,5,0"
-                                   Source="{TemplateBinding Source}" Stretch="Uniform"/>
+                                   Source="{TemplateBinding Source}" Stretch="Uniform"
+                                   Focusable="False"
+                                   SnapsToDevicePixels="True"/>
                             <Border x:Name="PART_Border"
                                     Grid.Column="1"
                                     BorderBrush="{TemplateBinding BorderBrush}"
@@ -95,15 +87,15 @@
                                     SnapsToDevicePixels="True">
                                 <Grid x:Name="PART_TextBoxGrid">
                                     <ScrollViewer x:Name="PART_ContentHost"
-                                                  Focusable="False"
                                                   HorizontalScrollBarVisibility="Hidden"
-                                                  VerticalScrollBarVisibility="Hidden"/>
+                                                  VerticalScrollBarVisibility="Hidden"
+                                                  Focusable="False"/>
                                     <TextBlock x:Name="PART_Hint"
                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                Text="{TemplateBinding Hint}"
                                                Foreground="{TemplateBinding HintForeground}"
-                                               Focusable="False"
-                                               Cursor="IBeam"/>
+                                               Cursor="IBeam"
+                                               Focusable="False"/>
                                 </Grid>
                             </Border>
                         </Grid>

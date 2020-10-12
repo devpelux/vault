@@ -7,23 +7,23 @@ namespace CustomControls
 {
     public class ItemElementPreview : Control
     {
-        public Brush BackgroundOnMouseOver
+        public Brush BackgroundOnSelected
         {
-            get => (Brush)GetValue(BackgroundOnMouseOverProperty);
-            set => SetValue(BackgroundOnMouseOverProperty, value);
+            get => (Brush)GetValue(BackgroundOnSelectedProperty);
+            set => SetValue(BackgroundOnSelectedProperty, value);
         }
 
-        public static readonly DependencyProperty BackgroundOnMouseOverProperty =
-            DependencyProperty.Register(nameof(BackgroundOnMouseOver), typeof(Brush), typeof(ItemElementPreview));
+        public static readonly DependencyProperty BackgroundOnSelectedProperty =
+            DependencyProperty.Register(nameof(BackgroundOnSelected), typeof(Brush), typeof(ItemElementPreview));
 
-        public Brush BorderBrushOnMouseOver
+        public Brush BorderBrushOnSelected
         {
-            get => (Brush)GetValue(BorderBrushOnMouseOverProperty);
-            set => SetValue(BorderBrushOnMouseOverProperty, value);
+            get => (Brush)GetValue(BorderBrushOnSelectedProperty);
+            set => SetValue(BorderBrushOnSelectedProperty, value);
         }
 
-        public static readonly DependencyProperty BorderBrushOnMouseOverProperty =
-            DependencyProperty.Register(nameof(BorderBrushOnMouseOver), typeof(Brush), typeof(ItemElementPreview));
+        public static readonly DependencyProperty BorderBrushOnSelectedProperty =
+            DependencyProperty.Register(nameof(BorderBrushOnSelected), typeof(Brush), typeof(ItemElementPreview));
 
         public string Title
         {
@@ -134,6 +134,18 @@ namespace CustomControls
         {
             base.OnMouseLeave(e);
             VisualStateManager.GoToState(this, "Normal", true);
+        }
+
+        protected override void OnGotFocus(RoutedEventArgs e)
+        {
+            base.OnGotFocus(e);
+            VisualStateManager.GoToState(this, "Focused", true);
+        }
+
+        protected override void OnLostFocus(RoutedEventArgs e)
+        {
+            base.OnLostFocus(e);
+            VisualStateManager.GoToState(this, "Unfocused", true);
         }
     }
 }

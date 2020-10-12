@@ -4,18 +4,15 @@
 
     <Style TargetType="{x:Type local:FullButton}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="LightBlue"/>
-        <Setter Property="BackgroundOnMouseOver" Value="SteelBlue"/>
-        <Setter Property="BackgroundOnFocused" Value="SteelBlue"/>
+        <Setter Property="BackgroundOnSelected" Value="SteelBlue"/>
         <Setter Property="BackgroundOnPressed" Value="CadetBlue"/>
         <Setter Property="BackgroundOnDisabled" Value="LightGray"/>
         <Setter Property="BorderBrush" Value="RoyalBlue"/>
-        <Setter Property="BorderBrushOnMouseOver" Value="RoyalBlue"/>
-        <Setter Property="BorderBrushOnFocused" Value="RoyalBlue"/>
+        <Setter Property="BorderBrushOnSelected" Value="RoyalBlue"/>
         <Setter Property="BorderBrushOnPressed" Value="RoyalBlue"/>
         <Setter Property="BorderBrushOnDisabled" Value="Gray"/>
         <Setter Property="Foreground" Value="Black"/>
-        <Setter Property="ForegroundOnMouseOver" Value="Black"/>
-        <Setter Property="ForegroundOnFocused" Value="Black"/>
+        <Setter Property="ForegroundOnSelected" Value="Black"/>
         <Setter Property="ForegroundOnPressed" Value="Black"/>
         <Setter Property="ForegroundOnDisabled" Value="Black"/>
         <Setter Property="BorderThickness" Value="1"/>
@@ -26,15 +23,15 @@
                 <ControlTemplate TargetType="{x:Type local:FullButton}">
                     <Grid>
                         <Grid.Resources>
-                            <Storyboard x:Key="FullButtonOnMouseOver">
+                            <Storyboard x:Key="FullButtonOnSelected">
                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="Background">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BackgroundOnMouseOver, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BackgroundOnSelected, RelativeSource={RelativeSource TemplatedParent}}"/>
                                 </ObjectAnimationUsingKeyFrames>
                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="BorderBrush">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BorderBrushOnMouseOver, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BorderBrushOnSelected, RelativeSource={RelativeSource TemplatedParent}}"/>
                                 </ObjectAnimationUsingKeyFrames>
                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="(TextBlock.Foreground)">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding ForegroundOnMouseOver, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding ForegroundOnSelected, RelativeSource={RelativeSource TemplatedParent}}"/>
                                 </ObjectAnimationUsingKeyFrames>
                             </Storyboard>
                             <Storyboard x:Key="FullButtonOnPressed">
@@ -59,29 +56,18 @@
                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding ForegroundOnDisabled, RelativeSource={RelativeSource TemplatedParent}}"/>
                                 </ObjectAnimationUsingKeyFrames>
                             </Storyboard>
-                            <Storyboard x:Key="FullButtonOnFocused">
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="Background">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BackgroundOnFocused, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                </ObjectAnimationUsingKeyFrames>
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="BorderBrush">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BorderBrushOnFocused, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                </ObjectAnimationUsingKeyFrames>
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="(TextBlock.Foreground)">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding ForegroundOnFocused, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                </ObjectAnimationUsingKeyFrames>
-                            </Storyboard>
                         </Grid.Resources>
                         
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal"/>
-                                <VisualState x:Name="MouseOver" Storyboard="{StaticResource FullButtonOnMouseOver}"/>
+                                <VisualState x:Name="MouseOver" Storyboard="{StaticResource FullButtonOnSelected}"/>
                                 <VisualState x:Name="Pressed" Storyboard="{StaticResource FullButtonOnPressed}"/>
                                 <VisualState x:Name="Disabled" Storyboard="{StaticResource FullButtonOnDisabled}"/>
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="FocusStates">
                                 <VisualState x:Name="Unfocused"/>
-                                <VisualState x:Name="Focused" Storyboard="{StaticResource FullButtonOnFocused}"/>
+                                <VisualState x:Name="Focused" Storyboard="{StaticResource FullButtonOnSelected}"/>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         
@@ -90,7 +76,8 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 TextBlock.Foreground="{TemplateBinding Foreground}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}">
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                SnapsToDevicePixels="True">
                             <ContentPresenter x:Name="PART_ContentPresenter"
                                               HorizontalAlignment="Center"
                                               VerticalAlignment="Center"
