@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace CustomControls
 {
@@ -149,13 +150,47 @@ namespace CustomControls
 
         private void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            if (e.ExtentHeight <= e.ViewportHeight) _ = VisualStateManager.GoToState(this, "TotallyVisible", true);
+            ScrollViewer viewer = (ScrollViewer)sender;
+            if (e.ExtentHeight <= e.ViewportHeight) viewer.OpacityMask = GenerateMask(false, false, OverflowShadowHeight, e.ViewportHeight);
             else
             {
-                if (e.VerticalOffset == 0) _ = VisualStateManager.GoToState(this, "TopVisible", true);
-                else if (e.VerticalOffset == e.ExtentHeight - e.ViewportHeight) _ = VisualStateManager.GoToState(this, "BottomVisible", true);
-                else _ = VisualStateManager.GoToState(this, "CenterVisible", true);
+                if (e.VerticalOffset == 0) viewer.OpacityMask = GenerateMask(false, true, OverflowShadowHeight, e.ViewportHeight);
+                else if (e.VerticalOffset == e.ExtentHeight - e.ViewportHeight) viewer.OpacityMask = GenerateMask(true, false, OverflowShadowHeight, e.ViewportHeight);
+                else viewer.OpacityMask = GenerateMask(true, true, OverflowShadowHeight, e.ViewportHeight);
             }
+        }
+
+        private LinearGradientBrush GenerateMask(bool topGradient, bool bottomGradient, double gradientHeight, double height)
+        {
+            if (gradientHeight * 2 > height) gradientHeight = height / 2;
+            LinearGradientBrush mask = new LinearGradientBrush();
+            mask.StartPoint = new Point(0.5, 0);
+            mask.EndPoint = new Point(0.5, 1);
+            if (topGradient && bottomGradient)
+            {
+                mask.GradientStops.Add(new GradientStop(Colors.Transparent, 0));
+                mask.GradientStops.Add(new GradientStop(Colors.Black, gradientHeight / height));
+                mask.GradientStops.Add(new GradientStop(Colors.Black, 1 - (gradientHeight / height)));
+                mask.GradientStops.Add(new GradientStop(Colors.Transparent, 1));
+            }
+            else if (!topGradient && bottomGradient)
+            {
+                mask.GradientStops.Add(new GradientStop(Colors.Black, 0));
+                mask.GradientStops.Add(new GradientStop(Colors.Black, 1 - (gradientHeight / height)));
+                mask.GradientStops.Add(new GradientStop(Colors.Transparent, 1));
+            }
+            else if (topGradient && !bottomGradient)
+            {
+                mask.GradientStops.Add(new GradientStop(Colors.Transparent, 0));
+                mask.GradientStops.Add(new GradientStop(Colors.Black, gradientHeight / height));
+                mask.GradientStops.Add(new GradientStop(Colors.Black, 1));
+            }
+            else
+            {
+                mask.GradientStops.Add(new GradientStop(Colors.Black, 0));
+                mask.GradientStops.Add(new GradientStop(Colors.Black, 1));
+            }
+            return mask;
         }
     }
 }

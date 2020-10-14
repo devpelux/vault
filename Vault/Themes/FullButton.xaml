@@ -3,20 +3,20 @@
                     xmlns:local="clr-namespace:CustomControls">
 
     <Style TargetType="{x:Type local:FullButton}" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="Background" Value="LightBlue"/>
-        <Setter Property="BackgroundOnSelected" Value="SteelBlue"/>
-        <Setter Property="BackgroundOnPressed" Value="CadetBlue"/>
-        <Setter Property="BackgroundOnDisabled" Value="LightGray"/>
-        <Setter Property="BorderBrush" Value="RoyalBlue"/>
-        <Setter Property="BorderBrushOnSelected" Value="RoyalBlue"/>
-        <Setter Property="BorderBrushOnPressed" Value="RoyalBlue"/>
-        <Setter Property="BorderBrushOnDisabled" Value="Gray"/>
-        <Setter Property="Foreground" Value="Black"/>
-        <Setter Property="ForegroundOnSelected" Value="Black"/>
-        <Setter Property="ForegroundOnPressed" Value="Black"/>
-        <Setter Property="ForegroundOnDisabled" Value="Black"/>
+        <Setter Property="Background" Value="#FF3F3F46"/>
+        <Setter Property="BackgroundOnSelected" Value="#FF575759"/>
+        <Setter Property="BackgroundOnPressed" Value="#FF2D2D30"/>
+        <Setter Property="BackgroundOnDisabled" Value="#FF3F3F46"/>
+        <Setter Property="BorderBrush" Value="#FF575759"/>
+        <Setter Property="BorderBrushOnSelected" Value="#FF575759"/>
+        <Setter Property="BorderBrushOnPressed" Value="#FF575759"/>
+        <Setter Property="BorderBrushOnDisabled" Value="#FF575759"/>
+        <Setter Property="Foreground" Value="WhiteSmoke"/>
+        <Setter Property="ForegroundOnSelected" Value="WhiteSmoke"/>
+        <Setter Property="ForegroundOnPressed" Value="WhiteSmoke"/>
+        <Setter Property="ForegroundOnDisabled" Value="Gray"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="CornerRadius" Value="0"/>
 
         <Setter Property="Template">
             <Setter.Value>

@@ -56,9 +56,9 @@ namespace Vault
 
         public void ReceiveMessage(string message, object obj)
         {
-            if (message == "add") _ = Container.Add(CreatePreview((Element)obj));
-            else if (message == "edit") EditPreview(selectedElementPreview, (Element)obj);
-            else if (message == "delete") Container.Remove(selectedElementPreview);
+            if (message == "added_password") _ = Container.Add(CreatePreview((Element)obj));
+            else if (message == "edited_password") EditPreview(selectedElementPreview, (Element)obj);
+            //else if (message == "delete") Container.Remove(selectedElementPreview);
             selectedElementPreview = null;
         }
 

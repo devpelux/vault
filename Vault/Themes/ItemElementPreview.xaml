@@ -3,19 +3,19 @@
                     xmlns:local="clr-namespace:CustomControls">
 
     <Style TargetType="{x:Type local:ItemElementPreview}">
-        <Setter Property="Background" Value="SteelBlue"/>
-        <Setter Property="BackgroundOnSelected" Value="LightSteelBlue"/>
-        <Setter Property="BorderBrush" Value="SteelBlue"/>
-        <Setter Property="BorderBrushOnSelected" Value="LightSteelBlue"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="TitleForeground" Value="Black"/>
-        <Setter Property="DetailsForeground" Value="Black"/>
+        <Setter Property="Background" Value="#FF3F3F46"/>
+        <Setter Property="BackgroundOnSelected" Value="#FF575759"/>
+        <Setter Property="BorderBrush" Value="#FF575759"/>
+        <Setter Property="BorderBrushOnSelected" Value="#FF575759"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="TitleForeground" Value="WhiteSmoke"/>
+        <Setter Property="DetailsForeground" Value="Gray"/>
         <Setter Property="CategoryForeground" Value="White"/>
-        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="Title" Value="Title"/>
         <Setter Property="Details" Value="Details"/>
         <Setter Property="Category" Value="CAT"/>
-        <Setter Property="Height" Value="50"/>
+        <Setter Property="Height" Value="80"/>
         <Setter Property="TitleFontSize" Value="24"/>
         <Setter Property="CategoryFontSize" Value="12"/>
         <Setter Property="DetailsFontSize" Value="10"/>

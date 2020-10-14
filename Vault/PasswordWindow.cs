@@ -1,22 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using CustomControls;
 
 namespace Vault
 {
     /// <summary>
-    /// Logica di interazione per PasswordWindow.xaml
+    /// Finestra per la modifica delle password memorizzate.
     /// </summary>
     public partial class PasswordWindow : Window
     {
@@ -44,7 +32,6 @@ namespace Vault
                 Username.Text = element.Username;
                 Details.Text = element.Details;
             }
-            else Delete.Visibility = Visibility.Hidden;
         }
 
         private void Ok_Click(object sender, RoutedEventArgs e)
@@ -54,21 +41,13 @@ namespace Vault
             Close();
         }
 
-        private void Delete_Click(object sender, RoutedEventArgs e)
+        private void CloseWindow_Click(object sender, RoutedEventArgs e)
         {
-            DeleteElement();
             Close();
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
-            receiver.ReceiveMessage("cancel", null);
-            Close();
-        }
-
-        private void CloseWindow_Click(object sender, RoutedEventArgs e)
-        {
-            receiver.ReceiveMessage("close", null);
             Close();
         }
 
@@ -76,7 +55,6 @@ namespace Vault
         {
             DragMove();
         }
-
 
         private void AddElement()
         {
@@ -88,7 +66,7 @@ namespace Vault
             element.Username = Username.Text;
             element.Details = Details.Text;
             element = ElementsManager.Instance.SaveElement(element);
-            receiver.ReceiveMessage("add", element);
+            receiver.ReceiveMessage("added_password", element);
         }
 
         private void EditElement()
@@ -100,13 +78,7 @@ namespace Vault
             element.Username = Username.Text;
             element.Details = Details.Text;
             element = ElementsManager.Instance.SaveElement(element);
-            receiver.ReceiveMessage("edit", element);
-        }
-
-        private void DeleteElement()
-        {
-            _ = ElementsManager.Instance.RemoveElement(element);
-            receiver.ReceiveMessage("delete", element);
+            receiver.ReceiveMessage("edited_password", element);
         }
     }
 }

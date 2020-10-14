@@ -6,35 +6,45 @@
         xmlns:local="clr-namespace:Vault"
         xmlns:cust="clr-namespace:CustomControls"
         mc:Ignorable="d"
-        Title="MainWindow"
-        Height="412"
-        Width="514"
+        Title="Vault"
+        Height="499"
+        Width="618"
         AllowsTransparency="True"
         WindowStyle="None"
         Background="{x:Null}"
         WindowStartupLocation="CenterScreen">
-    <Border CornerRadius="5"
-            Background="{DynamicResource WindowBackground}"
-            BorderBrush="CornflowerBlue"
+    <Border Background="{DynamicResource WindowBackground}"
+            BorderBrush="{DynamicResource WindowBorderBrush}"
             BorderThickness="1">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="32"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                    Background="#FF151515"/>
             <Grid x:Name="Toolbar"
-                  Grid.Row="0">
+                  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
                 <cust:FullButton x:Name="CloseWindow"
-                                 Content="X"
                                  HorizontalAlignment="Right"
-                                 Margin="0,0,2,0"
-                                 Width="28"
-                                 Height="28"
+                                 Width="32"
+                                 Height="32"
+                                 Content="&#xE106;"
+                                 FontFamily="Segoe MDL2 Assets"
+                                 FontSize="10"
+                                 BorderThickness="0"
+                                 Background="Transparent"
+                                 BackgroundOnPressed="Red"
+                                 BackgroundOnDisabled="Transparent"
                                  Click="CloseWindow_Click"/>
                 <TextBlock HorizontalAlignment="Left"
                            Margin="10,0,10,0"
                            TextWrapping="NoWrap"
-                           Text="MainWindow"
+                           Text="{Binding Title,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}"
                            VerticalAlignment="Center"
                            Foreground="White"/>
                 <Grid x:Name="ToolbarMouseHandler"
@@ -42,31 +52,47 @@
                       Background="Transparent"
                       MouseLeftButtonDown="ToolbarMouseHandler_MouseLeftButtonDown"/>
             </Grid>
+            <Grid x:Name="ContentCategorySwitcher"
+                  Grid.Row="1" Grid.Column="0">
+                <cust:FullButton x:Name="SwitchToPasswordSection"
+                                 VerticalAlignment="Top" Height="50"
+                                 Content="Password" Margin="0,60,0,0"
+                                 BorderThickness="0"/>
+                <cust:FullButton x:Name="SwitchToNoteSection"
+                                 VerticalAlignment="Top" Height="50"
+                                 Content="Note" Margin="0,110,0,0"
+                                 BorderThickness="0"/>
+                
+                <!--creare elemento switcher se non esiste e usarlo al posto dei pulsanti-->
+            </Grid>
             <Grid x:Name="ContentWindow"
-                  Grid.Row="1">
-                <cust:FullButton x:Name="NewElement"
-                                 Content="Nuovo" HorizontalAlignment="Left"
-                                 Margin="39,128,0,0"
-                                 VerticalAlignment="Top"
-                                 Width="65"
-                                 Height="37"
-                                 Click="NewElement_Click"/>
-                <cust:FullButton x:Name="Refresh"
-                                 Content="Aggiorna"
+                  Grid.Row="1" Grid.Column="1">
+                <Grid x:Name="PasswordSection" Visibility="Visible">
+                    <TextBlock Text="PASSWORD" FontSize="20" Foreground="White"
+                           HorizontalAlignment="Left" VerticalAlignment="Top"
+                           Margin="10,10,0,0"/>
+                    <cust:FullButton x:Name="NewElement"
+                                 Content="Aggiungi"
                                  HorizontalAlignment="Left"
-                                 Margin="39,86,0,0"
+                                 Margin="378,51,0,0"
                                  VerticalAlignment="Top"
-                                 Width="65"
-                                 Height="37"
-                                 Click="Refresh_Click"/>
-                <cust:ItemsContainer x:Name="Container"
+                                 Width="70"
+                                 Height="41"
+                                 Click="NewElement_Click"/>
+                    <cust:ItemsContainer x:Name="Container"
                                      HorizontalAlignment="Left"
-                                     Margin="167,29,0,0"
+                                     Margin="10,51,0,0"
                                      VerticalAlignment="Top"
-                                     Height="316"
-                                     Width="298"
-                                     Space="4"
-                                     Padding="4"/>
+                                     Height="348"
+                                     Width="363"/>
+                    <cust:IconedTextBox HorizontalAlignment="Left" Height="32"
+                                    Margin="10,413,0,0" TextWrapping="Wrap"
+                                    Hint="Cerca..."  VerticalAlignment="Top"
+                                    VerticalContentAlignment="Center"
+                                    Width="363" Source="Icons/ic_label.png"/>
+                    <!--far funzionare la ricerca-->
+                </Grid>
+                <!--creare la note section-->
             </Grid>
         </Grid>
     </Border>

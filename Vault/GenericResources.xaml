@@ -32,5 +32,6 @@
     <SolidColorBrush x:Key="ButtonForegroundOnDisabled" Color="Black"/>
 
     <SolidColorBrush x:Key="WindowBackground" Color="#FF202020"/>
+    <SolidColorBrush x:Key="WindowBorderBrush" Color="#FF404040"/>
 
 </ResourceDictionary>
