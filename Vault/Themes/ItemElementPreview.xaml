@@ -4,9 +4,9 @@
 
     <Style TargetType="{x:Type local:ItemElementPreview}">
         <Setter Property="Background" Value="#FF3F3F46"/>
-        <Setter Property="BackgroundOnSelected" Value="#FF575759"/>
+        <Setter Property="BackgroundOnMouseOver" Value="#FF575759"/>
         <Setter Property="BorderBrush" Value="#FF575759"/>
-        <Setter Property="BorderBrushOnSelected" Value="#FF575759"/>
+        <Setter Property="BorderBrushOnMouseOver" Value="#FF575759"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="TitleForeground" Value="WhiteSmoke"/>
         <Setter Property="DetailsForeground" Value="Gray"/>
@@ -24,31 +24,33 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ItemElementPreview}">
                     <Grid>
-                        <Grid.Resources>
-                            <Storyboard x:Key="ItemElementPreviewOnSelected">
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="Background">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BackgroundOnSelected, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                </ObjectAnimationUsingKeyFrames>
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="BorderBrush">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BorderBrushOnSelected, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                </ObjectAnimationUsingKeyFrames>
-                            </Storyboard>
-                        </Grid.Resources>
-
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal"/>
-                                <VisualState x:Name="MouseOver" Storyboard="{StaticResource ItemElementPreviewOnSelected}"/>
-                            </VisualStateGroup>
-                            <VisualStateGroup x:Name="FocusStates">
-                                <VisualState x:Name="Unfocused"/>
-                                <VisualState x:Name="Focused" Storyboard="{StaticResource ItemElementPreviewOnSelected}"/>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_MouseOverBorder"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="1" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-
-                        <Border x:Name="PART_Border"
+                        
+                        <Border x:Name="PART_BackBorder"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                SnapsToDevicePixels="True"/>
+                        <Border x:Name="PART_MouseOverBorder"
+                                Background="{TemplateBinding BackgroundOnMouseOver}"
+                                BorderBrush="{TemplateBinding BorderBrushOnMouseOver}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                Opacity="0"
+                                SnapsToDevicePixels="True"/>
+                        <Border x:Name="PART_Border"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{TemplateBinding CornerRadius}"
                                 SnapsToDevicePixels="True">

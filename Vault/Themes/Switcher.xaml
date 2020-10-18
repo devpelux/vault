@@ -2,31 +2,30 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:CustomControls">
 
-    <Style TargetType="{x:Type local:FullButton}" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="Background" Value="#FF3F3F46"/>
-        <Setter Property="BackgroundOnMouseOver" Value="#FF575759"/>
-        <Setter Property="BackgroundOnPressed" Value="#FF2D2D30"/>
-        <Setter Property="BackgroundOnDisabled" Value="#FF3F3F46"/>
-        <Setter Property="BorderBrush" Value="#FF575759"/>
-        <Setter Property="BorderBrushOnMouseOver" Value="#FF575759"/>
-        <Setter Property="BorderBrushOnPressed" Value="#FF575759"/>
-        <Setter Property="BorderBrushOnDisabled" Value="#FF575759"/>
+    <Style TargetType="{x:Type local:Switcher}">
+        <Setter Property="Background" Value="#FF1C1C1C"/>
+        <Setter Property="BackgroundOnMouseOver" Value="#FF181818"/>
+        <Setter Property="BackgroundOnActivated" Value="#FF19478B"/>
+        <Setter Property="BackgroundOnDisabled" Value="#FF1A1A1A"/>
+        <Setter Property="BorderBrush" Value="#FF181818"/>
+        <Setter Property="BorderBrushOnMouseOver" Value="#FF181818"/>
+        <Setter Property="BorderBrushOnActivated" Value="#FF19478B"/>
+        <Setter Property="BorderBrushOnDisabled" Value="#FF1C1C1C"/>
         <Setter Property="Foreground" Value="WhiteSmoke"/>
         <Setter Property="ForegroundOnMouseOver" Value="WhiteSmoke"/>
-        <Setter Property="ForegroundOnPressed" Value="WhiteSmoke"/>
+        <Setter Property="ForegroundOnActivated" Value="WhiteSmoke"/>
         <Setter Property="ForegroundOnDisabled" Value="Gray"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="IsActivated" Value="False"/>
+        <Setter Property="IsDeactivableByClick" Value="True"/>
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:FullButton}">
+                <ControlTemplate TargetType="{x:Type local:Switcher}">
                     <Grid>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal"/>
-                                <VisualState x:Name="Pressed"/>
-                                <VisualState x:Name="Disabled"/>
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="PART_MouseOverBorder"
@@ -36,42 +35,40 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-
+                        
                         <Border x:Name="PART_BackBorder"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
                                 SnapsToDevicePixels="True"/>
                         <Border x:Name="PART_MouseOverBorder"
                                 Background="{TemplateBinding BackgroundOnMouseOver}"
                                 BorderBrush="{TemplateBinding BorderBrushOnMouseOver}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
                                 Opacity="0"
                                 SnapsToDevicePixels="True"/>
                         <Border x:Name="PART_Border"
-                                TextBlock.Foreground="{TemplateBinding Foreground}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
+                                TextBlock.Foreground="{TemplateBinding Foreground}"
                                 SnapsToDevicePixels="True">
                             <ContentPresenter x:Name="PART_ContentPresenter"
                                               HorizontalAlignment="Center"
                                               VerticalAlignment="Center"
                                               Margin="2"
                                               RecognizesAccessKey="True"
+                                              Content="{TemplateBinding Content}"
                                               Focusable="False"/>
                         </Border>
                     </Grid>
-
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="PART_Border" Property="TextBlock.Foreground" Value="{Binding ForegroundOnMouseOver, RelativeSource={RelativeSource TemplatedParent}}"/>
                         </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="PART_BackBorder" Property="Background" Value="{Binding BackgroundOnPressed, RelativeSource={RelativeSource TemplatedParent}}"/>
-                            <Setter TargetName="PART_BackBorder" Property="BorderBrush" Value="{Binding BorderBrushOnPressed, RelativeSource={RelativeSource TemplatedParent}}"/>
-                            <Setter TargetName="PART_Border" Property="TextBlock.Foreground" Value="{Binding ForegroundOnPressed, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        <Trigger Property="IsActivated" Value="True">
+                            <Setter TargetName="PART_BackBorder" Property="Background" Value="{Binding BackgroundOnActivated, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <Setter TargetName="PART_BackBorder" Property="BorderBrush" Value="{Binding BorderBrushOnActivated, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <Setter TargetName="PART_Border" Property="TextBlock.Foreground" Value="{Binding ForegroundOnActivated, RelativeSource={RelativeSource TemplatedParent}}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="PART_BackBorder" Property="Background" Value="{Binding BackgroundOnDisabled, RelativeSource={RelativeSource TemplatedParent}}"/>

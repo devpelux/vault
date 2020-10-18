@@ -7,23 +7,23 @@ namespace CustomControls
 {
     public class ItemElementPreview : Control
     {
-        public Brush BackgroundOnSelected
+        public Brush BackgroundOnMouseOver
         {
-            get => (Brush)GetValue(BackgroundOnSelectedProperty);
-            set => SetValue(BackgroundOnSelectedProperty, value);
+            get => (Brush)GetValue(BackgroundOnMouseOverProperty);
+            set => SetValue(BackgroundOnMouseOverProperty, value);
         }
 
-        public static readonly DependencyProperty BackgroundOnSelectedProperty =
-            DependencyProperty.Register(nameof(BackgroundOnSelected), typeof(Brush), typeof(ItemElementPreview));
+        public static readonly DependencyProperty BackgroundOnMouseOverProperty =
+            DependencyProperty.Register(nameof(BackgroundOnMouseOver), typeof(Brush), typeof(ItemElementPreview));
 
-        public Brush BorderBrushOnSelected
+        public Brush BorderBrushOnMouseOver
         {
-            get => (Brush)GetValue(BorderBrushOnSelectedProperty);
-            set => SetValue(BorderBrushOnSelectedProperty, value);
+            get => (Brush)GetValue(BorderBrushOnMouseOverProperty);
+            set => SetValue(BorderBrushOnMouseOverProperty, value);
         }
 
-        public static readonly DependencyProperty BorderBrushOnSelectedProperty =
-            DependencyProperty.Register(nameof(BorderBrushOnSelected), typeof(Brush), typeof(ItemElementPreview));
+        public static readonly DependencyProperty BorderBrushOnMouseOverProperty =
+            DependencyProperty.Register(nameof(BorderBrushOnMouseOver), typeof(Brush), typeof(ItemElementPreview));
 
         public string Title
         {
@@ -123,7 +123,6 @@ namespace CustomControls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ItemElementPreview), new FrameworkPropertyMetadata(typeof(ItemElementPreview)));
         }
 
-
         protected override void OnMouseEnter(MouseEventArgs e)
         {
             base.OnMouseEnter(e);
@@ -134,18 +133,6 @@ namespace CustomControls
         {
             base.OnMouseLeave(e);
             _ = VisualStateManager.GoToState(this, "Normal", true);
-        }
-
-        protected override void OnGotFocus(RoutedEventArgs e)
-        {
-            base.OnGotFocus(e);
-            _ = VisualStateManager.GoToState(this, "Focused", true);
-        }
-
-        protected override void OnLostFocus(RoutedEventArgs e)
-        {
-            base.OnLostFocus(e);
-            _ = VisualStateManager.GoToState(this, "Unfocused", true);
         }
     }
 }

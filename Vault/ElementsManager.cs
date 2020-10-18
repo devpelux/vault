@@ -16,7 +16,6 @@ namespace Vault
         public int Count => elements.Count;
         public Element this[int index] { get => elements[index]; set => elements[index] = value; }
 
-
         public static ElementsManager Instance
         {
             get
@@ -31,7 +30,6 @@ namespace Vault
         {
             elements = new List<Element>();
         }
-
 
         public Element SaveElement(Element element) => element.ID == -1 ? AddElement(element) : EditElement(element);
 
@@ -53,7 +51,6 @@ namespace Vault
         }
 
         public bool ElementExists(Element element) => elements.Contains(element);
-
 
         private Element AddElement(Element element)
         {

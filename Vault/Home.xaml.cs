@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,8 @@ namespace Vault
     public partial class Home : Window, IMessageReceiver
     {
         private ItemElementPreview selectedElementPreview = null;
+        private bool loaded = false;
+
 
         public Home()
         {
@@ -88,6 +91,41 @@ namespace Vault
             passwordWindow.SetReceiver(this);
             passwordWindow.SetElement(ElementsManager.Instance.GetElementByID(selectedElementPreview.ElementID));
             passwordWindow.ShowDialog();
+        }
+
+        private void SwitchToPasswordSection_ActivationChanged(object sender, SwitcherActivationChangedEventArgs e)
+        {
+            if (!loaded || !e.IsActivated) return;
+            SwitchToCardSection.IsActivated = false;
+            SwitchToNoteSection.IsActivated = false;
+            CardSection.Visibility = Visibility.Collapsed;
+            NoteSection.Visibility = Visibility.Collapsed;
+            PasswordSection.Visibility = Visibility.Visible;
+        }
+
+        private void SwitchToCardSection_ActivationChanged(object sender, SwitcherActivationChangedEventArgs e)
+        {
+            if (!loaded || !e.IsActivated) return;
+            SwitchToPasswordSection.IsActivated = false;
+            SwitchToNoteSection.IsActivated = false;
+            PasswordSection.Visibility = Visibility.Collapsed;
+            NoteSection.Visibility = Visibility.Collapsed;
+            CardSection.Visibility = Visibility.Visible;
+        }
+
+        private void SwitchToNoteSection_ActivationChanged(object sender, SwitcherActivationChangedEventArgs e)
+        {
+            if (!loaded || !e.IsActivated) return;
+            SwitchToCardSection.IsActivated = false;
+            SwitchToPasswordSection.IsActivated = false;
+            CardSection.Visibility = Visibility.Collapsed;
+            PasswordSection.Visibility = Visibility.Collapsed;
+            NoteSection.Visibility = Visibility.Visible;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            loaded = true;
         }
     }
 }

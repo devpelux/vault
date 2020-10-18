@@ -38,7 +38,6 @@ namespace Vault
             this(-1, title, category, group, website, username, password, details)
         { }
 
-
         public override bool Equals(object obj) => Equals(obj as Element);
 
         public bool Equals(Element other) => other != null && ID == other.ID;

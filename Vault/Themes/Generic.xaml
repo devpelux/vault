@@ -1,10 +1,9 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Vault;component/Themes/ItemsContainer.xaml"/>
-        <ResourceDictionary Source="/Vault;component/Themes/ItemElementPreview.xaml"/>
-        <ResourceDictionary Source="/Vault;component/Themes/IconedTextBox.xaml"/>
         <ResourceDictionary Source="/Vault;component/Themes/FullButton.xaml"/>
+        <ResourceDictionary Source="/Vault;component/Themes/IconedTextBox.xaml"/>
+        <ResourceDictionary Source="/Vault;component/Themes/ItemElementPreview.xaml"/>
+        <ResourceDictionary Source="/Vault;component/Themes/ItemsContainer.xaml"/>
+        <ResourceDictionary Source="/Vault;component/Themes/Switcher.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-
 </ResourceDictionary>

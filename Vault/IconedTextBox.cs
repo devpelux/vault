@@ -91,13 +91,18 @@ namespace CustomControls
         static IconedTextBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(IconedTextBox), new FrameworkPropertyMetadata(typeof(IconedTextBox)));
-            TextProperty.OverrideMetadata(typeof(IconedTextBox), new FrameworkPropertyMetadata(new PropertyChangedCallback(OnTextChanged)));
         }
 
-
-        static void OnTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        public override void OnApplyTemplate()
         {
-            ((IconedTextBox)sender).UpdateHintState();
+            base.OnApplyTemplate();
+            UpdateHintState();
+        }
+
+        protected override void OnTextChanged(TextChangedEventArgs e)
+        {
+            base.OnTextChanged(e);
+            UpdateHintState();
         }
 
         protected override void OnGotFocus(RoutedEventArgs e)
@@ -109,12 +114,6 @@ namespace CustomControls
         protected override void OnLostFocus(RoutedEventArgs e)
         {
             base.OnLostFocus(e);
-            UpdateHintState();
-        }
-
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
             UpdateHintState();
         }
 

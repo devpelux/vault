@@ -21,33 +21,27 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:IconedTextBox}">
                     <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
                         <Grid.Resources>
-                            <Storyboard x:Key="IconedTextBoxOnSelected">
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="Background">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BackgroundOnSelected, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                </ObjectAnimationUsingKeyFrames>
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="BorderBrush">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BorderBrushOnSelected, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                </ObjectAnimationUsingKeyFrames>
-                            </Storyboard>
-                            <Storyboard x:Key="IconedTextBoxOnDisabled">
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="Background">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BackgroundOnDisabled, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                </ObjectAnimationUsingKeyFrames>
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="BorderBrush">
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding BorderBrushOnDisabled, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                </ObjectAnimationUsingKeyFrames>
+                            <Storyboard x:Key="SelectedVS">
+                                <DoubleAnimation Storyboard.TargetName="PART_SelectedBorder"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="1" Duration="0:0:0.2"/>
                             </Storyboard>
                         </Grid.Resources>
-
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal"/>
-                                <VisualState x:Name="MouseOver" Storyboard="{StaticResource IconedTextBoxOnSelected}"/>
-                                <VisualState x:Name="Focused" Storyboard="{StaticResource IconedTextBoxOnSelected}"/>
-                                <VisualState x:Name="Disabled" Storyboard="{StaticResource IconedTextBoxOnDisabled}"/>
+                                <VisualState x:Name="Disabled"/>
+                                <VisualState x:Name="MouseOver" Storyboard="{StaticResource SelectedVS}"/>
+                                <VisualState x:Name="Focused" Storyboard="{StaticResource SelectedVS}"/>
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="HintStates">
+                                <VisualState x:Name="Unhinted"/>
                                 <VisualState x:Name="Hinted">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Hint" Storyboard.TargetProperty="Visibility">
@@ -55,50 +49,56 @@
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="Unhinted">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Hint" Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <Grid x:Name="PART_ExternalGrid">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Image x:Name="PART_Icon"
-                                   Grid.Column="0"
-                                   Width="{TemplateBinding IconSize}"
-                                   Margin="0,0,5,0"
-                                   Source="{TemplateBinding Source}" Stretch="Uniform"
-                                   Focusable="False"
-                                   SnapsToDevicePixels="True"/>
-                            <Border x:Name="PART_Border"
-                                    Grid.Column="1"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    Background="{TemplateBinding Background}"
-                                    SnapsToDevicePixels="True">
-                                <Grid x:Name="PART_TextBoxGrid">
-                                    <ScrollViewer x:Name="PART_ContentHost"
-                                                  HorizontalScrollBarVisibility="Hidden"
-                                                  VerticalScrollBarVisibility="Hidden"
-                                                  Focusable="False"/>
-                                    <TextBlock x:Name="PART_Hint"
-                                               Margin="{TemplateBinding Padding}"
-                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                               Text="{TemplateBinding Hint}"
-                                               Foreground="{TemplateBinding HintForeground}"
-                                               Cursor="IBeam"
-                                               Focusable="False"/>
-                                </Grid>
-                            </Border>
-                        </Grid>
+                        <Image x:Name="PART_Icon"
+                               Grid.Column="0"
+                               Width="{TemplateBinding IconSize}"
+                               Margin="0,0,5,0"
+                               Source="{TemplateBinding Source}" Stretch="Uniform"
+                               Focusable="False"
+                               SnapsToDevicePixels="True"/>
+                        <Border x:Name="PART_BackBorder"
+                                Grid.Column="1"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                SnapsToDevicePixels="True"/>
+                        <Border x:Name="PART_SelectedBorder"
+                                Grid.Column="1"
+                                Background="{TemplateBinding BackgroundOnSelected}"
+                                BorderBrush="{TemplateBinding BorderBrushOnSelected}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Opacity="0"
+                                SnapsToDevicePixels="True"/>
+                        <Border x:Name="PART_Border"
+                                Grid.Column="1"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                SnapsToDevicePixels="True">
+                            <Grid x:Name="PART_TextBoxGrid">
+                                <ScrollViewer x:Name="PART_ContentHost"
+                                              HorizontalScrollBarVisibility="Hidden"
+                                              VerticalScrollBarVisibility="Hidden"
+                                              Focusable="False"/>
+                                <TextBlock x:Name="PART_Hint"
+                                           Margin="{TemplateBinding Padding}"
+                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                           Text="{TemplateBinding Hint}"
+                                           Foreground="{TemplateBinding HintForeground}"
+                                           Visibility="Collapsed"
+                                           Cursor="IBeam"
+                                           Focusable="False"/>
+                            </Grid>
+                        </Border>
                     </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="PART_BackBorder" Property="Background" Value="{Binding BackgroundOnDisabled, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <Setter TargetName="PART_BackBorder" Property="BorderBrush" Value="{Binding BorderBrushOnDisabled, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

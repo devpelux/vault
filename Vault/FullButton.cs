@@ -6,14 +6,14 @@ namespace CustomControls
 {
     public class FullButton : Button
     {
-        public Brush BackgroundOnSelected
+        public Brush BackgroundOnMouseOver
         {
-            get => (Brush)GetValue(BackgroundOnSelectedProperty);
-            set => SetValue(BackgroundOnSelectedProperty, value);
+            get => (Brush)GetValue(BackgroundOnMouseOverProperty);
+            set => SetValue(BackgroundOnMouseOverProperty, value);
         }
 
-        public static readonly DependencyProperty BackgroundOnSelectedProperty =
-            DependencyProperty.Register(nameof(BackgroundOnSelected), typeof(Brush), typeof(FullButton));
+        public static readonly DependencyProperty BackgroundOnMouseOverProperty =
+            DependencyProperty.Register(nameof(BackgroundOnMouseOver), typeof(Brush), typeof(FullButton));
 
         public Brush BackgroundOnPressed
         {
@@ -33,14 +33,14 @@ namespace CustomControls
         public static readonly DependencyProperty BackgroundOnDisabledProperty =
             DependencyProperty.Register(nameof(BackgroundOnDisabled), typeof(Brush), typeof(FullButton));
 
-        public Brush BorderBrushOnSelected
+        public Brush BorderBrushOnMouseOver
         {
-            get => (Brush)GetValue(BorderBrushOnSelectedProperty);
-            set => SetValue(BorderBrushOnSelectedProperty, value);
+            get => (Brush)GetValue(BorderBrushOnMouseOverProperty);
+            set => SetValue(BorderBrushOnMouseOverProperty, value);
         }
 
-        public static readonly DependencyProperty BorderBrushOnSelectedProperty =
-            DependencyProperty.Register(nameof(BorderBrushOnSelected), typeof(Brush), typeof(FullButton));
+        public static readonly DependencyProperty BorderBrushOnMouseOverProperty =
+            DependencyProperty.Register(nameof(BorderBrushOnMouseOver), typeof(Brush), typeof(FullButton));
 
         public Brush BorderBrushOnPressed
         {
@@ -60,14 +60,14 @@ namespace CustomControls
         public static readonly DependencyProperty BorderBrushOnDisabledProperty =
             DependencyProperty.Register(nameof(BorderBrushOnDisabled), typeof(Brush), typeof(FullButton));
 
-        public Brush ForegroundOnSelected
+        public Brush ForegroundOnMouseOver
         {
-            get => (Brush)GetValue(ForegroundOnSelectedProperty);
-            set => SetValue(ForegroundOnSelectedProperty, value);
+            get => (Brush)GetValue(ForegroundOnMouseOverProperty);
+            set => SetValue(ForegroundOnMouseOverProperty, value);
         }
 
-        public static readonly DependencyProperty ForegroundOnSelectedProperty =
-            DependencyProperty.Register(nameof(ForegroundOnSelected), typeof(Brush), typeof(FullButton));
+        public static readonly DependencyProperty ForegroundOnMouseOverProperty =
+            DependencyProperty.Register(nameof(ForegroundOnMouseOver), typeof(Brush), typeof(FullButton));
 
         public Brush ForegroundOnPressed
         {

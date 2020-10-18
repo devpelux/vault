@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -12,7 +11,6 @@ namespace CustomControls
     {
         private Grid container = null;
         private UIElementCollection Children => container?.Children;
-
 
         public Control this[int index]
         {
@@ -66,7 +64,6 @@ namespace CustomControls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ItemsContainer), new FrameworkPropertyMetadata(typeof(ItemsContainer)));
         }
-
 
         public override void OnApplyTemplate()
         {
@@ -134,7 +131,6 @@ namespace CustomControls
         }
 
         IEnumerator<Control> IEnumerable<Control>.GetEnumerator() => (IEnumerator<Control>)Children.GetEnumerator();
-
 
         private void ResetMargins()
         {

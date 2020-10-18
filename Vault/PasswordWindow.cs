@@ -17,7 +17,6 @@ namespace Vault
             InitializeComponent();
         }
 
-
         public void SetReceiver(IMessageReceiver receiver) => this.receiver = receiver;
 
         public void SetElement(Element element) => this.element = element;

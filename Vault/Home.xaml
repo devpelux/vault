@@ -12,7 +12,8 @@
         AllowsTransparency="True"
         WindowStyle="None"
         Background="{x:Null}"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
     <Border Background="{DynamicResource WindowBackground}"
             BorderBrush="{DynamicResource WindowBorderBrush}"
             BorderThickness="1">
@@ -26,7 +27,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
-                    Background="#FF151515"/>
+                    Background="#FF1C1C1C"/>
             <Grid x:Name="Toolbar"
                   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
                 <cust:FullButton x:Name="CloseWindow"
@@ -54,16 +55,24 @@
             </Grid>
             <Grid x:Name="ContentCategorySwitcher"
                   Grid.Row="1" Grid.Column="0">
-                <cust:FullButton x:Name="SwitchToPasswordSection"
-                                 VerticalAlignment="Top" Height="50"
-                                 Content="Password" Margin="0,60,0,0"
-                                 BorderThickness="0"/>
-                <cust:FullButton x:Name="SwitchToNoteSection"
-                                 VerticalAlignment="Top" Height="50"
-                                 Content="Note" Margin="0,110,0,0"
-                                 BorderThickness="0"/>
-                
-                <!--creare elemento switcher se non esiste e usarlo al posto dei pulsanti-->
+                <cust:Switcher x:Name="SwitchToPasswordSection"
+                               VerticalAlignment="Top" Height="50"
+                               Content="Password" Margin="0,50,0,0"
+                               IsDeactivableByClick="false"
+                               IsActivated="True"
+                               ActivationChanged="SwitchToPasswordSection_ActivationChanged"/>
+                <cust:Switcher x:Name="SwitchToCardSection"
+                               VerticalAlignment="Top" Height="50"
+                               Content="Carte" Margin="0,100,0,0"
+                               BorderThickness="1,0,1,1"
+                               IsDeactivableByClick="false"
+                               ActivationChanged="SwitchToCardSection_ActivationChanged"/>
+                <cust:Switcher x:Name="SwitchToNoteSection"
+                               VerticalAlignment="Top" Height="50"
+                               Content="Note" Margin="0,150,0,0"
+                               BorderThickness="1,0,1,1"
+                               IsDeactivableByClick="false"
+                               ActivationChanged="SwitchToNoteSection_ActivationChanged"/>
             </Grid>
             <Grid x:Name="ContentWindow"
                   Grid.Row="1" Grid.Column="1">
@@ -91,6 +100,16 @@
                                     VerticalContentAlignment="Center"
                                     Width="363" Source="Icons/ic_label.png"/>
                     <!--far funzionare la ricerca-->
+                </Grid>
+                <Grid x:Name="CardSection" Visibility="Collapsed">
+                    <TextBlock Text="CARTE" FontSize="20" Foreground="White"
+                           HorizontalAlignment="Left" VerticalAlignment="Top"
+                           Margin="10,10,0,0"/>
+                </Grid>
+                <Grid x:Name="NoteSection" Visibility="Collapsed">
+                    <TextBlock Text="NOTE" FontSize="20" Foreground="White"
+                           HorizontalAlignment="Left" VerticalAlignment="Top"
+                           Margin="10,10,0,0"/>
                 </Grid>
                 <!--creare la note section-->
             </Grid>
