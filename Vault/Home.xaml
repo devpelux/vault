@@ -58,20 +58,22 @@
                 <cust:Switcher x:Name="SwitchToPasswordSection"
                                VerticalAlignment="Top" Height="50"
                                Content="Password" Margin="0,50,0,0"
-                               IsDeactivableByClick="false"
+                               IsDeactivableByClick="False"
                                IsActivated="True"
                                ActivationChanged="SwitchToPasswordSection_ActivationChanged"/>
                 <cust:Switcher x:Name="SwitchToCardSection"
                                VerticalAlignment="Top" Height="50"
                                Content="Carte" Margin="0,100,0,0"
                                BorderThickness="1,0,1,1"
-                               IsDeactivableByClick="false"
+                               IsActivated="False"
+                               IsDeactivableByClick="False"
                                ActivationChanged="SwitchToCardSection_ActivationChanged"/>
                 <cust:Switcher x:Name="SwitchToNoteSection"
                                VerticalAlignment="Top" Height="50"
                                Content="Note" Margin="0,150,0,0"
                                BorderThickness="1,0,1,1"
-                               IsDeactivableByClick="false"
+                               IsActivated="False"
+                               IsDeactivableByClick="False"
                                ActivationChanged="SwitchToNoteSection_ActivationChanged"/>
             </Grid>
             <Grid x:Name="ContentWindow"
@@ -98,7 +100,7 @@
                                     Margin="10,413,0,0" TextWrapping="Wrap"
                                     Hint="Cerca..."  VerticalAlignment="Top"
                                     VerticalContentAlignment="Center"
-                                    Width="363" Source="Icons/ic_label.png"/>
+                                    Width="363" Icon="Icons/ic_label.png"/>
                     <!--far funzionare la ricerca-->
                 </Grid>
                 <Grid x:Name="CardSection" Visibility="Collapsed">
@@ -111,7 +113,6 @@
                            HorizontalAlignment="Left" VerticalAlignment="Top"
                            Margin="10,10,0,0"/>
                 </Grid>
-                <!--creare la note section-->
             </Grid>
         </Grid>
     </Border>

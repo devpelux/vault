@@ -27,7 +27,7 @@ namespace Vault
             {
                 Label.Text = element.Title;
                 Website.Text = element.Website;
-                Password.Text = element.Password;
+                Password.SetPassword(element.Password);
                 Username.Text = element.Username;
                 Details.Text = element.Details;
             }
@@ -61,7 +61,7 @@ namespace Vault
             element.Category = "Password";
             element.Title = Label.Text;
             element.Website = Website.Text;
-            element.Password = Password.Text;
+            element.Password = Password.GetPassword();
             element.Username = Username.Text;
             element.Details = Details.Text;
             element = ElementsManager.Instance.SaveElement(element);
@@ -73,7 +73,7 @@ namespace Vault
             element.Category = "Password";
             element.Title = Label.Text;
             element.Website = Website.Text;
-            element.Password = Password.Text;
+            element.Password = Password.GetPassword();
             element.Username = Username.Text;
             element.Details = Details.Text;
             element = ElementsManager.Instance.SaveElement(element);

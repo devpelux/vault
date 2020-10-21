@@ -59,6 +59,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Element.cs" />
+    <Compile Include="IconedPasswordBox.cs" />
     <Compile Include="ItemsContainer.cs" />
     <Compile Include="ItemElementPreview.cs" />
     <Compile Include="PasswordWindow.cs">
@@ -87,6 +88,10 @@
     <Page Include="GenericResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\IconedPasswordBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\ItemsContainer.xaml">
       <SubType>Designer</SubType>
