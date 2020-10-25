@@ -8,18 +8,16 @@ namespace Vault
     /// </summary>
     public partial class PasswordWindow : Window
     {
-        private IMessageReceiver receiver = null;
+        private readonly IDialogListener listener = null;
         Element element = null;
 
 
-        public PasswordWindow()
+        public PasswordWindow(IDialogListener listener, Element element)
         {
             InitializeComponent();
+            this.listener = listener;
+            this.element = element;
         }
-
-        public void SetReceiver(IMessageReceiver receiver) => this.receiver = receiver;
-
-        public void SetElement(Element element) => this.element = element;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -37,16 +35,19 @@ namespace Vault
         {
             if (element == null) AddElement();
             else EditElement();
+            listener?.OnDialogAction(DialogAction.OK);
             Close();
         }
 
         private void CloseWindow_Click(object sender, RoutedEventArgs e)
         {
+            listener?.OnDialogAbort();
             Close();
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
+            listener?.OnDialogAction(DialogAction.CANCEL);
             Close();
         }
 
@@ -65,7 +66,7 @@ namespace Vault
             element.Username = Username.Text;
             element.Details = Details.Text;
             element = ElementsManager.Instance.SaveElement(element);
-            receiver.ReceiveMessage("added_password", element);
+            listener?.OnDialogAction(DialogAction.OK);
         }
 
         private void EditElement()
@@ -77,7 +78,7 @@ namespace Vault
             element.Username = Username.Text;
             element.Details = Details.Text;
             element = ElementsManager.Instance.SaveElement(element);
-            receiver.ReceiveMessage("edited_password", element);
+            listener?.OnDialogAction(DialogAction.EDIT);
         }
     }
 }

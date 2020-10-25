@@ -65,7 +65,7 @@
       <DependentUpon>PasswordWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ElementsManager.cs" />
-    <Compile Include="IMessageReceiver.cs" />
+    <Compile Include="IDialogListener.cs" />
     <Compile Include="CustomControls\FullButton.cs" />
     <Compile Include="CustomControls\Switcher.cs" />
     <Page Include="PasswordWindow.xaml">

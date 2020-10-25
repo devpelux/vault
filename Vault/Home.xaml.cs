@@ -18,11 +18,10 @@ using CustomControls;
 namespace Vault
 {
     /// <summary>
-    /// Logica di interazione per Home.xaml
+    /// Finestra principale.
     /// </summary>
-    public partial class Home : Window, IMessageReceiver
+    public partial class Home : Window, IDialogListener
     {
-        private ItemElementPreview selectedElementPreview = null;
         private bool loaded = false;
 
 
@@ -33,8 +32,7 @@ namespace Vault
 
         private void NewElement_Click(object sender, RoutedEventArgs e)
         {
-            PasswordWindow passwordWindow = new PasswordWindow();
-            passwordWindow.SetReceiver(this);
+            PasswordWindow passwordWindow = new PasswordWindow(this, null);
             passwordWindow.ShowDialog();
         }
         
@@ -48,19 +46,40 @@ namespace Vault
             DragMove();
         }
 
-        public void ReceiveMessage(string message, object obj)
+        private void ElementPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            PasswordWindow passwordWindow = new PasswordWindow(this, ElementsManager.Instance.GetElementByID(((ItemElementPreview)sender).ID));
+            passwordWindow.ShowDialog();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            loaded = true;
             LoadElements();
         }
 
-        private void ElementPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Search_TextChanged(object sender, TextChangedEventArgs e)
         {
-            selectedElementPreview = (ItemElementPreview)sender;
-            PasswordWindow passwordWindow = new PasswordWindow();
-            passwordWindow.SetReceiver(this);
-            passwordWindow.SetElement(ElementsManager.Instance.GetElementByID(selectedElementPreview.ID));
-            passwordWindow.ShowDialog();
+            if (Search.Text != "") LoadSearchedElements();
+            else LoadElements();
         }
+
+        public void OnDialogAbort() { }
+
+        public void OnDialogAction(DialogAction action)
+        {
+            if (action != DialogAction.CANCEL)
+            {
+                if (Search.Text != "") LoadSearchedElements();
+                else LoadElements();
+            }
+        }
+
+        private void LoadSearchedElements() => LoadElements(ElementsManager.Instance.GetElementsByTitle(Search.Text));
+
+        private void LoadElements(List<Element> elements) => ListElements.ItemsSource = elements;
+
+        private void LoadElements() => ListElements.ItemsSource = ElementsManager.Instance.GetAll();
 
         #region Switcher
 
@@ -101,30 +120,5 @@ namespace Vault
         }
 
         #endregion
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            loaded = true;
-            LoadElements();
-        }
-
-        private void Search_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (Search.Text != "")
-            {
-                LoadElements(ElementsManager.Instance.GetElementsByTitle(Search.Text));
-            }
-            else LoadElements();
-        }
-
-        private void LoadElements(List<Element> elements)
-        {
-            ListElements.ItemsSource = elements;
-        }
-
-        private void LoadElements()
-        {
-            ListElements.ItemsSource = ElementsManager.Instance.GetAll();
-        }
     }
 }
