@@ -6,7 +6,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="GenericResources.xaml"/>
+                <ResourceDictionary Source="/Vault;component/Resources/GenericResources.xaml"/>
+                <ResourceDictionary Source="/Vault;component/Styles/TransparentBarsScrollViewer.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

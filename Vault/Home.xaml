@@ -90,18 +90,32 @@
                                  Width="70"
                                  Height="41"
                                  Click="NewElement_Click"/>
-                    <cust:ItemsContainer x:Name="Container"
-                                     HorizontalAlignment="Left"
-                                     Margin="10,51,0,0"
-                                     VerticalAlignment="Top"
-                                     Height="348"
-                                     Width="363"/>
-                    <cust:IconedTextBox HorizontalAlignment="Left" Height="32"
-                                    Margin="10,413,0,0" TextWrapping="Wrap"
-                                    Hint="Cerca..."  VerticalAlignment="Top"
-                                    VerticalContentAlignment="Center"
-                                    Width="363" Icon="Icons/ic_label.png"/>
-                    <!--far funzionare la ricerca-->
+                    <Border HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Margin="10,51,0,0"
+                            Height="348"
+                            Width="363"
+                            BorderBrush="#FF404040"
+                            BorderThickness="1">
+                        <ScrollViewer Margin="1,6,1,6"
+                                      Padding="5,0,1,0"
+                                      Style="{DynamicResource TransparentBarsScrollViewerStyle}">
+                            <ItemsControl x:Name="ListElements">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,0,0,4">
+                                            <cust:ItemElementPreview
+                                                ID="{Binding ID}"
+                                                Title="{Binding Title}"
+                                                Category="{Binding Category}"
+                                                Details="{Binding Details}"
+                                                MouseLeftButtonDown="ElementPreviewMouseLeftButtonDown"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
                 </Grid>
                 <Grid x:Name="CardSection" Visibility="Collapsed">
                     <TextBlock Text="CARTE" FontSize="20" Foreground="White"
@@ -113,6 +127,13 @@
                            HorizontalAlignment="Left" VerticalAlignment="Top"
                            Margin="10,10,0,0"/>
                 </Grid>
+                <cust:IconedTextBox x:Name="Search"
+                                    HorizontalAlignment="Left" Height="32"
+                                    Margin="10,0,0,17" TextWrapping="Wrap"
+                                    Hint="Cerca..."  VerticalAlignment="Bottom"
+                                    VerticalContentAlignment="Center"
+                                    Width="363" Icon="Icons/ic_label.png"
+                                    TextChanged="Search_TextChanged"/>
             </Grid>
         </Grid>
     </Border>

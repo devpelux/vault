@@ -37,15 +37,6 @@ namespace Vault
             passwordWindow.SetReceiver(this);
             passwordWindow.ShowDialog();
         }
-
-        private void Refresh_Click(object sender, RoutedEventArgs e)
-        {
-            Container.Clear();
-            for (int i = 0; i < ElementsManager.Instance.Count; i++)
-            {
-                _ = Container.Add(CreatePreview(ElementsManager.Instance[i]));
-            }
-        }
         
         private void CloseWindow_Click(object sender, RoutedEventArgs e)
         {
@@ -59,29 +50,7 @@ namespace Vault
 
         public void ReceiveMessage(string message, object obj)
         {
-            if (message == "added_password") _ = Container.Add(CreatePreview((Element)obj));
-            else if (message == "edited_password") EditPreview(selectedElementPreview, (Element)obj);
-            //else if (message == "delete") Container.Remove(selectedElementPreview);
-            selectedElementPreview = null;
-        }
-
-        private ItemElementPreview CreatePreview(Element e)
-        {
-            ItemElementPreview ep = new ItemElementPreview();
-            ep.MouseLeftButtonDown += ElementPreviewMouseLeftButtonDown;
-            ep.ElementID = e.ID;
-            ep.Title = e.Title;
-            ep.Category = e.Category;
-            ep.Details = e.Details;
-            return ep;
-        }
-
-        private void EditPreview(ItemElementPreview preview, Element e)
-        {
-            preview.ElementID = e.ID;
-            preview.Title = e.Title;
-            preview.Category = e.Category;
-            preview.Details = e.Details;
+            LoadElements();
         }
 
         private void ElementPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -89,43 +58,73 @@ namespace Vault
             selectedElementPreview = (ItemElementPreview)sender;
             PasswordWindow passwordWindow = new PasswordWindow();
             passwordWindow.SetReceiver(this);
-            passwordWindow.SetElement(ElementsManager.Instance.GetElementByID(selectedElementPreview.ElementID));
+            passwordWindow.SetElement(ElementsManager.Instance.GetElementByID(selectedElementPreview.ID));
             passwordWindow.ShowDialog();
         }
 
+        #region Switcher
+
         private void SwitchToPasswordSection_ActivationChanged(object sender, SwitcherActivationChangedEventArgs e)
         {
-            if (!loaded || !e.IsActivated) return;
-            SwitchToCardSection.IsActivated = false;
-            SwitchToNoteSection.IsActivated = false;
-            CardSection.Visibility = Visibility.Collapsed;
-            NoteSection.Visibility = Visibility.Collapsed;
-            PasswordSection.Visibility = Visibility.Visible;
+            if (loaded)
+            {
+                SwitchToCardSection.IsActivated = false;
+                SwitchToNoteSection.IsActivated = false;
+                CardSection.Visibility = Visibility.Collapsed;
+                NoteSection.Visibility = Visibility.Collapsed;
+                PasswordSection.Visibility = Visibility.Visible;
+            }
         }
 
         private void SwitchToCardSection_ActivationChanged(object sender, SwitcherActivationChangedEventArgs e)
         {
-            if (!loaded || !e.IsActivated) return;
-            SwitchToPasswordSection.IsActivated = false;
-            SwitchToNoteSection.IsActivated = false;
-            PasswordSection.Visibility = Visibility.Collapsed;
-            NoteSection.Visibility = Visibility.Collapsed;
-            CardSection.Visibility = Visibility.Visible;
+            if (loaded)
+            {
+                SwitchToPasswordSection.IsActivated = false;
+                SwitchToNoteSection.IsActivated = false;
+                PasswordSection.Visibility = Visibility.Collapsed;
+                NoteSection.Visibility = Visibility.Collapsed;
+                CardSection.Visibility = Visibility.Visible;
+            }
         }
 
         private void SwitchToNoteSection_ActivationChanged(object sender, SwitcherActivationChangedEventArgs e)
         {
-            if (!loaded || !e.IsActivated) return;
-            SwitchToCardSection.IsActivated = false;
-            SwitchToPasswordSection.IsActivated = false;
-            CardSection.Visibility = Visibility.Collapsed;
-            PasswordSection.Visibility = Visibility.Collapsed;
-            NoteSection.Visibility = Visibility.Visible;
+            if (loaded)
+            {
+                SwitchToCardSection.IsActivated = false;
+                SwitchToPasswordSection.IsActivated = false;
+                CardSection.Visibility = Visibility.Collapsed;
+                PasswordSection.Visibility = Visibility.Collapsed;
+                NoteSection.Visibility = Visibility.Visible;
+            }
         }
+
+        #endregion
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             loaded = true;
+            LoadElements();
+        }
+
+        private void Search_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (Search.Text != "")
+            {
+                LoadElements(ElementsManager.Instance.GetElementsByTitle(Search.Text));
+            }
+            else LoadElements();
+        }
+
+        private void LoadElements(List<Element> elements)
+        {
+            ListElements.ItemsSource = elements;
+        }
+
+        private void LoadElements()
+        {
+            ListElements.ItemsSource = ElementsManager.Instance.GetAll();
         }
     }
 }

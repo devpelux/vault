@@ -5,7 +5,7 @@ namespace Vault
 {
     public class Element : IEquatable<Element>
     {
-        public int ID { get; set; } = -1;
+        public int ID { get; set; } = NewID;
         public string Title { get; set; }
         public string Category { get; set; }
         public string Group { get; set; }
@@ -13,6 +13,8 @@ namespace Vault
         public string Username { get; set; }
         public string Password { get; set; }
         public string Details { get; set; }
+
+        public const int NewID = -1;
 
 
         public Element() { }
@@ -35,7 +37,7 @@ namespace Vault
         }
 
         public Element(string title, string category, string group, string website, string username, string password, string details) :
-            this(-1, title, category, group, website, username, password, details)
+            this(NewID, title, category, group, website, username, password, details)
         { }
 
         public override bool Equals(object obj) => Equals(obj as Element);

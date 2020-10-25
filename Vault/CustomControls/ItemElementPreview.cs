@@ -25,6 +25,15 @@ namespace CustomControls
         public static readonly DependencyProperty BorderBrushOnMouseOverProperty =
             DependencyProperty.Register(nameof(BorderBrushOnMouseOver), typeof(Brush), typeof(ItemElementPreview));
 
+        public int ID
+        {
+            get => (int)GetValue(IDProperty);
+            set => SetValue(IDProperty, value);
+        }
+
+        public static readonly DependencyProperty IDProperty =
+            DependencyProperty.Register(nameof(ID), typeof(int), typeof(ItemElementPreview), new PropertyMetadata(-1));
+
         public string Title
         {
             get => (string)GetValue(TitleProperty);
@@ -114,8 +123,6 @@ namespace CustomControls
 
         public static readonly DependencyProperty DetailsFontSizeProperty =
             DependencyProperty.Register(nameof(DetailsFontSize), typeof(double), typeof(ItemElementPreview));
-
-        public int ElementID { get; set; } = -1;
 
 
         static ItemElementPreview()

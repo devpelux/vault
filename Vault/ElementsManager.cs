@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Vault
 {
@@ -31,7 +27,7 @@ namespace Vault
             elements = new List<Element>();
         }
 
-        public Element SaveElement(Element element) => element.ID == -1 ? AddElement(element) : EditElement(element);
+        public Element SaveElement(Element element) => element.ID == Element.NewID ? AddElement(element) : EditElement(element);
 
         public bool RemoveElement(Element element)
         {
@@ -43,6 +39,11 @@ namespace Vault
             else return false;
         }
 
+        public List<Element> GetAll()
+        {
+            return elements.ToList();
+        }
+
         public Element GetElementByID(int id)
         {
             int index = elements.IndexOf(new Element() { ID = id });
@@ -51,6 +52,11 @@ namespace Vault
         }
 
         public bool ElementExists(Element element) => elements.Contains(element);
+
+        public List<Element> GetElementsByTitle(string title)
+        {
+            return elements.Where(e => e.Title.ToLowerInvariant().Contains(title.ToLowerInvariant())).ToList();
+        }
 
         private Element AddElement(Element element)
         {

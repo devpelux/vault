@@ -59,16 +59,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Element.cs" />
-    <Compile Include="IconedPasswordBox.cs" />
-    <Compile Include="ItemsContainer.cs" />
-    <Compile Include="ItemElementPreview.cs" />
+    <Compile Include="CustomControls\IconedPasswordBox.cs" />
+    <Compile Include="CustomControls\ItemElementPreview.cs" />
     <Compile Include="PasswordWindow.cs">
       <DependentUpon>PasswordWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ElementsManager.cs" />
     <Compile Include="IMessageReceiver.cs" />
-    <Compile Include="FullButton.cs" />
-    <Compile Include="Switcher.cs" />
+    <Compile Include="CustomControls\FullButton.cs" />
+    <Compile Include="CustomControls\Switcher.cs" />
     <Page Include="PasswordWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -85,19 +84,19 @@
       <DependentUpon>Home.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="GenericResources.xaml">
+    <Page Include="Resources\GenericResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\IconedPasswordBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\ItemsContainer.xaml">
+    <Page Include="Styles\TransparentBarsScrollViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\ItemElementPreview.xaml">
+    <Page Include="Styles\IconedPasswordBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ItemElementPreview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -105,21 +104,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\IconedTextBox.xaml">
+    <Page Include="Styles\IconedTextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\FullButton.xaml">
+    <Page Include="Styles\FullButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Switcher.xaml">
+    <Page Include="Styles\Switcher.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IconedTextBox.cs" />
+    <Compile Include="CustomControls\IconedTextBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -160,5 +159,6 @@
   <ItemGroup>
     <Resource Include="Icons\ic_label.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
