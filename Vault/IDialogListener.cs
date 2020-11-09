@@ -2,15 +2,12 @@
 {
     public interface IDialogListener
     {
-        void OnDialogAbort();
-        void OnDialogAction(DialogAction action);
+        void OnDialogAction(DialogAction action, string actionType = "");
     }
 
     public enum DialogAction
     {
-        OK,
-        CANCEL,
-        DELETE,
-        EDIT
+        ACTION,
+        CANCEL
     }
 }

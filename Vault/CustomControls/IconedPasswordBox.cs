@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace CustomControls
+namespace Vault.CustomControls
 {
     public sealed class IconedPasswordBox : Control
     {

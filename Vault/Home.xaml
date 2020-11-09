@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Vault"
-        xmlns:cust="clr-namespace:CustomControls"
+        xmlns:cust="clr-namespace:Vault.CustomControls"
         mc:Ignorable="d"
         Title="Vault"
         Height="499"
@@ -14,9 +14,12 @@
         Background="{x:Null}"
         WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded">
-    <Border Background="{DynamicResource WindowBackground}"
+    <Border x:Name="WindowBorder"
+            Background="{DynamicResource WindowBackground}"
             BorderBrush="{DynamicResource WindowBorderBrush}"
-            BorderThickness="1">
+            BorderThickness="{DynamicResource WindowBorderThickness}"
+            CornerRadius="{DynamicResource WindowCornerRadius}"
+            SnapsToDevicePixels="True">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="32"/>
@@ -26,6 +29,18 @@
                 <ColumnDefinition Width="160"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <Grid.Clip>
+                <MultiBinding Converter="{StaticResource WindowClipConverter}">
+                    <Binding Path="ActualWidth"
+                         RelativeSource="{RelativeSource Self}"/>
+                    <Binding Path="ActualHeight"
+                         RelativeSource="{RelativeSource Self}"/>
+                    <Binding Path="BorderThickness"
+                         RelativeSource="{RelativeSource FindAncestor, AncestorType=Border}"/>
+                    <Binding Path="CornerRadius"
+                         RelativeSource="{RelativeSource FindAncestor, AncestorType=Border}"/>
+                </MultiBinding>
+            </Grid.Clip>
             <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
                     Background="#FF1C1C1C"/>
             <Grid x:Name="Toolbar"
@@ -85,7 +100,7 @@
                     <cust:FullButton x:Name="NewElement"
                                  Content="Aggiungi"
                                  HorizontalAlignment="Left"
-                                 Margin="378,51,0,0"
+                                 Margin="380,51,0,0"
                                  VerticalAlignment="Top"
                                  Width="70"
                                  Height="41"
@@ -128,11 +143,12 @@
                            Margin="10,10,0,0"/>
                 </Grid>
                 <cust:IconedTextBox x:Name="Search"
-                                    HorizontalAlignment="Left" Height="32"
-                                    Margin="10,0,0,17" TextWrapping="Wrap"
+                                    HorizontalAlignment="Left"
+                                    Margin="10,0,0,17"
+                                    Height="32" Width="363" 
                                     Hint="Cerca..."  VerticalAlignment="Bottom"
                                     VerticalContentAlignment="Center"
-                                    Width="363" Icon="Icons/ic_label.png"
+                                    Icon="Icons/ic_label.png"
                                     TextChanged="Search_TextChanged"/>
             </Grid>
         </Grid>

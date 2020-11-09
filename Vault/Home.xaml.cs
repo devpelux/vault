@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using CustomControls;
+using Vault.CustomControls;
+using Vault.Core;
 
 namespace Vault
 {
@@ -23,6 +13,7 @@ namespace Vault
     public partial class Home : Window, IDialogListener
     {
         private bool loaded = false;
+        private Password selectedPassword = null;
 
 
         public Home()
@@ -30,62 +21,81 @@ namespace Vault
             InitializeComponent();
         }
 
-        private void NewElement_Click(object sender, RoutedEventArgs e)
-        {
-            PasswordWindow passwordWindow = new PasswordWindow(this, null);
-            passwordWindow.ShowDialog();
-        }
-        
-        private void CloseWindow_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
         private void ToolbarMouseHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
         }
 
-        private void ElementPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void CloseWindow_Click(object sender, RoutedEventArgs e)
         {
-            PasswordWindow passwordWindow = new PasswordWindow(this, ElementsManager.Instance.GetElementByID(((ItemElementPreview)sender).ID));
-            passwordWindow.ShowDialog();
+            Close();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             loaded = true;
-            LoadElements();
+            LoadAllPasswords();
+        }
+
+        private void NewElement_Click(object sender, RoutedEventArgs e)
+        {
+            new PasswordWindow(this, null).ShowDialog();
+        }
+
+        private void ElementPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            selectedPassword = VaultDB.Instance.Passwords.GetRecord(((ItemElementPreview)sender).ID);
+            if (!selectedPassword.RequestKey)
+            {
+                new PasswordWindow(this, selectedPassword).ShowDialog();
+                selectedPassword = null;
+            }
+            else
+            {
+                new KeyWindow(this).ShowDialog();
+            }
         }
 
         private void Search_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (Search.Text != "") LoadSearchedElements();
-            else LoadElements();
+            if (Search.Text != "") LoadSearchedPasswords();
+            else LoadAllPasswords();
         }
 
-        public void OnDialogAbort() { }
-
-        public void OnDialogAction(DialogAction action)
+        public void OnDialogAction(DialogAction action, string actionType)
         {
-            if (action != DialogAction.CANCEL)
+            if (action == DialogAction.ACTION)
             {
-                if (Search.Text != "") LoadSearchedElements();
-                else LoadElements();
+                switch (actionType)
+                {
+                    case PasswordWindow.DONE:
+                        if (Search.Text != "") LoadSearchedPasswords();
+                        else LoadAllPasswords();
+                        break;
+                    case KeyWindow.CONFIRMED:
+                        new PasswordWindow(this, selectedPassword).ShowDialog();
+                        selectedPassword = null;
+                        break;
+                    case KeyWindow.UNCONFIRMED:
+                        selectedPassword = null;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
-        private void LoadSearchedElements() => LoadElements(ElementsManager.Instance.GetElementsByTitle(Search.Text));
+        private void LoadSearchedPasswords() => LoadPasswords(VaultDB.Instance.Passwords.GetRecords(Search.Text, Global.Instance.UserID));
 
-        private void LoadElements(List<Element> elements) => ListElements.ItemsSource = elements;
+        private void LoadAllPasswords() => LoadPasswords(VaultDB.Instance.Passwords.GetRecords(Global.Instance.UserID));
 
-        private void LoadElements() => ListElements.ItemsSource = ElementsManager.Instance.GetAll();
+        private void LoadPasswords(List<Password> elements) => ListElements.ItemsSource = elements;
 
         #region Switcher
 
         private void SwitchToPasswordSection_ActivationChanged(object sender, SwitcherActivationChangedEventArgs e)
         {
-            if (loaded)
+            if (loaded && e.IsActivated)
             {
                 SwitchToCardSection.IsActivated = false;
                 SwitchToNoteSection.IsActivated = false;
@@ -97,7 +107,7 @@ namespace Vault
 
         private void SwitchToCardSection_ActivationChanged(object sender, SwitcherActivationChangedEventArgs e)
         {
-            if (loaded)
+            if (loaded && e.IsActivated)
             {
                 SwitchToPasswordSection.IsActivated = false;
                 SwitchToNoteSection.IsActivated = false;
@@ -109,7 +119,7 @@ namespace Vault
 
         private void SwitchToNoteSection_ActivationChanged(object sender, SwitcherActivationChangedEventArgs e)
         {
-            if (loaded)
+            if (loaded && e.IsActivated)
             {
                 SwitchToCardSection.IsActivated = false;
                 SwitchToPasswordSection.IsActivated = false;

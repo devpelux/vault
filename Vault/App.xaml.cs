@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Vault.Core;
+using Vault.Properties;
 
 namespace Vault
 {
@@ -13,5 +15,21 @@ namespace Vault
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            if (VaultDB.Instance.Users.Count() > 0)
+            {
+                new LoginWindow().Show();
+            }
+            else
+            {
+                new RegisterWindow().Show();
+            }
+        }
+
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
+            Settings.Default.Save();
+        }
     }
 }

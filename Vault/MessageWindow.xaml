@@ -1,0 +1,91 @@
+﻿<Window x:Class="Vault.MessageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Vault"
+        xmlns:cust="clr-namespace:Vault.CustomControls"
+        mc:Ignorable="d"
+        Title="Login"
+        Height="190"
+        Width="252"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Background="{x:Null}"
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
+    <Border x:Name="WindowBorder"
+            Background="{DynamicResource WindowBackground}"
+            BorderBrush="{DynamicResource WindowBorderBrush}"
+            BorderThickness="{DynamicResource WindowBorderThickness}"
+            CornerRadius="{DynamicResource WindowCornerRadius}"
+            SnapsToDevicePixels="True">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.Clip>
+                <MultiBinding Converter="{StaticResource WindowClipConverter}">
+                    <Binding Path="ActualWidth"
+                         RelativeSource="{RelativeSource Self}"/>
+                    <Binding Path="ActualHeight"
+                         RelativeSource="{RelativeSource Self}"/>
+                    <Binding Path="BorderThickness"
+                         RelativeSource="{RelativeSource FindAncestor, AncestorType=Border}"/>
+                    <Binding Path="CornerRadius"
+                         RelativeSource="{RelativeSource FindAncestor, AncestorType=Border}"/>
+                </MultiBinding>
+            </Grid.Clip>
+            <Grid x:Name="Toolbar"
+                  Grid.Row="0">
+                <cust:FullButton x:Name="CloseWindow"
+                                 HorizontalAlignment="Right"
+                                 Width="32"
+                                 Height="32"
+                                 Content="&#xE106;"
+                                 FontFamily="Segoe MDL2 Assets"
+                                 FontSize="10"
+                                 BorderThickness="0"
+                                 Background="Transparent"
+                                 BackgroundOnPressed="Red"
+                                 BackgroundOnDisabled="Transparent"
+                                 Click="CloseWindow_Click"/>
+                <TextBlock HorizontalAlignment="Left"
+                           Margin="10,0,10,0"
+                           TextWrapping="NoWrap"
+                           Text="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                           VerticalAlignment="Center"
+                           Foreground="White"/>
+                <Grid x:Name="ToolbarMouseHandler"
+                      Margin="0,0,50,0"
+                      Background="Transparent"
+                      MouseLeftButtonDown="ToolbarMouseHandler_MouseLeftButtonDown"/>
+            </Grid>
+            <Grid x:Name="ContentWindow"
+                  Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="74"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="25">
+                    <TextBlock x:Name="MessageViewer"
+                               TextAlignment="Center"
+                               VerticalAlignment="Center"
+                               TextWrapping="Wrap"
+                               Text="Message"
+                               Foreground="White"/>
+                </Grid>
+                <cust:FullButton x:Name="Ok"
+                                 Grid.Row="1"
+                                 Content="OK"
+                                 HorizontalAlignment="Right"
+                                 VerticalAlignment="Bottom"
+                                 Margin="0,0,25,25"
+                                 Width="55"
+                                 Height="34"
+                                 Click="Ok_Click"/>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

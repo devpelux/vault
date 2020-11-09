@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using Vault.Core;
 
 namespace Vault
 {
@@ -9,39 +10,50 @@ namespace Vault
     public partial class PasswordWindow : Window
     {
         private readonly IDialogListener listener = null;
-        Element element = null;
+        private readonly Password password = null;
+
+        public const string DONE = "PasswordWindow.DONE";
 
 
-        public PasswordWindow(IDialogListener listener, Element element)
+        public PasswordWindow(IDialogListener listener, Password password)
         {
             InitializeComponent();
             this.listener = listener;
-            this.element = element;
+            this.password = password != null ? Core.Password.Decrypt(password, Global.Instance.Key) : null;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void ToolbarMouseHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (element != null)
-            {
-                Label.Text = element.Title;
-                Website.Text = element.Website;
-                Password.SetPassword(element.Password);
-                Username.Text = element.Username;
-                Details.Text = element.Details;
-            }
-        }
-
-        private void Ok_Click(object sender, RoutedEventArgs e)
-        {
-            if (element == null) AddElement();
-            else EditElement();
-            listener?.OnDialogAction(DialogAction.OK);
-            Close();
+            DragMove();
         }
 
         private void CloseWindow_Click(object sender, RoutedEventArgs e)
         {
-            listener?.OnDialogAbort();
+            listener?.OnDialogAction(DialogAction.CANCEL);
+            Close();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (password != null)
+            {
+                Label.Text = password.Title;
+                Website.Text = password.Website;
+                Password.SetPassword(password.Key);
+                Username.Text = password.Username;
+                Details.Text = password.Details;
+                Note.Text = password.Note;
+                RequestKey.IsChecked = password.RequestKey;
+                Delete.Visibility = Visibility.Visible;
+            }
+            else Delete.Visibility = Visibility.Hidden;
+        }
+
+        private void Ok_Click(object sender, RoutedEventArgs e)
+        {
+            if (password == null) AddElement();
+            else EditElement();
+            listener?.OnDialogAction(DialogAction.ACTION, DONE);
             Close();
         }
 
@@ -51,34 +63,40 @@ namespace Vault
             Close();
         }
 
-        private void ToolbarMouseHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
-
         private void AddElement()
         {
-            element = new Element();
-            element.Category = "Password";
-            element.Title = Label.Text;
-            element.Website = Website.Text;
-            element.Password = Password.GetPassword();
-            element.Username = Username.Text;
-            element.Details = Details.Text;
-            element = ElementsManager.Instance.SaveElement(element);
-            listener?.OnDialogAction(DialogAction.OK);
+            Password password = new Password();
+            password.UserID = Global.Instance.UserID;
+            password.Title = Label.Text;
+            password.Category = "Generic";
+            password.Website = Website.Text;
+            password.Username = Username.Text;
+            password.Key = Password.GetPassword();
+            password.Details = Details.Text;
+            password.Note = Note.Text;
+            password.RequestKey = RequestKey.IsChecked ?? false;
+            VaultDB.Instance.Passwords.AddRecord(Core.Password.Encrypt(password, Global.Instance.Key));
         }
 
         private void EditElement()
         {
-            element.Category = "Password";
-            element.Title = Label.Text;
-            element.Website = Website.Text;
-            element.Password = Password.GetPassword();
-            element.Username = Username.Text;
-            element.Details = Details.Text;
-            element = ElementsManager.Instance.SaveElement(element);
-            listener?.OnDialogAction(DialogAction.EDIT);
+            password.UserID = Global.Instance.UserID;
+            password.Title = Label.Text;
+            password.Category = "Generic";
+            password.Website = Website.Text;
+            password.Username = Username.Text;
+            password.Key = Password.GetPassword();
+            password.Details = Details.Text;
+            password.Note = Note.Text;
+            password.RequestKey = RequestKey.IsChecked ?? false;
+            VaultDB.Instance.Passwords.UpdateRecord(Core.Password.Encrypt(password, Global.Instance.Key));
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            VaultDB.Instance.Passwords.RemoveRecord(password.ID);
+            listener?.OnDialogAction(DialogAction.ACTION, DONE);
+            Close();
         }
     }
 }

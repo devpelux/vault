@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace CustomControls
+namespace Vault.CustomControls
 {
     public class FullButton : Button
     {
