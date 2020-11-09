@@ -44,22 +44,22 @@ namespace Vault
                         }
                         else
                         {
-                            new MessageWindow("Le password non corrispondono!", "Errore").ShowDialog();
+                            new MessageWindow("Le password non corrispondono!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
                         }
                     }
                     else
                     {
-                        new MessageWindow("Username già esistente!", "Errore").ShowDialog();
+                        new MessageWindow("Username già esistente!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
                     }
                 }
                 else
                 {
-                    new MessageWindow("Username non valido!", "Errore").ShowDialog();
+                    new MessageWindow("Username non valido!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
                 }
             }
             else
             {
-                new MessageWindow("Immettere username e password!", "Errore").ShowDialog();
+                new MessageWindow("Immettere username e password!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
             }
         }
 

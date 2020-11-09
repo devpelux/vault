@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Media;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace Vault
 {
@@ -8,13 +11,15 @@ namespace Vault
     /// </summary>
     public partial class MessageWindow : Window
     {
-        public string Message { get; set; } = "";
+        public string Message { get; set; }
+        MessageBoxImage IconType { get; set; }
 
 
-        public MessageWindow(string message, string title)
+        public MessageWindow(string message, string title, MessageBoxImage iconType)
         {
             InitializeComponent();
-            Message = message.Substring(0, 50);
+            Message = message.Substring(0, message.Length);
+            IconType = iconType;
             Title = title;
         }
 
@@ -31,6 +36,41 @@ namespace Vault
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             MessageViewer.Text = Message;
+            string iconUri;
+            switch (IconType)
+            {
+                case MessageBoxImage.Hand:
+                    iconUri = "pack://application:,,,/Vault;component/Icons/ic_hand.png";
+                    SystemSounds.Hand.Play();
+                    break;
+                case MessageBoxImage.Question:
+                    iconUri = "pack://application:,,,/Vault;component/Icons/ic_question.png";
+                    SystemSounds.Question.Play();
+                    break;
+                case MessageBoxImage.Exclamation:
+                    iconUri = "pack://application:,,,/Vault;component/Icons/ic_exclamation.png";
+                    SystemSounds.Exclamation.Play();
+                    break;
+                case MessageBoxImage.Asterisk:
+                    iconUri = "pack://application:,,,/Vault;component/Icons/ic_asterisk.png";
+                    SystemSounds.Asterisk.Play();
+                    break;
+                default:
+                    iconUri = "";
+                    break;
+            }
+            if (iconUri != "")
+            {
+                BitmapImage icon = new BitmapImage();
+                icon.BeginInit();
+                icon.UriSource = new Uri(iconUri);
+                icon.EndInit();
+                Image.Source = icon;
+            }
+            else
+            {
+                Image.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void Ok_Click(object sender, RoutedEventArgs e)

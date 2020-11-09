@@ -43,7 +43,7 @@ namespace Vault
             }
             else
             {
-                new MessageWindow("Immettere la password!", "Errore").ShowDialog();
+                new MessageWindow("Immettere la password!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
             }
         }
 
@@ -69,7 +69,7 @@ namespace Vault
             }
             else
             {
-                new MessageWindow("Password errata!", "Errore").ShowDialog();
+                new MessageWindow("Password errata!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
             }
         }
     }

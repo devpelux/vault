@@ -68,10 +68,20 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="74"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Margin="25">
+                <Grid Grid.Row="0" Margin="25,20,25,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image x:Name="Image"
+                           Grid.Column="0"
+                           HorizontalAlignment="Left"
+                           Height="42"
+                           Width="42" Source="Icons/ic_asterisk.png"/>
                     <TextBlock x:Name="MessageViewer"
-                               TextAlignment="Center"
+                               Grid.Column="1"
                                VerticalAlignment="Center"
+                               TextAlignment="Center"
                                TextWrapping="Wrap"
                                Text="Message"
                                Foreground="White"/>
