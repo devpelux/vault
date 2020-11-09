@@ -7,18 +7,29 @@ using System.Windows.Media.Imaging;
 namespace Vault
 {
     /// <summary>
-    /// Logica di interazione per MessageWindow.xaml
+    /// Finestra di messaggio.
     /// </summary>
     public partial class MessageWindow : Window
     {
-        public string Message { get; set; }
-        MessageBoxImage IconType { get; set; }
+        private string Message { get; set; }
+        private MessageBoxImage IconType { get; set; }
+
+        public string Result { get; set; } = "";
+
+        public const string NONE = "MessageWindow.NONE";
+        public const string OK = "MessageWindow.OK";
 
 
         public MessageWindow(string message, string title, MessageBoxImage iconType)
         {
             InitializeComponent();
-            Message = message.Substring(0, message.Length);
+            if (message.Length > 45)
+            {
+                Height = 210;
+                Width = 342;
+                message = message.Substring(0, Math.Min(130, message.Length));
+            }
+            Message = message;
             IconType = iconType;
             Title = title;
         }
@@ -30,6 +41,7 @@ namespace Vault
 
         private void CloseWindow_Click(object sender, RoutedEventArgs e)
         {
+            Result = NONE;
             Close();
         }
 
@@ -75,6 +87,7 @@ namespace Vault
 
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
+            Result = OK;
             Close();
         }
     }

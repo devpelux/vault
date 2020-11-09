@@ -10,10 +10,9 @@ namespace Vault
     /// <summary>
     /// Finestra principale.
     /// </summary>
-    public partial class Home : Window, IDialogListener
+    public partial class Home : Window
     {
         private bool loaded = false;
-        private Password selectedPassword = null;
 
 
         public Home()
@@ -39,20 +38,42 @@ namespace Vault
 
         private void NewElement_Click(object sender, RoutedEventArgs e)
         {
-            new PasswordWindow(this, null).ShowDialog();
+            PasswordWindow passwordWindow = new PasswordWindow(null);
+            _ = passwordWindow.ShowDialog();
+            if (passwordWindow.Result == PasswordWindow.EDIT)
+            {
+                if (Search.Text != "") LoadSearchedPasswords();
+                else LoadAllPasswords();
+            }
         }
 
         private void ElementPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            selectedPassword = VaultDB.Instance.Passwords.GetRecord(((ItemElementPreview)sender).ID);
+            Password selectedPassword = VaultDB.Instance.Passwords.GetRecord(((ItemElementPreview)sender).ID);
             if (!selectedPassword.RequestKey)
             {
-                new PasswordWindow(this, selectedPassword).ShowDialog();
-                selectedPassword = null;
+                PasswordWindow passwordWindow = new PasswordWindow(selectedPassword);
+                _ = passwordWindow.ShowDialog();
+                if (passwordWindow.Result == PasswordWindow.EDIT)
+                {
+                    if (Search.Text != "") LoadSearchedPasswords();
+                    else LoadAllPasswords();
+                }
             }
             else
             {
-                new KeyWindow(this).ShowDialog();
+                KeyWindow keyWindow = new KeyWindow();
+                _ = keyWindow.ShowDialog();
+                if (keyWindow.Result == KeyWindow.CONFIRMED)
+                {
+                    PasswordWindow passwordWindow = new PasswordWindow(selectedPassword);
+                    _ = passwordWindow.ShowDialog();
+                    if (passwordWindow.Result == PasswordWindow.EDIT)
+                    {
+                        if (Search.Text != "") LoadSearchedPasswords();
+                        else LoadAllPasswords();
+                    }
+                }
             }
         }
 
@@ -60,29 +81,6 @@ namespace Vault
         {
             if (Search.Text != "") LoadSearchedPasswords();
             else LoadAllPasswords();
-        }
-
-        public void OnDialogAction(DialogAction action, string actionType)
-        {
-            if (action == DialogAction.ACTION)
-            {
-                switch (actionType)
-                {
-                    case PasswordWindow.DONE:
-                        if (Search.Text != "") LoadSearchedPasswords();
-                        else LoadAllPasswords();
-                        break;
-                    case KeyWindow.CONFIRMED:
-                        new PasswordWindow(this, selectedPassword).ShowDialog();
-                        selectedPassword = null;
-                        break;
-                    case KeyWindow.UNCONFIRMED:
-                        selectedPassword = null;
-                        break;
-                    default:
-                        break;
-                }
-            }
         }
 
         private void LoadSearchedPasswords() => LoadPasswords(VaultDB.Instance.Passwords.GetRecords(Search.Text, Global.Instance.UserID));

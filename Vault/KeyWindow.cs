@@ -11,17 +11,17 @@ namespace Vault
     /// </summary>
     public partial class KeyWindow : Window
     {
-        private readonly IDialogListener listener = null;
         private int attempt = 0;
 
+        public string Result { get; set; } = "";
+
+        public const string NONE = "KeyWindow.NONE";
         public const string CONFIRMED = "KeyWindow.CONFIRMED";
-        public const string UNCONFIRMED = "KeyWindow.UNCONFIRMED";
 
 
-        public KeyWindow(IDialogListener listener)
+        public KeyWindow()
         {
             InitializeComponent();
-            this.listener = listener;
         }
 
         private void ToolbarMouseHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -31,8 +31,8 @@ namespace Vault
 
         private void CloseWindow_Click(object sender, RoutedEventArgs e)
         {
+            Result = NONE;
             Close();
-            listener?.OnDialogAction(DialogAction.ACTION, UNCONFIRMED);
         }
 
         private void Confirm_Click(object sender, RoutedEventArgs e)
@@ -43,14 +43,14 @@ namespace Vault
             }
             else
             {
-                new MessageWindow("Immettere la password!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                _ = new MessageWindow("Immettere la password!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
             }
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
+            Result = NONE;
             Close();
-            listener?.OnDialogAction(DialogAction.ACTION, UNCONFIRMED);
         }
 
         private void CheckPasswordAndConfirm()
@@ -64,12 +64,12 @@ namespace Vault
             byte[] hashPkey = salt.Concat(Encryptor.GenerateKey(pkey, salt)).ToArray();
             if (user.Password.Equals(Encryptor.ConvertToString(hashPkey)))
             {
+                Result = CONFIRMED;
                 Close();
-                listener?.OnDialogAction(DialogAction.ACTION, CONFIRMED);
             }
             else
             {
-                new MessageWindow("Password errata!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                _ = new MessageWindow("Password errata!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
             }
         }
     }

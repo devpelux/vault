@@ -43,7 +43,7 @@ namespace Vault
             }
             else
             {
-                new MessageWindow("Immettere username e password!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                _ = new MessageWindow("Immettere username e password!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
             }
         }
 
@@ -79,7 +79,7 @@ namespace Vault
                 }
             }
 
-            new MessageWindow("Username o password errati!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+            _ = new MessageWindow("Username o password errati!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
         }
     }
 }

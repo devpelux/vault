@@ -128,7 +128,6 @@
       <DependentUpon>PasswordWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\VaultDB.cs" />
-    <Compile Include="IDialogListener.cs" />
     <Compile Include="CustomControls\FullButton.cs" />
     <Compile Include="CustomControls\Switcher.cs" />
     <Compile Include="RegisterWindow.xaml.cs">

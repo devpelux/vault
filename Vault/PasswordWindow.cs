@@ -9,16 +9,17 @@ namespace Vault
     /// </summary>
     public partial class PasswordWindow : Window
     {
-        private readonly IDialogListener listener = null;
         private readonly Password password = null;
 
-        public const string DONE = "PasswordWindow.DONE";
+        public string Result { get; set; } = "";
+
+        public const string NONE = "PasswordWindow.NONE";
+        public const string EDIT = "PasswordWindow.EDIT";
 
 
-        public PasswordWindow(IDialogListener listener, Password password)
+        public PasswordWindow(Password password)
         {
             InitializeComponent();
-            this.listener = listener;
             this.password = password != null ? Core.Password.Decrypt(password, Global.Instance.Key) : null;
         }
 
@@ -29,7 +30,7 @@ namespace Vault
 
         private void CloseWindow_Click(object sender, RoutedEventArgs e)
         {
-            listener?.OnDialogAction(DialogAction.CANCEL);
+            Result = NONE;
             Close();
         }
 
@@ -46,20 +47,23 @@ namespace Vault
                 RequestKey.IsChecked = password.RequestKey;
                 Delete.Visibility = Visibility.Visible;
             }
-            else Delete.Visibility = Visibility.Hidden;
+            else
+            {
+                Delete.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            Result = NONE;
+            Close();
         }
 
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
             if (password == null) AddElement();
             else EditElement();
-            listener?.OnDialogAction(DialogAction.ACTION, DONE);
-            Close();
-        }
-
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            listener?.OnDialogAction(DialogAction.CANCEL);
+            Result = EDIT;
             Close();
         }
 
@@ -95,7 +99,7 @@ namespace Vault
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             VaultDB.Instance.Passwords.RemoveRecord(password.ID);
-            listener?.OnDialogAction(DialogAction.ACTION, DONE);
+            Result = EDIT;
             Close();
         }
     }

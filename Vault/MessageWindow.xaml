@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="Login"
         Height="190"
-        Width="252"
+        Width="272"
         AllowsTransparency="True"
         WindowStyle="None"
         Background="{x:Null}"
@@ -75,9 +75,14 @@
                     </Grid.ColumnDefinitions>
                     <Image x:Name="Image"
                            Grid.Column="0"
+                           Margin="0,0,15,0"
                            HorizontalAlignment="Left"
                            Height="42"
-                           Width="42" Source="Icons/ic_asterisk.png"/>
+                           Width="42"
+                           Source="Icons/ic_asterisk.png"
+                           Stretch="Uniform"
+                           RenderOptions.BitmapScalingMode="Fant"
+                           SnapsToDevicePixels="True"/>
                     <TextBlock x:Name="MessageViewer"
                                Grid.Column="1"
                                VerticalAlignment="Center"
