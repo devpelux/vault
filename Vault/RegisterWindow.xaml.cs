@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 using Vault.Core;
+using Vault.CustomControls;
 using Vault.Properties;
 
 namespace Vault
@@ -26,6 +27,12 @@ namespace Vault
             Close();
         }
 
+        private void Login_Click(object sender, RoutedEventArgs e)
+        {
+            new LoginWindow().Show();
+            Close();
+        }
+
         private void Register_Click(object sender, RoutedEventArgs e)
         {
             if (Username.Text.Length > 0 && Password.GetSecurePassword().Length > 0 && ConfirmPassword.GetSecurePassword().Length > 0)
@@ -44,22 +51,22 @@ namespace Vault
                         }
                         else
                         {
-                            _ = new MessageWindow("Le password non corrispondono!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                            _ = new DialogWindow(new MessageWindow("Le password non corrispondono!", "Errore", MessageBoxImage.Exclamation)).Show();
                         }
                     }
                     else
                     {
-                        _ = new MessageWindow("Username già esistente!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                        _ = new DialogWindow(new MessageWindow("Username già esistente!", "Errore", MessageBoxImage.Exclamation)).Show();
                     }
                 }
                 else
                 {
-                    _ = new MessageWindow("Username non valido!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                    _ = new DialogWindow(new MessageWindow("Username non valido!", "Errore", MessageBoxImage.Exclamation)).Show();
                 }
             }
             else
             {
-                _ = new MessageWindow("Immettere username e password!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                _ = new DialogWindow(new MessageWindow("Immettere username e password!", "Errore", MessageBoxImage.Exclamation)).Show();
             }
         }
 

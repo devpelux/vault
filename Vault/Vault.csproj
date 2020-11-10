@@ -104,16 +104,24 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\Global.cs" />
+    <Compile Include="Core\Card.cs" />
+    <Compile Include="Core\Note.cs" />
     <Compile Include="Core\Password.cs" />
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\ITable.cs" />
+    <Compile Include="Core\Notes.cs" />
+    <Compile Include="Core\Cards.cs" />
     <Compile Include="Core\Passwords.cs" />
     <Compile Include="Core\User.cs" />
     <Compile Include="Core\Users.cs" />
     <Compile Include="Core\VaultDBContext.cs" />
+    <Compile Include="CustomControls\DialogWindow.cs" />
+    <Compile Include="CustomControls\IDialogWindow.cs" />
+    <Compile Include="CustomControls\NotePreview.cs" />
+    <Compile Include="CustomControls\CardPreview.cs" />
     <Compile Include="CustomControls\WindowClipConverter.cs" />
     <Compile Include="CustomControls\IconedPasswordBox.cs" />
-    <Compile Include="CustomControls\ItemElementPreview.cs" />
+    <Compile Include="CustomControls\PasswordPreview.cs" />
     <Compile Include="Core\Encryptor.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
@@ -169,6 +177,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\CardPreview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\NotePreview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\TransparentBarsScrollViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -177,7 +193,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\ItemElementPreview.xaml">
+    <Page Include="Styles\PasswordPreview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

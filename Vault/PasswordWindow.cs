@@ -1,17 +1,18 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using Vault.Core;
+using Vault.CustomControls;
 
 namespace Vault
 {
     /// <summary>
     /// Finestra per la modifica delle password memorizzate.
     /// </summary>
-    public partial class PasswordWindow : Window
+    public partial class PasswordWindow : Window, IDialogWindow
     {
         private readonly Password password = null;
 
-        public string Result { get; set; } = "";
+        private string Result = "";
 
         public const string NONE = "PasswordWindow.NONE";
         public const string EDIT = "PasswordWindow.EDIT";
@@ -20,8 +21,10 @@ namespace Vault
         public PasswordWindow(Password password)
         {
             InitializeComponent();
-            this.password = password != null ? Core.Password.Decrypt(password, Global.Instance.Key) : null;
+            this.password = password != null ? Passwords.Decrypt(password, Global.Instance.Key) : null;
         }
+
+        public string GetResult() => Result;
 
         private void ToolbarMouseHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -79,7 +82,7 @@ namespace Vault
             password.Details = Details.Text;
             password.Note = Note.Text;
             password.RequestKey = RequestKey.IsChecked ?? false;
-            VaultDB.Instance.Passwords.AddRecord(Core.Password.Encrypt(password, Global.Instance.Key));
+            VaultDB.Instance.Passwords.AddRecord(Passwords.Encrypt(password, Global.Instance.Key));
         }
 
         private void EditElement()
@@ -93,7 +96,7 @@ namespace Vault
             password.Details = Details.Text;
             password.Note = Note.Text;
             password.RequestKey = RequestKey.IsChecked ?? false;
-            VaultDB.Instance.Passwords.UpdateRecord(Core.Password.Encrypt(password, Global.Instance.Key));
+            VaultDB.Instance.Passwords.UpdateRecord(Passwords.Encrypt(password, Global.Instance.Key));
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)

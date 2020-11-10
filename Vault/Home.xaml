@@ -97,14 +97,14 @@
                     <TextBlock Text="PASSWORD" FontSize="20" Foreground="White"
                            HorizontalAlignment="Left" VerticalAlignment="Top"
                            Margin="10,10,0,0"/>
-                    <cust:FullButton x:Name="NewElement"
+                    <cust:FullButton x:Name="NewPassword"
                                  Content="Aggiungi"
                                  HorizontalAlignment="Left"
                                  Margin="380,51,0,0"
                                  VerticalAlignment="Top"
                                  Width="70"
                                  Height="41"
-                                 Click="NewElement_Click"/>
+                                 Click="NewPassword_Click"/>
                     <Border HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             Margin="10,51,0,0"
@@ -115,16 +115,16 @@
                         <ScrollViewer Margin="1,6,1,6"
                                       Padding="5,0,1,0"
                                       Style="{DynamicResource TransparentBarsScrollViewerStyle}">
-                            <ItemsControl x:Name="ListElements">
+                            <ItemsControl x:Name="PasswordList">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Grid Margin="0,0,0,4">
-                                            <cust:ItemElementPreview
+                                            <cust:PasswordPreview
                                                 ID="{Binding ID}"
                                                 Title="{Binding Title}"
                                                 Category="{Binding Category}"
                                                 Details="{Binding Details}"
-                                                MouseLeftButtonDown="ElementPreviewMouseLeftButtonDown"/>
+                                                MouseLeftButtonDown="PasswordPreviewMouseLeftButtonDown"/>
                                         </Grid>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
@@ -136,11 +136,79 @@
                     <TextBlock Text="CARTE" FontSize="20" Foreground="White"
                            HorizontalAlignment="Left" VerticalAlignment="Top"
                            Margin="10,10,0,0"/>
+                    <cust:FullButton x:Name="NewCard"
+                                 Content="Aggiungi"
+                                 HorizontalAlignment="Left"
+                                 Margin="380,51,0,0"
+                                 VerticalAlignment="Top"
+                                 Width="70"
+                                 Height="41"
+                                 Click="NewCard_Click"/>
+                    <Border HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Margin="10,51,0,0"
+                            Height="348"
+                            Width="363"
+                            BorderBrush="#FF404040"
+                            BorderThickness="1">
+                        <ScrollViewer Margin="1,6,1,6"
+                                      Padding="5,0,1,0"
+                                      Style="{DynamicResource TransparentBarsScrollViewerStyle}">
+                            <ItemsControl x:Name="CardList">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,0,0,4">
+                                            <cust:CardPreview
+                                                ID="{Binding ID}"
+                                                Title="{Binding Title}"
+                                                Category="{Binding Category}"
+                                                Details="{Binding Details}"
+                                                MouseLeftButtonDown="CardPreviewMouseLeftButtonDown"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
                 </Grid>
                 <Grid x:Name="NoteSection" Visibility="Collapsed">
                     <TextBlock Text="NOTE" FontSize="20" Foreground="White"
                            HorizontalAlignment="Left" VerticalAlignment="Top"
                            Margin="10,10,0,0"/>
+                    <cust:FullButton x:Name="NewNote"
+                                 Content="Aggiungi"
+                                 HorizontalAlignment="Left"
+                                 Margin="380,51,0,0"
+                                 VerticalAlignment="Top"
+                                 Width="70"
+                                 Height="41"
+                                 Click="NewNote_Click"/>
+                    <Border HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Margin="10,51,0,0"
+                            Height="348"
+                            Width="363"
+                            BorderBrush="#FF404040"
+                            BorderThickness="1">
+                        <ScrollViewer Margin="1,6,1,6"
+                                      Padding="5,0,1,0"
+                                      Style="{DynamicResource TransparentBarsScrollViewerStyle}">
+                            <ItemsControl x:Name="NoteList">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,0,0,4">
+                                            <cust:NotePreview
+                                                ID="{Binding ID}"
+                                                Title="{Binding Title}"
+                                                Category="{Binding Category}"
+                                                Details="{Binding Details}"
+                                                MouseLeftButtonDown="NotePreviewMouseLeftButtonDown"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
                 </Grid>
                 <cust:IconedTextBox x:Name="Search"
                                     HorizontalAlignment="Left"

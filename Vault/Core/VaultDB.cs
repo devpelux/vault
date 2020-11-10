@@ -34,8 +34,10 @@ namespace Vault.Core
 
         public SqliteConnection Connection { get; private set; } = null;
 
-        public Passwords Passwords { get; private set; } = null;
         public Users Users { get; private set; } = null;
+        public Passwords Passwords { get; private set; } = null;
+        public Cards Cards { get; private set; } = null;
+        public Notes Notes { get; private set; } = null;
 
 
         private VaultDB()
@@ -45,8 +47,10 @@ namespace Vault.Core
 
         private void LoadVault()
         {
-            Passwords = new Passwords(this);
             Users = new Users(this);
+            Passwords = new Passwords(this);
+            Cards = new Cards(this);
+            Notes = new Notes(this);
             CloseConnection();
             OpenConnection();
             UpdateDatabase(VERSION, GetVersion());
@@ -75,8 +79,10 @@ namespace Vault.Core
         {
             if (newVersion > oldVersion)
             {
-                Passwords.UpdateTable(newVersion, oldVersion);
                 Users.UpdateTable(newVersion, oldVersion);
+                Passwords.UpdateTable(newVersion, oldVersion);
+                Cards.UpdateTable(newVersion, oldVersion);
+                Notes.UpdateTable(newVersion, oldVersion);
                 SetVersion(newVersion);
             }
             else if (newVersion < oldVersion)

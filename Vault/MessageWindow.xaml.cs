@@ -3,18 +3,19 @@ using System.Media;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using Vault.CustomControls;
 
 namespace Vault
 {
     /// <summary>
     /// Finestra di messaggio.
     /// </summary>
-    public partial class MessageWindow : Window
+    public partial class MessageWindow : Window, IDialogWindow
     {
         private string Message { get; set; }
         private MessageBoxImage IconType { get; set; }
 
-        public string Result { get; set; } = "";
+        private string Result = "";
 
         public const string NONE = "MessageWindow.NONE";
         public const string OK = "MessageWindow.OK";
@@ -33,6 +34,8 @@ namespace Vault
             IconType = iconType;
             Title = title;
         }
+
+        public string GetResult() => Result;
 
         private void ToolbarMouseHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

@@ -4,29 +4,26 @@ using System.Collections.Generic;
 
 namespace Vault.Core
 {
-    public class Passwords : ITable
+    public class Notes : ITable
     {
         private readonly VaultDB VaultDB;
-
+        
         public const int NewID = -1;
         public const int InvalidID = -1;
 
 
-        public Passwords(VaultDB vaultDB) => VaultDB = vaultDB;
+        public Notes(VaultDB vaultDB) => VaultDB = vaultDB;
 
         public void CreateTable()
         {
-            string command = "CREATE TABLE IF NOT EXISTS Passwords (" +
+            string command = "CREATE TABLE IF NOT EXISTS Notes (" +
                                         "ID INTEGER NOT NULL UNIQUE, " +
                                         "UserID INTEGER NOT NULL, " +
                                         "Title TEXT NOT NULL, " +
                                         "Category TEXT NOT NULL, " +
                                         "Details TEXT NOT NULL, " +
                                         "RequestKey INTEGER NOT NULL, " +
-                                        "Website TEXT NOT NULL, " +
-                                        "Username TEXT NOT NULL, " +
-                                        "Key TEXT NOT NULL, " +
-                                        "Note TEXT NOT NULL, " +
+                                        "Text TEXT NOT NULL, " +
                                         "PRIMARY KEY(ID AUTOINCREMENT), " +
                                         "FOREIGN KEY(UserID) REFERENCES Users(ID)" +
                                         ");";
@@ -37,7 +34,7 @@ namespace Vault.Core
 
         public void DeleteTable()
         {
-            string command = "DROP TABLE IF EXISTS Passwords;";
+            string command = "DROP TABLE IF EXISTS Notes;";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Prepare();
             query.ExecuteNonQuery();
@@ -51,37 +48,34 @@ namespace Vault.Core
             }
         }
 
-        public void AddRecord(Password record)
+        public void AddRecord(Note record)
         {
-            string command = "INSERT INTO Passwords (UserID, Title, Category, Details, RequestKey, Website, Username, Key, Note) " +
-                                    "VALUES (@UserID, @Title, @Category, @Details, @RequestKey, @Website, @Username, @Key, @Note);";
+            string command = "INSERT INTO Notes (UserID, Title, Category, Details, RequestKey, Text) " +
+                                    "VALUES (@UserID, @Title, @Category, @Details, @RequestKey, @Text);";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@UserID", record.UserID);
             query.Parameters.AddWithValue("@Title", record.Title);
             query.Parameters.AddWithValue("@Category", record.Category);
             query.Parameters.AddWithValue("@Details", record.Details);
             query.Parameters.AddWithValue("@RequestKey", record.RequestKey ? 1 : 0);
-            query.Parameters.AddWithValue("@Website", record.Website);
-            query.Parameters.AddWithValue("@Username", record.Username);
-            query.Parameters.AddWithValue("@Key", record.Key);
-            query.Parameters.AddWithValue("@Note", record.Note);
+            query.Parameters.AddWithValue("@Text", record.Text);
             query.Prepare();
             query.ExecuteNonQuery();
         }
 
         public void RemoveRecord(int id)
         {
-            string command = "DELETE FROM Passwords WHERE ID = @ID;";
+            string command = "DELETE FROM Notes WHERE ID = @ID;";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@ID", id);
             query.Prepare();
             query.ExecuteNonQuery();
         }
 
-        public List<Password> GetAllRecords()
+        public List<Note> GetAllRecords()
         {
-            List<Password> records = new List<Password>();
-            string command = "SELECT * FROM Passwords";
+            List<Note> records = new List<Note>();
+            string command = "SELECT * FROM Notes";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
@@ -89,9 +83,9 @@ namespace Vault.Core
             return records;
         }
 
-        public Password GetRecord(int id)
+        public Note GetRecord(int id)
         {
-            string command = "SELECT * FROM Passwords WHERE ID = @ID;";
+            string command = "SELECT * FROM Notes WHERE ID = @ID;";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@ID", id);
             query.Prepare();
@@ -100,21 +94,18 @@ namespace Vault.Core
             return null;
         }
 
-        public List<Password> GetRecords(int userId)
+        public List<Note> GetRecords(int userId)
         {
-            List<Password> records = new List<Password>();
-            string command = "SELECT Passwords.ID, " +
-                                    "Passwords.UserID, " +
-                                    "Passwords.Title, " +
-                                    "Passwords.Category, " +
-                                    "Passwords.Details, " +
-                                    "Passwords.RequestKey, " +
-                                    "Passwords.Website, " +
-                                    "Passwords.Username, " +
-                                    "Passwords.Key, " +
-                                    "Passwords.Note " +
-                                    "FROM Passwords " +
-                                    "JOIN Users ON Passwords.UserID = Users.ID " +
+            List<Note> records = new List<Note>();
+            string command = "SELECT Notes.ID, " +
+                                    "Notes.UserID, " +
+                                    "Notes.Title, " +
+                                    "Notes.Category, " +
+                                    "Notes.Details, " +
+                                    "Notes.RequestKey, " +
+                                    "Notes.Text " +
+                                    "FROM Notes " +
+                                    "JOIN Users ON Notes.UserID = Users.ID " +
                                     "WHERE Users.ID = @UserID;";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@UserID", userId);
@@ -124,10 +115,10 @@ namespace Vault.Core
             return records;
         }
 
-        public List<Password> GetRecords(string title)
+        public List<Note> GetRecords(string title)
         {
-            List<Password> records = new List<Password>();
-            string command = "SELECT * FROM Passwords WHERE Title LIKE @Title;";
+            List<Note> records = new List<Note>();
+            string command = "SELECT * FROM Notes WHERE Title LIKE @Title;";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@Title", $"%{title}%");
             query.Prepare();
@@ -136,22 +127,19 @@ namespace Vault.Core
             return records;
         }
 
-        public List<Password> GetRecords(string title, int userId)
+        public List<Note> GetRecords(string title, int userId)
         {
-            List<Password> records = new List<Password>();
-            string command = "SELECT Passwords.ID, " +
-                                    "Passwords.UserID, " +
-                                    "Passwords.Title, " +
-                                    "Passwords.Category, " +
-                                    "Passwords.Details, " +
-                                    "Passwords.RequestKey, " +
-                                    "Passwords.Website, " +
-                                    "Passwords.Username, " +
-                                    "Passwords.Key, " +
-                                    "Passwords.Note " +
-                                    "FROM Passwords " +
-                                    "JOIN Users ON Passwords.UserID = Users.ID " +
-                                    "WHERE Users.ID = @UserID AND Passwords.Title LIKE @Title;";
+            List<Note> records = new List<Note>();
+            string command = "SELECT Notes.ID, " +
+                                    "Notes.UserID, " +
+                                    "Notes.Title, " +
+                                    "Notes.Category, " +
+                                    "Notes.Details, " +
+                                    "Notes.RequestKey, " +
+                                    "Notes.Text " +
+                                    "FROM Notes " +
+                                    "JOIN Users ON Notes.UserID = Users.ID " +
+                                    "WHERE Users.ID = @UserID AND Notes.Title LIKE @Title;";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@UserID", userId);
             query.Parameters.AddWithValue("@Title", $"%{title}%");
@@ -161,18 +149,15 @@ namespace Vault.Core
             return records;
         }
 
-        public void UpdateRecord(Password record)
+        public void UpdateRecord(Note record)
         {
-            string command = "UPDATE Passwords " +
+            string command = "UPDATE Notes " +
                                     "SET UserID = @UserID, " +
                                         "Title = @Title, " +
                                         "Category = @Category, " +
                                         "Details = @Details, " +
                                         "RequestKey = @RequestKey, " +
-                                        "Website = @Website, " +
-                                        "Username = @Username, " +
-                                        "Key = @Key, " +
-                                        "Note = @Note " +
+                                        "Text = @Text " +
                                     "WHERE ID = @ID;";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@ID", record.ID);
@@ -181,17 +166,14 @@ namespace Vault.Core
             query.Parameters.AddWithValue("@Category", record.Category);
             query.Parameters.AddWithValue("@Details", record.Details);
             query.Parameters.AddWithValue("@RequestKey", record.RequestKey ? 1 : 0);
-            query.Parameters.AddWithValue("@Website", record.Website);
-            query.Parameters.AddWithValue("@Username", record.Username);
-            query.Parameters.AddWithValue("@Key", record.Key);
-            query.Parameters.AddWithValue("@Note", record.Note);
+            query.Parameters.AddWithValue("@Text", record.Text);
             query.Prepare();
             query.ExecuteNonQuery();
         }
 
         public bool Exists(int id)
         {
-            string command = "SELECT COUNT(*) FROM Passwords WHERE ID = @ID;";
+            string command = "SELECT COUNT(*) FROM Notes WHERE ID = @ID;";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@ID", id);
             query.Prepare();
@@ -200,15 +182,15 @@ namespace Vault.Core
 
         public int Count()
         {
-            string command = "SELECT COUNT(*) FROM Passwords;";
+            string command = "SELECT COUNT(*) FROM Notes;";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Prepare();
             return Convert.ToInt32(query.ExecuteScalar());
         }
 
-        private Password ReadElementFromReader(SqliteDataReader reader)
+        private Note ReadElementFromReader(SqliteDataReader reader)
         {
-            return new Password
+            return new Note
             {
                 ID = reader.GetInt32(0),
                 UserID = reader.GetInt32(1),
@@ -216,50 +198,41 @@ namespace Vault.Core
                 Category = reader.GetString(3),
                 Details = reader.GetString(4),
                 RequestKey = reader.GetInt32(5) == 1,
-                Website = reader.GetString(6),
-                Username = reader.GetString(7),
-                Key = reader.GetString(8),
-                Note = reader.GetString(9)
+                Text = reader.GetString(6)
             };
         }
 
-        public static Password Encrypt(Password password, byte[] key)
+        public static Note Encrypt(Note note, byte[] key)
         {
-            if (password != null)
+            if (note != null)
             {
-                return new Password
+                return new Note
                 {
-                    ID = password.ID,
-                    UserID = password.UserID,
-                    Title = password.Title,
-                    Category = password.Category,
-                    Details = password.Details,
-                    RequestKey = password.RequestKey,
-                    Website = password.Website,
-                    Username = Encryptor.Encrypt(password.Username, key),
-                    Key = Encryptor.Encrypt(password.Key, key),
-                    Note = Encryptor.Encrypt(password.Note, key)
+                    ID = note.ID,
+                    UserID = note.UserID,
+                    Title = note.Title,
+                    Category = note.Category,
+                    Details = note.Details,
+                    RequestKey = note.RequestKey,
+                    Text = Encryptor.Encrypt(note.Text, key)
                 };
             }
             return null;
         }
 
-        public static Password Decrypt(Password encryptedPassword, byte[] key)
+        public static Note Decrypt(Note encryptedNote, byte[] key)
         {
-            if (encryptedPassword != null)
+            if (encryptedNote != null)
             {
-                return new Password
+                return new Note
                 {
-                    ID = encryptedPassword.ID,
-                    UserID = encryptedPassword.UserID,
-                    Title = encryptedPassword.Title,
-                    Category = encryptedPassword.Category,
-                    Details = encryptedPassword.Details,
-                    RequestKey = encryptedPassword.RequestKey,
-                    Website = encryptedPassword.Website,
-                    Username = Encryptor.Decrypt(encryptedPassword.Username, key),
-                    Key = Encryptor.Decrypt(encryptedPassword.Key, key),
-                    Note = Encryptor.Decrypt(encryptedPassword.Note, key)
+                    ID = encryptedNote.ID,
+                    UserID = encryptedNote.UserID,
+                    Title = encryptedNote.Title,
+                    Category = encryptedNote.Category,
+                    Details = encryptedNote.Details,
+                    RequestKey = encryptedNote.RequestKey,
+                    Text = Encryptor.Decrypt(encryptedNote.Text, key)
                 };
             }
             return null;

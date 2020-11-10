@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Vault"
         xmlns:cust="clr-namespace:Vault.CustomControls"
         mc:Ignorable="d"
-        Title="Login"
+        Title="Register"
         Height="298"
         Width="302"
         AllowsTransparency="True"
@@ -93,13 +93,24 @@
                           Margin="54,165,0,0"
                           Content="Ricorda username"
                           Foreground="White"/>
-                <cust:FullButton x:Name="Register"
-                                 Content="REGISTRATI"
-                                 Margin="0,205,0,0"
-                                 VerticalAlignment="Top"
-                                 Width="80"
-                                 Height="34"
-                                 Click="Register_Click"/>
+                <Grid x:Name="Buttons"
+                      Width="160"
+                      Height="34"
+                      VerticalAlignment="Top"
+                      Margin="0,205,0,0">
+                    <cust:FullButton x:Name="Register"
+                                     Content="REGISTRATI"
+                                     HorizontalAlignment="Left"
+                                     Width="80"
+                                     Height="34"
+                                     Click="Register_Click"/>
+                    <cust:FullButton x:Name="Login"
+                                     Content="LOGIN"
+                                     HorizontalAlignment="Right"
+                                     Width="55"
+                                     Height="34"
+                                     Click="Login_Click"/>
+                </Grid>
             </Grid>
         </Grid>
     </Border>

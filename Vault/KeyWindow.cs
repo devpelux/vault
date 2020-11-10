@@ -3,17 +3,18 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using Vault.Core;
+using Vault.CustomControls;
 
 namespace Vault
 {
     /// <summary>
     /// Finestra di conferma password.
     /// </summary>
-    public partial class KeyWindow : Window
+    public partial class KeyWindow : Window, IDialogWindow
     {
         private int attempt = 0;
 
-        public string Result { get; set; } = "";
+        private string Result = "";
 
         public const string NONE = "KeyWindow.NONE";
         public const string CONFIRMED = "KeyWindow.CONFIRMED";
@@ -23,6 +24,8 @@ namespace Vault
         {
             InitializeComponent();
         }
+
+        public string GetResult() => Result;
 
         private void ToolbarMouseHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -43,7 +46,7 @@ namespace Vault
             }
             else
             {
-                _ = new MessageWindow("Immettere la password!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                _ = new DialogWindow(new MessageWindow("Immettere la password!", "Errore", MessageBoxImage.Exclamation)).Show();
             }
         }
 
@@ -69,7 +72,7 @@ namespace Vault
             }
             else
             {
-                _ = new MessageWindow("Password errata!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                _ = new DialogWindow(new MessageWindow("Password errata!", "Errore", MessageBoxImage.Exclamation)).Show();
             }
         }
     }

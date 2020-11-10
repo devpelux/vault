@@ -3,7 +3,7 @@
         <ResourceDictionary Source="/Vault;component/Styles/FullButton.xaml"/>
         <ResourceDictionary Source="/Vault;component/Styles/IconedPasswordBox.xaml"/>
         <ResourceDictionary Source="/Vault;component/Styles/IconedTextBox.xaml"/>
-        <ResourceDictionary Source="/Vault;component/Styles/ItemElementPreview.xaml"/>
+        <ResourceDictionary Source="/Vault;component/Styles/PasswordPreview.xaml"/>
         <ResourceDictionary Source="/Vault;component/Styles/Switcher.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

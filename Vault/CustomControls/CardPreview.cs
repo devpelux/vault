@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace Vault.CustomControls
 {
-    public class ItemElementPreview : Control
+    public class CardPreview : Control
     {
         public Brush BackgroundOnMouseOver
         {
@@ -14,7 +14,7 @@ namespace Vault.CustomControls
         }
 
         public static readonly DependencyProperty BackgroundOnMouseOverProperty =
-            DependencyProperty.Register(nameof(BackgroundOnMouseOver), typeof(Brush), typeof(ItemElementPreview));
+            DependencyProperty.Register(nameof(BackgroundOnMouseOver), typeof(Brush), typeof(CardPreview));
 
         public Brush BorderBrushOnMouseOver
         {
@@ -23,7 +23,7 @@ namespace Vault.CustomControls
         }
 
         public static readonly DependencyProperty BorderBrushOnMouseOverProperty =
-            DependencyProperty.Register(nameof(BorderBrushOnMouseOver), typeof(Brush), typeof(ItemElementPreview));
+            DependencyProperty.Register(nameof(BorderBrushOnMouseOver), typeof(Brush), typeof(CardPreview));
 
         public int ID
         {
@@ -32,7 +32,7 @@ namespace Vault.CustomControls
         }
 
         public static readonly DependencyProperty IDProperty =
-            DependencyProperty.Register(nameof(ID), typeof(int), typeof(ItemElementPreview), new PropertyMetadata(-1));
+            DependencyProperty.Register(nameof(ID), typeof(int), typeof(CardPreview), new PropertyMetadata(-1));
 
         public string Title
         {
@@ -41,7 +41,7 @@ namespace Vault.CustomControls
         }
 
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register(nameof(Title), typeof(string), typeof(ItemElementPreview));
+            DependencyProperty.Register(nameof(Title), typeof(string), typeof(CardPreview));
 
         public string Category
         {
@@ -50,7 +50,7 @@ namespace Vault.CustomControls
         }
 
         public static readonly DependencyProperty CategoryProperty =
-            DependencyProperty.Register(nameof(Category), typeof(string), typeof(ItemElementPreview));
+            DependencyProperty.Register(nameof(Category), typeof(string), typeof(CardPreview));
 
         public string Details
         {
@@ -59,7 +59,7 @@ namespace Vault.CustomControls
         }
 
         public static readonly DependencyProperty DetailsProperty =
-            DependencyProperty.Register(nameof(Details), typeof(string), typeof(ItemElementPreview));
+            DependencyProperty.Register(nameof(Details), typeof(string), typeof(CardPreview));
 
         public CornerRadius CornerRadius
         {
@@ -68,7 +68,7 @@ namespace Vault.CustomControls
         }
 
         public static readonly DependencyProperty CornerRadiusProperty =
-            DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(ItemElementPreview));
+            DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(CardPreview));
 
         public Brush TitleForeground
         {
@@ -77,7 +77,7 @@ namespace Vault.CustomControls
         }
 
         public static readonly DependencyProperty TitleForegroundProperty =
-            DependencyProperty.Register(nameof(TitleForeground), typeof(Brush), typeof(ItemElementPreview));
+            DependencyProperty.Register(nameof(TitleForeground), typeof(Brush), typeof(CardPreview));
 
         public Brush CategoryForeground
         {
@@ -86,7 +86,7 @@ namespace Vault.CustomControls
         }
 
         public static readonly DependencyProperty CategoryForegroundProperty =
-            DependencyProperty.Register(nameof(CategoryForeground), typeof(Brush), typeof(ItemElementPreview));
+            DependencyProperty.Register(nameof(CategoryForeground), typeof(Brush), typeof(CardPreview));
 
         public Brush DetailsForeground
         {
@@ -95,7 +95,7 @@ namespace Vault.CustomControls
         }
 
         public static readonly DependencyProperty DetailsForegroundProperty =
-            DependencyProperty.Register(nameof(DetailsForeground), typeof(Brush), typeof(ItemElementPreview));
+            DependencyProperty.Register(nameof(DetailsForeground), typeof(Brush), typeof(CardPreview));
 
         public double TitleFontSize
         {
@@ -104,7 +104,7 @@ namespace Vault.CustomControls
         }
 
         public static readonly DependencyProperty TitleFontSizeProperty =
-            DependencyProperty.Register(nameof(TitleFontSize), typeof(double), typeof(ItemElementPreview));
+            DependencyProperty.Register(nameof(TitleFontSize), typeof(double), typeof(CardPreview));
 
         public double CategoryFontSize
         {
@@ -113,7 +113,7 @@ namespace Vault.CustomControls
         }
 
         public static readonly DependencyProperty CategoryFontSizeProperty =
-            DependencyProperty.Register(nameof(CategoryFontSize), typeof(double), typeof(ItemElementPreview));
+            DependencyProperty.Register(nameof(CategoryFontSize), typeof(double), typeof(CardPreview));
 
         public double DetailsFontSize
         {
@@ -122,12 +122,12 @@ namespace Vault.CustomControls
         }
 
         public static readonly DependencyProperty DetailsFontSizeProperty =
-            DependencyProperty.Register(nameof(DetailsFontSize), typeof(double), typeof(ItemElementPreview));
+            DependencyProperty.Register(nameof(DetailsFontSize), typeof(double), typeof(CardPreview));
 
 
-        static ItemElementPreview()
+        static CardPreview()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ItemElementPreview), new FrameworkPropertyMetadata(typeof(ItemElementPreview)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(CardPreview), new FrameworkPropertyMetadata(typeof(CardPreview)));
         }
 
         protected override void OnMouseEnter(MouseEventArgs e)

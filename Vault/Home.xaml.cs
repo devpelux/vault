@@ -36,25 +36,31 @@ namespace Vault
             LoadAllPasswords();
         }
 
-        private void NewElement_Click(object sender, RoutedEventArgs e)
+        private void NewPassword_Click(object sender, RoutedEventArgs e)
         {
-            PasswordWindow passwordWindow = new PasswordWindow(null);
-            _ = passwordWindow.ShowDialog();
-            if (passwordWindow.Result == PasswordWindow.EDIT)
+            if (new DialogWindow(new PasswordWindow(null)).Show() == PasswordWindow.EDIT)
             {
                 if (Search.Text != "") LoadSearchedPasswords();
                 else LoadAllPasswords();
             }
         }
 
-        private void ElementPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void NewCard_Click(object sender, RoutedEventArgs e)
         {
-            Password selectedPassword = VaultDB.Instance.Passwords.GetRecord(((ItemElementPreview)sender).ID);
+
+        }
+
+        private void NewNote_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PasswordPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Password selectedPassword = VaultDB.Instance.Passwords.GetRecord(((PasswordPreview)sender).ID);
             if (!selectedPassword.RequestKey)
             {
-                PasswordWindow passwordWindow = new PasswordWindow(selectedPassword);
-                _ = passwordWindow.ShowDialog();
-                if (passwordWindow.Result == PasswordWindow.EDIT)
+                if (new DialogWindow(new PasswordWindow(selectedPassword)).Show() == PasswordWindow.EDIT)
                 {
                     if (Search.Text != "") LoadSearchedPasswords();
                     else LoadAllPasswords();
@@ -62,19 +68,25 @@ namespace Vault
             }
             else
             {
-                KeyWindow keyWindow = new KeyWindow();
-                _ = keyWindow.ShowDialog();
-                if (keyWindow.Result == KeyWindow.CONFIRMED)
+                if (new DialogWindow(new KeyWindow()).Show() == KeyWindow.CONFIRMED)
                 {
-                    PasswordWindow passwordWindow = new PasswordWindow(selectedPassword);
-                    _ = passwordWindow.ShowDialog();
-                    if (passwordWindow.Result == PasswordWindow.EDIT)
+                    if (new DialogWindow(new PasswordWindow(selectedPassword)).Show() == PasswordWindow.EDIT)
                     {
                         if (Search.Text != "") LoadSearchedPasswords();
                         else LoadAllPasswords();
                     }
                 }
             }
+        }
+
+        private void CardPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void NotePreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
         }
 
         private void Search_TextChanged(object sender, TextChangedEventArgs e)
@@ -87,7 +99,7 @@ namespace Vault
 
         private void LoadAllPasswords() => LoadPasswords(VaultDB.Instance.Passwords.GetRecords(Global.Instance.UserID));
 
-        private void LoadPasswords(List<Password> elements) => ListElements.ItemsSource = elements;
+        private void LoadPasswords(List<Password> elements) => PasswordList.ItemsSource = elements;
 
         #region Switcher
 

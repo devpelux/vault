@@ -3,6 +3,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using Vault.Core;
+using Vault.CustomControls;
 using Vault.Properties;
 
 namespace Vault
@@ -43,7 +44,7 @@ namespace Vault
             }
             else
             {
-                _ = new MessageWindow("Immettere username e password!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                _ = new DialogWindow(new MessageWindow("Immettere username e password!", "Errore", MessageBoxImage.Exclamation)).Show();
             }
         }
 
@@ -79,7 +80,7 @@ namespace Vault
                 }
             }
 
-            _ = new MessageWindow("Username o password errati!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+            _ = new DialogWindow(new MessageWindow("Username o password errati!", "Errore", MessageBoxImage.Exclamation)).Show();
         }
     }
 }
