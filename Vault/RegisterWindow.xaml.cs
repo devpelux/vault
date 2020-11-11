@@ -78,12 +78,7 @@ namespace Vault
             byte[] hashPkey = salt.Concat(Encryptor.GenerateKey(pkey, salt)).ToArray();
             string cipherKey = Encryptor.Encrypt(key, pkey);
 
-            VaultDB.Instance.Users.AddRecord(new User
-            {
-                Username = Username.Text,
-                Password = Encryptor.ConvertToString(hashPkey),
-                Key = cipherKey
-            });
+            VaultDB.Instance.Users.AddRecord(new User(Users.NewID, Username.Text, Encryptor.ConvertToString(hashPkey), cipherKey));
 
             Global.Instance.UserID = VaultDB.Instance.Users.GetRecord(Username.Text).ID;
             Global.Instance.Username = Username.Text;

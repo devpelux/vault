@@ -10,7 +10,7 @@ namespace Vault
     /// </summary>
     public partial class PasswordWindow : Window, IDialogWindow
     {
-        private readonly Password password = null;
+        private readonly Password password;
 
         private string Result = "";
 
@@ -41,13 +41,13 @@ namespace Vault
         {
             if (password != null)
             {
-                Label.Text = password.Title;
-                Website.Text = password.Website;
-                Password.SetPassword(password.Key);
-                Username.Text = password.Username;
-                Details.Text = password.Details;
-                Note.Text = password.Note;
-                RequestKey.IsChecked = password.RequestKey;
+                PasswordName.Text = password.Name;
+                PasswordDescription.Text = password.Description;
+                PasswordRequestKey.IsChecked = password.RequestKey;
+                PasswordWebsite.Text = password.Website;
+                PasswordUsername.Text = password.Username;
+                PasswordKey.SetPassword(password.Key);
+                PasswordNote.Text = password.Note;
                 Delete.Visibility = Visibility.Visible;
             }
             else
@@ -72,31 +72,36 @@ namespace Vault
 
         private void AddElement()
         {
-            Password password = new Password();
-            password.UserID = Global.Instance.UserID;
-            password.Title = Label.Text;
-            password.Category = "Generic";
-            password.Website = Website.Text;
-            password.Username = Username.Text;
-            password.Key = Password.GetPassword();
-            password.Details = Details.Text;
-            password.Note = Note.Text;
-            password.RequestKey = RequestKey.IsChecked ?? false;
+            Password password = new Password
+                (
+                    Passwords.NewID,
+                    Global.Instance.UserID,
+                    PasswordName.Text,
+                    "Generic",
+                    PasswordDescription.Text,
+                    PasswordRequestKey.IsChecked ?? false,
+                    PasswordWebsite.Text,
+                    PasswordUsername.Text,
+                    PasswordKey.GetPassword(),
+                    PasswordNote.Text
+                );
             VaultDB.Instance.Passwords.AddRecord(Passwords.Encrypt(password, Global.Instance.Key));
         }
 
         private void EditElement()
         {
-            password.UserID = Global.Instance.UserID;
-            password.Title = Label.Text;
-            password.Category = "Generic";
-            password.Website = Website.Text;
-            password.Username = Username.Text;
-            password.Key = Password.GetPassword();
-            password.Details = Details.Text;
-            password.Note = Note.Text;
-            password.RequestKey = RequestKey.IsChecked ?? false;
-            VaultDB.Instance.Passwords.UpdateRecord(Passwords.Encrypt(password, Global.Instance.Key));
+            Password editedPassword = password with
+            {
+                Name = PasswordName.Text,
+                Category = "Generic",
+                Description = PasswordDescription.Text,
+                RequestKey = PasswordRequestKey.IsChecked ?? false,
+                Website = PasswordWebsite.Text,
+                Username = PasswordUsername.Text,
+                Key = PasswordKey.GetPassword(),
+                Note = PasswordNote.Text
+            };
+            VaultDB.Instance.Passwords.UpdateRecord(Passwords.Encrypt(editedPassword, Global.Instance.Key));
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)

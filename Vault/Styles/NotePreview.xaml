@@ -9,16 +9,16 @@
         <Setter Property="BorderBrushOnMouseOver" Value="#FF575759"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="TitleForeground" Value="WhiteSmoke"/>
-        <Setter Property="DetailsForeground" Value="Gray"/>
+        <Setter Property="DescriptionForeground" Value="Gray"/>
         <Setter Property="CategoryForeground" Value="White"/>
         <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="Title" Value="Title"/>
-        <Setter Property="Details" Value="Details"/>
+        <Setter Property="Description" Value="Description"/>
         <Setter Property="Category" Value="CAT"/>
         <Setter Property="Height" Value="80"/>
         <Setter Property="TitleFontSize" Value="24"/>
         <Setter Property="CategoryFontSize" Value="12"/>
-        <Setter Property="DetailsFontSize" Value="10"/>
+        <Setter Property="DescriptionFontSize" Value="10"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -67,13 +67,13 @@
                                            Foreground="{TemplateBinding TitleForeground}"
                                            Text="{TemplateBinding Title}"
                                            Focusable="False"/>
-                                <TextBlock x:Name="PART_Details"
+                                <TextBlock x:Name="PART_Description"
                                            Grid.Column="0"
                                            VerticalAlignment="Bottom"
                                            Margin="12,0,12,5"
-                                           FontSize="{TemplateBinding DetailsFontSize}"
-                                           Foreground="{TemplateBinding DetailsForeground}"
-                                           Text="{TemplateBinding Details}"
+                                           FontSize="{TemplateBinding DescriptionFontSize}"
+                                           Foreground="{TemplateBinding DescriptionForeground}"
+                                           Text="{TemplateBinding Description}"
                                            Focusable="False"/>
                                 <TextBlock x:Name="PART_Category"
                                            Grid.Column="1"

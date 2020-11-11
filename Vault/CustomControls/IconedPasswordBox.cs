@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Vault.Core;
 
 namespace Vault.CustomControls
 {
@@ -438,18 +439,13 @@ namespace Vault.CustomControls
         {
             if (backgroundBrush is SolidColorBrush brush)
             {
-                SolidColorBrush inverseBrush = new SolidColorBrush(GetInverseColor(brush.Color));
+                SolidColorBrush inverseBrush = new SolidColorBrush(brush.Color.Invert());
                 if (AdaptForegroundAutomatically) Foreground = inverseBrush;
                 if (AdaptHintForegroundAutomatically) HintForeground = inverseBrush;
                 if (AdaptPeekForegroundAutomatically) PeekForeground = inverseBrush;
                 if (AdaptPeekButtonForegroundAutomatically) PeekButtonForeground = inverseBrush;
                 if (AdaptCaretBrushAutomatically) CaretBrush = inverseBrush;
             }
-        }
-
-        private Color GetInverseColor(Color color)
-        {
-            return Color.FromRgb((byte)(255 - color.R), (byte)(255 - color.G), (byte)(255 - color.B));
         }
     }
 }

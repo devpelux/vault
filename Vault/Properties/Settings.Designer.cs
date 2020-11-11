@@ -34,5 +34,17 @@ namespace Vault.Properties {
                 this["User"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int SectionToLoad {
+            get {
+                return ((int)(this["SectionToLoad"]));
+            }
+            set {
+                this["SectionToLoad"] = value;
+            }
+        }
     }
 }

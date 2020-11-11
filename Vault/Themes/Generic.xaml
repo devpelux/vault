@@ -1,8 +1,10 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Vault;component/Styles/CardPreview.xaml"/>
         <ResourceDictionary Source="/Vault;component/Styles/FullButton.xaml"/>
         <ResourceDictionary Source="/Vault;component/Styles/IconedPasswordBox.xaml"/>
         <ResourceDictionary Source="/Vault;component/Styles/IconedTextBox.xaml"/>
+        <ResourceDictionary Source="/Vault;component/Styles/NotePreview.xaml"/>
         <ResourceDictionary Source="/Vault;component/Styles/PasswordPreview.xaml"/>
         <ResourceDictionary Source="/Vault;component/Styles/Switcher.xaml"/>
     </ResourceDictionary.MergedDictionaries>

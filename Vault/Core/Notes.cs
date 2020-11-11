@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 namespace Vault.Core
 {
+    public record Note(int ID, int UserID, string Title, string Category, string Description, bool RequestKey, string Text);
+
     public class Notes : ITable
     {
         private readonly VaultDB VaultDB;
@@ -21,7 +23,7 @@ namespace Vault.Core
                                         "UserID INTEGER NOT NULL, " +
                                         "Title TEXT NOT NULL, " +
                                         "Category TEXT NOT NULL, " +
-                                        "Details TEXT NOT NULL, " +
+                                        "Description TEXT NOT NULL, " +
                                         "RequestKey INTEGER NOT NULL, " +
                                         "Text TEXT NOT NULL, " +
                                         "PRIMARY KEY(ID AUTOINCREMENT), " +
@@ -50,13 +52,13 @@ namespace Vault.Core
 
         public void AddRecord(Note record)
         {
-            string command = "INSERT INTO Notes (UserID, Title, Category, Details, RequestKey, Text) " +
-                                    "VALUES (@UserID, @Title, @Category, @Details, @RequestKey, @Text);";
+            string command = "INSERT INTO Notes (UserID, Title, Category, Description, RequestKey, Text) " +
+                                    "VALUES (@UserID, @Title, @Category, @Description, @RequestKey, @Text);";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@UserID", record.UserID);
             query.Parameters.AddWithValue("@Title", record.Title);
             query.Parameters.AddWithValue("@Category", record.Category);
-            query.Parameters.AddWithValue("@Details", record.Details);
+            query.Parameters.AddWithValue("@Description", record.Description);
             query.Parameters.AddWithValue("@RequestKey", record.RequestKey ? 1 : 0);
             query.Parameters.AddWithValue("@Text", record.Text);
             query.Prepare();
@@ -79,7 +81,7 @@ namespace Vault.Core
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
-            while (reader.Read()) records.Add(ReadElementFromReader(reader));
+            while (reader.Read()) records.Add(ReadRecord(reader));
             return records;
         }
 
@@ -90,7 +92,7 @@ namespace Vault.Core
             query.Parameters.AddWithValue("@ID", id);
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
-            if (reader.Read()) return ReadElementFromReader(reader);
+            if (reader.Read()) return ReadRecord(reader);
             return null;
         }
 
@@ -101,7 +103,7 @@ namespace Vault.Core
                                     "Notes.UserID, " +
                                     "Notes.Title, " +
                                     "Notes.Category, " +
-                                    "Notes.Details, " +
+                                    "Notes.Description, " +
                                     "Notes.RequestKey, " +
                                     "Notes.Text " +
                                     "FROM Notes " +
@@ -111,7 +113,7 @@ namespace Vault.Core
             query.Parameters.AddWithValue("@UserID", userId);
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
-            while (reader.Read()) records.Add(ReadElementFromReader(reader));
+            while (reader.Read()) records.Add(ReadRecord(reader));
             return records;
         }
 
@@ -123,7 +125,7 @@ namespace Vault.Core
             query.Parameters.AddWithValue("@Title", $"%{title}%");
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
-            while (reader.Read()) records.Add(ReadElementFromReader(reader));
+            while (reader.Read()) records.Add(ReadRecord(reader));
             return records;
         }
 
@@ -134,7 +136,7 @@ namespace Vault.Core
                                     "Notes.UserID, " +
                                     "Notes.Title, " +
                                     "Notes.Category, " +
-                                    "Notes.Details, " +
+                                    "Notes.Description, " +
                                     "Notes.RequestKey, " +
                                     "Notes.Text " +
                                     "FROM Notes " +
@@ -145,7 +147,7 @@ namespace Vault.Core
             query.Parameters.AddWithValue("@Title", $"%{title}%");
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
-            while (reader.Read()) records.Add(ReadElementFromReader(reader));
+            while (reader.Read()) records.Add(ReadRecord(reader));
             return records;
         }
 
@@ -155,7 +157,7 @@ namespace Vault.Core
                                     "SET UserID = @UserID, " +
                                         "Title = @Title, " +
                                         "Category = @Category, " +
-                                        "Details = @Details, " +
+                                        "Description = @Description, " +
                                         "RequestKey = @RequestKey, " +
                                         "Text = @Text " +
                                     "WHERE ID = @ID;";
@@ -164,7 +166,7 @@ namespace Vault.Core
             query.Parameters.AddWithValue("@UserID", record.UserID);
             query.Parameters.AddWithValue("@Title", record.Title);
             query.Parameters.AddWithValue("@Category", record.Category);
-            query.Parameters.AddWithValue("@Details", record.Details);
+            query.Parameters.AddWithValue("@Description", record.Description);
             query.Parameters.AddWithValue("@RequestKey", record.RequestKey ? 1 : 0);
             query.Parameters.AddWithValue("@Text", record.Text);
             query.Prepare();
@@ -188,32 +190,24 @@ namespace Vault.Core
             return Convert.ToInt32(query.ExecuteScalar());
         }
 
-        private Note ReadElementFromReader(SqliteDataReader reader)
-        {
-            return new Note
-            {
-                ID = reader.GetInt32(0),
-                UserID = reader.GetInt32(1),
-                Title = reader.GetString(2),
-                Category = reader.GetString(3),
-                Details = reader.GetString(4),
-                RequestKey = reader.GetInt32(5) == 1,
-                Text = reader.GetString(6)
-            };
-        }
+        private static Note ReadRecord(SqliteDataReader reader)
+            => new Note
+            (
+                reader.GetInt32(0),
+                reader.GetInt32(1),
+                reader.GetString(2),
+                reader.GetString(3),
+                reader.GetString(4),
+                reader.GetInt32(5) == 1,
+                reader.GetString(6)
+            );
 
         public static Note Encrypt(Note note, byte[] key)
         {
             if (note != null)
             {
-                return new Note
+                return note with
                 {
-                    ID = note.ID,
-                    UserID = note.UserID,
-                    Title = note.Title,
-                    Category = note.Category,
-                    Details = note.Details,
-                    RequestKey = note.RequestKey,
                     Text = Encryptor.Encrypt(note.Text, key)
                 };
             }
@@ -224,14 +218,8 @@ namespace Vault.Core
         {
             if (encryptedNote != null)
             {
-                return new Note
+                return encryptedNote with
                 {
-                    ID = encryptedNote.ID,
-                    UserID = encryptedNote.UserID,
-                    Title = encryptedNote.Title,
-                    Category = encryptedNote.Category,
-                    Details = encryptedNote.Details,
-                    RequestKey = encryptedNote.RequestKey,
                     Text = Encryptor.Decrypt(encryptedNote.Text, key)
                 };
             }

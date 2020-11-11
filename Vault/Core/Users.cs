@@ -4,9 +4,13 @@ using System.Collections.Generic;
 
 namespace Vault.Core
 {
+    public record User(int ID, string Username, string Password, string Key);
+
     public class Users : ITable
     {
         private readonly VaultDB VaultDB;
+
+        public const int NewID = -1;
 
 
         public Users(VaultDB vaultDB) => VaultDB = vaultDB;
@@ -69,7 +73,7 @@ namespace Vault.Core
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
-            while (reader.Read()) records.Add(ReadElementFromReader(reader));
+            while (reader.Read()) records.Add(ReadRecord(reader));
             return records;
         }
 
@@ -80,7 +84,7 @@ namespace Vault.Core
             query.Parameters.AddWithValue("@ID", id);
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
-            if (reader.Read()) return ReadElementFromReader(reader);
+            if (reader.Read()) return ReadRecord(reader);
             return null;
         }
 
@@ -91,7 +95,7 @@ namespace Vault.Core
             query.Parameters.AddWithValue("@Username", username);
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
-            if (reader.Read()) return ReadElementFromReader(reader);
+            if (reader.Read()) return ReadRecord(reader);
             return null;
         }
 
@@ -137,15 +141,13 @@ namespace Vault.Core
             return Convert.ToInt32(query.ExecuteScalar());
         }
 
-        private static User ReadElementFromReader(SqliteDataReader reader)
-        {
-            return new User
-            {
-                ID = reader.GetInt32(0),
-                Username = reader.GetString(1),
-                Password = reader.GetString(2),
-                Key = reader.GetString(3)
-            };
-        }
+        private static User ReadRecord(SqliteDataReader reader)
+            => new User
+            (
+                reader.GetInt32(0),
+                reader.GetString(1),
+                reader.GetString(2),
+                reader.GetString(3)
+            );
     }
 }

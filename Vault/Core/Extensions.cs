@@ -1,12 +1,12 @@
-﻿using System.Security;
+﻿using System.Windows.Media;
 
 namespace Vault.Core
 {
     public static class Extensions
     {
-        public static void AppendString(this SecureString ss, string s)
+        public static Color Invert(this Color color)
         {
-            foreach (char c in s) ss.AppendChar(c);
+            return Color.FromRgb((byte)(255 - color.R), (byte)(255 - color.G), (byte)(255 - color.B));
         }
     }
 }

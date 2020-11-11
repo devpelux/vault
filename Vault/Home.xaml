@@ -121,9 +121,9 @@
                                         <Grid Margin="0,0,0,4">
                                             <cust:PasswordPreview
                                                 ID="{Binding ID}"
-                                                Title="{Binding Title}"
+                                                Title="{Binding Name}"
                                                 Category="{Binding Category}"
-                                                Details="{Binding Details}"
+                                                Description="{Binding Description}"
                                                 MouseLeftButtonDown="PasswordPreviewMouseLeftButtonDown"/>
                                         </Grid>
                                     </DataTemplate>
@@ -160,9 +160,9 @@
                                         <Grid Margin="0,0,0,4">
                                             <cust:CardPreview
                                                 ID="{Binding ID}"
-                                                Title="{Binding Title}"
+                                                Title="{Binding Name}"
                                                 Category="{Binding Category}"
-                                                Details="{Binding Details}"
+                                                Description="{Binding Description}"
                                                 MouseLeftButtonDown="CardPreviewMouseLeftButtonDown"/>
                                         </Grid>
                                     </DataTemplate>
@@ -201,7 +201,7 @@
                                                 ID="{Binding ID}"
                                                 Title="{Binding Title}"
                                                 Category="{Binding Category}"
-                                                Details="{Binding Details}"
+                                                Description="{Binding Description}"
                                                 MouseLeftButtonDown="NotePreviewMouseLeftButtonDown"/>
                                         </Grid>
                                     </DataTemplate>

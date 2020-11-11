@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 namespace Vault.Core
 {
+    public record Card(int ID, int UserID, string Name, string Category, string Description, bool RequestKey, string Owner, string Type, string Number, string SecureCode, string Expiration, string Note);
+
     public class Cards : ITable
     {
         private readonly VaultDB VaultDB;
@@ -19,11 +21,11 @@ namespace Vault.Core
             string command = "CREATE TABLE IF NOT EXISTS Cards (" +
                                         "ID INTEGER NOT NULL UNIQUE, " +
                                         "UserID INTEGER NOT NULL, " +
-                                        "Title TEXT NOT NULL, " +
-                                        "Category TEXT NOT NULL, " +
-                                        "Details TEXT NOT NULL, " +
-                                        "RequestKey INTEGER NOT NULL, " +
                                         "Name TEXT NOT NULL, " +
+                                        "Category TEXT NOT NULL, " +
+                                        "Description TEXT NOT NULL, " +
+                                        "RequestKey INTEGER NOT NULL, " +
+                                        "Owner TEXT NOT NULL, " +
                                         "Type TEXT NOT NULL, " +
                                         "Number TEXT NOT NULL, " +
                                         "SecureCode TEXT NOT NULL, " +
@@ -55,15 +57,15 @@ namespace Vault.Core
 
         public void AddRecord(Card record)
         {
-            string command = "INSERT INTO Cards (UserID, Title, Category, Details, RequestKey, Name, Type, Number, SecureCode, Expiration, Note) " +
-                                    "VALUES (@UserID, @Title, @Category, @Details, @RequestKey, @Name, @Type, @Number, @SecureCode, @Expiration, @Note);";
+            string command = "INSERT INTO Cards (UserID, Name, Category, Description, RequestKey, Owner, Type, Number, SecureCode, Expiration, Note) " +
+                                    "VALUES (@UserID, @Name, @Category, @Description, @RequestKey, @Owner, @Type, @Number, @SecureCode, @Expiration, @Note);";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@UserID", record.UserID);
-            query.Parameters.AddWithValue("@Title", record.Title);
-            query.Parameters.AddWithValue("@Category", record.Category);
-            query.Parameters.AddWithValue("@Details", record.Details);
-            query.Parameters.AddWithValue("@RequestKey", record.RequestKey ? 1 : 0);
             query.Parameters.AddWithValue("@Name", record.Name);
+            query.Parameters.AddWithValue("@Category", record.Category);
+            query.Parameters.AddWithValue("@Description", record.Description);
+            query.Parameters.AddWithValue("@RequestKey", record.RequestKey ? 1 : 0);
+            query.Parameters.AddWithValue("@Owner", record.Owner);
             query.Parameters.AddWithValue("@Type", record.Type);
             query.Parameters.AddWithValue("@Number", record.Number);
             query.Parameters.AddWithValue("@SecureCode", record.SecureCode);
@@ -89,7 +91,7 @@ namespace Vault.Core
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
-            while (reader.Read()) records.Add(ReadElementFromReader(reader));
+            while (reader.Read()) records.Add(ReadRecord(reader));
             return records;
         }
 
@@ -100,7 +102,7 @@ namespace Vault.Core
             query.Parameters.AddWithValue("@ID", id);
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
-            if (reader.Read()) return ReadElementFromReader(reader);
+            if (reader.Read()) return ReadRecord(reader);
             return null;
         }
 
@@ -109,11 +111,11 @@ namespace Vault.Core
             List<Card> records = new List<Card>();
             string command = "SELECT Cards.ID, " +
                                     "Cards.UserID, " +
-                                    "Cards.Title, " +
-                                    "Cards.Category, " +
-                                    "Cards.Details, " +
-                                    "Cards.RequestKey, " +
                                     "Cards.Name, " +
+                                    "Cards.Category, " +
+                                    "Cards.Description, " +
+                                    "Cards.RequestKey, " +
+                                    "Cards.Owner, " +
                                     "Cards.Type, " +
                                     "Cards.Number, " +
                                     "Cards.SecureCode, " +
@@ -126,32 +128,32 @@ namespace Vault.Core
             query.Parameters.AddWithValue("@UserID", userId);
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
-            while (reader.Read()) records.Add(ReadElementFromReader(reader));
+            while (reader.Read()) records.Add(ReadRecord(reader));
             return records;
         }
 
-        public List<Card> GetRecords(string title)
+        public List<Card> GetRecords(string name)
         {
             List<Card> records = new List<Card>();
-            string command = "SELECT * FROM Cards WHERE Title LIKE @Title;";
+            string command = "SELECT * FROM Cards WHERE Name LIKE @Name;";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
-            query.Parameters.AddWithValue("@Title", $"%{title}%");
+            query.Parameters.AddWithValue("@Title", $"%{name}%");
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
-            while (reader.Read()) records.Add(ReadElementFromReader(reader));
+            while (reader.Read()) records.Add(ReadRecord(reader));
             return records;
         }
 
-        public List<Card> GetRecords(string title, int userId)
+        public List<Card> GetRecords(string name, int userId)
         {
             List<Card> records = new List<Card>();
             string command = "SELECT Cards.ID, " +
                                     "Cards.UserID, " +
-                                    "Cards.Title, " +
-                                    "Cards.Category, " +
-                                    "Cards.Details, " +
-                                    "Cards.RequestKey, " +
                                     "Cards.Name, " +
+                                    "Cards.Category, " +
+                                    "Cards.Description, " +
+                                    "Cards.RequestKey, " +
+                                    "Cards.Owner, " +
                                     "Cards.Type, " +
                                     "Cards.Number, " +
                                     "Cards.SecureCode, " +
@@ -159,13 +161,13 @@ namespace Vault.Core
                                     "Cards.Note " +
                                     "FROM Cards " +
                                     "JOIN Users ON Cards.UserID = Users.ID " +
-                                    "WHERE Users.ID = @UserID AND Cards.Title LIKE @Title;";
+                                    "WHERE Users.ID = @UserID AND Cards.Name LIKE @Name;";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@UserID", userId);
-            query.Parameters.AddWithValue("@Title", $"%{title}%");
+            query.Parameters.AddWithValue("@Name", $"%{name}%");
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
-            while (reader.Read()) records.Add(ReadElementFromReader(reader));
+            while (reader.Read()) records.Add(ReadRecord(reader));
             return records;
         }
 
@@ -173,11 +175,11 @@ namespace Vault.Core
         {
             string command = "UPDATE Cards " +
                                     "SET UserID = @UserID, " +
-                                        "Title = @Title, " +
-                                        "Category = @Category, " +
-                                        "Details = @Details, " +
-                                        "RequestKey = @RequestKey, " +
                                         "Name = @Name, " +
+                                        "Category = @Category, " +
+                                        "Description = @Description, " +
+                                        "RequestKey = @RequestKey, " +
+                                        "Owner = @Owner, " +
                                         "Type = @Type, " +
                                         "Number = @Number, " +
                                         "SecureCode = @SecureCode, " +
@@ -187,11 +189,11 @@ namespace Vault.Core
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@ID", record.ID);
             query.Parameters.AddWithValue("@UserID", record.UserID);
-            query.Parameters.AddWithValue("@Title", record.Title);
-            query.Parameters.AddWithValue("@Category", record.Category);
-            query.Parameters.AddWithValue("@Details", record.Details);
-            query.Parameters.AddWithValue("@RequestKey", record.RequestKey ? 1 : 0);
             query.Parameters.AddWithValue("@Name", record.Name);
+            query.Parameters.AddWithValue("@Category", record.Category);
+            query.Parameters.AddWithValue("@Description", record.Description);
+            query.Parameters.AddWithValue("@RequestKey", record.RequestKey ? 1 : 0);
+            query.Parameters.AddWithValue("@Owner", record.Owner);
             query.Parameters.AddWithValue("@Type", record.Type);
             query.Parameters.AddWithValue("@Number", record.Number);
             query.Parameters.AddWithValue("@SecureCode", record.SecureCode);
@@ -218,38 +220,30 @@ namespace Vault.Core
             return Convert.ToInt32(query.ExecuteScalar());
         }
 
-        private Card ReadElementFromReader(SqliteDataReader reader)
-        {
-            return new Card
-            {
-                ID = reader.GetInt32(0),
-                UserID = reader.GetInt32(1),
-                Title = reader.GetString(2),
-                Category = reader.GetString(3),
-                Details = reader.GetString(4),
-                RequestKey = reader.GetInt32(5) == 1,
-                Name = reader.GetString(6),
-                Type = reader.GetString(7),
-                Number = reader.GetString(8),
-                SecureCode = reader.GetString(9),
-                Expiration = reader.GetString(10),
-                Note = reader.GetString(11)
-            };
-        }
+        private static Card ReadRecord(SqliteDataReader reader)
+            => new Card
+            (
+                reader.GetInt32(0),
+                reader.GetInt32(1),
+                reader.GetString(2),
+                reader.GetString(3),
+                reader.GetString(4),
+                reader.GetInt32(5) == 1,
+                reader.GetString(6),
+                reader.GetString(7),
+                reader.GetString(8),
+                reader.GetString(9),
+                reader.GetString(10),
+                reader.GetString(11)
+            );
 
         public static Card Encrypt(Card card, byte[] key)
         {
             if (card != null)
             {
-                return new Card
+                return card with
                 {
-                    ID = card.ID,
-                    UserID = card.UserID,
-                    Title = card.Title,
-                    Category = card.Category,
-                    Details = card.Details,
-                    RequestKey = card.RequestKey,
-                    Name = Encryptor.Encrypt(card.Name, key),
+                    Owner = Encryptor.Encrypt(card.Owner, key),
                     Type = Encryptor.Encrypt(card.Type, key),
                     Number = Encryptor.Encrypt(card.Number, key),
                     SecureCode = Encryptor.Encrypt(card.SecureCode, key),
@@ -264,15 +258,9 @@ namespace Vault.Core
         {
             if (encryptedCard != null)
             {
-                return new Card
+                return encryptedCard with
                 {
-                    ID = encryptedCard.ID,
-                    UserID = encryptedCard.UserID,
-                    Title = encryptedCard.Title,
-                    Category = encryptedCard.Category,
-                    Details = encryptedCard.Details,
-                    RequestKey = encryptedCard.RequestKey,
-                    Name = Encryptor.Decrypt(encryptedCard.Name, key),
+                    Owner = Encryptor.Decrypt(encryptedCard.Owner, key),
                     Type = Encryptor.Decrypt(encryptedCard.Type, key),
                     Number = Encryptor.Decrypt(encryptedCard.Number, key),
                     SecureCode = Encryptor.Decrypt(encryptedCard.SecureCode, key),

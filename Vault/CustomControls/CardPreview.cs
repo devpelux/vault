@@ -52,14 +52,14 @@ namespace Vault.CustomControls
         public static readonly DependencyProperty CategoryProperty =
             DependencyProperty.Register(nameof(Category), typeof(string), typeof(CardPreview));
 
-        public string Details
+        public string Description
         {
-            get => (string)GetValue(DetailsProperty);
-            set => SetValue(DetailsProperty, value);
+            get => (string)GetValue(DescriptionProperty);
+            set => SetValue(DescriptionProperty, value);
         }
 
-        public static readonly DependencyProperty DetailsProperty =
-            DependencyProperty.Register(nameof(Details), typeof(string), typeof(CardPreview));
+        public static readonly DependencyProperty DescriptionProperty =
+            DependencyProperty.Register(nameof(Description), typeof(string), typeof(CardPreview));
 
         public CornerRadius CornerRadius
         {
@@ -88,14 +88,14 @@ namespace Vault.CustomControls
         public static readonly DependencyProperty CategoryForegroundProperty =
             DependencyProperty.Register(nameof(CategoryForeground), typeof(Brush), typeof(CardPreview));
 
-        public Brush DetailsForeground
+        public Brush DescriptionForeground
         {
-            get => (Brush)GetValue(DetailsForegroundProperty);
-            set => SetValue(DetailsForegroundProperty, value);
+            get => (Brush)GetValue(DescriptionForegroundProperty);
+            set => SetValue(DescriptionForegroundProperty, value);
         }
 
-        public static readonly DependencyProperty DetailsForegroundProperty =
-            DependencyProperty.Register(nameof(DetailsForeground), typeof(Brush), typeof(CardPreview));
+        public static readonly DependencyProperty DescriptionForegroundProperty =
+            DependencyProperty.Register(nameof(DescriptionForeground), typeof(Brush), typeof(CardPreview));
 
         public double TitleFontSize
         {
@@ -115,14 +115,14 @@ namespace Vault.CustomControls
         public static readonly DependencyProperty CategoryFontSizeProperty =
             DependencyProperty.Register(nameof(CategoryFontSize), typeof(double), typeof(CardPreview));
 
-        public double DetailsFontSize
+        public double DescriptionFontSize
         {
-            get => (double)GetValue(DetailsFontSizeProperty);
-            set => SetValue(DetailsFontSizeProperty, value);
+            get => (double)GetValue(DescriptionFontSizeProperty);
+            set => SetValue(DescriptionFontSizeProperty, value);
         }
 
-        public static readonly DependencyProperty DetailsFontSizeProperty =
-            DependencyProperty.Register(nameof(DetailsFontSize), typeof(double), typeof(CardPreview));
+        public static readonly DependencyProperty DescriptionFontSizeProperty =
+            DependencyProperty.Register(nameof(DescriptionFontSize), typeof(double), typeof(CardPreview));
 
 
         static CardPreview()
