@@ -61,7 +61,7 @@ namespace Vault
             attempt += 1;
             if (attempt > 4) Thread.Sleep(2000);
 
-            User user = VaultDB.Instance.Users.GetRecord(Global.Instance.UserID);
+            User user = VaultDB.Instance.Users.GetRecord(Session.Instance.UserID);
             byte[] salt = Encryptor.ConvertToBytes(user.Password).Take(32).ToArray();
             byte[] pkey = Encryptor.GenerateKey(Password.GetSecurePassword(), salt);
             byte[] hashPkey = salt.Concat(Encryptor.GenerateKey(pkey, salt)).ToArray();

@@ -7,8 +7,8 @@
         xmlns:cust="clr-namespace:Vault.CustomControls"
         mc:Ignorable="d"
         Title="Vault"
-        Height="499"
-        Width="618"
+        Height="615"
+        Width="760"
         AllowsTransparency="True"
         WindowStyle="None"
         Background="{x:Null}"
@@ -99,38 +99,29 @@
                            Margin="10,10,0,0"/>
                     <cust:FullButton x:Name="NewPassword"
                                  Content="Aggiungi"
-                                 HorizontalAlignment="Left"
-                                 Margin="380,51,0,0"
+                                 HorizontalAlignment="Right"
+                                 Margin="0,50,20,0"
                                  VerticalAlignment="Top"
                                  Width="70"
-                                 Height="41"
+                                 Height="40"
                                  Click="NewPassword_Click"/>
-                    <Border HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Margin="10,51,0,0"
-                            Height="348"
-                            Width="363"
-                            BorderBrush="#FF404040"
-                            BorderThickness="1">
-                        <ScrollViewer Margin="1,6,1,6"
-                                      Padding="5,0,1,0"
-                                      Style="{DynamicResource TransparentBarsScrollViewerStyle}">
-                            <ItemsControl x:Name="PasswordList">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Margin="0,0,0,4">
-                                            <cust:PasswordPreview
-                                                ID="{Binding ID}"
-                                                Title="{Binding Name}"
-                                                Category="{Binding Category}"
-                                                Description="{Binding Description}"
-                                                MouseLeftButtonDown="PasswordPreviewMouseLeftButtonDown"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </ScrollViewer>
-                    </Border>
+                    <ScrollViewer Margin="10,50,120,72"
+                                  Padding="0,0,1,0"
+                                  Style="{DynamicResource TransparentBarsScrollViewerStyle}">
+                        <cust:VaultTreeView x:Name="PasswordList">
+                            <cust:VaultTreeView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,0,0,4">
+                                        <cust:PasswordPreview
+                                            ID="{Binding ID}"
+                                            Label="{Binding Label}"
+                                            Url="{Binding Url}"
+                                            MouseLeftButtonDown="PasswordPreviewMouseLeftButtonDown"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </cust:VaultTreeView.ItemTemplate>
+                        </cust:VaultTreeView>
+                    </ScrollViewer>
                 </Grid>
                 <Grid x:Name="CardSection" Visibility="Collapsed">
                     <TextBlock Text="CARTE" FontSize="20" Foreground="White"
@@ -138,38 +129,29 @@
                            Margin="10,10,0,0"/>
                     <cust:FullButton x:Name="NewCard"
                                  Content="Aggiungi"
-                                 HorizontalAlignment="Left"
-                                 Margin="380,51,0,0"
+                                 HorizontalAlignment="Right"
+                                 Margin="0,50,20,0"
                                  VerticalAlignment="Top"
                                  Width="70"
-                                 Height="41"
+                                 Height="40"
                                  Click="NewCard_Click"/>
-                    <Border HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Margin="10,51,0,0"
-                            Height="348"
-                            Width="363"
-                            BorderBrush="#FF404040"
-                            BorderThickness="1">
-                        <ScrollViewer Margin="1,6,1,6"
-                                      Padding="5,0,1,0"
-                                      Style="{DynamicResource TransparentBarsScrollViewerStyle}">
-                            <ItemsControl x:Name="CardList">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Margin="0,0,0,4">
-                                            <cust:CardPreview
-                                                ID="{Binding ID}"
-                                                Title="{Binding Name}"
-                                                Category="{Binding Category}"
-                                                Description="{Binding Description}"
-                                                MouseLeftButtonDown="CardPreviewMouseLeftButtonDown"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </ScrollViewer>
-                    </Border>
+                    <ScrollViewer Margin="10,50,120,72"
+                                  Padding="0,0,1,0"
+                                  Style="{DynamicResource TransparentBarsScrollViewerStyle}">
+                        <cust:VaultTreeView x:Name="CardList">
+                            <cust:VaultTreeView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,0,0,4">
+                                        <cust:CardPreview
+                                            ID="{Binding ID}"
+                                            Label="{Binding Label}"
+                                            Type="{Binding Type}"
+                                            MouseLeftButtonDown="CardPreviewMouseLeftButtonDown"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </cust:VaultTreeView.ItemTemplate>
+                        </cust:VaultTreeView>
+                    </ScrollViewer>
                 </Grid>
                 <Grid x:Name="NoteSection" Visibility="Collapsed">
                     <TextBlock Text="NOTE" FontSize="20" Foreground="White"
@@ -177,42 +159,33 @@
                            Margin="10,10,0,0"/>
                     <cust:FullButton x:Name="NewNote"
                                  Content="Aggiungi"
-                                 HorizontalAlignment="Left"
-                                 Margin="380,51,0,0"
+                                 HorizontalAlignment="Right"
+                                 Margin="0,50,20,0"
                                  VerticalAlignment="Top"
                                  Width="70"
-                                 Height="41"
+                                 Height="40"
                                  Click="NewNote_Click"/>
-                    <Border HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Margin="10,51,0,0"
-                            Height="348"
-                            Width="363"
-                            BorderBrush="#FF404040"
-                            BorderThickness="1">
-                        <ScrollViewer Margin="1,6,1,6"
-                                      Padding="5,0,1,0"
-                                      Style="{DynamicResource TransparentBarsScrollViewerStyle}">
-                            <ItemsControl x:Name="NoteList">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Margin="0,0,0,4">
-                                            <cust:NotePreview
-                                                ID="{Binding ID}"
-                                                Title="{Binding Title}"
-                                                Category="{Binding Category}"
-                                                Description="{Binding Description}"
-                                                MouseLeftButtonDown="NotePreviewMouseLeftButtonDown"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </ScrollViewer>
-                    </Border>
+                    <ScrollViewer Margin="10,50,120,72"
+                                  Padding="0,0,1,0"
+                                  Style="{DynamicResource TransparentBarsScrollViewerStyle}">
+                        <cust:VaultTreeView x:Name="NoteList">
+                            <cust:VaultTreeView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,0,0,4">
+                                        <cust:NotePreview
+                                            ID="{Binding ID}"
+                                            Title="{Binding Title}"
+                                            Subtitle="{Binding Subtitle}"
+                                            MouseLeftButtonDown="NotePreviewMouseLeftButtonDown"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </cust:VaultTreeView.ItemTemplate>
+                        </cust:VaultTreeView>
+                    </ScrollViewer>
                 </Grid>
                 <cust:IconedTextBox x:Name="Search"
                                     HorizontalAlignment="Left"
-                                    Margin="10,0,0,17"
+                                    Margin="10,0,0,20"
                                     Height="32" Width="363" 
                                     Hint="Cerca..."  VerticalAlignment="Bottom"
                                     VerticalContentAlignment="Center"

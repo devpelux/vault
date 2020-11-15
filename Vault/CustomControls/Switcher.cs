@@ -150,16 +150,15 @@ namespace Vault.CustomControls
 
         private static void OnIsActivatedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Switcher s = (Switcher)d;
-            s.OnActivationChanged(new SwitcherActivationChangedEventArgs(s.IsActivated, s.IsDeactivableByClick));
+            ((Switcher)d).OnActivationChanged(new SwitcherActivationChangedEventArgs((bool)e.NewValue, (bool)d.GetValue(IsDeactivableByClickProperty)));
         }
     }
 
 
     public class SwitcherActivationChangedEventArgs : EventArgs
     {
-        public bool IsActivated { get; set; }
-        public bool IsDeactivableByClick { get; set; }
+        public bool IsActivated { get; init; }
+        public bool IsDeactivableByClick { get; init; }
 
 
         public SwitcherActivationChangedEventArgs(bool isActivated, bool isDeactivableByClick)

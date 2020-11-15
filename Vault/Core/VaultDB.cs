@@ -1,10 +1,11 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Vault.Core
 {
-    public partial class VaultDB : IDisposable
+    public sealed class VaultDB : IDisposable
     {
         private static VaultDB _instance = null;
         public static VaultDB Instance
@@ -15,8 +16,6 @@ namespace Vault.Core
                 return _instance;
             }
         }
-
-        private const int VERSION = 1;
 
         private static VaultDBContext _context = new VaultDBContext("vault", ".");
         public static VaultDBContext Context
@@ -32,25 +31,30 @@ namespace Vault.Core
             }
         }
 
+        public const int VERSION = 1;
+
         public SqliteConnection Connection { get; private set; } = null;
 
-        public Users Users { get; private set; } = null;
-        public Passwords Passwords { get; private set; } = null;
-        public Cards Cards { get; private set; } = null;
-        public Notes Notes { get; private set; } = null;
+        private readonly List<ITable> _tables = new();
+        public Users Users => (Users)_tables[0];
+        public Categories Categories => (Categories)_tables[1];
+        public Passwords Passwords => (Passwords)_tables[2];
+        public Cards Cards => (Cards)_tables[3];
+        public Notes Notes => (Notes)_tables[4];
 
 
         private VaultDB()
         {
+            _tables.Add(new Users(this));
+            _tables.Add(new Categories(this));
+            _tables.Add(new Passwords(this));
+            _tables.Add(new Cards(this));
+            _tables.Add(new Notes(this));
             LoadVault();
         }
 
         private void LoadVault()
         {
-            Users = new Users(this);
-            Passwords = new Passwords(this);
-            Cards = new Cards(this);
-            Notes = new Notes(this);
             CloseConnection();
             OpenConnection();
             UpdateDatabase(VERSION, GetVersion());
@@ -79,10 +83,7 @@ namespace Vault.Core
         {
             if (newVersion > oldVersion)
             {
-                Users.UpdateTable(newVersion, oldVersion);
-                Passwords.UpdateTable(newVersion, oldVersion);
-                Cards.UpdateTable(newVersion, oldVersion);
-                Notes.UpdateTable(newVersion, oldVersion);
+                _tables.ForEach(table => table.UpdateTable(newVersion, oldVersion));
                 SetVersion(newVersion);
             }
             else if (newVersion < oldVersion)
@@ -94,6 +95,7 @@ namespace Vault.Core
         public void Dispose()
         {
             CloseConnection();
+            _tables.Clear();
             _instance = null;
         }
 

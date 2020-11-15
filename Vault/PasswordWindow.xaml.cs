@@ -21,7 +21,7 @@ namespace Vault
         public PasswordWindow(Password password)
         {
             InitializeComponent();
-            this.password = password != null ? Passwords.Decrypt(password, Global.Instance.Key) : null;
+            this.password = password != null ? Passwords.Decrypt(password, Session.Instance.Key) : null;
         }
 
         public string GetResult() => Result;
@@ -41,10 +41,10 @@ namespace Vault
         {
             if (password != null)
             {
-                PasswordName.Text = password.Name;
-                PasswordDescription.Text = password.Description;
                 PasswordRequestKey.IsChecked = password.RequestKey;
-                PasswordWebsite.Text = password.Website;
+                PasswordLabel.Text = password.Label;
+                PasswordDescription.Text = password.Description;
+                PasswordUrl.Text = password.Url;
                 PasswordUsername.Text = password.Username;
                 PasswordKey.SetPassword(password.Key);
                 PasswordNote.Text = password.Note;
@@ -75,33 +75,33 @@ namespace Vault
             Password password = new Password
                 (
                     Passwords.NewID,
-                    Global.Instance.UserID,
-                    PasswordName.Text,
-                    "Generic",
-                    PasswordDescription.Text,
+                    Session.Instance.UserID,
+                    1,
                     PasswordRequestKey.IsChecked ?? false,
-                    PasswordWebsite.Text,
+                    PasswordLabel.Text,
+                    PasswordDescription.Text,
+                    PasswordUrl.Text,
                     PasswordUsername.Text,
                     PasswordKey.GetPassword(),
                     PasswordNote.Text
                 );
-            VaultDB.Instance.Passwords.AddRecord(Passwords.Encrypt(password, Global.Instance.Key));
+            VaultDB.Instance.Passwords.AddRecord(Passwords.Encrypt(password, Session.Instance.Key));
         }
 
         private void EditElement()
         {
             Password editedPassword = password with
             {
-                Name = PasswordName.Text,
-                Category = "Generic",
-                Description = PasswordDescription.Text,
+                Category = 1,
                 RequestKey = PasswordRequestKey.IsChecked ?? false,
-                Website = PasswordWebsite.Text,
+                Label = PasswordLabel.Text,
+                Description = PasswordDescription.Text,
+                Url = PasswordUrl.Text,
                 Username = PasswordUsername.Text,
                 Key = PasswordKey.GetPassword(),
                 Note = PasswordNote.Text
             };
-            VaultDB.Instance.Passwords.UpdateRecord(Passwords.Encrypt(editedPassword, Global.Instance.Key));
+            VaultDB.Instance.Passwords.UpdateRecord(Passwords.Encrypt(editedPassword, Session.Instance.Key));
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)

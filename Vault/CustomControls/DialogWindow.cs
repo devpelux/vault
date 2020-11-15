@@ -5,7 +5,7 @@ namespace Vault.CustomControls
 {
     public class DialogWindow
     {
-        private readonly Window window = null;
+        private readonly Window window;
 
 
         public DialogWindow(Window window)

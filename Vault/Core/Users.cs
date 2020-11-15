@@ -68,7 +68,7 @@ namespace Vault.Core
 
         public List<User> GetAllRecords()
         {
-            List<User> records = new List<User>();
+            List<User> records = new();
             string command = "SELECT * FROM Users";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Prepare();

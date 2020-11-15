@@ -9,16 +9,13 @@
         <Setter Property="BorderBrushOnMouseOver" Value="#FF575759"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="TitleForeground" Value="WhiteSmoke"/>
-        <Setter Property="DescriptionForeground" Value="Gray"/>
-        <Setter Property="CategoryForeground" Value="White"/>
+        <Setter Property="SubtitleForeground" Value="Gray"/>
         <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="Title" Value="Title"/>
-        <Setter Property="Description" Value="Description"/>
-        <Setter Property="Category" Value="CAT"/>
-        <Setter Property="Height" Value="80"/>
+        <Setter Property="Subtitle" Value="Subtitle"/>
+        <Setter Property="Height" Value="70"/>
         <Setter Property="TitleFontSize" Value="24"/>
-        <Setter Property="CategoryFontSize" Value="12"/>
-        <Setter Property="DescriptionFontSize" Value="10"/>
+        <Setter Property="SubtitleFontSize" Value="10"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -67,23 +64,13 @@
                                            Foreground="{TemplateBinding TitleForeground}"
                                            Text="{TemplateBinding Title}"
                                            Focusable="False"/>
-                                <TextBlock x:Name="PART_Description"
+                                <TextBlock x:Name="PART_Subtitle"
                                            Grid.Column="0"
                                            VerticalAlignment="Bottom"
                                            Margin="12,0,12,5"
-                                           FontSize="{TemplateBinding DescriptionFontSize}"
-                                           Foreground="{TemplateBinding DescriptionForeground}"
-                                           Text="{TemplateBinding Description}"
-                                           Focusable="False"/>
-                                <TextBlock x:Name="PART_Category"
-                                           Grid.Column="1"
-                                           HorizontalAlignment="Right"
-                                           VerticalAlignment="Center"
-                                           Margin="10,0,10,0"
-                                           FontSize="{TemplateBinding CategoryFontSize}"
-                                           FontWeight="Bold"
-                                           Foreground="{TemplateBinding CategoryForeground}"
-                                           Text="{TemplateBinding Category}"
+                                           FontSize="{TemplateBinding SubtitleFontSize}"
+                                           Foreground="{TemplateBinding SubtitleForeground}"
+                                           Text="{TemplateBinding Subtitle}"
                                            Focusable="False"/>
                             </Grid>
                         </Border>

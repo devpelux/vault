@@ -1,10 +1,11 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Vault.Core
 {
-    public record Note(int ID, int UserID, string Title, string Category, string Description, bool RequestKey, string Text);
+    public record Note(int ID, int User, int Category, bool RequestKey, string Title, string Subtitle, string Text);
 
     public class Notes : ITable
     {
@@ -20,14 +21,15 @@ namespace Vault.Core
         {
             string command = "CREATE TABLE IF NOT EXISTS Notes (" +
                                         "ID INTEGER NOT NULL UNIQUE, " +
-                                        "UserID INTEGER NOT NULL, " +
-                                        "Title TEXT NOT NULL, " +
-                                        "Category TEXT NOT NULL, " +
-                                        "Description TEXT NOT NULL, " +
+                                        "User INTEGER NOT NULL, " +
+                                        "Category INTEGER NOT NULL, " +
                                         "RequestKey INTEGER NOT NULL, " +
+                                        "Title TEXT NOT NULL, " +
+                                        "Subtitle TEXT NOT NULL, " +
                                         "Text TEXT NOT NULL, " +
                                         "PRIMARY KEY(ID AUTOINCREMENT), " +
-                                        "FOREIGN KEY(UserID) REFERENCES Users(ID)" +
+                                        "FOREIGN KEY(User) REFERENCES Users(ID), " +
+                                        "FOREIGN KEY(Category) REFERENCES Categories(ID)" +
                                         ");";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Prepare();
@@ -52,14 +54,14 @@ namespace Vault.Core
 
         public void AddRecord(Note record)
         {
-            string command = "INSERT INTO Notes (UserID, Title, Category, Description, RequestKey, Text) " +
-                                    "VALUES (@UserID, @Title, @Category, @Description, @RequestKey, @Text);";
+            string command = "INSERT INTO Notes (User, Title, Category, Subtitle, RequestKey, Text) " +
+                                    "VALUES (@User, @Title, @Category, @Subtitle, @RequestKey, @Text);";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
-            query.Parameters.AddWithValue("@UserID", record.UserID);
-            query.Parameters.AddWithValue("@Title", record.Title);
+            query.Parameters.AddWithValue("@User", record.User);
             query.Parameters.AddWithValue("@Category", record.Category);
-            query.Parameters.AddWithValue("@Description", record.Description);
             query.Parameters.AddWithValue("@RequestKey", record.RequestKey ? 1 : 0);
+            query.Parameters.AddWithValue("@Title", record.Title);
+            query.Parameters.AddWithValue("@Subtitle", record.Subtitle);
             query.Parameters.AddWithValue("@Text", record.Text);
             query.Prepare();
             query.ExecuteNonQuery();
@@ -76,7 +78,7 @@ namespace Vault.Core
 
         public List<Note> GetAllRecords()
         {
-            List<Note> records = new List<Note>();
+            List<Note> records = new();
             string command = "SELECT * FROM Notes";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Prepare();
@@ -96,21 +98,12 @@ namespace Vault.Core
             return null;
         }
 
-        public List<Note> GetRecords(int userId)
+        public List<Note> GetRecords(int user)
         {
-            List<Note> records = new List<Note>();
-            string command = "SELECT Notes.ID, " +
-                                    "Notes.UserID, " +
-                                    "Notes.Title, " +
-                                    "Notes.Category, " +
-                                    "Notes.Description, " +
-                                    "Notes.RequestKey, " +
-                                    "Notes.Text " +
-                                    "FROM Notes " +
-                                    "JOIN Users ON Notes.UserID = Users.ID " +
-                                    "WHERE Users.ID = @UserID;";
+            List<Note> records = new();
+            string command = "SELECT * FROM Notes WHERE User = @User;";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
-            query.Parameters.AddWithValue("@UserID", userId);
+            query.Parameters.AddWithValue("@User", user);
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
             while (reader.Read()) records.Add(ReadRecord(reader));
@@ -119,7 +112,7 @@ namespace Vault.Core
 
         public List<Note> GetRecords(string title)
         {
-            List<Note> records = new List<Note>();
+            List<Note> records = new();
             string command = "SELECT * FROM Notes WHERE Title LIKE @Title;";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@Title", $"%{title}%");
@@ -129,21 +122,12 @@ namespace Vault.Core
             return records;
         }
 
-        public List<Note> GetRecords(string title, int userId)
+        public List<Note> GetRecords(string title, int user)
         {
-            List<Note> records = new List<Note>();
-            string command = "SELECT Notes.ID, " +
-                                    "Notes.UserID, " +
-                                    "Notes.Title, " +
-                                    "Notes.Category, " +
-                                    "Notes.Description, " +
-                                    "Notes.RequestKey, " +
-                                    "Notes.Text " +
-                                    "FROM Notes " +
-                                    "JOIN Users ON Notes.UserID = Users.ID " +
-                                    "WHERE Users.ID = @UserID AND Notes.Title LIKE @Title;";
+            List<Note> records = new();
+            string command = "SELECT * FROM Notes WHERE User = @User AND Title LIKE @Title;";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
-            query.Parameters.AddWithValue("@UserID", userId);
+            query.Parameters.AddWithValue("@User", user);
             query.Parameters.AddWithValue("@Title", $"%{title}%");
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
@@ -154,20 +138,20 @@ namespace Vault.Core
         public void UpdateRecord(Note record)
         {
             string command = "UPDATE Notes " +
-                                    "SET UserID = @UserID, " +
-                                        "Title = @Title, " +
+                                    "SET User = @User, " +
                                         "Category = @Category, " +
-                                        "Description = @Description, " +
                                         "RequestKey = @RequestKey, " +
+                                        "Title = @Title, " +
+                                        "Subtitle = @Subtitle, " +
                                         "Text = @Text " +
                                     "WHERE ID = @ID;";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@ID", record.ID);
-            query.Parameters.AddWithValue("@UserID", record.UserID);
-            query.Parameters.AddWithValue("@Title", record.Title);
+            query.Parameters.AddWithValue("@User", record.User);
             query.Parameters.AddWithValue("@Category", record.Category);
-            query.Parameters.AddWithValue("@Description", record.Description);
             query.Parameters.AddWithValue("@RequestKey", record.RequestKey ? 1 : 0);
+            query.Parameters.AddWithValue("@Title", record.Title);
+            query.Parameters.AddWithValue("@Subtitle", record.Subtitle);
             query.Parameters.AddWithValue("@Text", record.Text);
             query.Prepare();
             query.ExecuteNonQuery();
@@ -195,35 +179,44 @@ namespace Vault.Core
             (
                 reader.GetInt32(0),
                 reader.GetInt32(1),
-                reader.GetString(2),
-                reader.GetString(3),
+                reader.GetInt32(2),
+                reader.GetInt32(3) == 1,
                 reader.GetString(4),
-                reader.GetInt32(5) == 1,
+                reader.GetString(5),
                 reader.GetString(6)
             );
 
         public static Note Encrypt(Note note, byte[] key)
-        {
-            if (note != null)
+            => note with
             {
-                return note with
-                {
-                    Text = Encryptor.Encrypt(note.Text, key)
-                };
-            }
-            return null;
-        }
+                Title = Encryptor.Encrypt(note.Title, key),
+                Subtitle = Encryptor.Encrypt(note.Subtitle, key),
+                Text = Encryptor.Encrypt(note.Text, key)
+            };
 
         public static Note Decrypt(Note encryptedNote, byte[] key)
-        {
-            if (encryptedNote != null)
+            => encryptedNote with
             {
-                return encryptedNote with
-                {
-                    Text = Encryptor.Decrypt(encryptedNote.Text, key)
-                };
-            }
-            return null;
-        }
+                Title = Encryptor.Decrypt(encryptedNote.Title, key),
+                Subtitle = Encryptor.Decrypt(encryptedNote.Subtitle, key),
+                Text = Encryptor.Decrypt(encryptedNote.Text, key)
+            };
+
+        public static List<Note> DecryptForPreview(List<Note> encryptedNotes, byte[] key)
+            => encryptedNotes.Select(note => DecryptForPreview(note, key)).ToList();
+
+        private static Note DecryptForPreview(Note encryptedNote, byte[] key)
+            => encryptedNote with
+            {
+                Title = Encryptor.Decrypt(encryptedNote.Title, key),
+                Subtitle = Encryptor.Decrypt(encryptedNote.Subtitle, key)
+            };
+
+        public static List<CategoryValues> GroupByCategories(List<Note> elements, List<Category> categories)
+            => categories.Select(category =>
+            {
+                List<Note> filteredElements = elements.FindAll(e => e.Category == category.ID);
+                return new CategoryValues(category, filteredElements, filteredElements.Count);
+            }).ToList();
     }
 }

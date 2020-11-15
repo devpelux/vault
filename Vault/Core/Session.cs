@@ -1,13 +1,13 @@
 ﻿namespace Vault.Core
 {
-    public class Global
+    public sealed class Session
     {
-        private static Global _instance = null;
-        public static Global Instance
+        private static Session _instance = null;
+        public static Session Instance
         {
             get
             {
-                if (_instance == null) _instance = new Global();
+                if (_instance == null) _instance = new Session();
                 return _instance;
             }
         }
@@ -17,6 +17,6 @@
         public byte[] Key { get; set; } = null;
 
 
-        private Global() { }
+        private Session() { }
     }
 }

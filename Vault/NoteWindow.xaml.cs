@@ -21,7 +21,7 @@ namespace Vault
         public NoteWindow(Note note)
         {
             InitializeComponent();
-            this.note = note != null ? Notes.Decrypt(note, Global.Instance.Key) : null;
+            this.note = note != null ? Notes.Decrypt(note, Session.Instance.Key) : null;
         }
 
         public string GetResult() => Result;
@@ -41,9 +41,9 @@ namespace Vault
         {
             if (note != null)
             {
-                NoteTitle.Text = note.Title;
-                NoteDescription.Text = note.Description;
                 NoteRequestKey.IsChecked = note.RequestKey;
+                NoteTitle.Text = note.Title;
+                NoteSubtitle.Text = note.Subtitle;
                 NoteText.Text = note.Text;
                 Delete.Visibility = Visibility.Visible;
             }
@@ -72,28 +72,27 @@ namespace Vault
             Note note = new Note
                 (
                     Passwords.NewID,
-                    Global.Instance.UserID,
-                    NoteTitle.Text,
-                    "Generic",
-                    NoteDescription.Text,
+                    Session.Instance.UserID,
+                    1,
                     NoteRequestKey.IsChecked ?? false,
+                    NoteTitle.Text,
+                    NoteSubtitle.Text,
                     NoteText.Text
                 );
-            VaultDB.Instance.Notes.AddRecord(Notes.Encrypt(note, Global.Instance.Key));
+            VaultDB.Instance.Notes.AddRecord(Notes.Encrypt(note, Session.Instance.Key));
         }
 
         private void EditElement()
         {
             Note editedNote = note with
             {
-                UserID = Global.Instance.UserID,
-                Title = NoteTitle.Text,
-                Category = "Generic",
-                Description = NoteDescription.Text,
+                Category = 1,
                 RequestKey = NoteRequestKey.IsChecked ?? false,
+                Title = NoteTitle.Text,
+                Subtitle = NoteSubtitle.Text,
                 Text = NoteText.Text
             };
-            VaultDB.Instance.Notes.UpdateRecord(Notes.Encrypt(editedNote, Global.Instance.Key));
+            VaultDB.Instance.Notes.UpdateRecord(Notes.Encrypt(editedNote, Session.Instance.Key));
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)

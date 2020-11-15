@@ -67,11 +67,11 @@ namespace Vault
                 byte[] hashPkey = salt.Concat(Encryptor.GenerateKey(pkey, salt)).ToArray();
                 if (user.Password.Equals(Encryptor.ConvertToString(hashPkey)))
                 {
-                    Global.Instance.UserID = user.ID;
-                    Global.Instance.Username = user.Username;
-                    Global.Instance.Key = Encryptor.ConvertToBytes(Encryptor.Decrypt(user.Key, pkey));
+                    Session.Instance.UserID = user.ID;
+                    Session.Instance.Username = user.Username;
+                    Session.Instance.Key = Encryptor.ConvertToBytes(Encryptor.Decrypt(user.Key, pkey));
 
-                    if (Remember.IsChecked ?? false) Settings.Default.User = Global.Instance.Username;
+                    if (Remember.IsChecked ?? false) Settings.Default.User = Session.Instance.Username;
                     else Settings.Default.User = "";
 
                     new Home().Show();

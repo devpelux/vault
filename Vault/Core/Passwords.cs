@@ -1,10 +1,11 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Vault.Core
 {
-    public record Password(int ID, int UserID, string Name, string Category, string Description, bool RequestKey, string Website, string Username, string Key, string Note);
+    public record Password(int ID, int User, int Category, bool RequestKey, string Label, string Description, string Url, string Username, string Key, string Note);
 
     public class Passwords : ITable
     {
@@ -20,17 +21,18 @@ namespace Vault.Core
         {
             string command = "CREATE TABLE IF NOT EXISTS Passwords (" +
                                         "ID INTEGER NOT NULL UNIQUE, " +
-                                        "UserID INTEGER NOT NULL, " +
-                                        "Name TEXT NOT NULL, " +
-                                        "Category TEXT NOT NULL, " +
-                                        "Description TEXT NOT NULL, " +
+                                        "User INTEGER NOT NULL, " +
+                                        "Category INTEGER NOT NULL, " +
                                         "RequestKey INTEGER NOT NULL, " +
-                                        "Website TEXT NOT NULL, " +
+                                        "Label TEXT NOT NULL, " +
+                                        "Description TEXT NOT NULL, " +
+                                        "Url TEXT NOT NULL, " +
                                         "Username TEXT NOT NULL, " +
                                         "Key TEXT NOT NULL, " +
                                         "Note TEXT NOT NULL, " +
                                         "PRIMARY KEY(ID AUTOINCREMENT), " +
-                                        "FOREIGN KEY(UserID) REFERENCES Users(ID)" +
+                                        "FOREIGN KEY(User) REFERENCES Users(ID), " +
+                                        "FOREIGN KEY(Category) REFERENCES Categories(ID)" +
                                         ");";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Prepare();
@@ -55,15 +57,15 @@ namespace Vault.Core
 
         public void AddRecord(Password record)
         {
-            string command = "INSERT INTO Passwords (UserID, Name, Category, Description, RequestKey, Website, Username, Key, Note) " +
-                                    "VALUES (@UserID, @Name, @Category, @Description, @RequestKey, @Website, @Username, @Key, @Note);";
+            string command = "INSERT INTO Passwords (User, Category, RequestKey, Label, Description, Url, Username, Key, Note) " +
+                                    "VALUES (@User, @Category, @RequestKey, @Label, @Description, @Url, @Username, @Key, @Note);";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
-            query.Parameters.AddWithValue("@UserID", record.UserID);
-            query.Parameters.AddWithValue("@Name", record.Name);
+            query.Parameters.AddWithValue("@User", record.User);
             query.Parameters.AddWithValue("@Category", record.Category);
-            query.Parameters.AddWithValue("@Description", record.Description);
             query.Parameters.AddWithValue("@RequestKey", record.RequestKey ? 1 : 0);
-            query.Parameters.AddWithValue("@Website", record.Website);
+            query.Parameters.AddWithValue("@Label", record.Label);
+            query.Parameters.AddWithValue("@Description", record.Description);
+            query.Parameters.AddWithValue("@Url", record.Url);
             query.Parameters.AddWithValue("@Username", record.Username);
             query.Parameters.AddWithValue("@Key", record.Key);
             query.Parameters.AddWithValue("@Note", record.Note);
@@ -82,7 +84,7 @@ namespace Vault.Core
 
         public List<Password> GetAllRecords()
         {
-            List<Password> records = new List<Password>();
+            List<Password> records = new();
             string command = "SELECT * FROM Passwords";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Prepare();
@@ -102,61 +104,37 @@ namespace Vault.Core
             return null;
         }
 
-        public List<Password> GetRecords(int userId)
+        public List<Password> GetRecords(int user)
         {
-            List<Password> records = new List<Password>();
-            string command = "SELECT Passwords.ID, " +
-                                    "Passwords.UserID, " +
-                                    "Passwords.Name, " +
-                                    "Passwords.Category, " +
-                                    "Passwords.Description, " +
-                                    "Passwords.RequestKey, " +
-                                    "Passwords.Website, " +
-                                    "Passwords.Username, " +
-                                    "Passwords.Key, " +
-                                    "Passwords.Note " +
-                                    "FROM Passwords " +
-                                    "JOIN Users ON Passwords.UserID = Users.ID " +
-                                    "WHERE Users.ID = @UserID;";
+            List<Password> records = new();
+            string command = "SELECT * FROM Passwords WHERE User = @User;";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
-            query.Parameters.AddWithValue("@UserID", userId);
+            query.Parameters.AddWithValue("@User", user);
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
             while (reader.Read()) records.Add(ReadRecord(reader));
             return records;
         }
 
-        public List<Password> GetRecords(string name)
+        public List<Password> GetRecords(string label)
         {
-            List<Password> records = new List<Password>();
-            string command = "SELECT * FROM Passwords WHERE Name LIKE @Name;";
+            List<Password> records = new();
+            string command = "SELECT * FROM Passwords WHERE Label LIKE @Label;";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
-            query.Parameters.AddWithValue("@Name", $"%{name}%");
+            query.Parameters.AddWithValue("@Label", $"%{label}%");
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
             while (reader.Read()) records.Add(ReadRecord(reader));
             return records;
         }
 
-        public List<Password> GetRecords(string name, int userId)
+        public List<Password> GetRecords(string label, int user)
         {
-            List<Password> records = new List<Password>();
-            string command = "SELECT Passwords.ID, " +
-                                    "Passwords.UserID, " +
-                                    "Passwords.Name, " +
-                                    "Passwords.Category, " +
-                                    "Passwords.Description, " +
-                                    "Passwords.RequestKey, " +
-                                    "Passwords.Website, " +
-                                    "Passwords.Username, " +
-                                    "Passwords.Key, " +
-                                    "Passwords.Note " +
-                                    "FROM Passwords " +
-                                    "JOIN Users ON Passwords.UserID = Users.ID " +
-                                    "WHERE Users.ID = @UserID AND Passwords.Name LIKE @Name;";
+            List<Password> records = new();
+            string command = "SELECT * FROM Passwords WHERE User = @User AND Label LIKE @Label;";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
-            query.Parameters.AddWithValue("@UserID", userId);
-            query.Parameters.AddWithValue("@Name", $"%{name}%");
+            query.Parameters.AddWithValue("@User", user);
+            query.Parameters.AddWithValue("@Label", $"%{label}%");
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
             while (reader.Read()) records.Add(ReadRecord(reader));
@@ -166,24 +144,24 @@ namespace Vault.Core
         public void UpdateRecord(Password record)
         {
             string command = "UPDATE Passwords " +
-                                    "SET UserID = @UserID, " +
-                                        "Name = @Name, " +
+                                    "SET User = @User, " +
                                         "Category = @Category, " +
-                                        "Description = @Description, " +
                                         "RequestKey = @RequestKey, " +
-                                        "Website = @Website, " +
+                                        "Label = @Label, " +
+                                        "Description = @Description, " +
+                                        "Url = @Url, " +
                                         "Username = @Username, " +
                                         "Key = @Key, " +
                                         "Note = @Note " +
                                     "WHERE ID = @ID;";
             SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@ID", record.ID);
-            query.Parameters.AddWithValue("@UserID", record.UserID);
-            query.Parameters.AddWithValue("@Name", record.Name);
+            query.Parameters.AddWithValue("@User", record.User);
             query.Parameters.AddWithValue("@Category", record.Category);
-            query.Parameters.AddWithValue("@Description", record.Description);
             query.Parameters.AddWithValue("@RequestKey", record.RequestKey ? 1 : 0);
-            query.Parameters.AddWithValue("@Website", record.Website);
+            query.Parameters.AddWithValue("@Label", record.Label);
+            query.Parameters.AddWithValue("@Description", record.Description);
+            query.Parameters.AddWithValue("@Url", record.Url);
             query.Parameters.AddWithValue("@Username", record.Username);
             query.Parameters.AddWithValue("@Key", record.Key);
             query.Parameters.AddWithValue("@Note", record.Note);
@@ -213,10 +191,10 @@ namespace Vault.Core
             (
                 reader.GetInt32(0),
                 reader.GetInt32(1),
-                reader.GetString(2),
-                reader.GetString(3),
+                reader.GetInt32(2),
+                reader.GetInt32(3) == 1,
                 reader.GetString(4),
-                reader.GetInt32(5) == 1,
+                reader.GetString(5),
                 reader.GetString(6),
                 reader.GetString(7),
                 reader.GetString(8),
@@ -224,31 +202,42 @@ namespace Vault.Core
             );
 
         public static Password Encrypt(Password password, byte[] key)
-        {
-            if (password != null)
+            => password with
             {
-                return password with
-                {
-                    Username = Encryptor.Encrypt(password.Username, key),
-                    Key = Encryptor.Encrypt(password.Key, key),
-                    Note = Encryptor.Encrypt(password.Note, key)
-                };
-            }
-            return null;
-        }
+                Label = Encryptor.Encrypt(password.Label, key),
+                Description = Encryptor.Encrypt(password.Description, key),
+                Url = Encryptor.Encrypt(password.Url, key),
+                Username = Encryptor.Encrypt(password.Username, key),
+                Key = Encryptor.Encrypt(password.Key, key),
+                Note = Encryptor.Encrypt(password.Note, key)
+            };
 
         public static Password Decrypt(Password encryptedPassword, byte[] key)
-        {
-            if (encryptedPassword != null)
+            => encryptedPassword with
             {
-                return encryptedPassword with
-                {
-                    Username = Encryptor.Decrypt(encryptedPassword.Username, key),
-                    Key = Encryptor.Decrypt(encryptedPassword.Key, key),
-                    Note = Encryptor.Decrypt(encryptedPassword.Note, key)
-                };
-            }
-            return null;
-        }
+                Label = Encryptor.Decrypt(encryptedPassword.Label, key),
+                Description = Encryptor.Decrypt(encryptedPassword.Description, key),
+                Url = Encryptor.Decrypt(encryptedPassword.Url, key),
+                Username = Encryptor.Decrypt(encryptedPassword.Username, key),
+                Key = Encryptor.Decrypt(encryptedPassword.Key, key),
+                Note = Encryptor.Decrypt(encryptedPassword.Note, key)
+            };
+
+        public static List<Password> DecryptForPreview(List<Password> encryptedPasswords, byte[] key)
+            => encryptedPasswords.Select(password => DecryptForPreview(password, key)).ToList();
+
+        private static Password DecryptForPreview(Password encryptedPassword, byte[] key)
+            => encryptedPassword with
+            {
+                Label = Encryptor.Decrypt(encryptedPassword.Label, key),
+                Url = Encryptor.Decrypt(encryptedPassword.Url, key)
+            };
+
+        public static List<CategoryValues> GroupByCategories(List<Password> elements, List<Category> categories)
+            => categories.Select(category =>
+            {
+                List<Password> filteredElements = elements.FindAll(e => e.Category == category.ID);
+                return new CategoryValues(category, filteredElements, filteredElements.Count);
+            }).ToList();
     }
 }

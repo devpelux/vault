@@ -8,17 +8,14 @@
         <Setter Property="BorderBrush" Value="#FF575759"/>
         <Setter Property="BorderBrushOnMouseOver" Value="#FF575759"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="TitleForeground" Value="WhiteSmoke"/>
-        <Setter Property="DescriptionForeground" Value="Gray"/>
-        <Setter Property="CategoryForeground" Value="White"/>
+        <Setter Property="LabelForeground" Value="WhiteSmoke"/>
+        <Setter Property="TypeForeground" Value="Gray"/>
         <Setter Property="CornerRadius" Value="5"/>
-        <Setter Property="Title" Value="Title"/>
-        <Setter Property="Description" Value="Description"/>
-        <Setter Property="Category" Value="CAT"/>
-        <Setter Property="Height" Value="80"/>
-        <Setter Property="TitleFontSize" Value="24"/>
-        <Setter Property="CategoryFontSize" Value="12"/>
-        <Setter Property="DescriptionFontSize" Value="10"/>
+        <Setter Property="Label" Value="Label"/>
+        <Setter Property="Type" Value="Type"/>
+        <Setter Property="Height" Value="70"/>
+        <Setter Property="LabelFontSize" Value="24"/>
+        <Setter Property="TypeFontSize" Value="10"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -59,31 +56,21 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="100"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock x:Name="PART_Title"
+                                <TextBlock x:Name="PART_Label"
                                            Grid.Column="0"
                                            VerticalAlignment="Center"
                                            Margin="10,0,10,5"
-                                           FontSize="{TemplateBinding TitleFontSize}"
-                                           Foreground="{TemplateBinding TitleForeground}"
-                                           Text="{TemplateBinding Title}"
+                                           FontSize="{TemplateBinding LabelFontSize}"
+                                           Foreground="{TemplateBinding LabelForeground}"
+                                           Text="{TemplateBinding Label}"
                                            Focusable="False"/>
-                                <TextBlock x:Name="PART_Description"
+                                <TextBlock x:Name="PART_Type"
                                            Grid.Column="0"
                                            VerticalAlignment="Bottom"
                                            Margin="12,0,12,5"
-                                           FontSize="{TemplateBinding DescriptionFontSize}"
-                                           Foreground="{TemplateBinding DescriptionForeground}"
-                                           Text="{TemplateBinding Description}"
-                                           Focusable="False"/>
-                                <TextBlock x:Name="PART_Category"
-                                           Grid.Column="1"
-                                           HorizontalAlignment="Right"
-                                           VerticalAlignment="Center"
-                                           Margin="10,0,10,0"
-                                           FontSize="{TemplateBinding CategoryFontSize}"
-                                           FontWeight="Bold"
-                                           Foreground="{TemplateBinding CategoryForeground}"
-                                           Text="{TemplateBinding Category}"
+                                           FontSize="{TemplateBinding TypeFontSize}"
+                                           Foreground="{TemplateBinding TypeForeground}"
+                                           Text="{TemplateBinding Type}"
                                            Focusable="False"/>
                             </Grid>
                         </Border>

@@ -5,12 +5,12 @@ using System.IO;
 
 namespace Vault.Core
 {
-    public class VaultDBContext : IEquatable<VaultDBContext>
+    public sealed class VaultDBContext : IEquatable<VaultDBContext>
     {
-        public readonly string DatabaseName;
-        public readonly string DatabasePath;
-        public readonly string DatabaseFullPath;
-        public readonly string ConnectionString;
+        public string DatabaseName { get; init; }
+        public string DatabasePath { get; init; }
+        public string DatabaseFullPath { get; init; }
+        public string ConnectionString { get; init; }
 
 
         public VaultDBContext(string databaseName = "vault", string databasePath = ".")
@@ -32,13 +32,7 @@ namespace Vault.Core
                    DatabaseName == other.DatabaseName &&
                    DatabasePath == other.DatabasePath;
 
-        public override int GetHashCode()
-        {
-            int hashCode = -1505882814;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DatabaseName);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DatabasePath);
-            return hashCode;
-        }
+        public override int GetHashCode() => HashCode.Combine(DatabaseName, DatabasePath);
 
         public static bool operator ==(VaultDBContext left, VaultDBContext right) => EqualityComparer<VaultDBContext>.Default.Equals(left, right);
 

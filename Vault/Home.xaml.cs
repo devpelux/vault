@@ -34,21 +34,21 @@ namespace Vault
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            loaded = true;
             switch (Settings.Default.SectionToLoad)
             {
                 case 1:
                     LoadPasswordSection();
                     break;
                 case 2:
-                    LoadPasswordSection();
+                    LoadCardSection();
                     break;
                 case 3:
-                    LoadPasswordSection();
+                    LoadNoteSection();
                     break;
                 default:
                     break;
             }
+            loaded = true;
         }
 
         private void NewPassword_Click(object sender, RoutedEventArgs e)
@@ -171,23 +171,26 @@ namespace Vault
             }
         }
 
-        private void LoadSearchedPasswords() => LoadPasswords(VaultDB.Instance.Passwords.GetRecords(Search.Text, Global.Instance.UserID));
+        private void LoadSearchedPasswords() => LoadPasswords(VaultDB.Instance.Passwords.GetRecords(Search.Text, Session.Instance.UserID));
 
-        private void LoadAllPasswords() => LoadPasswords(VaultDB.Instance.Passwords.GetRecords(Global.Instance.UserID));
+        private void LoadAllPasswords() => LoadPasswords(VaultDB.Instance.Passwords.GetRecords(Session.Instance.UserID));
 
-        private void LoadPasswords(List<Password> passwords) => PasswordList.ItemsSource = passwords;
+        private void LoadPasswords(List<Password> passwords) => PasswordList.ItemsSource = Passwords.GroupByCategories(Passwords.DecryptForPreview(passwords, Session.Instance.Key),
+                VaultDB.Instance.Categories.GetRecords(Session.Instance.UserID));
 
-        private void LoadSearchedCards() => LoadCards(VaultDB.Instance.Cards.GetRecords(Search.Text, Global.Instance.UserID));
+        private void LoadSearchedCards() => LoadCards(VaultDB.Instance.Cards.GetRecords(Search.Text, Session.Instance.UserID));
 
-        private void LoadAllCards() => LoadCards(VaultDB.Instance.Cards.GetRecords(Global.Instance.UserID));
+        private void LoadAllCards() => LoadCards(VaultDB.Instance.Cards.GetRecords(Session.Instance.UserID));
 
-        private void LoadCards(List<Card> cards) => CardList.ItemsSource = cards;
+        private void LoadCards(List<Card> cards) => CardList.ItemsSource = Cards.GroupByCategories(Cards.DecryptForPreview(cards, Session.Instance.Key),
+                VaultDB.Instance.Categories.GetRecords(Session.Instance.UserID));
 
-        private void LoadSearchedNotes() => LoadNotes(VaultDB.Instance.Notes.GetRecords(Search.Text, Global.Instance.UserID));
+        private void LoadSearchedNotes() => LoadNotes(VaultDB.Instance.Notes.GetRecords(Search.Text, Session.Instance.UserID));
 
-        private void LoadAllNotes() => LoadNotes(VaultDB.Instance.Notes.GetRecords(Global.Instance.UserID));
+        private void LoadAllNotes() => LoadNotes(VaultDB.Instance.Notes.GetRecords(Session.Instance.UserID));
 
-        private void LoadNotes(List<Note> notes) => NoteList.ItemsSource = notes;
+        private void LoadNotes(List<Note> notes) => NoteList.ItemsSource = Notes.GroupByCategories(Notes.DecryptForPreview(notes, Session.Instance.Key),
+                VaultDB.Instance.Categories.GetRecords(Session.Instance.UserID));
 
         #region Switcher
 
@@ -209,6 +212,7 @@ namespace Vault
         private void LoadPasswordSection()
         {
             loadedSection = 1;
+            SwitchToPasswordSection.IsActivated = true;
             SwitchToCardSection.IsActivated = false;
             SwitchToNoteSection.IsActivated = false;
             CardSection.Visibility = Visibility.Collapsed;
@@ -221,6 +225,7 @@ namespace Vault
         private void LoadCardSection()
         {
             loadedSection = 2;
+            SwitchToCardSection.IsActivated = true;
             SwitchToPasswordSection.IsActivated = false;
             SwitchToNoteSection.IsActivated = false;
             PasswordSection.Visibility = Visibility.Collapsed;
@@ -233,6 +238,7 @@ namespace Vault
         private void LoadNoteSection()
         {
             loadedSection = 3;
+            SwitchToNoteSection.IsActivated = true;
             SwitchToCardSection.IsActivated = false;
             SwitchToPasswordSection.IsActivated = false;
             CardSection.Visibility = Visibility.Collapsed;

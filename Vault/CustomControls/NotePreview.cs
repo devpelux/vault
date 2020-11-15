@@ -43,23 +43,14 @@ namespace Vault.CustomControls
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register(nameof(Title), typeof(string), typeof(NotePreview));
 
-        public string Category
+        public string Subtitle
         {
-            get => (string)GetValue(CategoryProperty);
-            set => SetValue(CategoryProperty, value);
+            get => (string)GetValue(SubtitleProperty);
+            set => SetValue(SubtitleProperty, value);
         }
 
-        public static readonly DependencyProperty CategoryProperty =
-            DependencyProperty.Register(nameof(Category), typeof(string), typeof(NotePreview));
-
-        public string Description
-        {
-            get => (string)GetValue(DescriptionProperty);
-            set => SetValue(DescriptionProperty, value);
-        }
-
-        public static readonly DependencyProperty DescriptionProperty =
-            DependencyProperty.Register(nameof(Description), typeof(string), typeof(NotePreview));
+        public static readonly DependencyProperty SubtitleProperty =
+            DependencyProperty.Register(nameof(Subtitle), typeof(string), typeof(NotePreview));
 
         public CornerRadius CornerRadius
         {
@@ -79,23 +70,14 @@ namespace Vault.CustomControls
         public static readonly DependencyProperty TitleForegroundProperty =
             DependencyProperty.Register(nameof(TitleForeground), typeof(Brush), typeof(NotePreview));
 
-        public Brush CategoryForeground
+        public Brush SubtitleForeground
         {
-            get => (Brush)GetValue(CategoryForegroundProperty);
-            set => SetValue(CategoryForegroundProperty, value);
+            get => (Brush)GetValue(SubtitleForegroundProperty);
+            set => SetValue(SubtitleForegroundProperty, value);
         }
 
-        public static readonly DependencyProperty CategoryForegroundProperty =
-            DependencyProperty.Register(nameof(CategoryForeground), typeof(Brush), typeof(NotePreview));
-
-        public Brush DescriptionForeground
-        {
-            get => (Brush)GetValue(DescriptionForegroundProperty);
-            set => SetValue(DescriptionForegroundProperty, value);
-        }
-
-        public static readonly DependencyProperty DescriptionForegroundProperty =
-            DependencyProperty.Register(nameof(DescriptionForeground), typeof(Brush), typeof(NotePreview));
+        public static readonly DependencyProperty SubtitleForegroundProperty =
+            DependencyProperty.Register(nameof(SubtitleForeground), typeof(Brush), typeof(NotePreview));
 
         public double TitleFontSize
         {
@@ -106,23 +88,14 @@ namespace Vault.CustomControls
         public static readonly DependencyProperty TitleFontSizeProperty =
             DependencyProperty.Register(nameof(TitleFontSize), typeof(double), typeof(NotePreview));
 
-        public double CategoryFontSize
+        public double SubtitleFontSize
         {
-            get => (double)GetValue(CategoryFontSizeProperty);
-            set => SetValue(CategoryFontSizeProperty, value);
+            get => (double)GetValue(SubtitleFontSizeProperty);
+            set => SetValue(SubtitleFontSizeProperty, value);
         }
 
-        public static readonly DependencyProperty CategoryFontSizeProperty =
-            DependencyProperty.Register(nameof(CategoryFontSize), typeof(double), typeof(NotePreview));
-
-        public double DescriptionFontSize
-        {
-            get => (double)GetValue(DescriptionFontSizeProperty);
-            set => SetValue(DescriptionFontSizeProperty, value);
-        }
-
-        public static readonly DependencyProperty DescriptionFontSizeProperty =
-            DependencyProperty.Register(nameof(DescriptionFontSize), typeof(double), typeof(NotePreview));
+        public static readonly DependencyProperty SubtitleFontSizeProperty =
+            DependencyProperty.Register(nameof(SubtitleFontSize), typeof(double), typeof(NotePreview));
 
 
         static NotePreview()

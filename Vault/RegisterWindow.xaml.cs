@@ -12,6 +12,9 @@ namespace Vault
     /// </summary>
     public partial class RegisterWindow : Window
     {
+        private const string DEFAULT_CATEGORY = "Default";
+
+
         public RegisterWindow()
         {
             InitializeComponent();
@@ -80,14 +83,19 @@ namespace Vault
 
             VaultDB.Instance.Users.AddRecord(new User(Users.NewID, Username.Text, Encryptor.ConvertToString(hashPkey), cipherKey));
 
-            Global.Instance.UserID = VaultDB.Instance.Users.GetRecord(Username.Text).ID;
-            Global.Instance.Username = Username.Text;
-            Global.Instance.Key = key;
+            Session.Instance.UserID = VaultDB.Instance.Users.GetRecord(Username.Text).ID;
+            Session.Instance.Username = Username.Text;
+            Session.Instance.Key = key;
 
-            if (Remember.IsChecked ?? false) Settings.Default.User = Global.Instance.Username;
+            AddDefaultCategory();
+
+            if (Remember.IsChecked ?? false) Settings.Default.User = Session.Instance.Username;
 
             new Home().Show();
             Close();
         }
+
+        private static void AddDefaultCategory()
+            => VaultDB.Instance.Categories.AddRecord(new Category(Categories.NewID, Session.Instance.UserID, DEFAULT_CATEGORY, true));
     }
 }

@@ -97,13 +97,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Page Update="NoteWindow.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="CardWindow.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-  </ItemGroup>
-
 </Project>

@@ -64,7 +64,7 @@
             </Grid>
             <Grid x:Name="ContentWindow"
                   Grid.Row="1">
-                <cust:IconedTextBox x:Name="CardName"
+                <cust:IconedTextBox x:Name="CardLabel"
                                     VerticalAlignment="Top"
                                     Margin="0,25,0,0"
                                     Height="35"

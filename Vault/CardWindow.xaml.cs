@@ -21,7 +21,7 @@ namespace Vault
         public CardWindow(Card card)
         {
             InitializeComponent();
-            this.card = card != null ? Cards.Decrypt(card, Global.Instance.Key) : null;
+            this.card = card != null ? Cards.Decrypt(card, Session.Instance.Key) : null;
         }
 
         public string GetResult() => Result;
@@ -41,9 +41,9 @@ namespace Vault
         {
             if (card != null)
             {
-                CardName.Text = card.Name;
-                CardDescription.Text = card.Description;
                 CardRequestKey.IsChecked = card.RequestKey;
+                CardLabel.Text = card.Label;
+                CardDescription.Text = card.Description;
                 CardOwner.Text = card.Owner;
                 CardType.Text = card.Type;
                 CardNumber.Text = card.Number;
@@ -77,11 +77,11 @@ namespace Vault
             Card card = new Card
                 (
                     Cards.NewID,
-                    Global.Instance.UserID,
-                    CardName.Text,
-                    "Generic",
-                    CardDescription.Text,
+                    Session.Instance.UserID,
+                    1,
                     CardRequestKey.IsChecked ?? false,
+                    CardLabel.Text,
+                    CardDescription.Text,
                     CardOwner.Text,
                     CardType.Text,
                     CardNumber.Text,
@@ -89,17 +89,17 @@ namespace Vault
                     CardExpiration.Text,
                     CardNote.Text
                 );
-            VaultDB.Instance.Cards.AddRecord(Cards.Encrypt(card, Global.Instance.Key));
+            VaultDB.Instance.Cards.AddRecord(Cards.Encrypt(card, Session.Instance.Key));
         }
 
         private void EditElement()
         {
             Card editedCard = card with
             {
-                Name = CardName.Text,
-                Category = "Generic",
-                Description = CardDescription.Text,
+                Category = 1,
                 RequestKey = CardRequestKey.IsChecked ?? false,
+                Label = CardLabel.Text,
+                Description = CardDescription.Text,
                 Owner = CardOwner.Text,
                 Type = CardType.Text,
                 Number = CardNumber.Text,
@@ -107,7 +107,7 @@ namespace Vault
                 Expiration = CardExpiration.Text,
                 Note = CardNote.Text
             };
-            VaultDB.Instance.Cards.UpdateRecord(Cards.Encrypt(editedCard, Global.Instance.Key));
+            VaultDB.Instance.Cards.UpdateRecord(Cards.Encrypt(editedCard, Session.Instance.Key));
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
