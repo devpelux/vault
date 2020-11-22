@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Input;
 using Vault.Core;
 using Vault.CustomControls;
@@ -11,6 +12,7 @@ namespace Vault
     public partial class CardWindow : Window, IDialogWindow
     {
         private readonly Card card;
+        private readonly List<Category> categories;
 
         private string Result = "";
 
@@ -18,10 +20,11 @@ namespace Vault
         public const string EDIT = "CardWindow.EDIT";
 
 
-        public CardWindow(Card card)
+        public CardWindow(Card card, List<Category> categories)
         {
             InitializeComponent();
             this.card = card != null ? Cards.Decrypt(card, Session.Instance.Key) : null;
+            this.categories = categories;
         }
 
         public string GetResult() => Result;
@@ -39,6 +42,7 @@ namespace Vault
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            Utility.LoadCategoryItems(CardCategory, (Style)FindResource("FullComboBoxItemDark"), categories);
             if (card != null)
             {
                 CardRequestKey.IsChecked = card.RequestKey;
@@ -50,10 +54,12 @@ namespace Vault
                 CardSecureCode.Text = card.SecureCode;
                 CardExpiration.Text = card.Expiration;
                 CardNote.Text = card.Note;
+                CardCategory.SelectedIndex = categories.FindIndex(c => c.ID == card.Category);
                 Delete.Visibility = Visibility.Visible;
             }
             else
             {
+                CardCategory.SelectedIndex = 0;
                 Delete.Visibility = Visibility.Hidden;
             }
         }
@@ -78,7 +84,7 @@ namespace Vault
                 (
                     Cards.NewID,
                     Session.Instance.UserID,
-                    1,
+                    categories[CardCategory.SelectedIndex].ID,
                     CardRequestKey.IsChecked ?? false,
                     CardLabel.Text,
                     CardDescription.Text,
@@ -96,7 +102,7 @@ namespace Vault
         {
             Card editedCard = card with
             {
-                Category = 1,
+                Category = categories[CardCategory.SelectedIndex].ID,
                 RequestKey = CardRequestKey.IsChecked ?? false,
                 Label = CardLabel.Text,
                 Description = CardDescription.Text,

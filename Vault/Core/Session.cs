@@ -12,11 +12,18 @@
             }
         }
 
-        public int UserID { get; set; } = -1;
-        public string Username { get; set; } = null;
-        public byte[] Key { get; set; } = null;
+        public int UserID { get; set; }
+        public string Username { get; set; }
+        public byte[] Key { get; set; }
 
 
-        private Session() { }
+        private Session() => Clear();
+
+        public void Clear()
+        {
+            UserID = -1;
+            Username = null;
+            Key = null;
+        }
     }
 }

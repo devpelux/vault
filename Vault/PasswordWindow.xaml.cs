@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Input;
 using Vault.Core;
 using Vault.CustomControls;
@@ -11,6 +12,7 @@ namespace Vault
     public partial class PasswordWindow : Window, IDialogWindow
     {
         private readonly Password password;
+        private readonly List<Category> categories;
 
         private string Result = "";
 
@@ -18,10 +20,11 @@ namespace Vault
         public const string EDIT = "PasswordWindow.EDIT";
 
 
-        public PasswordWindow(Password password)
+        public PasswordWindow(Password password, List<Category> categories)
         {
             InitializeComponent();
             this.password = password != null ? Passwords.Decrypt(password, Session.Instance.Key) : null;
+            this.categories = categories;
         }
 
         public string GetResult() => Result;
@@ -39,6 +42,7 @@ namespace Vault
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            Utility.LoadCategoryItems(PasswordCategory, (Style)FindResource("FullComboBoxItemDark"), categories);
             if (password != null)
             {
                 PasswordRequestKey.IsChecked = password.RequestKey;
@@ -46,12 +50,14 @@ namespace Vault
                 PasswordDescription.Text = password.Description;
                 PasswordUrl.Text = password.Url;
                 PasswordUsername.Text = password.Username;
-                PasswordKey.SetPassword(password.Key);
+                PasswordKey.Password = password.Key;
                 PasswordNote.Text = password.Note;
+                PasswordCategory.SelectedIndex = categories.FindIndex(c => c.ID == password.Category);
                 Delete.Visibility = Visibility.Visible;
             }
             else
             {
+                PasswordCategory.SelectedIndex = 0;
                 Delete.Visibility = Visibility.Hidden;
             }
         }
@@ -76,13 +82,13 @@ namespace Vault
                 (
                     Passwords.NewID,
                     Session.Instance.UserID,
-                    1,
+                    categories[PasswordCategory.SelectedIndex].ID,
                     PasswordRequestKey.IsChecked ?? false,
                     PasswordLabel.Text,
                     PasswordDescription.Text,
                     PasswordUrl.Text,
                     PasswordUsername.Text,
-                    PasswordKey.GetPassword(),
+                    PasswordKey.Password,
                     PasswordNote.Text
                 );
             VaultDB.Instance.Passwords.AddRecord(Passwords.Encrypt(password, Session.Instance.Key));
@@ -92,13 +98,13 @@ namespace Vault
         {
             Password editedPassword = password with
             {
-                Category = 1,
+                Category = categories[PasswordCategory.SelectedIndex].ID,
                 RequestKey = PasswordRequestKey.IsChecked ?? false,
                 Label = PasswordLabel.Text,
                 Description = PasswordDescription.Text,
                 Url = PasswordUrl.Text,
                 Username = PasswordUsername.Text,
-                Key = PasswordKey.GetPassword(),
+                Key = PasswordKey.Password,
                 Note = PasswordNote.Text
             };
             VaultDB.Instance.Passwords.UpdateRecord(Passwords.Encrypt(editedPassword, Session.Instance.Key));

@@ -215,7 +215,6 @@ namespace Vault.Core
         public static Card Encrypt(Card card, byte[] key)
             => card with
             {
-                Label = Encryptor.Encrypt(card.Label, key),
                 Description = Encryptor.Encrypt(card.Description, key),
                 Owner = Encryptor.Encrypt(card.Owner, key),
                 Type = Encryptor.Encrypt(card.Type, key),
@@ -228,7 +227,6 @@ namespace Vault.Core
         public static Card Decrypt(Card encryptedCard, byte[] key)
             => encryptedCard with
             {
-                Label = Encryptor.Decrypt(encryptedCard.Label, key),
                 Description = Encryptor.Decrypt(encryptedCard.Description, key),
                 Owner = Encryptor.Decrypt(encryptedCard.Owner, key),
                 Type = Encryptor.Decrypt(encryptedCard.Type, key),
@@ -244,7 +242,6 @@ namespace Vault.Core
         private static Card DecryptForPreview(Card encryptedCard, byte[] key)
             => encryptedCard with
             {
-                Label = Encryptor.Decrypt(encryptedCard.Label, key),
                 Type = Encryptor.Decrypt(encryptedCard.Type, key)
             };
 

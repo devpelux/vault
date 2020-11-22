@@ -15,6 +15,7 @@ namespace Vault
     {
         private bool loaded = false;
         private int loadedSection = 0;
+        private List<Category> categories = null;
 
 
         public Home()
@@ -34,6 +35,7 @@ namespace Vault
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            categories = VaultDB.Instance.Categories.GetRecords(Session.Instance.UserID);
             switch (Settings.Default.SectionToLoad)
             {
                 case 1:
@@ -51,9 +53,16 @@ namespace Vault
             loaded = true;
         }
 
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            Session.Instance.Clear();
+            new LoginWindow().Show();
+            Close();
+        }
+
         private void NewPassword_Click(object sender, RoutedEventArgs e)
         {
-            if (new DialogWindow(new PasswordWindow(null)).Show() == PasswordWindow.EDIT)
+            if (new DialogWindow(new PasswordWindow(null, categories)).Show() == PasswordWindow.EDIT)
             {
                 if (Search.Text != "") LoadSearchedPasswords();
                 else LoadAllPasswords();
@@ -62,7 +71,7 @@ namespace Vault
 
         private void NewCard_Click(object sender, RoutedEventArgs e)
         {
-            if (new DialogWindow(new CardWindow(null)).Show() == CardWindow.EDIT)
+            if (new DialogWindow(new CardWindow(null, categories)).Show() == CardWindow.EDIT)
             {
                 if (Search.Text != "") LoadSearchedCards();
                 else LoadAllCards();
@@ -71,7 +80,7 @@ namespace Vault
 
         private void NewNote_Click(object sender, RoutedEventArgs e)
         {
-            if (new DialogWindow(new NoteWindow(null)).Show() == NoteWindow.EDIT)
+            if (new DialogWindow(new NoteWindow(null, categories)).Show() == NoteWindow.EDIT)
             {
                 if (Search.Text != "") LoadSearchedNotes();
                 else LoadAllNotes();
@@ -83,7 +92,7 @@ namespace Vault
             Password selectedPassword = VaultDB.Instance.Passwords.GetRecord(((PasswordPreview)sender).ID);
             if (!selectedPassword.RequestKey)
             {
-                if (new DialogWindow(new PasswordWindow(selectedPassword)).Show() == PasswordWindow.EDIT)
+                if (new DialogWindow(new PasswordWindow(selectedPassword, categories)).Show() == PasswordWindow.EDIT)
                 {
                     if (Search.Text != "") LoadSearchedPasswords();
                     else LoadAllPasswords();
@@ -93,7 +102,7 @@ namespace Vault
             {
                 if (new DialogWindow(new KeyWindow()).Show() == KeyWindow.CONFIRMED)
                 {
-                    if (new DialogWindow(new PasswordWindow(selectedPassword)).Show() == PasswordWindow.EDIT)
+                    if (new DialogWindow(new PasswordWindow(selectedPassword, categories)).Show() == PasswordWindow.EDIT)
                     {
                         if (Search.Text != "") LoadSearchedPasswords();
                         else LoadAllPasswords();
@@ -107,7 +116,7 @@ namespace Vault
             Card selectedCard = VaultDB.Instance.Cards.GetRecord(((CardPreview)sender).ID);
             if (!selectedCard.RequestKey)
             {
-                if (new DialogWindow(new CardWindow(selectedCard)).Show() == CardWindow.EDIT)
+                if (new DialogWindow(new CardWindow(selectedCard, categories)).Show() == CardWindow.EDIT)
                 {
                     if (Search.Text != "") LoadSearchedCards();
                     else LoadAllCards();
@@ -117,7 +126,7 @@ namespace Vault
             {
                 if (new DialogWindow(new KeyWindow()).Show() == KeyWindow.CONFIRMED)
                 {
-                    if (new DialogWindow(new CardWindow(selectedCard)).Show() == CardWindow.EDIT)
+                    if (new DialogWindow(new CardWindow(selectedCard, categories)).Show() == CardWindow.EDIT)
                     {
                         if (Search.Text != "") LoadSearchedCards();
                         else LoadAllCards();
@@ -131,7 +140,7 @@ namespace Vault
             Note selectedNote = VaultDB.Instance.Notes.GetRecord(((NotePreview)sender).ID);
             if (!selectedNote.RequestKey)
             {
-                if (new DialogWindow(new NoteWindow(selectedNote)).Show() == NoteWindow.EDIT)
+                if (new DialogWindow(new NoteWindow(selectedNote, categories)).Show() == NoteWindow.EDIT)
                 {
                     if (Search.Text != "") LoadSearchedNotes();
                     else LoadAllNotes();
@@ -141,7 +150,7 @@ namespace Vault
             {
                 if (new DialogWindow(new KeyWindow()).Show() == KeyWindow.CONFIRMED)
                 {
-                    if (new DialogWindow(new NoteWindow(selectedNote)).Show() == NoteWindow.EDIT)
+                    if (new DialogWindow(new NoteWindow(selectedNote, categories)).Show() == NoteWindow.EDIT)
                     {
                         if (Search.Text != "") LoadSearchedNotes();
                         else LoadAllNotes();
@@ -175,46 +184,43 @@ namespace Vault
 
         private void LoadAllPasswords() => LoadPasswords(VaultDB.Instance.Passwords.GetRecords(Session.Instance.UserID));
 
-        private void LoadPasswords(List<Password> passwords) => PasswordList.ItemsSource = Passwords.GroupByCategories(Passwords.DecryptForPreview(passwords, Session.Instance.Key),
-                VaultDB.Instance.Categories.GetRecords(Session.Instance.UserID));
+        private void LoadPasswords(List<Password> passwords) => PasswordList.ItemsSource = Passwords.GroupByCategories(Passwords.DecryptForPreview(passwords, Session.Instance.Key), categories);
 
         private void LoadSearchedCards() => LoadCards(VaultDB.Instance.Cards.GetRecords(Search.Text, Session.Instance.UserID));
 
         private void LoadAllCards() => LoadCards(VaultDB.Instance.Cards.GetRecords(Session.Instance.UserID));
 
-        private void LoadCards(List<Card> cards) => CardList.ItemsSource = Cards.GroupByCategories(Cards.DecryptForPreview(cards, Session.Instance.Key),
-                VaultDB.Instance.Categories.GetRecords(Session.Instance.UserID));
+        private void LoadCards(List<Card> cards) => CardList.ItemsSource = Cards.GroupByCategories(Cards.DecryptForPreview(cards, Session.Instance.Key), categories);
 
         private void LoadSearchedNotes() => LoadNotes(VaultDB.Instance.Notes.GetRecords(Search.Text, Session.Instance.UserID));
 
         private void LoadAllNotes() => LoadNotes(VaultDB.Instance.Notes.GetRecords(Session.Instance.UserID));
 
-        private void LoadNotes(List<Note> notes) => NoteList.ItemsSource = Notes.GroupByCategories(Notes.DecryptForPreview(notes, Session.Instance.Key),
-                VaultDB.Instance.Categories.GetRecords(Session.Instance.UserID));
+        private void LoadNotes(List<Note> notes) => NoteList.ItemsSource = Notes.GroupByCategories(Notes.DecryptForPreview(notes, Session.Instance.Key), categories);
 
         #region Switcher
 
-        private void SwitchToPasswordSection_ActivationChanged(object sender, SwitcherActivationChangedEventArgs e)
+        private void SwitchToPasswordSection_ActivationChanged(object sender, RoutedEventArgs e)
         {
-            if (loaded && e.IsActivated) LoadPasswordSection();
+            if (loaded) LoadPasswordSection();
         }
 
-        private void SwitchToCardSection_ActivationChanged(object sender, SwitcherActivationChangedEventArgs e)
+        private void SwitchToCardSection_ActivationChanged(object sender, RoutedEventArgs e)
         {
-            if (loaded && e.IsActivated) LoadCardSection();
+            if (loaded) LoadCardSection();
         }
 
-        private void SwitchToNoteSection_ActivationChanged(object sender, SwitcherActivationChangedEventArgs e)
+        private void SwitchToNoteSection_ActivationChanged(object sender, RoutedEventArgs e)
         {
-            if (loaded && e.IsActivated) LoadNoteSection();
+            if (loaded) LoadNoteSection();
         }
 
         private void LoadPasswordSection()
         {
             loadedSection = 1;
-            SwitchToPasswordSection.IsActivated = true;
-            SwitchToCardSection.IsActivated = false;
-            SwitchToNoteSection.IsActivated = false;
+            SwitchToPasswordSection.IsChecked = true;
+            SwitchToCardSection.IsChecked = false;
+            SwitchToNoteSection.IsChecked = false;
             CardSection.Visibility = Visibility.Collapsed;
             NoteSection.Visibility = Visibility.Collapsed;
             PasswordSection.Visibility = Visibility.Visible;
@@ -225,9 +231,9 @@ namespace Vault
         private void LoadCardSection()
         {
             loadedSection = 2;
-            SwitchToCardSection.IsActivated = true;
-            SwitchToPasswordSection.IsActivated = false;
-            SwitchToNoteSection.IsActivated = false;
+            SwitchToCardSection.IsChecked = true;
+            SwitchToPasswordSection.IsChecked = false;
+            SwitchToNoteSection.IsChecked = false;
             PasswordSection.Visibility = Visibility.Collapsed;
             NoteSection.Visibility = Visibility.Collapsed;
             CardSection.Visibility = Visibility.Visible;
@@ -238,9 +244,9 @@ namespace Vault
         private void LoadNoteSection()
         {
             loadedSection = 3;
-            SwitchToNoteSection.IsActivated = true;
-            SwitchToCardSection.IsActivated = false;
-            SwitchToPasswordSection.IsActivated = false;
+            SwitchToNoteSection.IsChecked = true;
+            SwitchToCardSection.IsChecked = false;
+            SwitchToPasswordSection.IsChecked = false;
             CardSection.Visibility = Visibility.Collapsed;
             PasswordSection.Visibility = Visibility.Collapsed;
             NoteSection.Visibility = Visibility.Visible;

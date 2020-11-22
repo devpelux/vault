@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Input;
 using Vault.Core;
 using Vault.CustomControls;
@@ -11,6 +12,7 @@ namespace Vault
     public partial class NoteWindow : Window, IDialogWindow
     {
         private readonly Note note;
+        private readonly List<Category> categories;
 
         private string Result = "";
 
@@ -18,10 +20,11 @@ namespace Vault
         public const string EDIT = "NoteWindow.EDIT";
 
 
-        public NoteWindow(Note note)
+        public NoteWindow(Note note, List<Category> categories)
         {
             InitializeComponent();
             this.note = note != null ? Notes.Decrypt(note, Session.Instance.Key) : null;
+            this.categories = categories;
         }
 
         public string GetResult() => Result;
@@ -39,16 +42,19 @@ namespace Vault
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            Utility.LoadCategoryItems(NoteCategory, (Style)FindResource("FullComboBoxItemDark"), categories);
             if (note != null)
             {
                 NoteRequestKey.IsChecked = note.RequestKey;
                 NoteTitle.Text = note.Title;
                 NoteSubtitle.Text = note.Subtitle;
                 NoteText.Text = note.Text;
+                NoteCategory.SelectedIndex = categories.FindIndex(c => c.ID == note.Category);
                 Delete.Visibility = Visibility.Visible;
             }
             else
             {
+                NoteCategory.SelectedIndex = 0;
                 Delete.Visibility = Visibility.Hidden;
             }
         }
@@ -73,7 +79,7 @@ namespace Vault
                 (
                     Passwords.NewID,
                     Session.Instance.UserID,
-                    1,
+                    categories[NoteCategory.SelectedIndex].ID,
                     NoteRequestKey.IsChecked ?? false,
                     NoteTitle.Text,
                     NoteSubtitle.Text,
@@ -86,7 +92,7 @@ namespace Vault
         {
             Note editedNote = note with
             {
-                Category = 1,
+                Category = categories[NoteCategory.SelectedIndex].ID,
                 RequestKey = NoteRequestKey.IsChecked ?? false,
                 Title = NoteTitle.Text,
                 Subtitle = NoteSubtitle.Text,

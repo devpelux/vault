@@ -40,7 +40,7 @@ namespace Vault
 
         private void Confirm_Click(object sender, RoutedEventArgs e)
         {
-            if (Password.GetSecurePassword().Length > 0)
+            if (Password.SecurePassword.Length > 0)
             {
                 CheckPasswordAndConfirm();
             }
@@ -63,7 +63,7 @@ namespace Vault
 
             User user = VaultDB.Instance.Users.GetRecord(Session.Instance.UserID);
             byte[] salt = Encryptor.ConvertToBytes(user.Password).Take(32).ToArray();
-            byte[] pkey = Encryptor.GenerateKey(Password.GetSecurePassword(), salt);
+            byte[] pkey = Encryptor.GenerateKey(Password.SecurePassword, salt);
             byte[] hashPkey = salt.Concat(Encryptor.GenerateKey(pkey, salt)).ToArray();
             if (user.Password.Equals(Encryptor.ConvertToString(hashPkey)))
             {

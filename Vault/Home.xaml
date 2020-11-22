@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Vault"
         xmlns:cust="clr-namespace:Vault.CustomControls"
+        xmlns:fc="clr-namespace:FullControls;assembly=FullControls"
         mc:Ignorable="d"
         Title="Vault"
         Height="615"
@@ -30,7 +31,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.Clip>
-                <MultiBinding Converter="{StaticResource WindowClipConverter}">
+                <MultiBinding Converter="{StaticResource EqualClipConverter}">
                     <Binding Path="ActualWidth"
                          RelativeSource="{RelativeSource Self}"/>
                     <Binding Path="ActualHeight"
@@ -42,21 +43,19 @@
                 </MultiBinding>
             </Grid.Clip>
             <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
-                    Background="#FF1C1C1C"/>
+                    Background="{DynamicResource WindowSwitcherBackground}"/>
             <Grid x:Name="Toolbar"
                   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-                <cust:FullButton x:Name="CloseWindow"
-                                 HorizontalAlignment="Right"
-                                 Width="32"
-                                 Height="32"
-                                 Content="&#xE106;"
-                                 FontFamily="Segoe MDL2 Assets"
-                                 FontSize="10"
-                                 BorderThickness="0"
-                                 Background="Transparent"
-                                 BackgroundOnPressed="Red"
-                                 BackgroundOnDisabled="Transparent"
-                                 Click="CloseWindow_Click"/>
+                <fc:FullButton x:Name="CloseWindow"
+                               Style="{DynamicResource FullCloseButtonDark}"
+                               HorizontalAlignment="Right"
+                               Width="32"
+                               Height="32"
+                               Content="&#xE106;"
+                               FontFamily="Segoe MDL2 Assets"
+                               FontSize="10"
+                               BorderThickness="0"
+                               Click="CloseWindow_Click"/>
                 <TextBlock HorizontalAlignment="Left"
                            Margin="10,0,10,0"
                            TextWrapping="NoWrap"
@@ -70,41 +69,61 @@
             </Grid>
             <Grid x:Name="ContentCategorySwitcher"
                   Grid.Row="1" Grid.Column="0">
-                <cust:Switcher x:Name="SwitchToPasswordSection"
-                               VerticalAlignment="Top" Height="50"
-                               Content="Password" Margin="0,50,0,0"
-                               IsDeactivableByClick="False"
-                               IsActivated="True"
-                               ActivationChanged="SwitchToPasswordSection_ActivationChanged"/>
-                <cust:Switcher x:Name="SwitchToCardSection"
-                               VerticalAlignment="Top" Height="50"
-                               Content="Carte" Margin="0,100,0,0"
-                               BorderThickness="1,0,1,1"
-                               IsActivated="False"
-                               IsDeactivableByClick="False"
-                               ActivationChanged="SwitchToCardSection_ActivationChanged"/>
-                <cust:Switcher x:Name="SwitchToNoteSection"
-                               VerticalAlignment="Top" Height="50"
-                               Content="Note" Margin="0,150,0,0"
-                               BorderThickness="1,0,1,1"
-                               IsActivated="False"
-                               IsDeactivableByClick="False"
-                               ActivationChanged="SwitchToNoteSection_ActivationChanged"/>
+                <fc:FullToggleButton x:Name="SwitchToPasswordSection"
+                                     Style="{DynamicResource FullToggleButtonDark}"
+                                     VerticalAlignment="Top" Height="50"
+                                     Width="160"
+                                     Content="Password" Margin="0,50,0,0"
+                                     IsDeactivableByClick="False"
+                                     IsChecked="True"
+                                     Checked="SwitchToPasswordSection_ActivationChanged"/>
+                <fc:FullToggleButton x:Name="SwitchToCardSection"
+                                     Style="{DynamicResource FullToggleButtonDark}"
+                                     VerticalAlignment="Top" Height="50"
+                                     Width="160"
+                                     Content="Carte" Margin="0,100,0,0"
+                                     BorderThickness="1,0,1,1"
+                                     IsChecked="False"
+                                     IsDeactivableByClick="False"
+                                     Checked="SwitchToCardSection_ActivationChanged"/>
+                <fc:FullToggleButton x:Name="SwitchToNoteSection"
+                                     Style="{DynamicResource FullToggleButtonDark}"
+                                     VerticalAlignment="Top" Height="50"
+                                     Width="160"
+                                     Content="Note" Margin="0,150,0,0"
+                                     BorderThickness="1,0,1,1"
+                                     IsChecked="False"
+                                     IsDeactivableByClick="False"
+                                     Checked="SwitchToNoteSection_ActivationChanged"/>
+                <fc:FullButton x:Name="Logout"
+                               Style="{DynamicResource FullLogoutButtonDark}"
+                               Content="&#xE7E8;"
+                               FontFamily="Segoe MDL2 Assets"
+                               FontSize="30"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"
+                               Margin="0,0,0,20"
+                               Width="60"
+                               Height="60"
+                               CornerRadius="30"
+                               BorderThickness="2"
+                               Click="Logout_Click"/>
             </Grid>
             <Grid x:Name="ContentWindow"
                   Grid.Row="1" Grid.Column="1">
                 <Grid x:Name="PasswordSection" Visibility="Visible">
                     <TextBlock Text="PASSWORD" FontSize="20" Foreground="White"
-                           HorizontalAlignment="Left" VerticalAlignment="Top"
-                           Margin="10,10,0,0"/>
-                    <cust:FullButton x:Name="NewPassword"
-                                 Content="Aggiungi"
-                                 HorizontalAlignment="Right"
-                                 Margin="0,50,20,0"
-                                 VerticalAlignment="Top"
-                                 Width="70"
-                                 Height="40"
-                                 Click="NewPassword_Click"/>
+                               HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Margin="10,10,0,0"/>
+                    <fc:FullButton x:Name="NewPassword"
+                                   Style="{DynamicResource FullButtonDark}"
+                                   Content="Aggiungi"
+                                   HorizontalAlignment="Right"
+                                   Margin="0,50,20,0"
+                                   VerticalAlignment="Top"
+                                   Width="70"
+                                   Height="40"
+                                   Click="NewPassword_Click"/>
                     <ScrollViewer Margin="10,50,120,72"
                                   Padding="0,0,1,0"
                                   Style="{DynamicResource TransparentBarsScrollViewerStyle}">
@@ -125,16 +144,17 @@
                 </Grid>
                 <Grid x:Name="CardSection" Visibility="Collapsed">
                     <TextBlock Text="CARTE" FontSize="20" Foreground="White"
-                           HorizontalAlignment="Left" VerticalAlignment="Top"
-                           Margin="10,10,0,0"/>
-                    <cust:FullButton x:Name="NewCard"
-                                 Content="Aggiungi"
-                                 HorizontalAlignment="Right"
-                                 Margin="0,50,20,0"
-                                 VerticalAlignment="Top"
-                                 Width="70"
-                                 Height="40"
-                                 Click="NewCard_Click"/>
+                               HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Margin="10,10,0,0"/>
+                    <fc:FullButton x:Name="NewCard"
+                                   Style="{DynamicResource FullButtonDark}"
+                                   Content="Aggiungi"
+                                   HorizontalAlignment="Right"
+                                   Margin="0,50,20,0"
+                                   VerticalAlignment="Top"
+                                   Width="70"
+                                   Height="40"
+                                   Click="NewCard_Click"/>
                     <ScrollViewer Margin="10,50,120,72"
                                   Padding="0,0,1,0"
                                   Style="{DynamicResource TransparentBarsScrollViewerStyle}">
@@ -155,16 +175,17 @@
                 </Grid>
                 <Grid x:Name="NoteSection" Visibility="Collapsed">
                     <TextBlock Text="NOTE" FontSize="20" Foreground="White"
-                           HorizontalAlignment="Left" VerticalAlignment="Top"
-                           Margin="10,10,0,0"/>
-                    <cust:FullButton x:Name="NewNote"
-                                 Content="Aggiungi"
-                                 HorizontalAlignment="Right"
-                                 Margin="0,50,20,0"
-                                 VerticalAlignment="Top"
-                                 Width="70"
-                                 Height="40"
-                                 Click="NewNote_Click"/>
+                               HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Margin="10,10,0,0"/>
+                    <fc:FullButton x:Name="NewNote"
+                                   Style="{DynamicResource FullButtonDark}"
+                                   Content="Aggiungi"
+                                   HorizontalAlignment="Right"
+                                   Margin="0,50,20,0"
+                                   VerticalAlignment="Top"
+                                   Width="70"
+                                   Height="40"
+                                   Click="NewNote_Click"/>
                     <ScrollViewer Margin="10,50,120,72"
                                   Padding="0,0,1,0"
                                   Style="{DynamicResource TransparentBarsScrollViewerStyle}">
@@ -183,14 +204,17 @@
                         </cust:VaultTreeView>
                     </ScrollViewer>
                 </Grid>
-                <cust:IconedTextBox x:Name="Search"
-                                    HorizontalAlignment="Left"
-                                    Margin="10,0,0,20"
-                                    Height="32" Width="363" 
-                                    Hint="Cerca..."  VerticalAlignment="Bottom"
-                                    VerticalContentAlignment="Center"
-                                    Icon="Icons/ic_label.png"
-                                    TextChanged="Search_TextChanged"/>
+                <fc:FullTextBox x:Name="Search"
+                                Style="{DynamicResource FullTextBoxDark}"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Margin="10,0,0,20"
+                                Height="32"
+                                Width="363" 
+                                Hint="Cerca..."
+                                Icon="Icons/ic_search.png"
+                                ShowIcon="True"
+                                TextChanged="Search_TextChanged"/>
             </Grid>
         </Grid>
     </Border>

@@ -38,15 +38,15 @@ namespace Vault
 
         private void Register_Click(object sender, RoutedEventArgs e)
         {
-            if (Username.Text.Length > 0 && Password.GetSecurePassword().Length > 0 && ConfirmPassword.GetSecurePassword().Length > 0)
+            if (Username.Text.Length > 0 && Password.SecurePassword.Length > 0 && ConfirmPassword.SecurePassword.Length > 0)
             {
                 if (!Username.Text.Contains(" "))
                 {
                     if (!VaultDB.Instance.Users.Exists(Username.Text))
                     {
                         byte[] salt = Encryptor.GenerateSalt();
-                        string hashPassword = Encryptor.ConvertToString(Encryptor.GenerateKey(Password.GetSecurePassword(), salt, 1000));
-                        string hashConfirmPassword = Encryptor.ConvertToString(Encryptor.GenerateKey(ConfirmPassword.GetSecurePassword(), salt, 1000));
+                        string hashPassword = Encryptor.ConvertToString(Encryptor.GenerateKey(Password.SecurePassword, salt, 1000));
+                        string hashConfirmPassword = Encryptor.ConvertToString(Encryptor.GenerateKey(ConfirmPassword.SecurePassword, salt, 1000));
 
                         if (hashPassword.Equals(hashConfirmPassword))
                         {
@@ -77,7 +77,7 @@ namespace Vault
         {
             byte[] key = Encryptor.GenerateKey();
             byte[] salt = Encryptor.GenerateSalt();
-            byte[] pkey = Encryptor.GenerateKey(Password.GetSecurePassword(), salt);
+            byte[] pkey = Encryptor.GenerateKey(Password.SecurePassword, salt);
             byte[] hashPkey = salt.Concat(Encryptor.GenerateKey(pkey, salt)).ToArray();
             string cipherKey = Encryptor.Encrypt(key, pkey);
 

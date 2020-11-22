@@ -204,7 +204,6 @@ namespace Vault.Core
         public static Password Encrypt(Password password, byte[] key)
             => password with
             {
-                Label = Encryptor.Encrypt(password.Label, key),
                 Description = Encryptor.Encrypt(password.Description, key),
                 Url = Encryptor.Encrypt(password.Url, key),
                 Username = Encryptor.Encrypt(password.Username, key),
@@ -215,7 +214,6 @@ namespace Vault.Core
         public static Password Decrypt(Password encryptedPassword, byte[] key)
             => encryptedPassword with
             {
-                Label = Encryptor.Decrypt(encryptedPassword.Label, key),
                 Description = Encryptor.Decrypt(encryptedPassword.Description, key),
                 Url = Encryptor.Decrypt(encryptedPassword.Url, key),
                 Username = Encryptor.Decrypt(encryptedPassword.Username, key),
@@ -229,7 +227,6 @@ namespace Vault.Core
         private static Password DecryptForPreview(Password encryptedPassword, byte[] key)
             => encryptedPassword with
             {
-                Label = Encryptor.Decrypt(encryptedPassword.Label, key),
                 Url = Encryptor.Decrypt(encryptedPassword.Url, key)
             };
 

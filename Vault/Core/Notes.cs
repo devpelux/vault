@@ -189,7 +189,6 @@ namespace Vault.Core
         public static Note Encrypt(Note note, byte[] key)
             => note with
             {
-                Title = Encryptor.Encrypt(note.Title, key),
                 Subtitle = Encryptor.Encrypt(note.Subtitle, key),
                 Text = Encryptor.Encrypt(note.Text, key)
             };
@@ -197,7 +196,6 @@ namespace Vault.Core
         public static Note Decrypt(Note encryptedNote, byte[] key)
             => encryptedNote with
             {
-                Title = Encryptor.Decrypt(encryptedNote.Title, key),
                 Subtitle = Encryptor.Decrypt(encryptedNote.Subtitle, key),
                 Text = Encryptor.Decrypt(encryptedNote.Text, key)
             };
@@ -208,7 +206,6 @@ namespace Vault.Core
         private static Note DecryptForPreview(Note encryptedNote, byte[] key)
             => encryptedNote with
             {
-                Title = Encryptor.Decrypt(encryptedNote.Title, key),
                 Subtitle = Encryptor.Decrypt(encryptedNote.Subtitle, key)
             };
 

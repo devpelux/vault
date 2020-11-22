@@ -38,7 +38,7 @@ namespace Vault
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            if (Username.Text.Length > 0 && Password.GetSecurePassword().Length > 0)
+            if (Username.Text.Length > 0 && Password.SecurePassword.Length > 0)
             {
                 CheckPasswordAndLogin();
             }
@@ -63,7 +63,7 @@ namespace Vault
             if (user != null)
             {
                 byte[] salt = Encryptor.ConvertToBytes(user.Password).Take(32).ToArray();
-                byte[] pkey = Encryptor.GenerateKey(Password.GetSecurePassword(), salt);
+                byte[] pkey = Encryptor.GenerateKey(Password.SecurePassword, salt);
                 byte[] hashPkey = salt.Concat(Encryptor.GenerateKey(pkey, salt)).ToArray();
                 if (user.Password.Equals(Encryptor.ConvertToString(hashPkey)))
                 {

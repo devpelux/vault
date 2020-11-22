@@ -2,10 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:p="clr-namespace:Vault.Properties"
                     xmlns:local="clr-namespace:Vault"
-                    xmlns:cust="clr-namespace:Vault.CustomControls">
+                    xmlns:cust="clr-namespace:Vault.CustomControls"
+                    xmlns:fce="clr-namespace:FullControls.Extra;assembly=FullControls">
 
     <p:Settings x:Key="Settings"/>
-    <cust:WindowClipConverter x:Key="WindowClipConverter"/>
+    <fce:ClipConverter x:Key="EqualClipConverter"/>
 
     <SolidColorBrush x:Key="InputBackground" Color="White"/>
     <SolidColorBrush x:Key="InputBackgroundOnMouseOver" Color="White"/>
@@ -37,6 +38,7 @@
     <SolidColorBrush x:Key="ButtonForegroundOnDisabled" Color="Black"/>
 
     <SolidColorBrush x:Key="WindowBackground" Color="#FF202020"/>
+    <SolidColorBrush x:Key="WindowSwitcherBackground" Color="#FF1C1C1C"/>
     <SolidColorBrush x:Key="WindowBorderBrush" Color="#FF404040"/>
 
     <CornerRadius x:Key="WindowCornerRadius" TopLeft="8" TopRight="8" BottomRight="8" BottomLeft="8"/>

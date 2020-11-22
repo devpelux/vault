@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Vault"
-        xmlns:cust="clr-namespace:Vault.CustomControls"
+        xmlns:fc="clr-namespace:FullControls;assembly=FullControls"
         mc:Ignorable="d"
         Title="Register"
         Height="298"
@@ -25,7 +24,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.Clip>
-                <MultiBinding Converter="{StaticResource WindowClipConverter}">
+                <MultiBinding Converter="{StaticResource EqualClipConverter}">
                     <Binding Path="ActualWidth"
                          RelativeSource="{RelativeSource Self}"/>
                     <Binding Path="ActualHeight"
@@ -38,22 +37,20 @@
             </Grid.Clip>
             <Grid x:Name="Toolbar"
                   Grid.Row="0">
-                <cust:FullButton x:Name="CloseWindow"
-                                 HorizontalAlignment="Right"
-                                 Width="32"
-                                 Height="32"
-                                 Content="&#xE106;"
-                                 FontFamily="Segoe MDL2 Assets"
-                                 FontSize="10"
-                                 BorderThickness="0"
-                                 Background="Transparent"
-                                 BackgroundOnPressed="Red"
-                                 BackgroundOnDisabled="Transparent"
-                                 Click="CloseWindow_Click"/>
+                <fc:FullButton x:Name="CloseWindow"
+                               Style="{DynamicResource FullCloseButtonDark}"
+                               HorizontalAlignment="Right"
+                               Width="32"
+                               Height="32"
+                               Content="&#xE106;"
+                               FontFamily="Segoe MDL2 Assets"
+                               FontSize="10"
+                               BorderThickness="0"
+                               Click="CloseWindow_Click"/>
                 <TextBlock HorizontalAlignment="Left"
                            Margin="10,0,10,0"
                            TextWrapping="NoWrap"
-                           Text="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                           Text="{Binding Title,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}"
                            VerticalAlignment="Center"
                            Foreground="White"/>
                 <Grid x:Name="ToolbarMouseHandler"
@@ -63,30 +60,38 @@
             </Grid>
             <Grid x:Name="ContentWindow"
                   Grid.Row="1">
-                <cust:IconedTextBox x:Name="Username"
+                <fc:FullTextBox x:Name="Username"
+                                Style="{DynamicResource FullTextBoxDark}"
+                                VerticalAlignment="Top"
+                                Margin="0,25,0,0"
+                                Height="35"
+                                Width="250"
+                                VerticalContentAlignment="Center"
+                                ShowIcon="True"
+                                Icon="Icons/ic_user.png"
+                                Hint="Username"/>
+                <fc:FullPasswordBox x:Name="Password"
+                                    Style="{DynamicResource FullPasswordBoxDark}"
                                     VerticalAlignment="Top"
-                                    Margin="0,25,0,0"
+                                    Margin="0,75,0,0"
                                     Height="35"
                                     Width="250"
                                     VerticalContentAlignment="Center"
-                                    Icon="Icons/ic_user.png"
-                                    Hint="Username"/>
-                <cust:IconedPasswordBox x:Name="Password"
-                                        VerticalAlignment="Top"
-                                        Margin="0,75,0,0"
-                                        Height="35"
-                                        Width="250"
-                                        VerticalContentAlignment="Center"
-                                        Icon="Icons/ic_lock.png"
-                                        Hint="Password"/>
-                <cust:IconedPasswordBox x:Name="ConfirmPassword"
-                                        VerticalAlignment="Top"
-                                        Margin="0,115,0,0"
-                                        Height="35"
-                                        Width="250"
-                                        VerticalContentAlignment="Center"
-                                        Icon="Icons/ic_lock.png"
-                                        Hint="Conferma password"/>
+                                    EnablePeekButton="True"
+                                    ShowIcon="True"
+                                    Icon="Icons/ic_lock.png"
+                                    Hint="Password"/>
+                <fc:FullPasswordBox x:Name="ConfirmPassword"
+                                    Style="{DynamicResource FullPasswordBoxDark}"
+                                    VerticalAlignment="Top"
+                                    Margin="0,115,0,0"
+                                    Height="35"
+                                    Width="250"
+                                    VerticalContentAlignment="Center"
+                                    EnablePeekButton="True"
+                                    ShowIcon="True"
+                                    Icon="Icons/ic_lock.png"
+                                    Hint="Conferma password"/>
                 <CheckBox x:Name="Remember"
                           HorizontalAlignment="Left"
                           VerticalAlignment="Top"
@@ -98,18 +103,20 @@
                       Height="34"
                       VerticalAlignment="Top"
                       Margin="0,205,0,0">
-                    <cust:FullButton x:Name="Register"
-                                     Content="REGISTRATI"
-                                     HorizontalAlignment="Left"
-                                     Width="80"
-                                     Height="34"
-                                     Click="Register_Click"/>
-                    <cust:FullButton x:Name="Login"
-                                     Content="LOGIN"
-                                     HorizontalAlignment="Right"
-                                     Width="55"
-                                     Height="34"
-                                     Click="Login_Click"/>
+                    <fc:FullButton x:Name="Register"
+                                   Style="{DynamicResource FullButtonDark}"
+                                   Content="REGISTRATI"
+                                   HorizontalAlignment="Left"
+                                   Width="80"
+                                   Height="34"
+                                   Click="Register_Click"/>
+                    <fc:FullButton x:Name="Login"
+                                   Style="{DynamicResource FullButtonDark}"
+                                   Content="LOGIN"
+                                   HorizontalAlignment="Right"
+                                   Width="55"
+                                   Height="34"
+                                   Click="Login_Click"/>
                 </Grid>
             </Grid>
         </Grid>
