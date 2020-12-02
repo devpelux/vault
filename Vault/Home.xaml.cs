@@ -64,7 +64,7 @@ namespace Vault
 
         private void NewPassword_Click(object sender, RoutedEventArgs e)
         {
-            if (new DialogWindow(new PasswordWindow(null, categories)).Show() == PasswordWindow.EDIT)
+            if (new DialogWindow(new PasswordWindow(null, categories)).Show().Equals(PasswordWindow.EDIT))
             {
                 if (Search.Text != "") LoadSearchedPasswords();
                 else LoadAllPasswords();
@@ -73,7 +73,7 @@ namespace Vault
 
         private void NewCard_Click(object sender, RoutedEventArgs e)
         {
-            if (new DialogWindow(new CardWindow(null, categories)).Show() == CardWindow.EDIT)
+            if (new DialogWindow(new CardWindow(null, categories)).Show().Equals(CardWindow.EDIT))
             {
                 if (Search.Text != "") LoadSearchedCards();
                 else LoadAllCards();
@@ -82,7 +82,7 @@ namespace Vault
 
         private void NewNote_Click(object sender, RoutedEventArgs e)
         {
-            if (new DialogWindow(new NoteWindow(null, categories)).Show() == NoteWindow.EDIT)
+            if (new DialogWindow(new NoteWindow(null, categories)).Show().Equals(NoteWindow.EDIT))
             {
                 if (Search.Text != "") LoadSearchedNotes();
                 else LoadAllNotes();
@@ -94,7 +94,7 @@ namespace Vault
             Password selectedPassword = VaultDB.Instance.Passwords.GetRecord(((PasswordPreview)sender).ID);
             if (!selectedPassword.RequestKey)
             {
-                if (new DialogWindow(new PasswordWindow(selectedPassword, categories)).Show() == PasswordWindow.EDIT)
+                if (new DialogWindow(new PasswordWindow(selectedPassword, categories)).Show().Equals(PasswordWindow.EDIT))
                 {
                     if (Search.Text != "") LoadSearchedPasswords();
                     else LoadAllPasswords();
@@ -102,9 +102,9 @@ namespace Vault
             }
             else
             {
-                if (new DialogWindow(new KeyWindow()).Show() == KeyWindow.CONFIRMED)
+                if (new DialogWindow(new KeyWindow()).Show().Equals(KeyWindow.CONFIRMED))
                 {
-                    if (new DialogWindow(new PasswordWindow(selectedPassword, categories)).Show() == PasswordWindow.EDIT)
+                    if (new DialogWindow(new PasswordWindow(selectedPassword, categories)).Show().Equals(PasswordWindow.EDIT))
                     {
                         if (Search.Text != "") LoadSearchedPasswords();
                         else LoadAllPasswords();
@@ -118,7 +118,7 @@ namespace Vault
             Card selectedCard = VaultDB.Instance.Cards.GetRecord(((CardPreview)sender).ID);
             if (!selectedCard.RequestKey)
             {
-                if (new DialogWindow(new CardWindow(selectedCard, categories)).Show() == CardWindow.EDIT)
+                if (new DialogWindow(new CardWindow(selectedCard, categories)).Show().Equals(CardWindow.EDIT))
                 {
                     if (Search.Text != "") LoadSearchedCards();
                     else LoadAllCards();
@@ -126,9 +126,9 @@ namespace Vault
             }
             else
             {
-                if (new DialogWindow(new KeyWindow()).Show() == KeyWindow.CONFIRMED)
+                if (new DialogWindow(new KeyWindow()).Show().Equals(KeyWindow.CONFIRMED))
                 {
-                    if (new DialogWindow(new CardWindow(selectedCard, categories)).Show() == CardWindow.EDIT)
+                    if (new DialogWindow(new CardWindow(selectedCard, categories)).Show().Equals(CardWindow.EDIT))
                     {
                         if (Search.Text != "") LoadSearchedCards();
                         else LoadAllCards();
@@ -142,7 +142,7 @@ namespace Vault
             Note selectedNote = VaultDB.Instance.Notes.GetRecord(((NotePreview)sender).ID);
             if (!selectedNote.RequestKey)
             {
-                if (new DialogWindow(new NoteWindow(selectedNote, categories)).Show() == NoteWindow.EDIT)
+                if (new DialogWindow(new NoteWindow(selectedNote, categories)).Show().Equals(NoteWindow.EDIT))
                 {
                     if (Search.Text != "") LoadSearchedNotes();
                     else LoadAllNotes();
@@ -150,9 +150,9 @@ namespace Vault
             }
             else
             {
-                if (new DialogWindow(new KeyWindow()).Show() == KeyWindow.CONFIRMED)
+                if (new DialogWindow(new KeyWindow()).Show().Equals(KeyWindow.CONFIRMED))
                 {
-                    if (new DialogWindow(new NoteWindow(selectedNote, categories)).Show() == NoteWindow.EDIT)
+                    if (new DialogWindow(new NoteWindow(selectedNote, categories)).Show().Equals(NoteWindow.EDIT))
                     {
                         if (Search.Text != "") LoadSearchedNotes();
                         else LoadAllNotes();

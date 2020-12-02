@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using FullControls;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using Vault.Core;
-using Vault.CustomControls;
 
 namespace Vault
 {
     /// <summary>
     /// Finestra per la modifica delle carte memorizzate.
     /// </summary>
-    public partial class CardWindow : Window, IDialogWindow
+    public partial class CardWindow : EWindow, IDialog
     {
         private readonly Card card;
         private readonly List<Category> categories;
@@ -27,7 +27,7 @@ namespace Vault
             this.categories = categories;
         }
 
-        public string GetResult() => Result;
+        public object GetResult() => Result;
 
         private void ToolbarMouseHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

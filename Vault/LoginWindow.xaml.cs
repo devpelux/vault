@@ -1,9 +1,9 @@
-﻿using System.Linq;
+﻿using FullControls;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using Vault.Core;
-using Vault.CustomControls;
 using Vault.Properties;
 
 namespace Vault
@@ -11,7 +11,7 @@ namespace Vault
     /// <summary>
     /// Finestra di login.
     /// </summary>
-    public partial class LoginWindow : Window
+    public partial class LoginWindow : EWindow
     {
         private int attempt = 0;
 

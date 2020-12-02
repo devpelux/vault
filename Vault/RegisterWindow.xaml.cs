@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using FullControls;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Vault.Core;
-using Vault.CustomControls;
 using Vault.Properties;
 
 namespace Vault
@@ -10,7 +10,7 @@ namespace Vault
     /// <summary>
     /// Finestra di registrazione.
     /// </summary>
-    public partial class RegisterWindow : Window
+    public partial class RegisterWindow : EWindow
     {
         private const string DEFAULT_CATEGORY = "Default";
 

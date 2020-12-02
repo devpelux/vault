@@ -1,16 +1,16 @@
-﻿using System.Linq;
+﻿using FullControls;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using Vault.Core;
-using Vault.CustomControls;
 
 namespace Vault
 {
     /// <summary>
     /// Finestra di conferma password.
     /// </summary>
-    public partial class KeyWindow : Window, IDialogWindow
+    public partial class KeyWindow : EWindow, IDialog
     {
         private int attempt = 0;
 
@@ -25,7 +25,7 @@ namespace Vault
             InitializeComponent();
         }
 
-        public string GetResult() => Result;
+        public object GetResult() => Result;
 
         private void ToolbarMouseHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

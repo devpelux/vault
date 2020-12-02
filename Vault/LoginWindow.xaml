@@ -1,113 +1,74 @@
-﻿<Window x:Class="Vault.LoginWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:fc="clr-namespace:FullControls;assembly=FullControls"
-        mc:Ignorable="d"
-        Title="Login"
-        Height="258"
-        Width="302"
-        AllowsTransparency="True"
-        WindowStyle="None"
-        Background="{x:Null}"
-        WindowStartupLocation="CenterScreen"
-        Loaded="Window_Loaded">
-    <Border x:Name="WindowBorder"
-            Background="{DynamicResource WindowBackground}"
+﻿<fc:EWindow x:Class="Vault.LoginWindow"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:fc="clr-namespace:FullControls;assembly=FullControls"
+            mc:Ignorable="d"
+            Title="Login"
+            Height="226"
+            Width="302"
+            WindowStyle="None"
+            BorderThickness="1"
             BorderBrush="{DynamicResource WindowBorderBrush}"
-            BorderThickness="{DynamicResource WindowBorderThickness}"
-            CornerRadius="{DynamicResource WindowCornerRadius}"
-            SnapsToDevicePixels="True">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="32"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.Clip>
-                <MultiBinding Converter="{StaticResource EqualClipConverter}">
-                    <Binding Path="ActualWidth"
-                         RelativeSource="{RelativeSource Self}"/>
-                    <Binding Path="ActualHeight"
-                         RelativeSource="{RelativeSource Self}"/>
-                    <Binding Path="BorderThickness"
-                         RelativeSource="{RelativeSource FindAncestor, AncestorType=Border}"/>
-                    <Binding Path="CornerRadius"
-                         RelativeSource="{RelativeSource FindAncestor, AncestorType=Border}"/>
-                </MultiBinding>
-            </Grid.Clip>
-            <Grid x:Name="Toolbar"
-                  Grid.Row="0">
-                <fc:EButton x:Name="CloseWindow"
-                               Style="{DynamicResource ECloseButtonDark}"
-                               HorizontalAlignment="Right"
-                               Width="32"
-                               Height="32"
-                               Content="&#xE106;"
-                               FontFamily="Segoe MDL2 Assets"
-                               FontSize="10"
-                               BorderThickness="0"
-                               Click="CloseWindow_Click"/>
-                <TextBlock HorizontalAlignment="Left"
-                           Margin="10,0,10,0"
-                           TextWrapping="NoWrap"
-                           Text="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                           VerticalAlignment="Center"
-                           Foreground="White"/>
-                <Grid x:Name="ToolbarMouseHandler"
-                      Margin="0,0,50,0"
-                      Background="Transparent"
-                      MouseLeftButtonDown="ToolbarMouseHandler_MouseLeftButtonDown"/>
-            </Grid>
-            <Grid x:Name="ContentWindow"
-                  Grid.Row="1">
-                <fc:ETextBox x:Name="Username"
-                                Style="{DynamicResource ETextBoxDark}"
-                                VerticalAlignment="Top"
-                                Margin="0,25,0,0"
-                                Height="35"
-                                Width="250"
-                                VerticalContentAlignment="Center"
-                                Icon="Icons/ic_user.png"
-                                Hint="Username"
-                                Text="{Binding Source={StaticResource Settings}, Path=Default.User, Mode=OneWay}"/>
-                <fc:EPasswordBox x:Name="Password"
-                                    Style="{DynamicResource EPasswordBoxDark}"
-                                    VerticalAlignment="Top"
-                                    Margin="0,75,0,0"
-                                    Height="35"
-                                    Width="250"
-                                    VerticalContentAlignment="Center"
-                                    EnablePeekButton="True"
-                                    Icon="Icons/ic_lock.png"
-                                    Hint="Password"/>
-                <CheckBox x:Name="Remember"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Top"
-                          Margin="54,125,0,0"
-                          Content="Ricorda username"
-                          Foreground="White"/>
-                <Grid x:Name="Buttons"
-                      Width="160"
-                      Height="34"
-                      VerticalAlignment="Top"
-                      Margin="0,165,0,0">
-                    <fc:EButton x:Name="Login"
-                                   Style="{DynamicResource EButtonDark}"
-                                   Content="LOGIN"
-                                   HorizontalAlignment="Left"
-                                   Width="55"
-                                   Height="34"
-                                   Click="Login_Click"/>
-                    <fc:EButton x:Name="Register"
-                                   Style="{DynamicResource EButtonDark}"
-                                   Content="REGISTRATI"
-                                   HorizontalAlignment="Right"
-                                   Width="80"
-                                   Height="34"
-                                   Click="Register_Click"/>
-                </Grid>
-            </Grid>
+            Foreground="White"
+            CaptionButtonsForeground="White"
+            CaptionButtonsForegroundOnMouseOver="White"
+            CaptionButtonsForegroundOnPressed="White"
+            Background="{DynamicResource WindowBackground}"
+            CaptionButtonsBackground="{DynamicResource WindowBackground}"
+            CaptionButtonsBackgroundOnMouseOver="#FF575759"
+            CaptionButtonsBackgroundOnPressed="#FF2D2D30"
+            ToolbarBackground="{DynamicResource WindowBackground}"
+            WindowStartupLocation="CenterScreen"
+            ResizeMode="NoResize"
+            Loaded="Window_Loaded">
+    <Grid>
+        <fc:ETextBox x:Name="Username"
+                     Style="{DynamicResource ETextBoxDark}"
+                     VerticalAlignment="Top"
+                     Margin="0,25,0,0"
+                     Height="35"
+                     Width="250"
+                     VerticalContentAlignment="Center"
+                     Icon="Icons/ic_user.png"
+                     Hint="Username"
+                     Text="{Binding Source={StaticResource Settings}, Path=Default.User, Mode=OneWay}"/>
+        <fc:EPasswordBox x:Name="Password"
+                         Style="{DynamicResource EPasswordBoxDark}"
+                         VerticalAlignment="Top"
+                         Margin="0,75,0,0"
+                         Height="35"
+                         Width="250"
+                         VerticalContentAlignment="Center"
+                         EnablePeekButton="True"
+                         Icon="Icons/ic_lock.png"
+                         Hint="Password"/>
+        <CheckBox x:Name="Remember"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Margin="54,125,0,0"
+                  Content="Ricorda username"
+                  Foreground="White"/>
+        <Grid x:Name="Buttons"
+              Width="160"
+              Height="34"
+              VerticalAlignment="Top"
+              Margin="0,165,0,0">
+            <fc:EButton x:Name="Login"
+                        Style="{DynamicResource EButtonDark}"
+                        Content="LOGIN"
+                        HorizontalAlignment="Left"
+                        Width="55"
+                        Height="34"
+                        Click="Login_Click"/>
+            <fc:EButton x:Name="Register"
+                        Style="{DynamicResource EButtonDark}"
+                        Content="REGISTRATI"
+                        HorizontalAlignment="Right"
+                        Width="80"
+                        Height="34"
+                        Click="Register_Click"/>
         </Grid>
-    </Border>
-</Window>
+    </Grid>
+</fc:EWindow>

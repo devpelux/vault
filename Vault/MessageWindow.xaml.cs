@@ -1,16 +1,16 @@
-﻿using System;
+﻿using FullControls;
+using System;
 using System.Media;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using Vault.CustomControls;
 
 namespace Vault
 {
     /// <summary>
     /// Finestra di messaggio.
     /// </summary>
-    public partial class MessageWindow : Window, IDialogWindow
+    public partial class MessageWindow : EWindow, IDialog
     {
         private string Message { get; set; }
         private MessageBoxImage IconType { get; set; }
@@ -35,7 +35,7 @@ namespace Vault
             Title = title;
         }
 
-        public string GetResult() => Result;
+        public object GetResult() => Result;
 
         private void ToolbarMouseHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using FullControls;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using Vault.Core;
-using Vault.CustomControls;
 
 namespace Vault
 {
     /// <summary>
     /// Finestra per la modifica delle note memorizzate.
     /// </summary>
-    public partial class NoteWindow : Window, IDialogWindow
+    public partial class NoteWindow : EWindow, IDialog
     {
         private readonly Note note;
         private readonly List<Category> categories;
@@ -27,7 +27,7 @@ namespace Vault
             this.categories = categories;
         }
 
-        public string GetResult() => Result;
+        public object GetResult() => Result;
 
         private void ToolbarMouseHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

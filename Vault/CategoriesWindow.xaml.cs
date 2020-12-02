@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using FullControls;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using Vault.Core;
@@ -9,7 +10,7 @@ namespace Vault
     /// <summary>
     /// Finestra per la gestione delle categorie.
     /// </summary>
-    public partial class CategoriesWindow : Window, IDialogWindow
+    public partial class CategoriesWindow : EWindow, IDialog
     {
         private List<Category> categories;
 
@@ -20,6 +21,8 @@ namespace Vault
         {
             InitializeComponent();
         }
+
+        public object GetResult() => OK;
 
         private void ToolbarMouseHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -85,8 +88,5 @@ namespace Vault
                 }
             }
         }
-
-
-        public string GetResult() => OK;
     }
 }
