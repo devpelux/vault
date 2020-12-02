@@ -61,13 +61,21 @@ namespace Vault.Core
             query.ExecuteNonQuery();
         }
 
-        public void RemoveRecord(int id)
+        public bool RemoveRecord(int id)
         {
-            string command = "DELETE FROM Categories WHERE ID = @ID;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
-            query.Parameters.AddWithValue("@ID", id);
-            query.Prepare();
-            query.ExecuteNonQuery();
+            try
+            {
+                string command = "DELETE FROM Categories WHERE ID = @ID;";
+                SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+                query.Parameters.AddWithValue("@ID", id);
+                query.Prepare();
+                query.ExecuteNonQuery();
+                return true;
+            }
+            catch (SqliteException e)
+            {
+                return e.SqliteErrorCode == 19 ? false : throw e;
+            }
         }
 
         public List<Category> GetAllRecords()

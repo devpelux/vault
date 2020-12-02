@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:p="clr-namespace:Vault.Properties"
                     xmlns:local="clr-namespace:Vault"
-                    xmlns:cust="clr-namespace:Vault.CustomControls"
                     xmlns:fce="clr-namespace:FullControls.Extra;assembly=FullControls">
 
     <p:Settings x:Key="Settings"/>

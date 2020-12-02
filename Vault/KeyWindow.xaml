@@ -37,8 +37,8 @@
             </Grid.Clip>
             <Grid x:Name="Toolbar"
                   Grid.Row="0">
-                <fc:FullButton x:Name="CloseWindow"
-                               Style="{DynamicResource FullCloseButtonDark}"
+                <fc:EButton x:Name="CloseWindow"
+                               Style="{DynamicResource ECloseButtonDark}"
                                HorizontalAlignment="Right"
                                Width="32"
                                Height="32"
@@ -67,15 +67,14 @@
                            Foreground="White"
                            TextAlignment="Center"
                            TextWrapping="Wrap"/>
-                <fc:FullPasswordBox x:Name="Password"
-                                    Style="{DynamicResource FullPasswordBoxDark}"
+                <fc:EPasswordBox x:Name="Password"
+                                    Style="{DynamicResource EPasswordBoxDark}"
                                     VerticalAlignment="Top"
                                     Margin="0,65,0,0"
                                     Height="35"
                                     Width="250"
                                     VerticalContentAlignment="Center"
                                     EnablePeekButton="True"
-                                    ShowIcon="True"
                                     Icon="Icons/ic_lock.png"
                                     Hint="Password"/>
 
@@ -84,15 +83,15 @@
                       Height="34"
                       VerticalAlignment="Top"
                       Margin="0,125,0,0">
-                    <fc:FullButton x:Name="Confirm"
-                                   Style="{DynamicResource FullButtonDark}"
+                    <fc:EButton x:Name="Confirm"
+                                   Style="{DynamicResource EButtonDark}"
                                    Content="CONFERMA"
                                    HorizontalAlignment="Left"
                                    Width="80"
                                    Height="34"
                                    Click="Confirm_Click"/>
-                    <fc:FullButton x:Name="Cancel"
-                                   Style="{DynamicResource FullButtonDark}"
+                    <fc:EButton x:Name="Cancel"
+                                   Style="{DynamicResource EButtonDark}"
                                    Content="ANNULLA"
                                    HorizontalAlignment="Right"
                                    Width="70"

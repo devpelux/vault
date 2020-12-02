@@ -38,8 +38,8 @@
             </Grid.Clip>
             <Grid x:Name="Toolbar"
                   Grid.Row="0">
-                <fc:FullButton x:Name="CloseWindow"
-                               Style="{DynamicResource FullCloseButtonDark}"
+                <fc:EButton x:Name="CloseWindow"
+                               Style="{DynamicResource ECloseButtonDark}"
                                HorizontalAlignment="Right"
                                Width="32"
                                Height="32"
@@ -88,9 +88,9 @@
                                Text="Message"
                                Foreground="White"/>
                 </Grid>
-                <fc:FullButton x:Name="Ok"
+                <fc:EButton x:Name="Ok"
                                Grid.Row="1"
-                               Style="{DynamicResource FullButtonDark}"
+                               Style="{DynamicResource EButtonDark}"
                                Content="OK"
                                HorizontalAlignment="Right"
                                VerticalAlignment="Bottom"

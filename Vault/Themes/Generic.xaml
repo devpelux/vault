@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Vault;component/Styles/CardPreview.xaml"/>
+        <ResourceDictionary Source="/Vault;component/Styles/CategoryPreview.xaml"/>
         <ResourceDictionary Source="/Vault;component/Styles/NotePreview.xaml"/>
         <ResourceDictionary Source="/Vault;component/Styles/PasswordPreview.xaml"/>
         <ResourceDictionary Source="/Vault;component/Styles/VaultTreeView.xaml"/>

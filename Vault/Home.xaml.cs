@@ -5,13 +5,14 @@ using System.Windows.Input;
 using Vault.CustomControls;
 using Vault.Core;
 using Vault.Properties;
+using FullControls;
 
 namespace Vault
 {
     /// <summary>
     /// Finestra principale.
     /// </summary>
-    public partial class Home : Window
+    public partial class Home : EWindow
     {
         private bool loaded = false;
         private int loadedSection = 0;
@@ -23,17 +24,12 @@ namespace Vault
             InitializeComponent();
         }
 
-        private void ToolbarMouseHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
-
-        private void CloseWindow_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Reload();
+        }
+
+        private void Reload()
         {
             categories = VaultDB.Instance.Categories.GetRecords(Session.Instance.UserID);
             switch (Settings.Default.SectionToLoad)
@@ -58,6 +54,12 @@ namespace Vault
             Session.Instance.Clear();
             new LoginWindow().Show();
             Close();
+        }
+
+        private void EditCategories_Click(object sender, RoutedEventArgs e)
+        {
+            _ = new DialogWindow(new CategoriesWindow()).Show();
+            Reload();
         }
 
         private void NewPassword_Click(object sender, RoutedEventArgs e)

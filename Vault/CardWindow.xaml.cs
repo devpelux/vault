@@ -42,7 +42,7 @@ namespace Vault
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Utility.LoadCategoryItems(CardCategory, (Style)FindResource("FullComboBoxItemDark"), categories);
+            Utility.LoadCategoryItems(CardCategory, (Style)FindResource("EComboBoxItemDark"), categories);
             if (card != null)
             {
                 CardRequestKey.IsChecked = card.RequestKey;

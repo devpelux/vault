@@ -42,7 +42,7 @@ namespace Vault
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Utility.LoadCategoryItems(PasswordCategory, (Style)FindResource("FullComboBoxItemDark"), categories);
+            Utility.LoadCategoryItems(PasswordCategory, (Style)FindResource("EComboBoxItemDark"), categories);
             if (password != null)
             {
                 PasswordRequestKey.IsChecked = password.RequestKey;

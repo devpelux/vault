@@ -6,12 +6,12 @@ namespace Vault.Core
 {
     public static class Utility
     {
-        public static void LoadCategoryItems(FullComboBox comboBox, Style style, List<Category> categories)
+        public static void LoadCategoryItems(EComboBox comboBox, Style style, List<Category> categories)
         {
             comboBox.Items.Clear();
             foreach (Category category in categories)
             {
-                FullComboBoxItem comboBoxItem = new FullComboBoxItem
+                EComboBoxItem comboBoxItem = new EComboBoxItem
                 {
                     Style = style,
                     Content = category.Label
