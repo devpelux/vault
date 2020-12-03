@@ -20,7 +20,7 @@
             CaptionButtonsBackgroundOnMouseOver="#FF575759"
             CaptionButtonsBackgroundOnPressed="#FF2D2D30"
             ToolbarBackground="{DynamicResource WindowBackground}"
-            AnimationTime="0"
+            AnimationTime="0:0:0.01"
             WindowStartupLocation="CenterScreen"
             ResizeMode="NoResize"
             Loaded="Window_Loaded">

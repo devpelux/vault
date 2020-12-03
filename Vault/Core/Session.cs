@@ -1,5 +1,7 @@
 ﻿namespace Vault.Core
 {
+    public record CategoriesWindowData (double Width, double Height);
+
     public sealed class Session
     {
         private static Session _instance = null;
@@ -16,6 +18,8 @@
         public string Username { get; set; }
         public byte[] Key { get; set; }
 
+        public CategoriesWindowData CategoriesWindowData { get; set; }
+
 
         private Session() => Clear();
 
@@ -24,6 +28,7 @@
             UserID = -1;
             Username = null;
             Key = null;
+            CategoriesWindowData = null;
         }
     }
 }

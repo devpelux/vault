@@ -7,8 +7,8 @@
             xmlns:fc="clr-namespace:FullControls;assembly=FullControls"
             mc:Ignorable="d"
             Title="Gestione gruppi"
-            Height="400"
-            Width="529"
+            Height="311"
+            Width="411"
             WindowStyle="None"
             BorderThickness="1"
             BorderBrush="{DynamicResource WindowBorderBrush}"
@@ -22,11 +22,14 @@
             CaptionButtonsBackgroundOnPressed="#FF2D2D30"
             ToolbarBackground="{DynamicResource WindowBackground}"
             WindowStartupLocation="CenterScreen"
-            ResizeMode="NoResize"
-            Loaded="Window_Loaded">
+            ResizeMode="CanResize"
+            EnableMaximizeRestoreButton="False"
+            Loaded="Window_Loaded" Closing="EWindow_Closing">
     <Grid>
         <fc:GlassScrollViewer Margin="20,50,20,80"
-                              Padding="0,0,1,0">
+                              Padding="0,0,1,0"
+                              HorizontalScrollBarVisibility="Disabled"
+                              PlaceScrollBarsInside="True">
             <ItemsControl x:Name="CategoryList">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

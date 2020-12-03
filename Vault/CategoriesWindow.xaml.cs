@@ -1,7 +1,7 @@
 ﻿using FullControls;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Input;
 using Vault.Core;
 using Vault.CustomControls;
 
@@ -24,16 +24,6 @@ namespace Vault
 
         public object GetResult() => OK;
 
-        private void ToolbarMouseHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
-
-        private void CloseWindow_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -41,6 +31,11 @@ namespace Vault
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            if (Session.Instance.CategoriesWindowData != null)
+            {
+                Width = Session.Instance.CategoriesWindowData.Width;
+                Height = Session.Instance.CategoriesWindowData.Height;
+            }
             Reload();
         }
 
@@ -71,22 +66,31 @@ namespace Vault
                 }
                 else
                 {
-                    if (categories.Count > 2)
+                    if (targetCategory.ID != Categories.NewID)
                     {
-                        if (!VaultDB.Instance.Categories.RemoveRecord(targetCategory.ID))
+                        if (categories.Count > 2)
                         {
-                            _ = new DialogWindow(new MessageWindow($"Eliminare prima tutto ciò che fa parte del gruppo {targetCategory.Label}!",
-                                "Errore", MessageBoxImage.Error)).Show();
+                            if (!VaultDB.Instance.Categories.RemoveRecord(targetCategory.ID))
+                            {
+                                _ = new DialogWindow(new MessageWindow($"Eliminare prima tutto ciò che fa parte del gruppo {targetCategory.Label}!",
+                                    "Errore", MessageBoxImage.Error)).Show();
+                            }
                         }
+                        else
+                        {
+                            _ = new DialogWindow(new MessageWindow($"Deve esistere almeno un gruppo!",
+                                    "Errore", MessageBoxImage.Error)).Show();
+                        }
+                        Reload();
                     }
-                    else
-                    {
-                        _ = new DialogWindow(new MessageWindow($"Deve esistere almeno un gruppo!",
-                                "Errore", MessageBoxImage.Error)).Show();
-                    }
-                    Reload();
+                    else categoryPreview.EditMode = true;
                 }
             }
+        }
+
+        private void EWindow_Closing(object sender, CancelEventArgs e)
+        {
+            Session.Instance.CategoriesWindowData = new CategoriesWindowData(Width, Height);
         }
     }
 }
