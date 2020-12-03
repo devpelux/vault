@@ -24,7 +24,8 @@
             WindowStartupLocation="CenterScreen"
             ResizeMode="CanResize"
             EnableMaximizeRestoreButton="False"
-            Loaded="Window_Loaded" Closing="EWindow_Closing">
+            Loaded="Window_Loaded"
+            Closing="EWindow_Closing">
     <Grid>
         <fc:GlassScrollViewer Margin="20,50,20,80"
                               Padding="0,0,1,0"

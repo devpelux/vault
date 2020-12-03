@@ -1,4 +1,5 @@
 ﻿using FullControls;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -70,6 +71,8 @@ namespace Vault
                     Session.Instance.UserID = user.ID;
                     Session.Instance.Username = user.Username;
                     Session.Instance.Key = Encryptor.ConvertToBytes(Encryptor.Decrypt(user.Key, pkey));
+
+                    Session.Instance.LoadWindowsDatas();
 
                     if (Remember.IsChecked ?? false) Settings.Default.User = Session.Instance.Username;
                     else Settings.Default.User = "";

@@ -6,6 +6,7 @@ using Vault.CustomControls;
 using Vault.Core;
 using Vault.Properties;
 using FullControls;
+using System.ComponentModel;
 
 namespace Vault
 {
@@ -24,9 +25,14 @@ namespace Vault
             InitializeComponent();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void EWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Reload();
+        }
+
+        private void EWindow_Closing(object sender, CancelEventArgs e)
+        {
+            Session.Instance.Dispose();
         }
 
         private void Reload()
@@ -51,7 +57,6 @@ namespace Vault
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
-            Session.Instance.Clear();
             new LoginWindow().Show();
             Close();
         }

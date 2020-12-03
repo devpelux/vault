@@ -14,6 +14,8 @@ namespace Vault
     {
         private List<Category> categories;
 
+        public const int WindowID = 1;
+
         public const string OK = "CategoriesWindow.OK";
 
 
@@ -31,12 +33,32 @@ namespace Vault
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (Session.Instance.CategoriesWindowData != null)
+            if (Session.Instance.CategoriesWindowsData != null)
             {
-                Width = Session.Instance.CategoriesWindowData.Width;
-                Height = Session.Instance.CategoriesWindowData.Height;
+                Height = Session.Instance.CategoriesWindowsData.Height;
+                Width = Session.Instance.CategoriesWindowsData.Width;
+                Top = Session.Instance.CategoriesWindowsData.Top;
+                Left = Session.Instance.CategoriesWindowsData.Left;
             }
             Reload();
+        }
+
+        private void EWindow_Closing(object sender, CancelEventArgs e)
+        {
+            if (Session.Instance.CategoriesWindowsData != null)
+            {
+                Session.Instance.CategoriesWindowsData = Session.Instance.CategoriesWindowsData with
+                {
+                    Height = Height,
+                    Width = Width,
+                    Top = Top,
+                    Left = Left,
+                };
+            }
+            else
+            {
+                Session.Instance.CategoriesWindowsData = new WindowsData(WindowsDatas.NewID, Session.Instance.UserID, WindowID, Height, Width, Top, Left);
+            }
         }
 
         private void Reload()
@@ -86,11 +108,6 @@ namespace Vault
                     else categoryPreview.EditMode = true;
                 }
             }
-        }
-
-        private void EWindow_Closing(object sender, CancelEventArgs e)
-        {
-            Session.Instance.CategoriesWindowData = new CategoriesWindowData(Width, Height);
         }
     }
 }

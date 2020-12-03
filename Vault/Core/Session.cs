@@ -1,8 +1,9 @@
-﻿namespace Vault.Core
-{
-    public record CategoriesWindowData (double Width, double Height);
+﻿using System;
+using System.Collections.Generic;
 
-    public sealed class Session
+namespace Vault.Core
+{
+    public sealed class Session : IDisposable
     {
         private static Session _instance = null;
         public static Session Instance
@@ -18,7 +19,7 @@
         public string Username { get; set; }
         public byte[] Key { get; set; }
 
-        public CategoriesWindowData CategoriesWindowData { get; set; }
+        public WindowsData CategoriesWindowsData { get; set; }
 
 
         private Session() => Clear();
@@ -28,7 +29,33 @@
             UserID = -1;
             Username = null;
             Key = null;
-            CategoriesWindowData = null;
+            CategoriesWindowsData = null;
+        }
+
+        public void LoadWindowsDatas()
+        {
+            List<WindowsData> windowsDatas = VaultDB.Instance.WindowsDatas.GetRecords(UserID);
+            CategoriesWindowsData = windowsDatas.Find(d => d.Window == CategoriesWindow.WindowID);
+        }
+
+        public void SaveWindowsDatas()
+        {
+            SaveWindowsData(CategoriesWindowsData);
+        }
+
+        private static void SaveWindowsData(WindowsData windowsData)
+        {
+            if (windowsData != null)
+            {
+                if (windowsData.ID == WindowsDatas.NewID) VaultDB.Instance.WindowsDatas.AddRecord(windowsData);
+                else VaultDB.Instance.WindowsDatas.UpdateRecord(windowsData);
+            }
+        }
+
+        public void Dispose()
+        {
+            SaveWindowsDatas();
+            Clear();
         }
     }
 }
