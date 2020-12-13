@@ -15,18 +15,19 @@
                 <ControlTemplate TargetType="{x:Type local:CategoryPreview}">
                     <Grid>
                         <fc:EButton x:Name="Button"
-                                       Style="{TemplateBinding ButtonStyle}"
-                                       Height="{TemplateBinding Height}"
-                                       Width="{TemplateBinding Width}"
-                                       Content="{TemplateBinding Label}"
-                                       Visibility="Visible"/>
+                                    Style="{TemplateBinding ButtonStyle}"
+                                    Height="{TemplateBinding Height}"
+                                    Width="{TemplateBinding Width}"
+                                    Content="{TemplateBinding Label}"
+                                    Visibility="Visible"/>
                         <fc:ETextBox x:Name="TextBox"
-                                        Style="{TemplateBinding TextBoxStyle}"
-                                        Height="{TemplateBinding Height}"
-                                        Width="{TemplateBinding Width}"
-                                        Hint="Aggiungi..."
-                                        Text="{Binding Label, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}"
-                                        Visibility="Collapsed"/>
+                                     Style="{TemplateBinding TextBoxStyle}"
+                                     Height="{TemplateBinding Height}"
+                                     Width="{TemplateBinding Width}"
+                                     Hint="Aggiungi..."
+                                     Label="{x:Null}"
+                                     Text="{Binding Label, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}"
+                                     Visibility="Collapsed"/>
                     </Grid>
 
                     <ControlTemplate.Triggers>

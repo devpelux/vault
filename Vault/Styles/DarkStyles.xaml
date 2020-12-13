@@ -94,7 +94,7 @@
         <Setter Property="ForegroundOnDisabled" Value="Gray"/>
     </Style>
 
-    <Style x:Key="EToggleButtonDark" TargetType="{x:Type fc:EToggleButton}">
+    <Style x:Key="SwitcherDark" TargetType="{x:Type fc:Switcher}">
         <Setter Property="Background" Value="#FF1C1C1C"/>
         <Setter Property="BackgroundOnMouseOver" Value="#FF181818"/>
         <Setter Property="BackgroundOnChecked" Value="#FF19478B"/>
@@ -110,7 +110,29 @@
         <Setter Property="ForegroundOnChecked" Value="WhiteSmoke"/>
         <Setter Property="ForegroundOnMouseOverOnChecked" Value="WhiteSmoke"/>
         <Setter Property="ForegroundOnDisabled" Value="Gray"/>
-        <Setter Property="IsDeactivableByClick" Value="False"/>
+    </Style>
+
+    <Style x:Key="ECheckBoxDark" TargetType="{x:Type fc:ECheckBox}">
+        <Setter Property="Background" Value="#FF262626"/>
+        <Setter Property="BackgroundOnMouseOver" Value="#FF343434"/>
+        <Setter Property="BackgroundOnChecked" Value="#FF262626"/>
+        <Setter Property="BackgroundOnMouseOverOnChecked" Value="#FF343434"/>
+        <Setter Property="BackgroundOnDisabled" Value="#FF343434"/>
+        <Setter Property="BorderBrush" Value="WhiteSmoke"/>
+        <Setter Property="BorderBrushOnMouseOver" Value="WhiteSmoke"/>
+        <Setter Property="BorderBrushOnChecked" Value="WhiteSmoke"/>
+        <Setter Property="BorderBrushOnMouseOverOnChecked" Value="WhiteSmoke"/>
+        <Setter Property="BorderBrushOnDisabled" Value="Gray"/>
+        <Setter Property="Foreground" Value="WhiteSmoke"/>
+        <Setter Property="ForegroundOnMouseOver" Value="WhiteSmoke"/>
+        <Setter Property="ForegroundOnChecked" Value="WhiteSmoke"/>
+        <Setter Property="ForegroundOnMouseOverOnChecked" Value="WhiteSmoke"/>
+        <Setter Property="ForegroundOnDisabled" Value="Gray"/>
+        <Setter Property="ForeColor" Value="WhiteSmoke"/>
+        <Setter Property="ForeColorOnMouseOver" Value="WhiteSmoke"/>
+        <Setter Property="ForeColorOnChecked" Value="WhiteSmoke"/>
+        <Setter Property="ForeColorOnMouseOverOnChecked" Value="WhiteSmoke"/>
+        <Setter Property="ForeColorOnDisabled" Value="Gray"/>
     </Style>
 
     <Style x:Key="EComboBoxDark" TargetType="{x:Type fc:EComboBox}">

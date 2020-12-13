@@ -38,6 +38,8 @@
                          Width="250"
                          VerticalContentAlignment="Center"
                          EnablePeekButton="True"
+                         LabelType="Icon"
+                         Order="Horizontal"
                          Icon="Icons/ic_lock.png"
                          Hint="Password"/>
 

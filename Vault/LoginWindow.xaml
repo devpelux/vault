@@ -31,6 +31,8 @@
                      Height="35"
                      Width="250"
                      VerticalContentAlignment="Center"
+                     LabelType="Icon"
+                     Order="Horizontal"
                      Icon="Icons/ic_user.png"
                      Hint="Username"
                      Text="{Binding Source={StaticResource Settings}, Path=Default.User, Mode=OneWay}"/>
@@ -42,14 +44,17 @@
                          Width="250"
                          VerticalContentAlignment="Center"
                          EnablePeekButton="True"
+                         LabelType="Icon"
+                         Order="Horizontal"
                          Icon="Icons/ic_lock.png"
                          Hint="Password"/>
-        <CheckBox x:Name="Remember"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Top"
-                  Margin="54,125,0,0"
-                  Content="Ricorda username"
-                  Foreground="White"/>
+        <fc:ECheckBox x:Name="Remember"
+                      Style="{DynamicResource ECheckBoxDark}"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Top"
+                      Margin="54,125,0,0"
+                      Height="15"
+                      Content="Ricorda username"/>
         <Grid x:Name="Buttons"
               Width="160"
               Height="34"
