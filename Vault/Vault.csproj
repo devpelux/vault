@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FullControls" Version="1.2.0" />
+    <PackageReference Include="FullControls" Version="1.2.1" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.1" />
   </ItemGroup>
 

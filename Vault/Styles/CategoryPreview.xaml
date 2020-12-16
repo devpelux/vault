@@ -25,7 +25,6 @@
                                      Height="{TemplateBinding Height}"
                                      Width="{TemplateBinding Width}"
                                      Hint="Aggiungi..."
-                                     Label="{x:Null}"
                                      Text="{Binding Label, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}"
                                      Visibility="Collapsed"/>
                     </Grid>

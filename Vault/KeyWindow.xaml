@@ -21,7 +21,8 @@
             CaptionButtonsBackgroundOnPressed="#FF2D2D30"
             ToolbarBackground="{DynamicResource WindowBackground}"
             ResizeMode="NoResize"
-            WindowStartupLocation="CenterScreen">
+            WindowStartupLocation="CenterScreen"
+            Closing="Window_Closing">
     <Grid>
         <TextBlock x:Name="Subtitle"
                    VerticalAlignment="Top"

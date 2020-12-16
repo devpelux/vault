@@ -1,7 +1,6 @@
 ﻿using FullControls;
 using System.Linq;
 using System.Windows;
-using System.Windows.Input;
 using Vault.Core;
 using Vault.Properties;
 
@@ -18,16 +17,6 @@ namespace Vault
         public RegisterWindow()
         {
             InitializeComponent();
-        }
-
-        private void ToolbarMouseHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
-
-        private void CloseWindow_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
         }
 
         private void Login_Click(object sender, RoutedEventArgs e)

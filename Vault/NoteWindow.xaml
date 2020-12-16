@@ -22,7 +22,8 @@
             ToolbarBackground="{DynamicResource WindowBackground}"
             WindowStartupLocation="CenterScreen"
             ResizeMode="NoResize"
-            Loaded="Window_Loaded">
+            Loaded="Window_Loaded"
+            Closing="Window_Closing">
     <Grid>
         <fc:ETextBox x:Name="NoteTitle"
                      Style="{DynamicResource ETextBoxDark}"
@@ -71,7 +72,6 @@
                      Height="260"
                      Width="350"
                      Label="Contenuto nota"
-                     Hint=""
                      VerticalContentAlignment="Top"
                      TextWrapping="Wrap"
                      AcceptsReturn="True"

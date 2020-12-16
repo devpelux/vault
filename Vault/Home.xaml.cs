@@ -15,8 +15,12 @@ namespace Vault
     /// </summary>
     public partial class Home : EWindow
     {
-        private bool loaded = false;
-        private int loadedSection = 0;
+        private const int PASSWORD_SECTION = 0;
+        private const int CARD_SECTION = 1;
+        private const int NOTE_SECTION = 2;
+
+        private bool enableSwitch = true;
+        private int loadedSection = -1;
         private List<Category> categories = null;
 
 
@@ -25,34 +29,21 @@ namespace Vault
             InitializeComponent();
         }
 
-        private void EWindow_Loaded(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Reload();
+            Reload(Settings.Default.SectionToLoad);
         }
 
-        private void EWindow_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             Session.Instance.Dispose();
         }
 
-        private void Reload()
+        private void Reload(int sectionToLoad)
         {
             categories = VaultDB.Instance.Categories.GetRecords(Session.Instance.UserID);
-            switch (Settings.Default.SectionToLoad)
-            {
-                case 1:
-                    LoadPasswordSection();
-                    break;
-                case 2:
-                    LoadCardSection();
-                    break;
-                case 3:
-                    LoadNoteSection();
-                    break;
-                default:
-                    break;
-            }
-            loaded = true;
+            LoadSection(sectionToLoad);
+            SelectSwitch(sectionToLoad);
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e)
@@ -64,8 +55,10 @@ namespace Vault
         private void EditCategories_Click(object sender, RoutedEventArgs e)
         {
             _ = new DialogWindow(new CategoriesWindow()).Show();
-            Reload();
+            Reload(0);
         }
+
+        #region New element buttons
 
         private void NewPassword_Click(object sender, RoutedEventArgs e)
         {
@@ -93,6 +86,10 @@ namespace Vault
                 else LoadAllNotes();
             }
         }
+
+        #endregion
+
+        #region Click on element previews
 
         private void PasswordPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -166,19 +163,23 @@ namespace Vault
             }
         }
 
+        #endregion
+
+        #region Search
+
         private void Search_TextChanged(object sender, TextChangedEventArgs e)
         {
             switch (loadedSection)
             {
-                case 1:
+                case PASSWORD_SECTION:
                     if (Search.Text != "") LoadSearchedPasswords();
                     else LoadAllPasswords();
                     break;
-                case 2:
+                case CARD_SECTION:
                     if (Search.Text != "") LoadSearchedCards();
                     else LoadAllCards();
                     break;
-                case 3:
+                case NOTE_SECTION:
                     if (Search.Text != "") LoadSearchedNotes();
                     else LoadAllNotes();
                     break;
@@ -187,78 +188,118 @@ namespace Vault
             }
         }
 
+        #endregion
+
+        #region Loaders
+
         private void LoadSearchedPasswords() => LoadPasswords(VaultDB.Instance.Passwords.GetRecords(Search.Text, Session.Instance.UserID));
 
         private void LoadAllPasswords() => LoadPasswords(VaultDB.Instance.Passwords.GetRecords(Session.Instance.UserID));
-
-        private void LoadPasswords(List<Password> passwords) => PasswordList.ItemsSource = Passwords.GroupByCategories(Passwords.DecryptForPreview(passwords, Session.Instance.Key), categories);
 
         private void LoadSearchedCards() => LoadCards(VaultDB.Instance.Cards.GetRecords(Search.Text, Session.Instance.UserID));
 
         private void LoadAllCards() => LoadCards(VaultDB.Instance.Cards.GetRecords(Session.Instance.UserID));
 
-        private void LoadCards(List<Card> cards) => CardList.ItemsSource = Cards.GroupByCategories(Cards.DecryptForPreview(cards, Session.Instance.Key), categories);
-
         private void LoadSearchedNotes() => LoadNotes(VaultDB.Instance.Notes.GetRecords(Search.Text, Session.Instance.UserID));
 
         private void LoadAllNotes() => LoadNotes(VaultDB.Instance.Notes.GetRecords(Session.Instance.UserID));
 
+        private void LoadPasswords(List<Password> passwords) => PasswordList.ItemsSource = Passwords.GroupByCategories(Passwords.DecryptForPreview(passwords, Session.Instance.Key), categories);
+
+        private void LoadCards(List<Card> cards) => CardList.ItemsSource = Cards.GroupByCategories(Cards.DecryptForPreview(cards, Session.Instance.Key), categories);
+
         private void LoadNotes(List<Note> notes) => NoteList.ItemsSource = Notes.GroupByCategories(Notes.DecryptForPreview(notes, Session.Instance.Key), categories);
+
+        #endregion
 
         #region Switcher
 
-        private void SwitchToPasswordSection_ActivationChanged(object sender, RoutedEventArgs e)
+        private void SwitchSelected(object sender, RoutedEventArgs e)
         {
-            if (loaded) LoadPasswordSection();
+            if (!enableSwitch) return;
+            if (SwitchToPasswordSection.IsChecked == true)
+            {
+                LoadSection(PASSWORD_SECTION);
+            }
+            else if (SwitchToCardSection.IsChecked == true)
+            {
+                LoadSection(CARD_SECTION);
+            }
+            else if (SwitchToNoteSection.IsChecked == true)
+            {
+                LoadSection(NOTE_SECTION);
+            }
         }
 
-        private void SwitchToCardSection_ActivationChanged(object sender, RoutedEventArgs e)
+        private void SelectSwitch(int section)
         {
-            if (loaded) LoadCardSection();
+            enableSwitch = false;
+            switch (section)
+            {
+                case PASSWORD_SECTION:
+                    SwitchToPasswordSection.IsChecked = true;
+                    break;
+                case CARD_SECTION:
+                    SwitchToCardSection.IsChecked = true;
+                    break;
+                case NOTE_SECTION:
+                    SwitchToNoteSection.IsChecked = true;
+                    break;
+                default:
+                    break;
+            }
+            enableSwitch = true;
         }
 
-        private void SwitchToNoteSection_ActivationChanged(object sender, RoutedEventArgs e)
+        private void LoadSection(int section)
         {
-            if (loaded) LoadNoteSection();
+            switch (section)
+            {
+                case PASSWORD_SECTION:
+                    LoadPasswordSection();
+                    break;
+                case CARD_SECTION:
+                    LoadCardSection();
+                    break;
+                case NOTE_SECTION:
+                    LoadNoteSection();
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void LoadPasswordSection()
         {
-            loadedSection = 1;
-            SwitchToPasswordSection.IsChecked = true;
-            SwitchToCardSection.IsChecked = false;
-            SwitchToNoteSection.IsChecked = false;
+            loadedSection = -1;
+            PasswordSection.Visibility = Visibility.Visible;
             CardSection.Visibility = Visibility.Collapsed;
             NoteSection.Visibility = Visibility.Collapsed;
-            PasswordSection.Visibility = Visibility.Visible;
             Search.Text = "";
             LoadAllPasswords();
+            loadedSection = PASSWORD_SECTION;
         }
 
         private void LoadCardSection()
         {
-            loadedSection = 2;
-            SwitchToCardSection.IsChecked = true;
-            SwitchToPasswordSection.IsChecked = false;
-            SwitchToNoteSection.IsChecked = false;
+            loadedSection = -1;
             PasswordSection.Visibility = Visibility.Collapsed;
-            NoteSection.Visibility = Visibility.Collapsed;
             CardSection.Visibility = Visibility.Visible;
+            NoteSection.Visibility = Visibility.Collapsed;
             Search.Text = "";
             LoadAllCards();
+            loadedSection = CARD_SECTION;
         }
 
         private void LoadNoteSection()
         {
-            loadedSection = 3;
-            SwitchToNoteSection.IsChecked = true;
-            SwitchToCardSection.IsChecked = false;
-            SwitchToPasswordSection.IsChecked = false;
-            CardSection.Visibility = Visibility.Collapsed;
+            loadedSection = -1;
             PasswordSection.Visibility = Visibility.Collapsed;
+            CardSection.Visibility = Visibility.Collapsed;
             NoteSection.Visibility = Visibility.Visible;
             Search.Text = "";
             LoadAllNotes();
+            loadedSection = NOTE_SECTION;
         }
 
         #endregion

@@ -43,7 +43,7 @@ namespace Vault
             Reload();
         }
 
-        private void EWindow_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             if (Session.Instance.CategoriesWindowsData != null)
             {

@@ -1,8 +1,8 @@
 ﻿using FullControls;
 using System;
+using System.ComponentModel;
 using System.Media;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
 namespace Vault
@@ -15,7 +15,7 @@ namespace Vault
         private string Message { get; set; }
         private MessageBoxImage IconType { get; set; }
 
-        private string Result = "";
+        private object Result = null;
 
         public const string NONE = "MessageWindow.NONE";
         public const string OK = "MessageWindow.OK";
@@ -37,15 +37,9 @@ namespace Vault
 
         public object GetResult() => Result;
 
-        private void ToolbarMouseHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
-            DragMove();
-        }
-
-        private void CloseWindow_Click(object sender, RoutedEventArgs e)
-        {
-            Result = NONE;
-            Close();
+            if (Result == null) Result = NONE;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

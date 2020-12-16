@@ -1,7 +1,7 @@
 ﻿using FullControls;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Input;
 using Vault.Core;
 
 namespace Vault
@@ -14,7 +14,7 @@ namespace Vault
         private readonly Card card;
         private readonly List<Category> categories;
 
-        private string Result = "";
+        private object Result = null;
 
         public const string NONE = "CardWindow.NONE";
         public const string EDIT = "CardWindow.EDIT";
@@ -29,15 +29,9 @@ namespace Vault
 
         public object GetResult() => Result;
 
-        private void ToolbarMouseHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
-            DragMove();
-        }
-
-        private void CloseWindow_Click(object sender, RoutedEventArgs e)
-        {
-            Result = NONE;
-            Close();
+            if (Result == null) Result = NONE;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
