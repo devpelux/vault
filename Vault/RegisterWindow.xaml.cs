@@ -27,17 +27,13 @@ namespace Vault
 
         private void Register_Click(object sender, RoutedEventArgs e)
         {
-            if (Username.Text.Length > 0 && Password.SecurePassword.Length > 0 && ConfirmPassword.SecurePassword.Length > 0)
+            if (Username.TextLength > 0 && Password.PasswordLength > 0 && ConfirmPassword.PasswordLength > 0)
             {
                 if (!Username.Text.Contains(" "))
                 {
                     if (!VaultDB.Instance.Users.Exists(Username.Text))
                     {
-                        byte[] salt = Encryptor.GenerateSalt();
-                        string hashPassword = Encryptor.ConvertToString(Encryptor.GenerateKey(Password.SecurePassword, salt, 1000));
-                        string hashConfirmPassword = Encryptor.ConvertToString(Encryptor.GenerateKey(ConfirmPassword.SecurePassword, salt, 1000));
-
-                        if (hashPassword.Equals(hashConfirmPassword))
+                        if (Utility.ComparePasswords(Password.SecurePassword, ConfirmPassword.SecurePassword))
                         {
                             RegisterUserAndLogin();
                         }

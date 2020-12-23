@@ -157,7 +157,6 @@
         <Setter Property="SelectionTextBrush" Value="WhiteSmoke"/>
         <Setter Property="PopupBackground" Value="#FF2D2D30"/>
         <Setter Property="PopupBorderBrush" Value="#FF575759"/>
-        <Setter Property="Padding" Value="5,3,23,3"/>
         <Setter Property="MaxDropDownHeight" Value="212"/>
     </Style>
 

@@ -75,9 +75,9 @@ namespace Vault.CustomControls
             ((TextBlock)Template.FindName("PART_Header", this)).MouseLeftButtonDown += (o, e) =>
             {
                 IsExpanded = !IsExpanded;
-                VaultDB.Instance.Categories.UpdateRecord(Category with { IsExpanded = IsExpanded });
+                Category = Category with { IsExpanded = IsExpanded };
+                VaultDB.Instance.Categories.UpdateRecord(Category);
             };
-            IsExpanded = Category.IsExpanded;
         }
 
         private void OnExpandedChanged(bool isExpanded)
@@ -118,6 +118,10 @@ namespace Vault.CustomControls
                 expandedHeight = ic.ActualHeight;
                 collapsedHeight = 0;
                 ic.MaxHeight = expandedHeight;
+                if (expandedHeight != 0)
+                {
+                    IsExpanded = Category.IsExpanded;
+                }
             }
         }
 

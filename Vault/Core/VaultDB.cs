@@ -17,7 +17,7 @@ namespace Vault.Core
             }
         }
 
-        private static VaultDBContext _context = new VaultDBContext("vault", ".");
+        private static VaultDBContext _context = null;
         public static VaultDBContext Context
         {
             get => _context;
@@ -96,6 +96,40 @@ namespace Vault.Core
             else if (newVersion < oldVersion)
             {
                 throw new FileFormatException("Non è possibile effettuare un downgrade.");
+            }
+        }
+
+        public void ChangePassword(string newPassword)
+        {
+            SqliteCommand command = Connection.CreateCommand();
+            command.CommandText = "SELECT quote($newPassword);";
+            command.Parameters.AddWithValue("$newPassword", newPassword);
+            string quotedNewPassword = (string)command.ExecuteScalar();
+
+            command.CommandText = "PRAGMA rekey = " + quotedNewPassword;
+            command.Parameters.Clear();
+            command.ExecuteNonQuery();
+            Context = new VaultDBContext(Context.DatabaseFullPath, newPassword);
+        }
+
+        public static bool CheckContext()
+        {
+            if (Context == null) return false;
+            if (!File.Exists(Context.DatabaseFullPath)) return false;
+
+            using SqliteConnection conn = new SqliteConnection(Context.ConnectionString);
+            try
+            {
+                conn.Open();
+                return true;
+            }
+            catch (SqliteException)
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
             }
         }
 

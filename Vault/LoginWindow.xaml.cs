@@ -27,7 +27,7 @@ namespace Vault
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            if (Username.Text.Length > 0 && Password.SecurePassword.Length > 0)
+            if (Username.TextLength > 0 && Password.PasswordLength > 0)
             {
                 CheckPasswordAndLogin();
             }

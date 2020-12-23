@@ -52,6 +52,11 @@ namespace Vault
             Close();
         }
 
+        private void ForgetMasterPassword_Click(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.DBSavedPassword = "";
+        }
+
         private void EditCategories_Click(object sender, RoutedEventArgs e)
         {
             _ = new DialogWindow(new CategoriesWindow()).Show();

@@ -8,5 +8,11 @@
     <Setting Name="SectionToLoad" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="DBSavedPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DBPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">./vault.db</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

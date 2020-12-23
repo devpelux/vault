@@ -10,6 +10,7 @@
             Height="311"
             Width="411"
             WindowStyle="None"
+            CornerRadius="{DynamicResource WindowCornerRadius}"
             BorderThickness="1"
             BorderBrush="{DynamicResource WindowBorderBrush}"
             Foreground="White"

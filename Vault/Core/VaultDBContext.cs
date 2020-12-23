@@ -7,32 +7,57 @@ namespace Vault.Core
 {
     public sealed class VaultDBContext : IEquatable<VaultDBContext>
     {
-        public string DatabaseName { get; init; }
-        public string DatabasePath { get; init; }
-        public string DatabaseFullPath { get; init; }
-        public string ConnectionString { get; init; }
+        public string DatabaseName { get; private set; }
+        public string DatabasePath { get; private set; }
+        public string DatabaseExtension { get; private set; }
+        public string DatabaseFullPath { get; private set; }
+        public string ConnectionString { get; private set; }
 
 
-        public VaultDBContext(string databaseName = "vault", string databasePath = ".")
+        public VaultDBContext(string databaseName, string databasePath, string databaseExtension, string password)
         {
-            if (databaseName == "" || databasePath == "") throw new ArgumentException("Il nome del database o il percorso non possono essere vuoti.");
+            if (databaseName != "" && databasePath != "" && databaseExtension != "")
+            {
+                Initialize(databaseName, databasePath, databaseExtension, password);
+            }
+            else
+            {
+                throw new ArgumentException("Il nome del database, il percorso, e l'estensione, non possono essere vuoti.");
+            }
+        }
+
+        public VaultDBContext(string databaseFullPath, string password)
+        {
+            if (databaseFullPath != "")
+            {
+                databaseFullPath = Path.GetFullPath(databaseFullPath);
+                Initialize(Path.GetFileNameWithoutExtension(databaseFullPath), Path.GetDirectoryName(databaseFullPath), Path.GetExtension(databaseFullPath), password);
+            }
+            else
+            {
+                throw new ArgumentException("Il percorso non può essere vuoto.");
+            }
+        }
+
+        private void Initialize(string databaseName, string databasePath, string databaseExtension, string password)
+        {
             DatabaseName = databaseName;
             DatabasePath = Path.GetFullPath(databasePath);
-            DatabaseFullPath = Path.Combine(DatabasePath, DatabaseName + ".db");
+            DatabaseExtension = databaseExtension;
+            DatabaseFullPath = Path.Combine(DatabasePath, DatabaseName + DatabaseExtension);
             ConnectionString = new SqliteConnectionStringBuilder
             {
                 DataSource = DatabaseFullPath,
-                Mode = SqliteOpenMode.ReadWriteCreate
+                Mode = SqliteOpenMode.ReadWriteCreate,
+                Password = password
             }.ToString();
         }
 
         public override bool Equals(object obj) => Equals(obj as VaultDBContext);
 
-        public bool Equals(VaultDBContext other) => other != null &&
-                   DatabaseName == other.DatabaseName &&
-                   DatabasePath == other.DatabasePath;
+        public bool Equals(VaultDBContext other) => other != null && ConnectionString == other.ConnectionString;
 
-        public override int GetHashCode() => HashCode.Combine(DatabaseName, DatabasePath);
+        public override int GetHashCode() => HashCode.Combine(ConnectionString);
 
         public static bool operator ==(VaultDBContext left, VaultDBContext right) => EqualityComparer<VaultDBContext>.Default.Equals(left, right);
 
