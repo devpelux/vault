@@ -22,6 +22,7 @@ namespace Vault
                 if (Utility.ComparePasswords(Password.SecurePassword, ConfirmPassword.SecurePassword))
                 {
                     VaultDB.Context = new VaultDBContext(Settings.Default.DBPath, Password.Password);
+                    _ = VaultDB.Initialize();
                     if (Remember.IsChecked == true) Settings.Default.DBSavedPassword = Password.Password;
                     new RegisterWindow().Show();
                     Close();

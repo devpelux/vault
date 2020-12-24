@@ -40,7 +40,7 @@ namespace Vault
         private static void OpenDatabaseWithSavedPassword()
         {
             VaultDB.Context = new VaultDBContext(Settings.Default.DBPath, Settings.Default.DBSavedPassword);
-            if (VaultDB.CheckContext())
+            if (VaultDB.Initialize())
             {
                 if (VaultDB.Instance.Users.Count() > 0)
                 {

@@ -7,35 +7,15 @@ namespace Vault.Core
 {
     public sealed class VaultDB : IDisposable
     {
-        private static VaultDB _instance = null;
-        public static VaultDB Instance
-        {
-            get
-            {
-                if (_instance == null) _instance = new VaultDB();
-                return _instance;
-            }
-        }
-
-        private static VaultDBContext _context = null;
-        public static VaultDBContext Context
-        {
-            get => _context;
-            set
-            {
-                if (value != null && value != _context)
-                {
-                    _context = value;
-                    if (_instance != null) _instance.LoadVault();
-                }
-            }
-        }
-
-        public const int VERSION = 1;
-
-        public SqliteConnection Connection { get; private set; } = null;
-
+        public const int VersionNumber = 1;
         private readonly List<ITable> _tables = new();
+
+        public static VaultDB Instance { get; private set; }
+
+        public static VaultDBContext Context { get; set; }
+
+        public SqliteConnection Connection { get; private set; }
+
         public Users Users => (Users)_tables[0];
         public WindowsDatas WindowsDatas => (WindowsDatas)_tables[1];
         public Categories Categories => (Categories)_tables[2];
@@ -46,8 +26,51 @@ namespace Vault.Core
 
         private VaultDB()
         {
-            InitializeTables();
-            LoadVault();
+            try
+            {
+                OpenConnection();
+                InitializeTables();
+                UpdateDatabase(VersionNumber, GetVersion());
+            }
+            catch (Exception)
+            {
+                Dispose();
+                throw;
+            }
+        }
+
+        public static bool Initialize()
+        {
+            if (Instance != null) Instance.Dispose();
+            try
+            {
+                Instance = new VaultDB();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public void Dispose()
+        {
+            _tables.Clear();
+            CloseConnection();
+            Instance = null;
+        }
+
+        public void ChangePassword(string newPassword)
+        {
+            SqliteCommand command = Connection.CreateCommand();
+            command.CommandText = "SELECT quote($newPassword);";
+            command.Parameters.AddWithValue("$newPassword", newPassword);
+            string quotedNewPassword = (string)command.ExecuteScalar();
+
+            command.CommandText = "PRAGMA rekey = " + quotedNewPassword;
+            command.Parameters.Clear();
+            command.ExecuteNonQuery();
+            Context = new VaultDBContext(Context.DatabaseFullPath, newPassword);
         }
 
         private void InitializeTables()
@@ -58,13 +81,6 @@ namespace Vault.Core
             _tables.Add(new Passwords(this));
             _tables.Add(new Cards(this));
             _tables.Add(new Notes(this));
-        }
-
-        private void LoadVault()
-        {
-            CloseConnection();
-            OpenConnection();
-            UpdateDatabase(VERSION, GetVersion());
         }
 
         private void OpenConnection()
@@ -97,47 +113,6 @@ namespace Vault.Core
             {
                 throw new FileFormatException("Non è possibile effettuare un downgrade.");
             }
-        }
-
-        public void ChangePassword(string newPassword)
-        {
-            SqliteCommand command = Connection.CreateCommand();
-            command.CommandText = "SELECT quote($newPassword);";
-            command.Parameters.AddWithValue("$newPassword", newPassword);
-            string quotedNewPassword = (string)command.ExecuteScalar();
-
-            command.CommandText = "PRAGMA rekey = " + quotedNewPassword;
-            command.Parameters.Clear();
-            command.ExecuteNonQuery();
-            Context = new VaultDBContext(Context.DatabaseFullPath, newPassword);
-        }
-
-        public static bool CheckContext()
-        {
-            if (Context == null) return false;
-            if (!File.Exists(Context.DatabaseFullPath)) return false;
-
-            using SqliteConnection conn = new SqliteConnection(Context.ConnectionString);
-            try
-            {
-                conn.Open();
-                return true;
-            }
-            catch (SqliteException)
-            {
-                return false;
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
-
-        public void Dispose()
-        {
-            CloseConnection();
-            _tables.Clear();
-            _instance = null;
         }
 
         #region Version
