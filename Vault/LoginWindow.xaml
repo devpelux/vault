@@ -4,6 +4,7 @@
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:fc="clr-namespace:FullControls;assembly=FullControls"
+            xmlns:tb="http://www.hardcodet.net/taskbar"
             mc:Ignorable="d"
             Title="Login"
             Height="226"
@@ -23,58 +24,80 @@
             ToolbarBackground="{DynamicResource WindowBackground}"
             WindowStartupLocation="CenterScreen"
             ResizeMode="NoResize"
-            Loaded="Window_Loaded">
+            Loaded="Window_Loaded"
+            Closing="Window_Closing"
+            CloseAction="Window_CloseAction"
+            MinimizeAction="Window_MinimizeAction">
     <Grid>
-        <fc:ETextBox x:Name="Username"
-                     Style="{DynamicResource ETextBoxDark}"
-                     VerticalAlignment="Top"
-                     Margin="0,25,0,0"
-                     Height="35"
-                     Width="250"
-                     VerticalContentAlignment="Center"
-                     LabelType="Icon"
-                     Order="Horizontal"
-                     Icon="Icons/ic_user.png"
-                     Hint="Username"
-                     Text="{Binding Source={StaticResource Settings}, Path=Default.User, Mode=OneWay}"/>
-        <fc:EPasswordBox x:Name="Password"
-                         Style="{DynamicResource EPasswordBoxDark}"
+
+        <tb:TaskbarIcon x:Name="notifyIcon"
+                        Visibility="Visible"
+                        ToolTipText="Vault è in esecuzione in background, per aprirlo fare doppio click."
+                        IconSource="/Icons/ic_world.ico"
+                        MenuActivation="LeftOrRightClick"
+                        PopupActivation="DoubleClick"
+                        TrayMouseDoubleClick="NotifyIcon_TrayMouseDoubleClick">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <fc:PolymorphicMenuItem x:Name="CMShowLogin" Header="Visualizza Login" Click="CMShowLogin_Click"/>
+                    <fc:PolymorphicMenuItem ItemType="Separator"/>
+                    <fc:PolymorphicMenuItem x:Name="CMClose" Header="Chiudi" Click="CMClose_Click"/>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+
+        <Grid>
+            <fc:ETextBox x:Name="Username"
+                         Style="{DynamicResource ETextBoxDark}"
                          VerticalAlignment="Top"
-                         Margin="0,75,0,0"
+                         Margin="0,25,0,0"
                          Height="35"
                          Width="250"
                          VerticalContentAlignment="Center"
-                         EnablePeekButton="True"
                          LabelType="Icon"
                          Order="Horizontal"
-                         Icon="Icons/ic_lock.png"
-                         Hint="Password"/>
-        <fc:ECheckBox x:Name="Remember"
-                      Style="{DynamicResource ECheckBoxDark}"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Margin="54,125,0,0"
-                      Height="15"
-                      Content="Ricorda username"/>
-        <Grid x:Name="Buttons"
-              Width="160"
-              Height="34"
-              VerticalAlignment="Top"
-              Margin="0,165,0,0">
-            <fc:EButton x:Name="Login"
-                        Style="{DynamicResource EButtonDark}"
-                        Content="LOGIN"
-                        HorizontalAlignment="Left"
-                        Width="55"
-                        Height="34"
-                        Click="Login_Click"/>
-            <fc:EButton x:Name="Register"
-                        Style="{DynamicResource EButtonDark}"
-                        Content="REGISTRATI"
-                        HorizontalAlignment="Right"
-                        Width="80"
-                        Height="34"
-                        Click="Register_Click"/>
+                         Icon="Icons/ic_user.png"
+                         Hint="Username"
+                         Text="{Binding Source={StaticResource Settings}, Path=Default.User, Mode=OneWay}"/>
+            <fc:EPasswordBox x:Name="Password"
+                             Style="{DynamicResource EPasswordBoxDark}"
+                             VerticalAlignment="Top"
+                             Margin="0,75,0,0"
+                             Height="35"
+                             Width="250"
+                             VerticalContentAlignment="Center"
+                             EnablePeekButton="True"
+                             LabelType="Icon"
+                             Order="Horizontal"
+                             Icon="Icons/ic_lock.png"
+                             Hint="Password"/>
+            <fc:ECheckBox x:Name="Remember"
+                          Style="{DynamicResource ECheckBoxDark}"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top"
+                          Margin="54,125,0,0"
+                          Height="15"
+                          Content="Ricorda username"/>
+            <Grid x:Name="Buttons"
+                  Width="160"
+                  Height="34"
+                  VerticalAlignment="Top"
+                  Margin="0,165,0,0">
+                <fc:EButton x:Name="Login"
+                            Style="{DynamicResource EButtonDark}"
+                            Content="LOGIN"
+                            HorizontalAlignment="Left"
+                            Width="55"
+                            Height="34"
+                            Click="Login_Click"/>
+                <fc:EButton x:Name="Register"
+                            Style="{DynamicResource EButtonDark}"
+                            Content="REGISTRATI"
+                            HorizontalAlignment="Right"
+                            Width="80"
+                            Height="34"
+                            Click="Register_Click"/>
+            </Grid>
         </Grid>
     </Grid>
 </fc:EWindow>

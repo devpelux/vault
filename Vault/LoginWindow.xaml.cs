@@ -1,4 +1,5 @@
 ﻿using FullControls;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -13,6 +14,7 @@ namespace Vault
     public partial class LoginWindow : EWindow
     {
         private int attempt = 0;
+        private bool minimizeInTrayOnClose = true;
 
 
         public LoginWindow()
@@ -24,6 +26,50 @@ namespace Vault
         {
             if (Settings.Default.User != "") Remember.IsChecked = true;
         }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            Session.Instance.Dispose();
+        }
+
+        private void Window_CloseAction(object sender, ActionEventArgs e)
+        {
+            if (minimizeInTrayOnClose)
+            {
+                e.Cancel = true;
+                Hide();
+            }
+        }
+
+        private void Window_MinimizeAction(object sender, ActionEventArgs e)
+        {
+            if (minimizeInTrayOnClose)
+            {
+                e.Cancel = true;
+                Hide();
+            }
+        }
+
+        #region NotifyIcon
+
+        private void CMShowLogin_Click(object sender, RoutedEventArgs e)
+        {
+            Show();
+        }
+
+        private void CMClose_Click(object sender, RoutedEventArgs e)
+        {
+            minimizeInTrayOnClose = false;
+            notifyIcon.Dispose();
+            Close();
+        }
+
+        private void NotifyIcon_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            Show();
+        }
+
+        #endregion
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
@@ -39,6 +85,8 @@ namespace Vault
 
         private void Register_Click(object sender, RoutedEventArgs e)
         {
+            minimizeInTrayOnClose = false;
+            notifyIcon.Dispose();
             new RegisterWindow().Show();
             Close();
         }
@@ -65,6 +113,8 @@ namespace Vault
                     if (Remember.IsChecked ?? false) Settings.Default.User = Session.Instance.Username;
                     else Settings.Default.User = "";
 
+                    minimizeInTrayOnClose = false;
+                    notifyIcon.Dispose();
                     new Home().Show();
                     Close();
                     return;

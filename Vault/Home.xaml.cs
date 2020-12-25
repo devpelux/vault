@@ -22,6 +22,7 @@ namespace Vault
         private bool enableSwitch = true;
         private int loadedSection = -1;
         private List<Category> categories = null;
+        private bool minimizeInTrayOnClose = true;
 
 
         public Home()
@@ -39,6 +40,53 @@ namespace Vault
             Session.Instance.Dispose();
         }
 
+        private void Window_CloseAction(object sender, ActionEventArgs e)
+        {
+            if (minimizeInTrayOnClose)
+            {
+                e.Cancel = true;
+                Hide();
+            }
+        }
+
+        private void Window_MinimizeAction(object sender, ActionEventArgs e)
+        {
+            if (minimizeInTrayOnClose)
+            {
+                e.Cancel = true;
+                Hide();
+            }
+        }
+
+        #region NotifyIcon
+
+        private void CMShowHome_Click(object sender, RoutedEventArgs e)
+        {
+            Show();
+        }
+
+        private void CMLogout_Click(object sender, RoutedEventArgs e)
+        {
+            minimizeInTrayOnClose = false;
+            notifyIcon.Dispose();
+            new LoginWindow().Show();
+            Close();
+        }
+
+        private void CMLogoutAndClose_Click(object sender, RoutedEventArgs e)
+        {
+            minimizeInTrayOnClose = false;
+            notifyIcon.Dispose();
+            Close();
+        }
+
+        private void NotifyIcon_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            Show();
+        }
+
+        #endregion
+
         private void Reload(int sectionToLoad)
         {
             categories = VaultDB.Instance.Categories.GetRecords(Session.Instance.UserID);
@@ -48,6 +96,8 @@ namespace Vault
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
+            minimizeInTrayOnClose = false;
+            notifyIcon.Dispose();
             new LoginWindow().Show();
             Close();
         }

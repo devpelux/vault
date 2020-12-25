@@ -5,6 +5,7 @@
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:cust="clr-namespace:Vault.CustomControls"
             xmlns:fc="clr-namespace:FullControls;assembly=FullControls"
+            xmlns:tb="http://www.hardcodet.net/taskbar"
             mc:Ignorable="d"
             Title="Vault"
             Height="615"
@@ -25,181 +26,204 @@
             WindowStartupLocation="CenterScreen"
             ResizeMode="CanMinimize"
             Loaded="Window_Loaded"
-            Closing="Window_Closing">
-    <Grid Margin="0,32,0,0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="160"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Border Grid.Column="0"
-                Margin="0,-32,0,0"
-                Background="{DynamicResource WindowSwitcherBackground}"/>
-        <Grid x:Name="ContentCategorySwitcher" Grid.Column="0">
-            <fc:Switcher x:Name="SwitchToPasswordSection"
-                         Style="{DynamicResource SwitcherDark}"
-                         VerticalAlignment="Top"
-                         Margin="0,50,0,0"
-                         Height="50"
-                         Content="Password"
-                         GroupName="SectionSwitchers"
-                         Checked="SwitchSelected"/>
-            <fc:Switcher x:Name="SwitchToCardSection"
-                         Style="{DynamicResource SwitcherDark}"
-                         VerticalAlignment="Top"
-                         Margin="0,100,0,0"
-                         Height="50"
-                         Content="Carte"
-                         BorderThickness="1,0,1,1"
-                         GroupName="SectionSwitchers"
-                         Checked="SwitchSelected"/>
-            <fc:Switcher x:Name="SwitchToNoteSection"
-                         Style="{DynamicResource SwitcherDark}"
-                         VerticalAlignment="Top"
-                         Margin="0,150,0,0"
-                         Height="50"
-                         Content="Note"
-                         BorderThickness="1,0,1,1"
-                         GroupName="SectionSwitchers"
-                         Checked="SwitchSelected"/>
-            <fc:EButton x:Name="Logout"
-                        Style="{DynamicResource ELogoutButtonDark}"
-                        Content="&#xE7E8;"
-                        FontFamily="Segoe MDL2 Assets"
-                        FontSize="30"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Bottom"
-                        Margin="0,0,0,20"
-                        Width="60"
-                        Height="60"
-                        CornerRadius="30"
-                        BorderThickness="2"
-                        Click="Logout_Click"/>
-            <fc:EButton x:Name="ForgetMasterPassword"
-                        Style="{DynamicResource ELogoutButtonDark}"
-                        Content="X"
-                        FontFamily="Segoe UI"
-                        FontSize="20"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        Margin="0,424,0,0"
-                        Width="40"
-                        Height="40"
-                        CornerRadius="30"
-                        BorderThickness="2"
-                        Click="ForgetMasterPassword_Click"/>
-        </Grid>
-        <Grid x:Name="ContentWindow" Grid.Column="1">
-            <Grid x:Name="PasswordSection" Visibility="Visible">
-                <TextBlock Text="PASSWORD" FontSize="20" Foreground="White"
-                           HorizontalAlignment="Left" VerticalAlignment="Top"
-                           Margin="10,10,0,0"/>
-                <fc:EButton x:Name="NewPassword"
-                            Style="{DynamicResource EButtonDark}"
-                            Content="Aggiungi"
-                            HorizontalAlignment="Right"
-                            Margin="0,50,20,0"
+            Closing="Window_Closing"
+            CloseAction="Window_CloseAction"
+            MinimizeAction="Window_MinimizeAction">
+    <Grid>
+
+        <tb:TaskbarIcon x:Name="notifyIcon"
+                        Visibility="Visible"
+                        ToolTipText="Vault è in esecuzione in background, per aprirlo fare doppio click."
+                        IconSource="/Icons/ic_world.ico"
+                        MenuActivation="LeftOrRightClick"
+                        PopupActivation="DoubleClick"
+                        TrayMouseDoubleClick="NotifyIcon_TrayMouseDoubleClick">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <fc:PolymorphicMenuItem x:Name="CMShowHome" Header="Visualizza Home" Click="CMShowHome_Click"/>
+                    <fc:PolymorphicMenuItem ItemType="Separator"/>
+                    <fc:PolymorphicMenuItem x:Name="CMLogout" Header="Logout" Click="CMLogout_Click"/>
+                    <fc:PolymorphicMenuItem x:Name="CMLogoutAndClose" Header="Logout e chiudi" Click="CMLogoutAndClose_Click"/>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+
+        <Grid Margin="0,32,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0"
+                    Margin="0,-32,0,0"
+                    Background="{DynamicResource WindowSwitcherBackground}"/>
+            <Grid x:Name="ContentCategorySwitcher" Grid.Column="0">
+                <fc:Switcher x:Name="SwitchToPasswordSection"
+                             Style="{DynamicResource SwitcherDark}"
+                             VerticalAlignment="Top"
+                             Margin="0,50,0,0"
+                             Height="50"
+                             Content="Password"
+                             GroupName="SectionSwitchers"
+                             Checked="SwitchSelected"/>
+                <fc:Switcher x:Name="SwitchToCardSection"
+                             Style="{DynamicResource SwitcherDark}"
+                             VerticalAlignment="Top"
+                             Margin="0,100,0,0"
+                             Height="50"
+                             Content="Carte"
+                             BorderThickness="1,0,1,1"
+                             GroupName="SectionSwitchers"
+                             Checked="SwitchSelected"/>
+                <fc:Switcher x:Name="SwitchToNoteSection"
+                             Style="{DynamicResource SwitcherDark}"
+                             VerticalAlignment="Top"
+                             Margin="0,150,0,0"
+                             Height="50"
+                             Content="Note"
+                             BorderThickness="1,0,1,1"
+                             GroupName="SectionSwitchers"
+                             Checked="SwitchSelected"/>
+                <fc:EButton x:Name="Logout"
+                            Style="{DynamicResource ELogoutButtonDark}"
+                            Content="&#xE7E8;"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="30"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Margin="0,0,0,20"
+                            Width="60"
+                            Height="60"
+                            CornerRadius="30"
+                            BorderThickness="2"
+                            Click="Logout_Click"/>
+                <fc:EButton x:Name="ForgetMasterPassword"
+                            Style="{DynamicResource ELogoutButtonDark}"
+                            Content="X"
+                            FontFamily="Segoe UI"
+                            FontSize="20"
+                            HorizontalAlignment="Center"
                             VerticalAlignment="Top"
+                            Margin="0,424,0,0"
+                            Width="40"
+                            Height="40"
+                            CornerRadius="30"
+                            BorderThickness="2"
+                            Click="ForgetMasterPassword_Click"/>
+            </Grid>
+            <Grid x:Name="ContentWindow" Grid.Column="1">
+                <Grid x:Name="PasswordSection" Visibility="Visible">
+                    <TextBlock Text="PASSWORD" FontSize="20" Foreground="White"
+                               HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Margin="10,10,0,0"/>
+                    <fc:EButton x:Name="NewPassword"
+                                Style="{DynamicResource EButtonDark}"
+                                Content="Aggiungi"
+                                HorizontalAlignment="Right"
+                                Margin="0,50,20,0"
+                                VerticalAlignment="Top"
+                                Width="70"
+                                Height="40"
+                                Click="NewPassword_Click"/>
+                    <fc:GlassScrollViewer Margin="10,50,120,72"
+                                          Padding="0,0,1,0">
+                        <cust:VaultTreeView x:Name="PasswordList">
+                            <cust:VaultTreeView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,0,0,4">
+                                        <cust:PasswordPreview
+                                            ID="{Binding ID}"
+                                            Label="{Binding Label}"
+                                            Url="{Binding Url}"
+                                            MouseLeftButtonDown="PasswordPreviewMouseLeftButtonDown"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </cust:VaultTreeView.ItemTemplate>
+                        </cust:VaultTreeView>
+                    </fc:GlassScrollViewer>
+                </Grid>
+                <Grid x:Name="CardSection" Visibility="Collapsed">
+                    <TextBlock Text="CARTE" FontSize="20" Foreground="White"
+                               HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Margin="10,10,0,0"/>
+                    <fc:EButton x:Name="NewCard"
+                                Style="{DynamicResource EButtonDark}"
+                                Content="Aggiungi"
+                                HorizontalAlignment="Right"
+                                Margin="0,50,20,0"
+                                VerticalAlignment="Top"
+                                Width="70"
+                                Height="40"
+                                Click="NewCard_Click"/>
+                    <fc:GlassScrollViewer Margin="10,50,120,72"
+                                          Padding="0,0,1,0">
+                        <cust:VaultTreeView x:Name="CardList">
+                            <cust:VaultTreeView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,0,0,4">
+                                        <cust:CardPreview
+                                            ID="{Binding ID}"
+                                            Label="{Binding Label}"
+                                            Type="{Binding Type}"
+                                            MouseLeftButtonDown="CardPreviewMouseLeftButtonDown"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </cust:VaultTreeView.ItemTemplate>
+                        </cust:VaultTreeView>
+                    </fc:GlassScrollViewer>
+                </Grid>
+                <Grid x:Name="NoteSection" Visibility="Collapsed">
+                    <TextBlock Text="NOTE" FontSize="20" Foreground="White"
+                               HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Margin="10,10,0,0"/>
+                    <fc:EButton x:Name="NewNote"
+                                Style="{DynamicResource EButtonDark}"
+                                Content="Aggiungi"
+                                HorizontalAlignment="Right"
+                                Margin="0,50,20,0"
+                                VerticalAlignment="Top"
+                                Width="70"
+                                Height="40"
+                                Click="NewNote_Click"/>
+                    <fc:GlassScrollViewer Margin="10,50,120,72"
+                                          Padding="0,0,1,0">
+                        <cust:VaultTreeView x:Name="NoteList">
+                            <cust:VaultTreeView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,0,0,4">
+                                        <cust:NotePreview
+                                            ID="{Binding ID}"
+                                            Title="{Binding Title}"
+                                            Subtitle="{Binding Subtitle}"
+                                            MouseLeftButtonDown="NotePreviewMouseLeftButtonDown"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </cust:VaultTreeView.ItemTemplate>
+                        </cust:VaultTreeView>
+                    </fc:GlassScrollViewer>
+                </Grid>
+                <fc:ETextBox x:Name="Search"
+                             Style="{DynamicResource ETextBoxDark}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Bottom"
+                             Margin="10,0,0,20"
+                             Height="32"
+                             Width="363" 
+                             Hint="Cerca..."
+                             LabelType="Icon"
+                             Order="Horizontal"
+                             Icon="Icons/ic_search.png"
+                             TextChanged="Search_TextChanged"/>
+                <fc:EButton x:Name="EditCategories"
+                            Style="{DynamicResource EButtonDark}"
+                            Content="Categorie"
+                            HorizontalAlignment="Right"
+                            Margin="0,0,20,20"
+                            VerticalAlignment="Bottom"
                             Width="70"
                             Height="40"
-                            Click="NewPassword_Click"/>
-                <fc:GlassScrollViewer Margin="10,50,120,72"
-                                      Padding="0,0,1,0">
-                    <cust:VaultTreeView x:Name="PasswordList">
-                        <cust:VaultTreeView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="0,0,0,4">
-                                    <cust:PasswordPreview
-                                        ID="{Binding ID}"
-                                        Label="{Binding Label}"
-                                        Url="{Binding Url}"
-                                        MouseLeftButtonDown="PasswordPreviewMouseLeftButtonDown"/>
-                                </Grid>
-                            </DataTemplate>
-                        </cust:VaultTreeView.ItemTemplate>
-                    </cust:VaultTreeView>
-                </fc:GlassScrollViewer>
+                            Click="EditCategories_Click"/>
             </Grid>
-            <Grid x:Name="CardSection" Visibility="Collapsed">
-                <TextBlock Text="CARTE" FontSize="20" Foreground="White"
-                           HorizontalAlignment="Left" VerticalAlignment="Top"
-                           Margin="10,10,0,0"/>
-                <fc:EButton x:Name="NewCard"
-                            Style="{DynamicResource EButtonDark}"
-                            Content="Aggiungi"
-                            HorizontalAlignment="Right"
-                            Margin="0,50,20,0"
-                            VerticalAlignment="Top"
-                            Width="70"
-                            Height="40"
-                            Click="NewCard_Click"/>
-                <fc:GlassScrollViewer Margin="10,50,120,72"
-                                      Padding="0,0,1,0">
-                    <cust:VaultTreeView x:Name="CardList">
-                        <cust:VaultTreeView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="0,0,0,4">
-                                    <cust:CardPreview
-                                        ID="{Binding ID}"
-                                        Label="{Binding Label}"
-                                        Type="{Binding Type}"
-                                        MouseLeftButtonDown="CardPreviewMouseLeftButtonDown"/>
-                                </Grid>
-                            </DataTemplate>
-                        </cust:VaultTreeView.ItemTemplate>
-                    </cust:VaultTreeView>
-                </fc:GlassScrollViewer>
-            </Grid>
-            <Grid x:Name="NoteSection" Visibility="Collapsed">
-                <TextBlock Text="NOTE" FontSize="20" Foreground="White"
-                           HorizontalAlignment="Left" VerticalAlignment="Top"
-                           Margin="10,10,0,0"/>
-                <fc:EButton x:Name="NewNote"
-                            Style="{DynamicResource EButtonDark}"
-                            Content="Aggiungi"
-                            HorizontalAlignment="Right"
-                            Margin="0,50,20,0"
-                            VerticalAlignment="Top"
-                            Width="70"
-                            Height="40"
-                            Click="NewNote_Click"/>
-                <fc:GlassScrollViewer Margin="10,50,120,72"
-                                      Padding="0,0,1,0">
-                    <cust:VaultTreeView x:Name="NoteList">
-                        <cust:VaultTreeView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="0,0,0,4">
-                                    <cust:NotePreview
-                                        ID="{Binding ID}"
-                                        Title="{Binding Title}"
-                                        Subtitle="{Binding Subtitle}"
-                                        MouseLeftButtonDown="NotePreviewMouseLeftButtonDown"/>
-                                </Grid>
-                            </DataTemplate>
-                        </cust:VaultTreeView.ItemTemplate>
-                    </cust:VaultTreeView>
-                </fc:GlassScrollViewer>
-            </Grid>
-            <fc:ETextBox x:Name="Search"
-                         Style="{DynamicResource ETextBoxDark}"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Bottom"
-                         Margin="10,0,0,20"
-                         Height="32"
-                         Width="363" 
-                         Hint="Cerca..."
-                         LabelType="Icon"
-                         Order="Horizontal"
-                         Icon="Icons/ic_search.png"
-                         TextChanged="Search_TextChanged"/>
-            <fc:EButton x:Name="EditCategories"
-                        Style="{DynamicResource EButtonDark}"
-                        Content="Categorie"
-                        HorizontalAlignment="Right"
-                        Margin="0,0,20,20"
-                        VerticalAlignment="Bottom"
-                        Width="70"
-                        Height="40"
-                        Click="EditCategories_Click"/>
         </Grid>
     </Grid>
 </fc:EWindow>
