@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:p="clr-namespace:Vault.Properties"
                     xmlns:local="clr-namespace:Vault"
-                    xmlns:fce="clr-namespace:FullControls.Extra;assembly=FullControls">
+                    xmlns:fce="http://devpelux.github.io/fullcontrols/extra">
 
     <p:Settings x:Key="Settings"/>
     <fce:ClipConverter x:Key="EqualClipConverter"/>

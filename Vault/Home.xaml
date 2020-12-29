@@ -4,7 +4,7 @@
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:cust="clr-namespace:Vault.CustomControls"
-            xmlns:fc="clr-namespace:FullControls;assembly=FullControls"
+            xmlns:fc="http://devpelux.github.io/fullcontrols"
             xmlns:tb="http://www.hardcodet.net/taskbar"
             mc:Ignorable="d"
             Title="Vault"

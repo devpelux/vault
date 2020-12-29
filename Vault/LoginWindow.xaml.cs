@@ -15,7 +15,7 @@ namespace Vault
     {
         private int attempt = 0;
         private bool minimizeInTrayOnClose = true;
-
+        private bool disposeSession = true;
 
         public LoginWindow()
         {
@@ -29,7 +29,7 @@ namespace Vault
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            Session.Instance.Dispose();
+            if (disposeSession) Session.Instance.Dispose();
         }
 
         private void Window_CloseAction(object sender, ActionEventArgs e)
@@ -114,6 +114,7 @@ namespace Vault
                     else Settings.Default.User = "";
 
                     minimizeInTrayOnClose = false;
+                    disposeSession = false;
                     notifyIcon.Dispose();
                     new Home().Show();
                     Close();

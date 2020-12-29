@@ -29,8 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FullControls" Version="1.2.2" />
-    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.0.8" />
+    <PackageReference Include="FullControls" Version="1.2.3" />
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.0.9" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="5.0.1" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlcipher" Version="2.0.4" />
   </ItemGroup>

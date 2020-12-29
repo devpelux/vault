@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:fc="clr-namespace:FullControls;assembly=FullControls">
+                    xmlns:fc="http://devpelux.github.io/fullcontrols">
     <Style x:Key="ETextBoxDark" TargetType="{x:Type fc:ETextBox}">
         <Setter Property="Background" Value="#FF333337"/>
         <Setter Property="BackgroundOnSelected" Value="#FF333337"/>
