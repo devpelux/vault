@@ -97,19 +97,19 @@
                             CornerRadius="30"
                             BorderThickness="2"
                             Click="Logout_Click"/>
-                <fc:EButton x:Name="ForgetMasterPassword"
-                            Style="{DynamicResource ELogoutButtonDark}"
-                            Content="X"
-                            FontFamily="Segoe UI"
+                <fc:EButton x:Name="Settings"
+                            Style="{DynamicResource EButtonDark}"
+                            Content="&#xE713;"
+                            FontFamily="Segoe MDL2 Assets"
                             FontSize="20"
                             HorizontalAlignment="Center"
-                            VerticalAlignment="Top"
-                            Margin="0,424,0,0"
+                            VerticalAlignment="Bottom"
+                            Margin="0,0,0,100"
                             Width="40"
                             Height="40"
                             CornerRadius="30"
                             BorderThickness="2"
-                            Click="ForgetMasterPassword_Click"/>
+                            Click="Settings_Click"/>
             </Grid>
             <Grid x:Name="ContentWindow" Grid.Column="1">
                 <Grid x:Name="PasswordSection" Visibility="Visible">

@@ -1,0 +1,31 @@
+﻿<fc:EWindow x:Class="Vault.SettingsWindow"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:fc="http://devpelux.github.io/fullcontrols"
+            mc:Ignorable="d"
+            Title="Impostazioni"
+            Height="400"
+            Width="600"
+            WindowStyle="None"
+            CornerRadius="{DynamicResource WindowCornerRadius}"
+            BorderThickness="1"
+            BorderBrush="{DynamicResource WindowBorderBrush}"
+            Foreground="White"
+            CaptionButtonsForeground="White"
+            CaptionButtonsForegroundOnMouseOver="White"
+            CaptionButtonsForegroundOnPressed="White"
+            Background="{DynamicResource WindowBackground}"
+            CaptionButtonsBackground="{DynamicResource WindowBackground}"
+            CaptionButtonsBackgroundOnMouseOver="#FF575759"
+            CaptionButtonsBackgroundOnPressed="#FF2D2D30"
+            ToolbarBackground="{DynamicResource WindowBackground}"
+            WindowStartupLocation="CenterScreen"
+            ResizeMode="NoResize"
+            Closed="Window_Closed"
+            Loaded="Window_Loaded">
+    <Grid>
+        
+    </Grid>
+</fc:EWindow>

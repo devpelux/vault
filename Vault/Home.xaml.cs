@@ -101,9 +101,9 @@ namespace Vault
             Close();
         }
 
-        private void ForgetMasterPassword_Click(object sender, RoutedEventArgs e)
+        private void Settings_Click(object sender, RoutedEventArgs e)
         {
-            SettingsWrapper.DBSavedPassword = "";
+            new SettingsWindow().Show();
         }
 
         private void EditCategories_Click(object sender, RoutedEventArgs e)
