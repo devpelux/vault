@@ -61,13 +61,37 @@ namespace Vault.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("./vault.db")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string DBPath {
             get {
                 return ((string)(this["DBPath"]));
             }
             set {
                 this["DBPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseCustomDBPath {
+            get {
+                return ((bool)(this["UseCustomDBPath"]));
+            }
+            set {
+                this["UseCustomDBPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool StartHided {
+            get {
+                return ((bool)(this["StartHided"]));
+            }
+            set {
+                this["StartHided"] = value;
             }
         }
     }

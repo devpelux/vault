@@ -1,8 +1,7 @@
-﻿using FullControls;
+﻿using System;
 using System.IO;
 using System.Windows;
 using Vault.Core;
-using Vault.Properties;
 
 namespace Vault
 {
@@ -11,13 +10,20 @@ namespace Vault
     /// </summary>
     public partial class App : Application
     {
+        internal const string Name = "Vault";
+        internal const string FileName = "Vault.exe";
+        internal static readonly string Directory = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+        internal static readonly string FullName = Path.Combine(Directory, FileName);
+
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             SQLitePCL.Batteries_V2.Init();
+            LoadDBPath();
 
-            if (File.Exists(Path.GetFullPath(Settings.Default.DBPath)))
+            if (File.Exists(SettingsWrapper.DBPath))
             {
-                if (Settings.Default.DBSavedPassword != "")
+                if (SettingsWrapper.DBSavedPassword != "")
                 {
                     OpenDatabaseWithSavedPassword();
                 }
@@ -34,12 +40,12 @@ namespace Vault
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            Settings.Default.Save();
+            SettingsWrapper.SaveAll();
         }
 
         private static void OpenDatabaseWithSavedPassword()
         {
-            VaultDB.Context = new VaultDBContext(Settings.Default.DBPath, Settings.Default.DBSavedPassword);
+            VaultDB.Context = new VaultDBContext(SettingsWrapper.DBPath, SettingsWrapper.DBSavedPassword);
             if (VaultDB.Initialize())
             {
                 if (VaultDB.Instance.Users.Count() > 0)
@@ -53,7 +59,15 @@ namespace Vault
             }
             else
             {
-                _ = new DialogWindow(new MessageWindow("La password memorizzata è errata o il file di dati è corrotto!", "Errore", MessageBoxImage.Exclamation)).Show();
+                new MasterPasswordWindow(true).Show();
+            }
+        }
+
+        private static void LoadDBPath()
+        {
+            if (!SettingsWrapper.UseCustomDBPath)
+            {
+                SettingsWrapper.DBPath = Path.Combine(Directory, @"Vault.db");
             }
         }
     }

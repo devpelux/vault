@@ -1,7 +1,6 @@
 ﻿using FullControls;
 using System.Windows;
 using Vault.Core;
-using Vault.Properties;
 
 namespace Vault
 {
@@ -21,9 +20,14 @@ namespace Vault
             {
                 if (Utility.ComparePasswords(Password.SecurePassword, ConfirmPassword.SecurePassword))
                 {
-                    VaultDB.Context = new VaultDBContext(Settings.Default.DBPath, Password.Password);
+                    VaultDB.Context = new VaultDBContext(SettingsWrapper.DBPath, Password.Password);
                     _ = VaultDB.Initialize();
-                    if (Remember.IsChecked == true) Settings.Default.DBSavedPassword = Password.Password;
+
+                    if (Remember.IsChecked == true)
+                    {
+                        SettingsWrapper.DBSavedPassword = Password.Password;
+                    }
+
                     new RegisterWindow().Show();
                     Close();
                 }

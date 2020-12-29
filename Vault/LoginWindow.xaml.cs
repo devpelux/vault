@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using Vault.Core;
-using Vault.Properties;
 
 namespace Vault
 {
@@ -24,7 +23,7 @@ namespace Vault
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (Settings.Default.User != "") Remember.IsChecked = true;
+            if (SettingsWrapper.User != "") Remember.IsChecked = true;
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -110,8 +109,8 @@ namespace Vault
 
                     Session.Instance.LoadWindowsDatas();
 
-                    if (Remember.IsChecked ?? false) Settings.Default.User = Session.Instance.Username;
-                    else Settings.Default.User = "";
+                    if (Remember.IsChecked == true) SettingsWrapper.User = Session.Instance.Username;
+                    else SettingsWrapper.User = "";
 
                     minimizeInTrayOnClose = false;
                     disposeSession = false;

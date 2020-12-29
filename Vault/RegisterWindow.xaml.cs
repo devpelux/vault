@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Windows;
 using Vault.Core;
-using Vault.Properties;
 
 namespace Vault
 {
@@ -74,7 +73,10 @@ namespace Vault
 
             AddDefaultCategory();
 
-            if (Remember.IsChecked ?? false) Settings.Default.User = Session.Instance.Username;
+            if (Remember.IsChecked == true)
+            {
+                SettingsWrapper.User = Session.Instance.Username;
+            }
 
             new Home().Show();
             Close();

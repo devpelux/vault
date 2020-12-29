@@ -12,7 +12,13 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DBPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">./vault.db</Value>
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UseCustomDBPath" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="StartHided" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

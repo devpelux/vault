@@ -4,7 +4,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Vault.CustomControls;
 using Vault.Core;
-using Vault.Properties;
 using FullControls;
 using System.ComponentModel;
 
@@ -32,7 +31,7 @@ namespace Vault
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Reload(Settings.Default.SectionToLoad);
+            Reload(SettingsWrapper.SectionToLoad);
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -104,7 +103,7 @@ namespace Vault
 
         private void ForgetMasterPassword_Click(object sender, RoutedEventArgs e)
         {
-            Settings.Default.DBSavedPassword = "";
+            SettingsWrapper.DBSavedPassword = "";
         }
 
         private void EditCategories_Click(object sender, RoutedEventArgs e)
