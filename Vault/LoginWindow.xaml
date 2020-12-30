@@ -22,6 +22,7 @@
             CaptionButtonsBackgroundOnMouseOver="#FF575759"
             CaptionButtonsBackgroundOnPressed="#FF2D2D30"
             ToolbarBackground="{DynamicResource WindowBackground}"
+            Icon="/Icons/VaultIcon.ico"
             WindowStartupLocation="CenterScreen"
             ResizeMode="NoResize"
             Loaded="Window_Loaded"
@@ -33,7 +34,7 @@
         <tb:TaskbarIcon x:Name="notifyIcon"
                         Visibility="Visible"
                         ToolTipText="Vault è in esecuzione in background, per aprirlo fare doppio click."
-                        IconSource="/Icons/ic_world.ico"
+                        IconSource="/Icons/VaultTrayIconWhite.ico"
                         MenuActivation="LeftOrRightClick"
                         PopupActivation="DoubleClick"
                         TrayMouseDoubleClick="NotifyIcon_TrayMouseDoubleClick">

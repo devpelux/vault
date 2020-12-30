@@ -21,11 +21,37 @@
             CaptionButtonsBackgroundOnMouseOver="#FF575759"
             CaptionButtonsBackgroundOnPressed="#FF2D2D30"
             ToolbarBackground="{DynamicResource WindowBackground}"
+            Icon="/Icons/VaultIcon.ico"
             WindowStartupLocation="CenterScreen"
             ResizeMode="NoResize"
             Closed="Window_Closed"
             Loaded="Window_Loaded">
     <Grid>
-        
+        <fc:ECheckBox x:Name="AutoStart"
+                      Style="{DynamicResource ECheckBoxDark}"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Top"
+                      Margin="35,40,0,0"
+                      Height="15"
+                      Content="Avvia all'avvio di windows."
+                      Checked="AutoStart_Checked"
+                      Unchecked="AutoStart_Unchecked"/>
+        <fc:ECheckBox x:Name="StartHided"
+                      Style="{DynamicResource ECheckBoxDark}"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Top"
+                      Margin="35,70,0,0"
+                      Height="15"
+                      Content="Avvia nascosto nella tray."
+                      Checked="StartHided_Checked"
+                      Unchecked="StartHided_Unchecked"/>
+        <fc:ECheckBox x:Name="RememberDBPassword"
+                      Style="{DynamicResource ECheckBoxDark}"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Top"
+                      Margin="35,120,0,0"
+                      Height="15"
+                      Content="Ricorda la password del database."
+                      Unchecked="RememberDBPassword_Unchecked"/>
     </Grid>
 </fc:EWindow>

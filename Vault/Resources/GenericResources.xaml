@@ -39,6 +39,7 @@
     <SolidColorBrush x:Key="WindowBackground" Color="#FF202020"/>
     <SolidColorBrush x:Key="WindowSwitcherBackground" Color="#FF1C1C1C"/>
     <SolidColorBrush x:Key="WindowBorderBrush" Color="#FF404040"/>
+    <SolidColorBrush x:Key="WindowDivider" Color="#FF181818"/>
 
     <CornerRadius x:Key="WindowCornerRadius" TopLeft="8" TopRight="8" BottomRight="8" BottomLeft="8"/>
     <Thickness x:Key="WindowBorderThickness" Left="1" Top="1" Right="1" Bottom="1"/>
