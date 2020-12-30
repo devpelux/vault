@@ -6,6 +6,8 @@ using Vault.CustomControls;
 using Vault.Core;
 using FullControls;
 using System.ComponentModel;
+using System.Linq;
+using System;
 
 namespace Vault
 {
@@ -18,10 +20,20 @@ namespace Vault
         private const int CARD_SECTION = 1;
         private const int NOTE_SECTION = 2;
 
+        private static int UserID => Session.Instance.UserID;
+        private static byte[] Key => Session.Instance.Key;
+
+        private List<Password> passwords;
+        private List<Card> cards;
+        private List<Note> notes;
+
+        private List<Category> categories;
+
         private bool enableSwitch = true;
         private int loadedSection = -1;
-        private List<Category> categories = null;
         private bool minimizeInTrayOnClose = true;
+
+        private const StringComparison SearchType = StringComparison.CurrentCultureIgnoreCase;
 
 
         public Home()
@@ -88,7 +100,7 @@ namespace Vault
 
         private void Reload(int sectionToLoad)
         {
-            categories = VaultDB.Instance.Categories.GetRecords(Session.Instance.UserID);
+            categories = VaultDB.Instance.Categories.GetRecords(UserID);
             LoadSection(sectionToLoad);
             SelectSwitch(sectionToLoad);
         }
@@ -109,7 +121,12 @@ namespace Vault
         private void EditCategories_Click(object sender, RoutedEventArgs e)
         {
             _ = new DialogWindow(new CategoriesWindow()).Show();
-            Reload(0);
+            Reload(loadedSection);
+        }
+
+        private void Lists_ItemExpandedChanged(object sender, bool e)
+        {
+            categories = VaultDB.Instance.Categories.GetRecords(UserID);
         }
 
         #region New element buttons
@@ -118,8 +135,7 @@ namespace Vault
         {
             if (new DialogWindow(new PasswordWindow(null, categories)).Show().Equals(PasswordWindow.EDIT))
             {
-                if (Search.Text != "") LoadSearchedPasswords();
-                else LoadAllPasswords();
+                LoadPasswords(Search.Text);
             }
         }
 
@@ -127,8 +143,7 @@ namespace Vault
         {
             if (new DialogWindow(new CardWindow(null, categories)).Show().Equals(CardWindow.EDIT))
             {
-                if (Search.Text != "") LoadSearchedCards();
-                else LoadAllCards();
+                LoadCards(Search.Text);
             }
         }
 
@@ -136,8 +151,7 @@ namespace Vault
         {
             if (new DialogWindow(new NoteWindow(null, categories)).Show().Equals(NoteWindow.EDIT))
             {
-                if (Search.Text != "") LoadSearchedNotes();
-                else LoadAllNotes();
+                LoadNotes(Search.Text);
             }
         }
 
@@ -152,8 +166,7 @@ namespace Vault
             {
                 if (new DialogWindow(new PasswordWindow(selectedPassword, categories)).Show().Equals(PasswordWindow.EDIT))
                 {
-                    if (Search.Text != "") LoadSearchedPasswords();
-                    else LoadAllPasswords();
+                    LoadPasswords(Search.Text);
                 }
             }
             else
@@ -162,8 +175,7 @@ namespace Vault
                 {
                     if (new DialogWindow(new PasswordWindow(selectedPassword, categories)).Show().Equals(PasswordWindow.EDIT))
                     {
-                        if (Search.Text != "") LoadSearchedPasswords();
-                        else LoadAllPasswords();
+                        LoadPasswords(Search.Text);
                     }
                 }
             }
@@ -176,8 +188,7 @@ namespace Vault
             {
                 if (new DialogWindow(new CardWindow(selectedCard, categories)).Show().Equals(CardWindow.EDIT))
                 {
-                    if (Search.Text != "") LoadSearchedCards();
-                    else LoadAllCards();
+                    LoadCards(Search.Text);
                 }
             }
             else
@@ -186,8 +197,7 @@ namespace Vault
                 {
                     if (new DialogWindow(new CardWindow(selectedCard, categories)).Show().Equals(CardWindow.EDIT))
                     {
-                        if (Search.Text != "") LoadSearchedCards();
-                        else LoadAllCards();
+                        LoadCards(Search.Text);
                     }
                 }
             }
@@ -200,8 +210,7 @@ namespace Vault
             {
                 if (new DialogWindow(new NoteWindow(selectedNote, categories)).Show().Equals(NoteWindow.EDIT))
                 {
-                    if (Search.Text != "") LoadSearchedNotes();
-                    else LoadAllNotes();
+                    LoadNotes(Search.Text);
                 }
             }
             else
@@ -210,8 +219,7 @@ namespace Vault
                 {
                     if (new DialogWindow(new NoteWindow(selectedNote, categories)).Show().Equals(NoteWindow.EDIT))
                     {
-                        if (Search.Text != "") LoadSearchedNotes();
-                        else LoadAllNotes();
+                        LoadNotes(Search.Text);
                     }
                 }
             }
@@ -226,16 +234,13 @@ namespace Vault
             switch (loadedSection)
             {
                 case PASSWORD_SECTION:
-                    if (Search.Text != "") LoadSearchedPasswords();
-                    else LoadAllPasswords();
+                    LoadPasswords(Search.Text);
                     break;
                 case CARD_SECTION:
-                    if (Search.Text != "") LoadSearchedCards();
-                    else LoadAllCards();
+                    LoadCards(Search.Text);
                     break;
                 case NOTE_SECTION:
-                    if (Search.Text != "") LoadSearchedNotes();
-                    else LoadAllNotes();
+                    LoadNotes(Search.Text);
                     break;
                 default:
                     break;
@@ -246,23 +251,38 @@ namespace Vault
 
         #region Loaders
 
-        private void LoadSearchedPasswords() => LoadPasswords(VaultDB.Instance.Passwords.GetRecords(Search.Text, Session.Instance.UserID));
+        private void LoadPasswords(string label = "")
+        {
+            passwords = label is not null and not ""
+                ? PreDecryptAll(VaultDB.Instance.Passwords.GetRecords(UserID), Key).FindAll(p => p.Label.Contains(label, SearchType))
+                : PreDecryptAll(VaultDB.Instance.Passwords.GetRecords(UserID), Key);
+            PasswordList.ItemsSource = GroupByCategories(passwords, categories);
+        }
 
-        private void LoadAllPasswords() => LoadPasswords(VaultDB.Instance.Passwords.GetRecords(Session.Instance.UserID));
+        private void LoadCards(string label = "")
+        {
+            cards = label is not null and not ""
+                ? PreDecryptAll(VaultDB.Instance.Cards.GetRecords(UserID), Key).FindAll(c => c.Label.Contains(label, SearchType))
+                : PreDecryptAll(VaultDB.Instance.Cards.GetRecords(UserID), Key);
+            CardList.ItemsSource = GroupByCategories(cards, categories);
+        }
 
-        private void LoadSearchedCards() => LoadCards(VaultDB.Instance.Cards.GetRecords(Search.Text, Session.Instance.UserID));
+        private void LoadNotes(string title = "")
+        {
+            notes = title is not null and not ""
+                ? PreDecryptAll(VaultDB.Instance.Notes.GetRecords(UserID), Key).FindAll(n => n.Title.Contains(title, SearchType))
+                : PreDecryptAll(VaultDB.Instance.Notes.GetRecords(UserID), Key);
+            NoteList.ItemsSource = GroupByCategories(notes, categories);
+        }
 
-        private void LoadAllCards() => LoadCards(VaultDB.Instance.Cards.GetRecords(Session.Instance.UserID));
+        private static List<T> PreDecryptAll<T>(List<T> list, byte[] key) where T : IDecryptable<T> => list.Select(d => d.PreDecrypt(key)).ToList();
 
-        private void LoadSearchedNotes() => LoadNotes(VaultDB.Instance.Notes.GetRecords(Search.Text, Session.Instance.UserID));
-
-        private void LoadAllNotes() => LoadNotes(VaultDB.Instance.Notes.GetRecords(Session.Instance.UserID));
-
-        private void LoadPasswords(List<Password> passwords) => PasswordList.ItemsSource = Passwords.GroupByCategories(Passwords.DecryptForPreview(passwords, Session.Instance.Key), categories);
-
-        private void LoadCards(List<Card> cards) => CardList.ItemsSource = Cards.GroupByCategories(Cards.DecryptForPreview(cards, Session.Instance.Key), categories);
-
-        private void LoadNotes(List<Note> notes) => NoteList.ItemsSource = Notes.GroupByCategories(Notes.DecryptForPreview(notes, Session.Instance.Key), categories);
+        private static List<CategoryValues> GroupByCategories<T>(List<T> list, List<Category> categories) where T : ICategorizable
+            => categories.Select(category =>
+            {
+                List<T> filteredElements = list.FindAll(e => e.Category == category.ID);
+                return new CategoryValues(category, filteredElements);
+            }).ToList();
 
         #endregion
 
@@ -330,7 +350,7 @@ namespace Vault
             CardSection.Visibility = Visibility.Collapsed;
             NoteSection.Visibility = Visibility.Collapsed;
             Search.Text = "";
-            LoadAllPasswords();
+            LoadPasswords();
             loadedSection = PASSWORD_SECTION;
         }
 
@@ -341,7 +361,7 @@ namespace Vault
             CardSection.Visibility = Visibility.Visible;
             NoteSection.Visibility = Visibility.Collapsed;
             Search.Text = "";
-            LoadAllCards();
+            LoadCards();
             loadedSection = CARD_SECTION;
         }
 
@@ -352,7 +372,7 @@ namespace Vault
             CardSection.Visibility = Visibility.Collapsed;
             NoteSection.Visibility = Visibility.Visible;
             Search.Text = "";
-            LoadAllNotes();
+            LoadNotes();
             loadedSection = NOTE_SECTION;
         }
 

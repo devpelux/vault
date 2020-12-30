@@ -1,12 +1,10 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Vault.Core
 {
     public record Category(int ID, int User, string Label, bool IsExpanded);
-    public record CategoryValues(Category Category, IEnumerable Values, int Count);
 
     public class Categories : ITable
     {

@@ -23,7 +23,7 @@ namespace Vault
         public PasswordWindow(Password password, List<Category> categories)
         {
             InitializeComponent();
-            this.password = password != null ? Passwords.Decrypt(password, Session.Instance.Key) : null;
+            this.password = password?.Decrypt(Session.Instance.Key);
             this.categories = categories;
         }
 
@@ -85,7 +85,7 @@ namespace Vault
                     PasswordKey.Password,
                     PasswordNote.Text
                 );
-            VaultDB.Instance.Passwords.AddRecord(Passwords.Encrypt(password, Session.Instance.Key));
+            VaultDB.Instance.Passwords.AddRecord(password.Encrypt(Session.Instance.Key));
         }
 
         private void EditElement()
@@ -101,7 +101,7 @@ namespace Vault
                 Key = PasswordKey.Password,
                 Note = PasswordNote.Text
             };
-            VaultDB.Instance.Passwords.UpdateRecord(Passwords.Encrypt(editedPassword, Session.Instance.Key));
+            VaultDB.Instance.Passwords.UpdateRecord(editedPassword.Encrypt(Session.Instance.Key));
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)

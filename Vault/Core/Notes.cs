@@ -1,12 +1,9 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Vault.Core
 {
-    public record Note(int ID, int User, int Category, bool RequestKey, string Title, string Subtitle, string Text);
-
     public class Notes : ITable
     {
         private readonly VaultDB VaultDB;
@@ -110,31 +107,6 @@ namespace Vault.Core
             return records;
         }
 
-        public List<Note> GetRecords(string title)
-        {
-            List<Note> records = new();
-            string command = "SELECT * FROM Notes WHERE Title LIKE @Title;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
-            query.Parameters.AddWithValue("@Title", $"%{title}%");
-            query.Prepare();
-            SqliteDataReader reader = query.ExecuteReader();
-            while (reader.Read()) records.Add(ReadRecord(reader));
-            return records;
-        }
-
-        public List<Note> GetRecords(string title, int user)
-        {
-            List<Note> records = new();
-            string command = "SELECT * FROM Notes WHERE User = @User AND Title LIKE @Title;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
-            query.Parameters.AddWithValue("@User", user);
-            query.Parameters.AddWithValue("@Title", $"%{title}%");
-            query.Prepare();
-            SqliteDataReader reader = query.ExecuteReader();
-            while (reader.Read()) records.Add(ReadRecord(reader));
-            return records;
-        }
-
         public void UpdateRecord(Note record)
         {
             string command = "UPDATE Notes " +
@@ -185,35 +157,5 @@ namespace Vault.Core
                 reader.GetString(5),
                 reader.GetString(6)
             );
-
-        public static Note Encrypt(Note note, byte[] key)
-            => note with
-            {
-                Subtitle = Encryptor.Encrypt(note.Subtitle, key),
-                Text = Encryptor.Encrypt(note.Text, key)
-            };
-
-        public static Note Decrypt(Note encryptedNote, byte[] key)
-            => encryptedNote with
-            {
-                Subtitle = Encryptor.Decrypt(encryptedNote.Subtitle, key),
-                Text = Encryptor.Decrypt(encryptedNote.Text, key)
-            };
-
-        public static List<Note> DecryptForPreview(List<Note> encryptedNotes, byte[] key)
-            => encryptedNotes.Select(note => DecryptForPreview(note, key)).ToList();
-
-        private static Note DecryptForPreview(Note encryptedNote, byte[] key)
-            => encryptedNote with
-            {
-                Subtitle = Encryptor.Decrypt(encryptedNote.Subtitle, key)
-            };
-
-        public static List<CategoryValues> GroupByCategories(List<Note> elements, List<Category> categories)
-            => categories.Select(category =>
-            {
-                List<Note> filteredElements = elements.FindAll(e => e.Category == category.ID);
-                return new CategoryValues(category, filteredElements, filteredElements.Count);
-            }).ToList();
     }
 }

@@ -61,6 +61,8 @@ namespace Vault.CustomControls
             DependencyProperty.Register(nameof(IsExpanded), typeof(bool), typeof(VaultTreeViewItem),
                 new PropertyMetadata(false, new PropertyChangedCallback((d, e) => ((VaultTreeViewItem)d).OnExpandedChanged((bool)e.NewValue))));
 
+        public event EventHandler<bool> ExpandedChanged;
+
 
         static VaultTreeViewItem()
         {
@@ -72,12 +74,7 @@ namespace Vault.CustomControls
             base.OnApplyTemplate();
             ic = (ItemsControl)Template.FindName("PART_ItemsViewer", this);
             ic.SizeChanged += Ic_SizeChanged;
-            ((TextBlock)Template.FindName("PART_Header", this)).MouseLeftButtonDown += (o, e) =>
-            {
-                IsExpanded = !IsExpanded;
-                Category = Category with { IsExpanded = IsExpanded };
-                VaultDB.Instance.Categories.UpdateRecord(Category);
-            };
+            ((TextBlock)Template.FindName("PART_Header", this)).MouseLeftButtonDown += (o, e) => IsExpanded = !IsExpanded;
         }
 
         private void OnExpandedChanged(bool isExpanded)
@@ -86,6 +83,9 @@ namespace Vault.CustomControls
             {
                 if (IsExpanded) Expand();
                 else Collapse();
+                Category = Category with { IsExpanded = IsExpanded };
+                VaultDB.Instance.Categories.UpdateRecord(Category);
+                ExpandedChanged?.Invoke(this, isExpanded);
             }
         }
 

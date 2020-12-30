@@ -1,12 +1,9 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Vault.Core
 {
-    public record Password(int ID, int User, int Category, bool RequestKey, string Label, string Description, string Url, string Username, string Key, string Note);
-
     public class Passwords : ITable
     {
         private readonly VaultDB VaultDB;
@@ -116,31 +113,6 @@ namespace Vault.Core
             return records;
         }
 
-        public List<Password> GetRecords(string label)
-        {
-            List<Password> records = new();
-            string command = "SELECT * FROM Passwords WHERE Label LIKE @Label;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
-            query.Parameters.AddWithValue("@Label", $"%{label}%");
-            query.Prepare();
-            SqliteDataReader reader = query.ExecuteReader();
-            while (reader.Read()) records.Add(ReadRecord(reader));
-            return records;
-        }
-
-        public List<Password> GetRecords(string label, int user)
-        {
-            List<Password> records = new();
-            string command = "SELECT * FROM Passwords WHERE User = @User AND Label LIKE @Label;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
-            query.Parameters.AddWithValue("@User", user);
-            query.Parameters.AddWithValue("@Label", $"%{label}%");
-            query.Prepare();
-            SqliteDataReader reader = query.ExecuteReader();
-            while (reader.Read()) records.Add(ReadRecord(reader));
-            return records;
-        }
-
         public void UpdateRecord(Password record)
         {
             string command = "UPDATE Passwords " +
@@ -200,41 +172,5 @@ namespace Vault.Core
                 reader.GetString(8),
                 reader.GetString(9)
             );
-
-        public static Password Encrypt(Password password, byte[] key)
-            => password with
-            {
-                Description = Encryptor.Encrypt(password.Description, key),
-                Url = Encryptor.Encrypt(password.Url, key),
-                Username = Encryptor.Encrypt(password.Username, key),
-                Key = Encryptor.Encrypt(password.Key, key),
-                Note = Encryptor.Encrypt(password.Note, key)
-            };
-
-        public static Password Decrypt(Password encryptedPassword, byte[] key)
-            => encryptedPassword with
-            {
-                Description = Encryptor.Decrypt(encryptedPassword.Description, key),
-                Url = Encryptor.Decrypt(encryptedPassword.Url, key),
-                Username = Encryptor.Decrypt(encryptedPassword.Username, key),
-                Key = Encryptor.Decrypt(encryptedPassword.Key, key),
-                Note = Encryptor.Decrypt(encryptedPassword.Note, key)
-            };
-
-        public static List<Password> DecryptForPreview(List<Password> encryptedPasswords, byte[] key)
-            => encryptedPasswords.Select(password => DecryptForPreview(password, key)).ToList();
-
-        private static Password DecryptForPreview(Password encryptedPassword, byte[] key)
-            => encryptedPassword with
-            {
-                Url = Encryptor.Decrypt(encryptedPassword.Url, key)
-            };
-
-        public static List<CategoryValues> GroupByCategories(List<Password> elements, List<Category> categories)
-            => categories.Select(category =>
-            {
-                List<Password> filteredElements = elements.FindAll(e => e.Category == category.ID);
-                return new CategoryValues(category, filteredElements, filteredElements.Count);
-            }).ToList();
     }
 }

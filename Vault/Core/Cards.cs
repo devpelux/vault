@@ -1,13 +1,9 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Vault.Core
 {
-    public record Card(int ID, int User, int Category, bool RequestKey, string Label, string Description,
-        string Owner, string Type, string Number, string SecureCode, string Expiration, string Note);
-
     public class Cards : ITable
     {
         private readonly VaultDB VaultDB;
@@ -121,31 +117,6 @@ namespace Vault.Core
             return records;
         }
 
-        public List<Card> GetRecords(string label)
-        {
-            List<Card> records = new();
-            string command = "SELECT * FROM Cards WHERE Label LIKE @Label;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
-            query.Parameters.AddWithValue("@Title", $"%{label}%");
-            query.Prepare();
-            SqliteDataReader reader = query.ExecuteReader();
-            while (reader.Read()) records.Add(ReadRecord(reader));
-            return records;
-        }
-
-        public List<Card> GetRecords(string label, int user)
-        {
-            List<Card> records = new();
-            string command = "SELECT * FROM Cards WHERE User = @User AND Label LIKE @Label;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
-            query.Parameters.AddWithValue("@User", user);
-            query.Parameters.AddWithValue("@Label", $"%{label}%");
-            query.Prepare();
-            SqliteDataReader reader = query.ExecuteReader();
-            while (reader.Read()) records.Add(ReadRecord(reader));
-            return records;
-        }
-
         public void UpdateRecord(Card record)
         {
             string command = "UPDATE Cards " +
@@ -211,45 +182,5 @@ namespace Vault.Core
                 reader.GetString(10),
                 reader.GetString(11)
             );
-
-        public static Card Encrypt(Card card, byte[] key)
-            => card with
-            {
-                Description = Encryptor.Encrypt(card.Description, key),
-                Owner = Encryptor.Encrypt(card.Owner, key),
-                Type = Encryptor.Encrypt(card.Type, key),
-                Number = Encryptor.Encrypt(card.Number, key),
-                SecureCode = Encryptor.Encrypt(card.SecureCode, key),
-                Expiration = Encryptor.Encrypt(card.Expiration, key),
-                Note = Encryptor.Encrypt(card.Note, key)
-            };
-
-        public static Card Decrypt(Card encryptedCard, byte[] key)
-            => encryptedCard with
-            {
-                Description = Encryptor.Decrypt(encryptedCard.Description, key),
-                Owner = Encryptor.Decrypt(encryptedCard.Owner, key),
-                Type = Encryptor.Decrypt(encryptedCard.Type, key),
-                Number = Encryptor.Decrypt(encryptedCard.Number, key),
-                SecureCode = Encryptor.Decrypt(encryptedCard.SecureCode, key),
-                Expiration = Encryptor.Decrypt(encryptedCard.Expiration, key),
-                Note = Encryptor.Decrypt(encryptedCard.Note, key)
-            };
-
-        public static List<Card> DecryptForPreview(List<Card> encryptedCards, byte[] key)
-            => encryptedCards.Select(card => DecryptForPreview(card, key)).ToList();
-
-        private static Card DecryptForPreview(Card encryptedCard, byte[] key)
-            => encryptedCard with
-            {
-                Type = Encryptor.Decrypt(encryptedCard.Type, key)
-            };
-
-        public static List<CategoryValues> GroupByCategories(List<Card> elements, List<Category> categories)
-            => categories.Select(category =>
-            {
-                List<Card> filteredElements = elements.FindAll(e => e.Category == category.ID);
-                return new CategoryValues(category, filteredElements, filteredElements.Count);
-            }).ToList();
     }
 }

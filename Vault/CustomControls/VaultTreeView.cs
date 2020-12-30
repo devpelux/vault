@@ -1,13 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using Vault.Core;
 
 namespace Vault.CustomControls
 {
+    public record CategoryValues(Category Category, ICollection Values);
+
     public class VaultTreeView : Control
     {
-        ItemsControl itemsList;
+        private ItemsControl itemsList;
 
         public List<CategoryValues> ItemsSource
         {
@@ -36,6 +40,8 @@ namespace Vault.CustomControls
         public static readonly DependencyProperty ItemsPanelProperty =
             DependencyProperty.Register(nameof(ItemsPanel), typeof(ItemsPanelTemplate), typeof(VaultTreeView), new PropertyMetadata(null, OnItemPanelChanged));
 
+        public event EventHandler<bool> ItemExpandedChanged;
+
 
         static VaultTreeView()
         {
@@ -58,7 +64,7 @@ namespace Vault.CustomControls
                 {
                     foreach (CategoryValues item in itemsSource)
                     {
-                        if (item.Count > 0)
+                        if (item.Values.Count > 0)
                         {
                             VaultTreeViewItem itemViewer = new VaultTreeViewItem
                             {
@@ -68,7 +74,8 @@ namespace Vault.CustomControls
                                 ItemTemplate = ItemTemplate,
                                 ItemsPanel = ItemsPanel
                             };
-                            itemsList.Items.Add(itemViewer);
+                            itemViewer.ExpandedChanged += ItemExpandedChanged;
+                            _ = itemsList.Items.Add(itemViewer);
                         }
                     }
                 }

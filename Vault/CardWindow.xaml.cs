@@ -23,7 +23,7 @@ namespace Vault
         public CardWindow(Card card, List<Category> categories)
         {
             InitializeComponent();
-            this.card = card != null ? Cards.Decrypt(card, Session.Instance.Key) : null;
+            this.card = card?.Decrypt(Session.Instance.Key);
             this.categories = categories;
         }
 
@@ -89,7 +89,7 @@ namespace Vault
                     CardExpiration.Text,
                     CardNote.Text
                 );
-            VaultDB.Instance.Cards.AddRecord(Cards.Encrypt(card, Session.Instance.Key));
+            VaultDB.Instance.Cards.AddRecord(card.Encrypt(Session.Instance.Key));
         }
 
         private void EditElement()
@@ -107,7 +107,7 @@ namespace Vault
                 Expiration = CardExpiration.Text,
                 Note = CardNote.Text
             };
-            VaultDB.Instance.Cards.UpdateRecord(Cards.Encrypt(editedCard, Session.Instance.Key));
+            VaultDB.Instance.Cards.UpdateRecord(editedCard.Encrypt(Session.Instance.Key));
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)

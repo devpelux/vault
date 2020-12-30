@@ -23,7 +23,7 @@ namespace Vault
         public NoteWindow(Note note, List<Category> categories)
         {
             InitializeComponent();
-            this.note = note != null ? Notes.Decrypt(note, Session.Instance.Key) : null;
+            this.note = note?.Decrypt(Session.Instance.Key);
             this.categories = categories;
         }
 
@@ -79,7 +79,7 @@ namespace Vault
                     NoteSubtitle.Text,
                     NoteText.Text
                 );
-            VaultDB.Instance.Notes.AddRecord(Notes.Encrypt(note, Session.Instance.Key));
+            VaultDB.Instance.Notes.AddRecord(note.Encrypt(Session.Instance.Key));
         }
 
         private void EditElement()
@@ -92,7 +92,7 @@ namespace Vault
                 Subtitle = NoteSubtitle.Text,
                 Text = NoteText.Text
             };
-            VaultDB.Instance.Notes.UpdateRecord(Notes.Encrypt(editedNote, Session.Instance.Key));
+            VaultDB.Instance.Notes.UpdateRecord(editedNote.Encrypt(Session.Instance.Key));
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)

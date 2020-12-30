@@ -119,7 +119,8 @@
                                 Click="NewPassword_Click"/>
                     <fc:GlassScrollViewer Margin="10,50,120,72"
                                           Padding="0,0,1,0">
-                        <cust:VaultTreeView x:Name="PasswordList">
+                        <cust:VaultTreeView x:Name="PasswordList"
+                                            ItemExpandedChanged="Lists_ItemExpandedChanged">
                             <cust:VaultTreeView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="0,0,0,4">
@@ -149,7 +150,8 @@
                                 Click="NewCard_Click"/>
                     <fc:GlassScrollViewer Margin="10,50,120,72"
                                           Padding="0,0,1,0">
-                        <cust:VaultTreeView x:Name="CardList">
+                        <cust:VaultTreeView x:Name="CardList"
+                                            ItemExpandedChanged="Lists_ItemExpandedChanged">
                             <cust:VaultTreeView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="0,0,0,4">
@@ -179,7 +181,8 @@
                                 Click="NewNote_Click"/>
                     <fc:GlassScrollViewer Margin="10,50,120,72"
                                           Padding="0,0,1,0">
-                        <cust:VaultTreeView x:Name="NoteList">
+                        <cust:VaultTreeView x:Name="NoteList"
+                                            ItemExpandedChanged="Lists_ItemExpandedChanged">
                             <cust:VaultTreeView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="0,0,0,4">
