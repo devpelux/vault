@@ -1,26 +1,22 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using Vault.Core;
 
 namespace Vault.CustomControls
 {
-    public record CategoryValues(Category Category, ICollection Values);
-
     public class VaultTreeView : Control
     {
         private ItemsControl itemsList;
 
-        public List<CategoryValues> ItemsSource
+        public List<VaultTreeViewItemSource> ItemsSource
         {
-            get { return (List<CategoryValues>)GetValue(ItemsSourceProperty); }
+            get { return (List<VaultTreeViewItemSource>)GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
 
         public static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register(nameof(ItemsSource), typeof(List<CategoryValues>), typeof(VaultTreeView), new PropertyMetadata(null, OnItemsSourceChanged));
+            DependencyProperty.Register(nameof(ItemsSource), typeof(List<VaultTreeViewItemSource>), typeof(VaultTreeView), new PropertyMetadata(null, OnItemsSourceChanged));
 
         public DataTemplate ItemTemplate
         {
@@ -40,7 +36,16 @@ namespace Vault.CustomControls
         public static readonly DependencyProperty ItemsPanelProperty =
             DependencyProperty.Register(nameof(ItemsPanel), typeof(ItemsPanelTemplate), typeof(VaultTreeView), new PropertyMetadata(null, OnItemPanelChanged));
 
-        public event EventHandler<bool> ItemExpandedChanged;
+        public TimeSpan AnimationTime
+        {
+            get => (TimeSpan)GetValue(AnimationTimeProperty);
+            set => SetValue(AnimationTimeProperty, value);
+        }
+
+        public static readonly DependencyProperty AnimationTimeProperty =
+            DependencyProperty.Register(nameof(AnimationTime), typeof(TimeSpan), typeof(VaultTreeView));
+
+        public event EventHandler<ItemExpandedEventArgs> ItemExpandedChanged;
 
 
         static VaultTreeView()
@@ -55,21 +60,24 @@ namespace Vault.CustomControls
             LoadItems(ItemsSource);
         }
 
-        private void LoadItems(List<CategoryValues> itemsSource)
+        private void LoadItems(List<VaultTreeViewItemSource> itemsSource)
         {
             if (itemsList != null)
             {
                 itemsList.Items.Clear();
                 if (itemsSource != null)
                 {
-                    foreach (CategoryValues item in itemsSource)
+                    for (int i = 0; i < itemsSource.Count; i++)
                     {
+                        VaultTreeViewItemSource item = itemsSource[i];
                         if (item.Values.Count > 0)
                         {
                             VaultTreeViewItem itemViewer = new VaultTreeViewItem
                             {
-                                Category = item.Category,
-                                Header = item.Category.Label,
+                                AnimationTime = AnimationTime,
+                                Index = i,
+                                IsExpanded = item.IsExpanded,
+                                Header = item.Header,
                                 ItemsSource = item.Values,
                                 ItemTemplate = ItemTemplate,
                                 ItemsPanel = ItemsPanel
@@ -83,12 +91,12 @@ namespace Vault.CustomControls
         }
 
         private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-            => ((VaultTreeView)d).LoadItems((List<CategoryValues>)e.NewValue);
+            => ((VaultTreeView)d).LoadItems((List<VaultTreeViewItemSource>)e.NewValue);
 
         private static void OnItemTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-            => ((VaultTreeView)d).LoadItems((List<CategoryValues>)d.GetValue(ItemsSourceProperty));
+            => ((VaultTreeView)d).LoadItems((List<VaultTreeViewItemSource>)d.GetValue(ItemsSourceProperty));
 
         private static void OnItemPanelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-            => ((VaultTreeView)d).LoadItems((List<CategoryValues>)d.GetValue(ItemsSourceProperty));
+            => ((VaultTreeView)d).LoadItems((List<VaultTreeViewItemSource>)d.GetValue(ItemsSourceProperty));
     }
 }

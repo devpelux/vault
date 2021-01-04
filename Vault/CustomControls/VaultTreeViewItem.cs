@@ -3,7 +3,6 @@ using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
-using Vault.Core;
 
 namespace Vault.CustomControls
 {
@@ -13,7 +12,8 @@ namespace Vault.CustomControls
         private double expandedHeight = 0;
         private double collapsedHeight = 0;
 
-        public Category Category { get; set; }
+
+        public int Index { get; set; } = -1;
 
         public string Header
         {
@@ -59,9 +59,18 @@ namespace Vault.CustomControls
 
         public static readonly DependencyProperty IsExpandedProperty =
             DependencyProperty.Register(nameof(IsExpanded), typeof(bool), typeof(VaultTreeViewItem),
-                new PropertyMetadata(false, new PropertyChangedCallback((d, e) => ((VaultTreeViewItem)d).OnExpandedChanged((bool)e.NewValue))));
+                new PropertyMetadata(true, new PropertyChangedCallback((d, e) => ((VaultTreeViewItem)d).OnExpandedChanged((bool)e.NewValue))));
 
-        public event EventHandler<bool> ExpandedChanged;
+        public TimeSpan AnimationTime
+        {
+            get => (TimeSpan)GetValue(AnimationTimeProperty);
+            set => SetValue(AnimationTimeProperty, value);
+        }
+
+        public static readonly DependencyProperty AnimationTimeProperty =
+            DependencyProperty.Register(nameof(AnimationTime), typeof(TimeSpan), typeof(VaultTreeViewItem));
+
+        public event EventHandler<ItemExpandedEventArgs> ExpandedChanged;
 
 
         static VaultTreeViewItem()
@@ -83,33 +92,47 @@ namespace Vault.CustomControls
             {
                 if (IsExpanded) Expand();
                 else Collapse();
-                Category = Category with { IsExpanded = IsExpanded };
-                VaultDB.Instance.Categories.UpdateRecord(Category);
-                ExpandedChanged?.Invoke(this, isExpanded);
+                ExpandedChanged?.Invoke(this, new ItemExpandedEventArgs(Index, isExpanded));
             }
         }
 
         private void Expand()
         {
-            DoubleAnimation expand = new DoubleAnimation
+            if (AnimationTime > TimeSpan.Zero)
             {
-                From = collapsedHeight,
-                To = expandedHeight,
-                Duration = new Duration(new TimeSpan(0, 0, 0, 0, 400))
-            };
-            ic.BeginAnimation(MaxHeightProperty, expand);
+                DoubleAnimation expand = new DoubleAnimation
+                {
+                    From = collapsedHeight,
+                    To = expandedHeight,
+                    Duration = new Duration(AnimationTime)
+                };
+                ic.BeginAnimation(MaxHeightProperty, expand);
+            }
+            else
+            {
+                ic.MaxHeight = expandedHeight;
+            }
         }
 
         private void Collapse()
         {
-            DoubleAnimation collapse = new DoubleAnimation
+            if (AnimationTime > TimeSpan.Zero)
             {
-                From = expandedHeight,
-                To = collapsedHeight,
-                Duration = new Duration(new TimeSpan(0, 0, 0, 0, 400))
-            };
-            ic.BeginAnimation(MaxHeightProperty, collapse);
+                DoubleAnimation collapse = new DoubleAnimation
+                {
+                    From = expandedHeight,
+                    To = collapsedHeight,
+                    Duration = new Duration(AnimationTime)
+                };
+                ic.BeginAnimation(MaxHeightProperty, collapse);
+            }
+            else
+            {
+                ic.MaxHeight = collapsedHeight;
+            }
         }
+
+        private void SetInitialState(bool isExpanded) => ic.MaxHeight = isExpanded ? expandedHeight : collapsedHeight;
 
         private void Ic_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -117,11 +140,7 @@ namespace Vault.CustomControls
             {
                 expandedHeight = ic.ActualHeight;
                 collapsedHeight = 0;
-                ic.MaxHeight = expandedHeight;
-                if (expandedHeight != 0)
-                {
-                    IsExpanded = Category.IsExpanded;
-                }
+                SetInitialState(IsExpanded);
             }
         }
 

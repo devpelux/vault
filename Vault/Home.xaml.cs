@@ -124,9 +124,11 @@ namespace Vault
             Reload(loadedSection);
         }
 
-        private void Lists_ItemExpandedChanged(object sender, bool e)
+        private void Lists_ItemExpandedChanged(object sender, ItemExpandedEventArgs e)
         {
-            categories = VaultDB.Instance.Categories.GetRecords(UserID);
+            Category editedCategory = categories[e.Index] with { IsExpanded = e.IsExpanded };
+            categories[e.Index] = editedCategory;
+            VaultDB.Instance.Categories.UpdateRecord(editedCategory);
         }
 
         #region New element buttons
@@ -256,7 +258,7 @@ namespace Vault
             passwords = label is not null and not ""
                 ? PreDecryptAll(VaultDB.Instance.Passwords.GetRecords(UserID), Key).FindAll(p => p.Label.Contains(label, SearchType))
                 : PreDecryptAll(VaultDB.Instance.Passwords.GetRecords(UserID), Key);
-            PasswordList.ItemsSource = GroupByCategories(passwords, categories);
+            PasswordList.ItemsSource = BuildVaultTreeViewItemSource(passwords, categories);
         }
 
         private void LoadCards(string label = "")
@@ -264,7 +266,7 @@ namespace Vault
             cards = label is not null and not ""
                 ? PreDecryptAll(VaultDB.Instance.Cards.GetRecords(UserID), Key).FindAll(c => c.Label.Contains(label, SearchType))
                 : PreDecryptAll(VaultDB.Instance.Cards.GetRecords(UserID), Key);
-            CardList.ItemsSource = GroupByCategories(cards, categories);
+            CardList.ItemsSource = BuildVaultTreeViewItemSource(cards, categories);
         }
 
         private void LoadNotes(string title = "")
@@ -272,16 +274,16 @@ namespace Vault
             notes = title is not null and not ""
                 ? PreDecryptAll(VaultDB.Instance.Notes.GetRecords(UserID), Key).FindAll(n => n.Title.Contains(title, SearchType))
                 : PreDecryptAll(VaultDB.Instance.Notes.GetRecords(UserID), Key);
-            NoteList.ItemsSource = GroupByCategories(notes, categories);
+            NoteList.ItemsSource = BuildVaultTreeViewItemSource(notes, categories);
         }
 
         private static List<T> PreDecryptAll<T>(List<T> list, byte[] key) where T : IDecryptable<T> => list.Select(d => d.PreDecrypt(key)).ToList();
 
-        private static List<CategoryValues> GroupByCategories<T>(List<T> list, List<Category> categories) where T : ICategorizable
+        private static List<VaultTreeViewItemSource> BuildVaultTreeViewItemSource<T>(List<T> list, List<Category> categories) where T : ICategorizable
             => categories.Select(category =>
             {
                 List<T> filteredElements = list.FindAll(e => e.Category == category.ID);
-                return new CategoryValues(category, filteredElements);
+                return new VaultTreeViewItemSource(category.Label, category.IsExpanded, filteredElements);
             }).ToList();
 
         #endregion
