@@ -19,11 +19,11 @@ namespace Vault
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             SQLitePCL.Batteries_V2.Init();
-            LoadDBPath();
+            Settings.Instance.DBPath = GetDBPath();
 
-            if (File.Exists(SettingsWrapper.DBPath))
+            if (File.Exists(Settings.Instance.DBPath))
             {
-                if (SettingsWrapper.DBSavedPassword != "")
+                if (Settings.Instance.DBPassword != "")
                 {
                     OpenDatabaseWithSavedPassword();
                 }
@@ -40,12 +40,12 @@ namespace Vault
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            SettingsWrapper.SaveAll();
+            Settings.Instance.Dispose();
         }
 
         private static void OpenDatabaseWithSavedPassword()
         {
-            VaultDB.Context = new VaultDBContext(SettingsWrapper.DBPath, SettingsWrapper.DBSavedPassword);
+            VaultDB.Context = new VaultDBContext(Settings.Instance.DBPath, Settings.Instance.DBPassword);
             if (VaultDB.Initialize())
             {
                 if (VaultDB.Instance.Users.Count() > 0)
@@ -63,12 +63,9 @@ namespace Vault
             }
         }
 
-        private static void LoadDBPath()
+        private string GetDBPath()
         {
-            if (!SettingsWrapper.UseCustomDBPath)
-            {
-                SettingsWrapper.DBPath = Path.Combine(Directory, @"Vault.db");
-            }
+            return Path.Combine(Directory, @"Vault.db");
         }
     }
 }

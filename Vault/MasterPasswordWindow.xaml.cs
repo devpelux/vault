@@ -46,12 +46,12 @@ namespace Vault
             attempt += 1;
             if (attempt > 4) Thread.Sleep(2000);
 
-            VaultDB.Context = new VaultDBContext(SettingsWrapper.DBPath, Password.Password);
+            VaultDB.Context = new VaultDBContext(Settings.Instance.DBPath, Password.Password);
             if (VaultDB.Initialize())
             {
                 if (Remember.IsChecked == true)
                 {
-                    SettingsWrapper.DBSavedPassword = Password.Password;
+                    Settings.Instance.DBPassword = Password.Password;
                 }
 
                 if (VaultDB.Instance.Users.Count() > 0)

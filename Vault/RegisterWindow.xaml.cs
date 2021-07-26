@@ -75,7 +75,7 @@ namespace Vault
 
             if (Remember.IsChecked == true)
             {
-                SettingsWrapper.User = Session.Instance.Username;
+                Settings.Instance.User = Session.Instance.Username;
             }
 
             new Home().Show();

@@ -58,8 +58,7 @@
                          LabelType="Icon"
                          Order="Horizontal"
                          Icon="Icons/ic_user.png"
-                         Hint="Username"
-                         Text="{Binding Source={StaticResource Settings}, Path=Default.User, Mode=OneWay}"/>
+                         Hint="Username"/>
             <fc:EPasswordBox x:Name="Password"
                              Style="{DynamicResource EPasswordBoxDark}"
                              VerticalAlignment="Top"

@@ -94,14 +94,14 @@
                             Margin="0"
                             Height="50"
                             Click="Logout_Click"/>
-                <fc:EButton x:Name="Settings"
+                <fc:EButton x:Name="ShowSettings"
                             Style="{DynamicResource SettingsButtonDark}"
                             Content="Impostazioni"
                             VerticalAlignment="Bottom"
                             Margin="0,0,0,50"
                             Height="50"
                             BorderThickness="1,1,1,0"
-                            Click="Settings_Click"/>
+                            Click="ShowSettings_Click"/>
             </Grid>
             <Grid x:Name="ContentWindow" Grid.Column="1">
                 <Grid x:Name="PasswordSection" Visibility="Visible">

@@ -20,42 +20,43 @@ namespace Vault
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            AutoStart.IsChecked = SettingsWrapper.StartOnStartup;
-            StartHided.IsChecked = SettingsWrapper.StartHided;
-            RememberDBPassword.IsChecked = RememberDBPassword.IsEnabled = SettingsWrapper.DBSavedPassword != "";
+            if (Settings.Instance.StartOnStartup.HasValue) AutoStart.IsChecked = Settings.Instance.StartOnStartup.Value;
+            else AutoStart.IsEnabled = false;
+            StartHided.IsChecked = Settings.Instance.StartHided;
+            RememberDBPassword.IsChecked = RememberDBPassword.IsEnabled = Settings.Instance.DBPassword != null;
             loaded = true;
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            SettingsWrapper.SaveAll();
+            Settings.Instance.Save();
         }
 
         private void AutoStart_Checked(object sender, RoutedEventArgs e)
         {
-            if (loaded) SettingsWrapper.StartOnStartup = true;
+            if (loaded) Settings.Instance.StartOnStartup = true;
         }
 
         private void AutoStart_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (loaded) SettingsWrapper.StartOnStartup = false;
+            if (loaded) Settings.Instance.StartOnStartup = false;
         }
         
         private void StartHided_Checked(object sender, RoutedEventArgs e)
         {
-            if (loaded) SettingsWrapper.StartHided = true;
+            if (loaded) Settings.Instance.StartHided = true;
         }
 
         private void StartHided_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (loaded) SettingsWrapper.StartHided = false;
+            if (loaded) Settings.Instance.StartHided = false;
         }
 
         private void RememberDBPassword_Unchecked(object sender, RoutedEventArgs e)
         {
             if (loaded)
             {
-                SettingsWrapper.DBSavedPassword = "";
+                Settings.Instance.DBPassword = null;
                 RememberDBPassword.IsEnabled = false;
             }
         }

@@ -1,4 +1,5 @@
 ﻿using FullControls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
@@ -33,31 +34,34 @@ namespace Vault
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (Session.Instance.CategoriesWindowsData != null)
-            {
-                Height = Session.Instance.CategoriesWindowsData.Height;
-                Width = Session.Instance.CategoriesWindowsData.Width;
-                Top = Session.Instance.CategoriesWindowsData.Top;
-                Left = Session.Instance.CategoriesWindowsData.Left;
-            }
+            WindowParams wp = WindowsSettings.Instance.GetWindowParams(nameof(CategoriesWindow), WindowParams.INVALID);
+            if (wp.Height != -1) Height = wp.Height;
+            if (wp.Width != -1) Width = wp.Width;
+            if (wp.Top != -1) Top = wp.Top;
+            if (wp.Left != -1) Left = wp.Left;
+
+            WindowState = WindowsSettings.Instance.GetWindowState(nameof(CategoriesWindow), WindowState.Normal);
+
             Reload();
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            if (Session.Instance.CategoriesWindowsData != null)
+            if (WindowState == WindowState.Normal)
             {
-                Session.Instance.CategoriesWindowsData = Session.Instance.CategoriesWindowsData with
-                {
-                    Height = Height,
-                    Width = Width,
-                    Top = Top,
-                    Left = Left,
-                };
+                WindowsSettings.Instance.SetWindowParams(nameof(CategoriesWindow), new(Height, Width, Top, Left));
             }
-            else
+            if (WindowState != WindowState.Minimized)
             {
-                Session.Instance.CategoriesWindowsData = new WindowsData(WindowsDatas.NewID, Session.Instance.UserID, WindowID, Height, Width, Top, Left);
+                WindowsSettings.Instance.SetWindowState(nameof(CategoriesWindow), WindowState);
+            }
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            if (WindowState != WindowState.Minimized)
+            {
+                WindowsSettings.Instance.SetWindowState(nameof(CategoriesWindow), WindowState);
             }
         }
 

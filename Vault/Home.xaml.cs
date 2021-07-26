@@ -43,7 +43,7 @@ namespace Vault
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Reload(SettingsWrapper.SectionToLoad);
+            Reload(Settings.Instance.SectionToLoad ?? 0);
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -113,7 +113,7 @@ namespace Vault
             Close();
         }
 
-        private void Settings_Click(object sender, RoutedEventArgs e)
+        private void ShowSettings_Click(object sender, RoutedEventArgs e)
         {
             new SettingsWindow().Show();
         }

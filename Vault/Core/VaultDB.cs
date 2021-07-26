@@ -17,11 +17,10 @@ namespace Vault.Core
         public SqliteConnection Connection { get; private set; }
 
         public Users Users => (Users)_tables[0];
-        public WindowsDatas WindowsDatas => (WindowsDatas)_tables[1];
-        public Categories Categories => (Categories)_tables[2];
-        public Passwords Passwords => (Passwords)_tables[3];
-        public Cards Cards => (Cards)_tables[4];
-        public Notes Notes => (Notes)_tables[5];
+        public Categories Categories => (Categories)_tables[1];
+        public Passwords Passwords => (Passwords)_tables[2];
+        public Cards Cards => (Cards)_tables[3];
+        public Notes Notes => (Notes)_tables[4];
 
 
         private VaultDB()
@@ -76,7 +75,6 @@ namespace Vault.Core
         private void InitializeTables()
         {
             _tables.Add(new Users(this));
-            _tables.Add(new WindowsDatas(this));
             _tables.Add(new Categories(this));
             _tables.Add(new Passwords(this));
             _tables.Add(new Cards(this));

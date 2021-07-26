@@ -23,7 +23,11 @@ namespace Vault
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (SettingsWrapper.User != "") Remember.IsChecked = true;
+            if (Settings.Instance.User != null)
+            {
+                Username.Text = Settings.Instance.User;
+                Remember.IsChecked = true;
+            }
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -107,10 +111,8 @@ namespace Vault
                     Session.Instance.Username = user.Username;
                     Session.Instance.Key = Encryptor.ConvertToBytes(Encryptor.Decrypt(user.Key, pkey));
 
-                    Session.Instance.LoadWindowsDatas();
-
-                    if (Remember.IsChecked == true) SettingsWrapper.User = Session.Instance.Username;
-                    else SettingsWrapper.User = "";
+                    if (Remember.IsChecked == true) Settings.Instance.User = Session.Instance.Username;
+                    else Settings.Instance.User = "";
 
                     minimizeInTrayOnClose = false;
                     disposeSession = false;
