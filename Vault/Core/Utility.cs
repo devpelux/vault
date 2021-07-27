@@ -12,7 +12,7 @@ namespace Vault.Core
             comboBox.Items.Clear();
             foreach (Category category in categories)
             {
-                EComboBoxItem comboBoxItem = new EComboBoxItem
+                EComboBoxItem comboBoxItem = new()
                 {
                     Style = style,
                     Content = category.Label

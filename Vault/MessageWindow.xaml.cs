@@ -70,7 +70,7 @@ namespace Vault
             }
             if (iconUri != "")
             {
-                BitmapImage icon = new BitmapImage();
+                BitmapImage icon = new();
                 icon.BeginInit();
                 icon.UriSource = new Uri(iconUri);
                 icon.EndInit();

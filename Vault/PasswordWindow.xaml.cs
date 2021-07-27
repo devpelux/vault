@@ -72,8 +72,7 @@ namespace Vault
 
         private void AddElement()
         {
-            Password password = new Password
-                (
+            Password password = new(
                     Passwords.NewID,
                     Session.Instance.UserID,
                     categories[PasswordCategory.SelectedIndex].ID,

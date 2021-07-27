@@ -72,7 +72,7 @@ namespace Vault.CustomControls
                         VaultTreeViewItemSource item = itemsSource[i];
                         if (item.Values.Count > 0)
                         {
-                            VaultTreeViewItem itemViewer = new VaultTreeViewItem
+                            VaultTreeViewItem itemViewer = new()
                             {
                                 AnimationTime = AnimationTime,
                                 Index = i,

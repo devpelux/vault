@@ -69,8 +69,7 @@ namespace Vault
 
         private void AddElement()
         {
-            Note note = new Note
-                (
+            Note note = new(
                     Passwords.NewID,
                     Session.Instance.UserID,
                     categories[NoteCategory.SelectedIndex].ID,

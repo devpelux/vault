@@ -119,7 +119,7 @@ namespace Vault.Core
         {
             CheckVersionTable();
             string command = "SELECT VersionNumber FROM Version LIMIT 1;";
-            SqliteCommand query = new SqliteCommand(command, Connection);
+            SqliteCommand query = new(command, Connection);
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
             return reader.Read() ? reader.GetInt32(0) : 0;
@@ -128,7 +128,7 @@ namespace Vault.Core
         private void SetVersion(int version)
         {
             string command = "INSERT OR REPLACE INTO Version (ID, VersionNumber) VALUES (@ID, @VersionNumber);";
-            SqliteCommand query = new SqliteCommand(command, Connection);
+            SqliteCommand query = new(command, Connection);
             query.Parameters.AddWithValue("@VersionNumber", version);
             query.Parameters.AddWithValue("@ID", 1);
             query.Prepare();
@@ -142,7 +142,7 @@ namespace Vault.Core
                                         "VersionNumber INTEGER NOT NULL, " +
                                         "PRIMARY KEY(ID)" +
                                         ");";
-            SqliteCommand query = new SqliteCommand(command, Connection);
+            SqliteCommand query = new(command, Connection);
             query.Prepare();
             query.ExecuteNonQuery();
         }

@@ -28,7 +28,7 @@ namespace Vault.Core
                                         "FOREIGN KEY(User) REFERENCES Users(ID), " +
                                         "FOREIGN KEY(Category) REFERENCES Categories(ID)" +
                                         ");";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Prepare();
             query.ExecuteNonQuery();
         }
@@ -36,7 +36,7 @@ namespace Vault.Core
         public void DeleteTable()
         {
             string command = "DROP TABLE IF EXISTS Notes;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Prepare();
             query.ExecuteNonQuery();
         }
@@ -53,7 +53,7 @@ namespace Vault.Core
         {
             string command = "INSERT INTO Notes (User, Title, Category, Subtitle, RequestKey, Text) " +
                                     "VALUES (@User, @Title, @Category, @Subtitle, @RequestKey, @Text);";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@User", record.User);
             query.Parameters.AddWithValue("@Category", record.Category);
             query.Parameters.AddWithValue("@RequestKey", record.RequestKey ? 1 : 0);
@@ -67,7 +67,7 @@ namespace Vault.Core
         public void RemoveRecord(int id)
         {
             string command = "DELETE FROM Notes WHERE ID = @ID;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@ID", id);
             query.Prepare();
             query.ExecuteNonQuery();
@@ -77,7 +77,7 @@ namespace Vault.Core
         {
             List<Note> records = new();
             string command = "SELECT * FROM Notes";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
             while (reader.Read()) records.Add(ReadRecord(reader));
@@ -87,7 +87,7 @@ namespace Vault.Core
         public Note GetRecord(int id)
         {
             string command = "SELECT * FROM Notes WHERE ID = @ID;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@ID", id);
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
@@ -99,7 +99,7 @@ namespace Vault.Core
         {
             List<Note> records = new();
             string command = "SELECT * FROM Notes WHERE User = @User;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@User", user);
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
@@ -117,7 +117,7 @@ namespace Vault.Core
                                         "Subtitle = @Subtitle, " +
                                         "Text = @Text " +
                                     "WHERE ID = @ID;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@ID", record.ID);
             query.Parameters.AddWithValue("@User", record.User);
             query.Parameters.AddWithValue("@Category", record.Category);
@@ -132,7 +132,7 @@ namespace Vault.Core
         public bool Exists(int id)
         {
             string command = "SELECT COUNT(*) FROM Notes WHERE ID = @ID;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@ID", id);
             query.Prepare();
             return Convert.ToInt32(query.ExecuteScalar()) > 0;
@@ -141,21 +141,12 @@ namespace Vault.Core
         public int Count()
         {
             string command = "SELECT COUNT(*) FROM Notes;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Prepare();
             return Convert.ToInt32(query.ExecuteScalar());
         }
 
         private static Note ReadRecord(SqliteDataReader reader)
-            => new Note
-            (
-                reader.GetInt32(0),
-                reader.GetInt32(1),
-                reader.GetInt32(2),
-                reader.GetInt32(3) == 1,
-                reader.GetString(4),
-                reader.GetString(5),
-                reader.GetString(6)
-            );
+            => new(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2), reader.GetInt32(3) == 1, reader.GetString(4), reader.GetString(5), reader.GetString(6));
     }
 }

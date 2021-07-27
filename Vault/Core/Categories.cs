@@ -26,7 +26,7 @@ namespace Vault.Core
                                         "PRIMARY KEY(ID AUTOINCREMENT), " +
                                         "FOREIGN KEY(User) REFERENCES Users(ID)" +
                                         ");";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Prepare();
             query.ExecuteNonQuery();
         }
@@ -34,7 +34,7 @@ namespace Vault.Core
         public void DeleteTable()
         {
             string command = "DROP TABLE IF EXISTS Categories;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Prepare();
             query.ExecuteNonQuery();
         }
@@ -51,7 +51,7 @@ namespace Vault.Core
         {
             string command = "INSERT INTO Categories (User, Label, IsExpanded) " +
                                     "VALUES (@User, @Label, @IsExpanded);";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@User", record.User);
             query.Parameters.AddWithValue("@Label", record.Label);
             query.Parameters.AddWithValue("@IsExpanded", record.IsExpanded ? 1 : 0);
@@ -64,7 +64,7 @@ namespace Vault.Core
             try
             {
                 string command = "DELETE FROM Categories WHERE ID = @ID;";
-                SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+                SqliteCommand query = new(command, VaultDB.Connection);
                 query.Parameters.AddWithValue("@ID", id);
                 query.Prepare();
                 query.ExecuteNonQuery();
@@ -80,7 +80,7 @@ namespace Vault.Core
         {
             List<Category> records = new();
             string command = "SELECT * FROM Categories";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
             while (reader.Read()) records.Add(ReadRecord(reader));
@@ -90,7 +90,7 @@ namespace Vault.Core
         public Category GetRecord(int id)
         {
             string command = "SELECT * FROM Categories WHERE ID = @ID;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@ID", id);
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
@@ -102,7 +102,7 @@ namespace Vault.Core
         {
             List<Category> records = new();
             string command = "SELECT * FROM Categories WHERE User = @User;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@User", user);
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
@@ -114,7 +114,7 @@ namespace Vault.Core
         {
             List<Category> records = new();
             string command = "SELECT * FROM Categories WHERE Label LIKE @Label;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@Title", $"%{label}%");
             query.Prepare();
             SqliteDataReader reader = query.ExecuteReader();
@@ -126,7 +126,7 @@ namespace Vault.Core
         {
             List<Category> records = new();
             string command = "SELECT * FROM Categories WHERE User = @User AND Label LIKE @Label;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@User", user);
             query.Parameters.AddWithValue("@Label", $"%{label}%");
             query.Prepare();
@@ -142,7 +142,7 @@ namespace Vault.Core
                                         "Label = @Label, " +
                                         "IsExpanded = @IsExpanded " +
                                     "WHERE ID = @ID;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@ID", record.ID);
             query.Parameters.AddWithValue("@User", record.User);
             query.Parameters.AddWithValue("@Label", record.Label);
@@ -154,7 +154,7 @@ namespace Vault.Core
         public bool Exists(int id)
         {
             string command = "SELECT COUNT(*) FROM Categories WHERE ID = @ID;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Parameters.AddWithValue("@ID", id);
             query.Prepare();
             return Convert.ToInt32(query.ExecuteScalar()) > 0;
@@ -163,14 +163,13 @@ namespace Vault.Core
         public int Count()
         {
             string command = "SELECT COUNT(*) FROM Categories;";
-            SqliteCommand query = new SqliteCommand(command, VaultDB.Connection);
+            SqliteCommand query = new(command, VaultDB.Connection);
             query.Prepare();
             return Convert.ToInt32(query.ExecuteScalar());
         }
 
         private static Category ReadRecord(SqliteDataReader reader)
-            => new Category
-            (
+            => new(
                 reader.GetInt32(0),
                 reader.GetInt32(1),
                 reader.GetString(2),

@@ -74,8 +74,7 @@ namespace Vault
 
         private void AddElement()
         {
-            Card card = new Card
-                (
+            Card card = new(
                     Cards.NewID,
                     Session.Instance.UserID,
                     categories[CardCategory.SelectedIndex].ID,

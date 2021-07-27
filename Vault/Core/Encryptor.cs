@@ -21,9 +21,9 @@ namespace Vault.Core
             else aes.GenerateIV();
             aes.Padding = PaddingMode.PKCS7;
             ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-            using MemoryStream memoryStream = new MemoryStream();
-            using CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write);
-            using StreamWriter streamWriter = new StreamWriter(cryptoStream);
+            using MemoryStream memoryStream = new();
+            using CryptoStream cryptoStream = new(memoryStream, encryptor, CryptoStreamMode.Write);
+            using StreamWriter streamWriter = new(cryptoStream);
             streamWriter.Write(str);
             streamWriter.Close();
             return ConvertToString(aes.IV.Concat(memoryStream.ToArray()).ToArray());
@@ -39,21 +39,21 @@ namespace Vault.Core
             aes.IV = cipherIvData.Take(16).ToArray();
             aes.Padding = PaddingMode.PKCS7;
             ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-            using MemoryStream memoryStream = new MemoryStream(cipherIvData.Skip(16).ToArray());
-            using CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
-            using StreamReader streamReader = new StreamReader(cryptoStream);
+            using MemoryStream memoryStream = new(cipherIvData.Skip(16).ToArray());
+            using CryptoStream cryptoStream = new(memoryStream, decryptor, CryptoStreamMode.Read);
+            using StreamReader streamReader = new(cryptoStream);
             return streamReader.ReadToEnd();
         }
 
         public static byte[] GenerateKey(string password, byte[] salt, int iterations = ITERATIONS)
         {
-            using Rfc2898DeriveBytes rfc2898 = new Rfc2898DeriveBytes(password, salt, iterations, HashAlgorithmName.SHA256);
+            using Rfc2898DeriveBytes rfc2898 = new(password, salt, iterations, HashAlgorithmName.SHA256);
             return rfc2898.GetBytes(HASH_SIZE);
         }
 
         public static byte[] GenerateKey(byte[] password, byte[] salt, int iterations = ITERATIONS)
         {
-            using Rfc2898DeriveBytes rfc2898 = new Rfc2898DeriveBytes(password, salt, iterations, HashAlgorithmName.SHA256);
+            using Rfc2898DeriveBytes rfc2898 = new(password, salt, iterations, HashAlgorithmName.SHA256);
             return rfc2898.GetBytes(HASH_SIZE);
         }
 
@@ -85,7 +85,7 @@ namespace Vault.Core
                 try
                 {
                     for (int i = 0; i < length; i++) passwordByteArray[i] = Marshal.ReadByte(ptr, i);
-                    using Rfc2898DeriveBytes rfc2898 = new Rfc2898DeriveBytes(passwordByteArray, salt, iterations, HashAlgorithmName.SHA256);
+                    using Rfc2898DeriveBytes rfc2898 = new(passwordByteArray, salt, iterations, HashAlgorithmName.SHA256);
                     return rfc2898.GetBytes(hashSize);
                 }
                 finally

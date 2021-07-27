@@ -100,7 +100,7 @@ namespace Vault.CustomControls
         {
             if (AnimationTime > TimeSpan.Zero)
             {
-                DoubleAnimation expand = new DoubleAnimation
+                DoubleAnimation expand = new()
                 {
                     From = collapsedHeight,
                     To = expandedHeight,
@@ -118,7 +118,7 @@ namespace Vault.CustomControls
         {
             if (AnimationTime > TimeSpan.Zero)
             {
-                DoubleAnimation collapse = new DoubleAnimation
+                DoubleAnimation collapse = new()
                 {
                     From = expandedHeight,
                     To = collapsedHeight,
