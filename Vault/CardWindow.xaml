@@ -4,6 +4,7 @@
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                xmlns:fc="http://devpelux.github.io/fullcontrols"
+               xmlns:core="clr-namespace:Vault.Core"
                mc:Ignorable="d"
                Title="Carta"
                Height="644"
@@ -28,6 +29,7 @@
     <Grid>
         <fc:TextBoxPlus x:Name="CardLabel"
                         Style="{DynamicResource TextBoxPlusDark}"
+                        ContextMenu="{DynamicResource FieldContextMenu}"
                         VerticalAlignment="Top"
                         Margin="0,25,0,0"
                         Height="35"
@@ -37,9 +39,19 @@
                         LabelPlacement="Left"
                         LabelMargin="0,0,5,0"
                         LabelMaxHeight="24"
-                        Hint="Nome"/>
+                        Hint="Nome">
+            <fc:TextBoxPlus.CommandBindings>
+                <CommandBinding Command="core:VaultCommands.CopyValue"
+                                CanExecute="CopyValue_CanExecute"
+                                Executed="CopyValue_Executed"/>
+                <CommandBinding Command="core:VaultCommands.ReplaceValue"
+                                CanExecute="ReplaceValue_CanExecute"
+                                Executed="ReplaceValue_Executed"/>
+            </fc:TextBoxPlus.CommandBindings>
+        </fc:TextBoxPlus>
         <fc:TextBoxPlus x:Name="CardType"
                         Style="{DynamicResource TextBoxPlusDark}"
+                        ContextMenu="{DynamicResource FieldContextMenu}"
                         VerticalAlignment="Top"
                         Margin="0,65,0,0"
                         Height="35"
@@ -49,9 +61,19 @@
                         LabelPlacement="Left"
                         LabelMargin="0,0,5,0"
                         LabelMaxHeight="24"
-                        Hint="Tipo"/>
+                        Hint="Tipo">
+            <fc:TextBoxPlus.CommandBindings>
+                <CommandBinding Command="core:VaultCommands.CopyValue"
+                                CanExecute="CopyValue_CanExecute"
+                                Executed="CopyValue_Executed"/>
+                <CommandBinding Command="core:VaultCommands.ReplaceValue"
+                                CanExecute="ReplaceValue_CanExecute"
+                                Executed="ReplaceValue_Executed"/>
+            </fc:TextBoxPlus.CommandBindings>
+        </fc:TextBoxPlus>
         <fc:TextBoxPlus x:Name="CardOwner"
                         Style="{DynamicResource TextBoxPlusDark}"
+                        ContextMenu="{DynamicResource FieldContextMenu}"
                         VerticalAlignment="Top"
                         Margin="0,115,0,0"
                         Height="35"
@@ -61,13 +83,23 @@
                         LabelPlacement="Left"
                         LabelMargin="0,0,5,0"
                         LabelMaxHeight="24"
-                        Hint="Nome sulla carta"/>
+                        Hint="Nome sulla carta">
+            <fc:TextBoxPlus.CommandBindings>
+                <CommandBinding Command="core:VaultCommands.CopyValue"
+                                CanExecute="CopyValue_CanExecute"
+                                Executed="CopyValue_Executed"/>
+                <CommandBinding Command="core:VaultCommands.ReplaceValue"
+                                CanExecute="ReplaceValue_CanExecute"
+                                Executed="ReplaceValue_Executed"/>
+            </fc:TextBoxPlus.CommandBindings>
+        </fc:TextBoxPlus>
         <Grid VerticalAlignment="Top"
               Margin="0,155,0,0"
               Height="35"
               Width="260">
             <fc:TextBoxPlus x:Name="CardNumber"
                             Style="{DynamicResource TextBoxPlusDark}"
+                            ContextMenu="{DynamicResource FieldContextMenu}"
                             HorizontalAlignment="Left"
                             Width="175"
                             VerticalContentAlignment="Center"
@@ -76,18 +108,38 @@
                             LabelMargin="0,0,5,0"
                             LabelMaxHeight="24"
                             Hint="Numero"
-                            MaxLength="16"/>
+                            MaxLength="16">
+                <fc:TextBoxPlus.CommandBindings>
+                    <CommandBinding Command="core:VaultCommands.CopyValue"
+                                    CanExecute="CopyValue_CanExecute"
+                                    Executed="CopyValue_Executed"/>
+                    <CommandBinding Command="core:VaultCommands.ReplaceValue"
+                                    CanExecute="ReplaceValue_CanExecute"
+                                    Executed="ReplaceValue_Executed"/>
+                </fc:TextBoxPlus.CommandBindings>
+            </fc:TextBoxPlus>
             <fc:TextBoxPlus x:Name="CardSecureCode"
                             Style="{DynamicResource TextBoxPlusDark}"
+                            ContextMenu="{DynamicResource FieldContextMenu}"
                             HorizontalAlignment="Right"
                             Width="65"
                             VerticalContentAlignment="Center"
                             Hint="CVV"
-                            MaxLength="3"/>
+                            MaxLength="3">
+                <fc:TextBoxPlus.CommandBindings>
+                    <CommandBinding Command="core:VaultCommands.CopyValue"
+                                    CanExecute="CopyValue_CanExecute"
+                                    Executed="CopyValue_Executed"/>
+                    <CommandBinding Command="core:VaultCommands.ReplaceValue"
+                                    CanExecute="ReplaceValue_CanExecute"
+                                    Executed="ReplaceValue_Executed"/>
+                </fc:TextBoxPlus.CommandBindings>
+            </fc:TextBoxPlus>
         </Grid>
 
         <fc:TextBoxPlus x:Name="CardExpiration"
                         Style="{DynamicResource TextBoxPlusDark}"
+                        ContextMenu="{DynamicResource FieldContextMenu}"
                         VerticalAlignment="Top"
                         Margin="0,195,0,0"
                         Height="35"
@@ -97,7 +149,16 @@
                         LabelPlacement="Left"
                         LabelMargin="0,0,5,0"
                         LabelMaxHeight="24"
-                        Hint="Scadenza"/>
+                        Hint="Scadenza">
+            <fc:TextBoxPlus.CommandBindings>
+                <CommandBinding Command="core:VaultCommands.CopyValue"
+                                CanExecute="CopyValue_CanExecute"
+                                Executed="CopyValue_Executed"/>
+                <CommandBinding Command="core:VaultCommands.ReplaceValue"
+                                CanExecute="ReplaceValue_CanExecute"
+                                Executed="ReplaceValue_Executed"/>
+            </fc:TextBoxPlus.CommandBindings>
+        </fc:TextBoxPlus>
         <Grid VerticalAlignment="Top"
               Margin="0,245,0,0"
               Height="35"

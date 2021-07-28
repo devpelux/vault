@@ -6,6 +6,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Vault;component/Resources/ContextMenus.xaml"/>
                 <ResourceDictionary Source="/Vault;component/Resources/GenericResources.xaml"/>
                 <ResourceDictionary Source="/Vault;component/Styles/DarkStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>

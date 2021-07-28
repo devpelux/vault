@@ -1,7 +1,9 @@
-﻿using FullControls.SystemComponents;
+﻿using FullControls.Controls;
+using FullControls.SystemComponents;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
 using Vault.Core;
 
 namespace Vault
@@ -57,6 +59,47 @@ namespace Vault
                 Delete.Visibility = Visibility.Collapsed;
             }
         }
+
+        #region Commands
+
+        private void CopyValue_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (sender is TextBoxPlus textBox)
+            {
+                e.CanExecute = textBox.TextLength > 0;
+            }
+            else if (sender is PasswordBoxPlus passwordBox)
+            {
+                e.CanExecute = passwordBox.PasswordLength > 0;
+            }
+        }
+
+        private void ReplaceValue_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = Clipboard.ContainsText();
+        }
+
+        private void CopyValue_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (sender is TextBoxPlus textBox) textBox.CopyAll();
+            else if (sender is PasswordBoxPlus passwordBox) passwordBox.CopyAll();
+        }
+
+        private void ReplaceValue_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (sender is TextBoxPlus textBox)
+            {
+                textBox.Clear();
+                textBox.Paste();
+            }
+            else if (sender is PasswordBoxPlus passwordBox)
+            {
+                passwordBox.Clear();
+                passwordBox.Paste();
+            }
+        }
+
+        #endregion
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
