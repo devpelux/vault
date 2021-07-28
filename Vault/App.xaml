@@ -7,8 +7,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Vault;component/Resources/ContextMenus.xaml"/>
+                <ResourceDictionary Source="/Vault;component/Resources/DarkStyles.xaml"/>
                 <ResourceDictionary Source="/Vault;component/Resources/GenericResources.xaml"/>
-                <ResourceDictionary Source="/Vault;component/Styles/DarkStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
