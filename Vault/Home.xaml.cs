@@ -1,20 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using FullControls.Common;
+using FullControls.Controls;
+using FullControls.SystemComponents;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Vault.CustomControls;
 using Vault.Core;
-using FullControls;
-using System.ComponentModel;
-using System.Linq;
-using System;
+using Vault.CustomControls;
 
 namespace Vault
 {
     /// <summary>
     /// Finestra principale.
     /// </summary>
-    public partial class Home : EWindow
+    public partial class Home : FlexWindow
     {
         private const int PASSWORD_SECTION = 0;
         private const int CARD_SECTION = 1;
@@ -51,7 +53,7 @@ namespace Vault
             Session.Instance.Dispose();
         }
 
-        private void Window_CloseAction(object sender, ActionEventArgs e)
+        private void Window_PreviewClose(object sender, CancelEventArgs e)
         {
             if (minimizeInTrayOnClose)
             {
@@ -60,7 +62,7 @@ namespace Vault
             }
         }
 
-        private void Window_MinimizeAction(object sender, ActionEventArgs e)
+        private void Window_PreviewMinimize(object sender, CancelEventArgs e)
         {
             if (minimizeInTrayOnClose)
             {
@@ -124,7 +126,7 @@ namespace Vault
             Reload(loadedSection);
         }
 
-        private void Lists_ItemExpandedChanged(object sender, ItemExpandedEventArgs e)
+        private void Lists_ItemIsExpandedChanged(object sender, ItemExpandedChangedEventArgs e)
         {
             Category editedCategory = categories[e.Index] with { IsExpanded = e.IsExpanded };
             categories[e.Index] = editedCategory;
@@ -258,7 +260,7 @@ namespace Vault
             passwords = label is not null and not ""
                 ? PreDecryptAll(VaultDB.Instance.Passwords.GetRecords(UserID), Key).FindAll(p => p.Label.Contains(label, SearchType))
                 : PreDecryptAll(VaultDB.Instance.Passwords.GetRecords(UserID), Key);
-            PasswordList.ItemsSource = BuildVaultTreeViewItemSource(passwords, categories);
+            PasswordList.Items = BuildVaultTreeViewItemSource(passwords, categories);
         }
 
         private void LoadCards(string label = "")
@@ -266,7 +268,7 @@ namespace Vault
             cards = label is not null and not ""
                 ? PreDecryptAll(VaultDB.Instance.Cards.GetRecords(UserID), Key).FindAll(c => c.Label.Contains(label, SearchType))
                 : PreDecryptAll(VaultDB.Instance.Cards.GetRecords(UserID), Key);
-            CardList.ItemsSource = BuildVaultTreeViewItemSource(cards, categories);
+            CardList.Items = BuildVaultTreeViewItemSource(cards, categories);
         }
 
         private void LoadNotes(string title = "")
@@ -274,17 +276,41 @@ namespace Vault
             notes = title is not null and not ""
                 ? PreDecryptAll(VaultDB.Instance.Notes.GetRecords(UserID), Key).FindAll(n => n.Title.Contains(title, SearchType))
                 : PreDecryptAll(VaultDB.Instance.Notes.GetRecords(UserID), Key);
-            NoteList.ItemsSource = BuildVaultTreeViewItemSource(notes, categories);
+            NoteList.Items = BuildVaultTreeViewItemSource(notes, categories);
         }
 
         private static List<T> PreDecryptAll<T>(List<T> list, byte[] key) where T : IDecryptable<T> => list.Select(d => d.PreDecrypt(key)).ToList();
 
-        private static List<VaultTreeViewItemSource> BuildVaultTreeViewItemSource<T>(List<T> list, List<Category> categories) where T : ICategorizable
-            => categories.Select(category =>
+        private DataTemplate GetListTemplate(Type type)
+        {
+            if (type == typeof(List<Password>)) return PasswordList.FindResource("PasswordListDT") as DataTemplate;
+            else if (type == typeof(List<Note>)) return NoteList.FindResource("NoteListDT") as DataTemplate;
+            else return CardList.FindResource("CardListDT") as DataTemplate;
+        }
+
+        private AccordionItemCollection BuildVaultTreeViewItemSource<T>(List<T> list, List<Category> categories) where T : ICategorizable
+        {
+            AccordionItemCollection accordionItems = new();
+
+            foreach (Category cat in categories)
             {
-                List<T> filteredElements = list.FindAll(e => e.Category == category.ID);
-                return new VaultTreeViewItemSource(category.Label, category.IsExpanded, filteredElements);
-            }).ToList();
+                List<T> categoryFiltered = list.FindAll(e => e.Category == cat.ID);
+                if (categoryFiltered.Count > 0)
+                {
+                    ItemsControlAccordionItem item = new()
+                    {
+                        Style = FindResource("ItemsControlAccordionItemDark") as Style,
+                        Header = cat.Label,
+                        IsExpanded = cat.IsExpanded,
+                        ItemsSource = categoryFiltered,
+                        ItemTemplate = GetListTemplate(list.GetType())
+                    };
+                    accordionItems.Add(item);
+                }
+            }
+
+            return accordionItems;
+        }
 
         #endregion
 

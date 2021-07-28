@@ -1,4 +1,4 @@
-﻿using FullControls;
+﻿using FullControls.SystemComponents;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
@@ -9,7 +9,7 @@ namespace Vault
     /// <summary>
     /// Finestra per la modifica delle note memorizzate.
     /// </summary>
-    public partial class NoteWindow : EWindow, IDialog
+    public partial class NoteWindow : FlexWindow, IDialog
     {
         private readonly Note note;
         private readonly List<Category> categories;
@@ -36,7 +36,7 @@ namespace Vault
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Utility.LoadCategoryItems(NoteCategory, (Style)FindResource("EComboBoxItemDark"), categories);
+            Utility.LoadCategoryItems(NoteCategory, (Style)FindResource("ComboBoxItemPlusDark"), categories);
             if (note != null)
             {
                 NoteRequestKey.IsChecked = note.RequestKey;
@@ -49,7 +49,7 @@ namespace Vault
             else
             {
                 NoteCategory.SelectedIndex = 0;
-                Delete.Visibility = Visibility.Hidden;
+                Delete.Visibility = Visibility.Collapsed;
             }
         }
 

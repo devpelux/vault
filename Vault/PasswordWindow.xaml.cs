@@ -1,4 +1,4 @@
-﻿using FullControls;
+﻿using FullControls.SystemComponents;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
@@ -9,7 +9,7 @@ namespace Vault
     /// <summary>
     /// Finestra per la modifica delle password memorizzate.
     /// </summary>
-    public partial class PasswordWindow : EWindow, IDialog
+    public partial class PasswordWindow : FlexWindow, IDialog
     {
         private readonly Password password;
         private readonly List<Category> categories;
@@ -36,7 +36,7 @@ namespace Vault
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Utility.LoadCategoryItems(PasswordCategory, (Style)FindResource("EComboBoxItemDark"), categories);
+            Utility.LoadCategoryItems(PasswordCategory, (Style)FindResource("ComboBoxItemPlusDark"), categories);
             if (password != null)
             {
                 PasswordRequestKey.IsChecked = password.RequestKey;
@@ -52,7 +52,7 @@ namespace Vault
             else
             {
                 PasswordCategory.SelectedIndex = 0;
-                Delete.Visibility = Visibility.Hidden;
+                Delete.Visibility = Visibility.Collapsed;
             }
         }
 

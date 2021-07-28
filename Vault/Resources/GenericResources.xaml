@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Vault"
                     xmlns:fce="http://devpelux.github.io/fullcontrols/extra">
 
     <fce:ClipConverter x:Key="EqualClipConverter"/>
@@ -35,8 +34,10 @@
     <SolidColorBrush x:Key="ButtonForegroundOnDisabled" Color="Black"/>
 
     <SolidColorBrush x:Key="WindowBackground" Color="#FF202020"/>
+    <SolidColorBrush x:Key="WindowForeground" Color="White"/>
     <SolidColorBrush x:Key="WindowSwitcherBackground" Color="#FF1C1C1C"/>
     <SolidColorBrush x:Key="WindowBorderBrush" Color="#FF404040"/>
+    <SolidColorBrush x:Key="WindowBorderBrushOnActive" Color="#FF28404B"/>
     <SolidColorBrush x:Key="WindowDivider" Color="#FF181818"/>
 
     <CornerRadius x:Key="WindowCornerRadius" TopLeft="8" TopRight="8" BottomRight="8" BottomLeft="8"/>

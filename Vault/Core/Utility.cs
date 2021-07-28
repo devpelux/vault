@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using FullControls.Controls;
+using System.Collections.Generic;
 using System.Security;
 using System.Windows;
-using FullControls;
 
 namespace Vault.Core
 {
     public static class Utility
     {
-        public static void LoadCategoryItems(EComboBox comboBox, Style style, List<Category> categories)
+        public static void LoadCategoryItems(ComboBoxPlus comboBox, Style style, List<Category> categories)
         {
             comboBox.Items.Clear();
             foreach (Category category in categories)
             {
-                EComboBoxItem comboBoxItem = new()
+                ComboBoxItemPlus comboBoxItem = new()
                 {
                     Style = style,
                     Content = category.Label

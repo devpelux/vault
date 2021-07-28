@@ -4,7 +4,5 @@
         <ResourceDictionary Source="/Vault;component/Styles/CategoryPreview.xaml"/>
         <ResourceDictionary Source="/Vault;component/Styles/NotePreview.xaml"/>
         <ResourceDictionary Source="/Vault;component/Styles/PasswordPreview.xaml"/>
-        <ResourceDictionary Source="/Vault;component/Styles/VaultTreeView.xaml"/>
-        <ResourceDictionary Source="/Vault;component/Styles/VaultTreeViewItem.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

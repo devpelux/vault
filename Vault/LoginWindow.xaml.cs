@@ -1,4 +1,4 @@
-﻿using FullControls;
+﻿using FullControls.SystemComponents;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
@@ -10,7 +10,7 @@ namespace Vault
     /// <summary>
     /// Finestra di login.
     /// </summary>
-    public partial class LoginWindow : EWindow
+    public partial class LoginWindow : FlexWindow
     {
         private int attempt = 0;
         private bool minimizeInTrayOnClose = true;
@@ -35,7 +35,7 @@ namespace Vault
             if (disposeSession) Session.Instance.Dispose();
         }
 
-        private void Window_CloseAction(object sender, ActionEventArgs e)
+        private void Window_PreviewClose(object sender, CancelEventArgs e)
         {
             if (minimizeInTrayOnClose)
             {
@@ -44,7 +44,7 @@ namespace Vault
             }
         }
 
-        private void Window_MinimizeAction(object sender, ActionEventArgs e)
+        private void Window_PreviewMinimize(object sender, CancelEventArgs e)
         {
             if (minimizeInTrayOnClose)
             {

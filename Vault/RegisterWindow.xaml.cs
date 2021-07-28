@@ -1,4 +1,4 @@
-﻿using FullControls;
+﻿using FullControls.SystemComponents;
 using System.Linq;
 using System.Windows;
 using Vault.Core;
@@ -8,7 +8,7 @@ namespace Vault
     /// <summary>
     /// Finestra di registrazione.
     /// </summary>
-    public partial class RegisterWindow : EWindow
+    public partial class RegisterWindow : FlexWindow
     {
         private const string DEFAULT_CATEGORY = "Default";
 

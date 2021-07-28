@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:fc="http://devpelux.github.io/fullcontrols">
     
-    <Style x:Key="ETextBoxDark" TargetType="{x:Type fc:ETextBox}">
+    <Style x:Key="TextBoxPlusDark" TargetType="{x:Type fc:TextBoxPlus}">
         <Setter Property="Background" Value="#FF333337"/>
         <Setter Property="BackgroundOnSelected" Value="#FF333337"/>
         <Setter Property="BackgroundOnDisabled" Value="#FF333337"/>
@@ -14,21 +14,9 @@
         <Setter Property="SelectionBrush" Value="#FF0099FF"/>
         <Setter Property="SelectionTextBrush" Value="WhiteSmoke"/>
         <Setter Property="HintForeground" Value="WhiteSmoke"/>
-        <Setter Property="CopyButtonBackground" Value="#FF3F3F46"/>
-        <Setter Property="CopyButtonBackgroundOnMouseOver" Value="#FF575759"/>
-        <Setter Property="CopyButtonBackgroundOnPressed" Value="#FF2D2D30"/>
-        <Setter Property="CopyButtonBackgroundOnDisabled" Value="#FF3F3F46"/>
-        <Setter Property="CopyButtonBorderBrush" Value="#FF575759"/>
-        <Setter Property="CopyButtonBorderBrushOnMouseOver" Value="#FF575759"/>
-        <Setter Property="CopyButtonBorderBrushOnPressed" Value="#FF575759"/>
-        <Setter Property="CopyButtonBorderBrushOnDisabled" Value="#FF575759"/>
-        <Setter Property="CopyButtonForeground" Value="WhiteSmoke"/>
-        <Setter Property="CopyButtonForegroundOnMouseOver" Value="WhiteSmoke"/>
-        <Setter Property="CopyButtonForegroundOnPressed" Value="WhiteSmoke"/>
-        <Setter Property="CopyButtonForegroundOnDisabled" Value="Gray"/>
     </Style>
 
-    <Style x:Key="EPasswordBoxDark" TargetType="{x:Type fc:EPasswordBox}">
+    <Style x:Key="PasswordBoxPlusDark" TargetType="{x:Type fc:PasswordBoxPlus}">
         <Setter Property="Background" Value="#FF333337"/>
         <Setter Property="BackgroundOnSelected" Value="#FF333337"/>
         <Setter Property="BackgroundOnDisabled" Value="#FF333337"/>
@@ -40,21 +28,9 @@
         <Setter Property="SelectionBrush" Value="#FF0099FF"/>
         <Setter Property="SelectionTextBrush" Value="WhiteSmoke"/>
         <Setter Property="HintForeground" Value="WhiteSmoke"/>
-        <Setter Property="CopyButtonBackground" Value="#FF3F3F46"/>
-        <Setter Property="CopyButtonBackgroundOnMouseOver" Value="#FF575759"/>
-        <Setter Property="CopyButtonBackgroundOnPressed" Value="#FF2D2D30"/>
-        <Setter Property="CopyButtonBackgroundOnDisabled" Value="#FF3F3F46"/>
-        <Setter Property="CopyButtonBorderBrush" Value="#FF575759"/>
-        <Setter Property="CopyButtonBorderBrushOnMouseOver" Value="#FF575759"/>
-        <Setter Property="CopyButtonBorderBrushOnPressed" Value="#FF575759"/>
-        <Setter Property="CopyButtonBorderBrushOnDisabled" Value="#FF575759"/>
-        <Setter Property="CopyButtonForeground" Value="WhiteSmoke"/>
-        <Setter Property="CopyButtonForegroundOnMouseOver" Value="WhiteSmoke"/>
-        <Setter Property="CopyButtonForegroundOnPressed" Value="WhiteSmoke"/>
-        <Setter Property="CopyButtonForegroundOnDisabled" Value="Gray"/>
     </Style>
 
-    <Style x:Key="EButtonDark" TargetType="{x:Type fc:EButton}">
+    <Style x:Key="ButtonPlusDark" TargetType="{x:Type fc:ButtonPlus}">
         <Setter Property="Background" Value="#FF3F3F46"/>
         <Setter Property="BackgroundOnMouseOver" Value="#FF575759"/>
         <Setter Property="BackgroundOnPressed" Value="#FF2D2D30"/>
@@ -69,18 +45,22 @@
         <Setter Property="ForegroundOnDisabled" Value="Gray"/>
     </Style>
     
-    <Style x:Key="ECloseButtonDark" TargetType="{x:Type fc:EButton}">
-        <Setter Property="Background" Value="{DynamicResource WindowBackground}"/>
-        <Setter Property="BackgroundOnMouseOver" Value="#FF575759"/>
-        <Setter Property="BackgroundOnPressed" Value="Red"/>
-        <Setter Property="BackgroundOnDisabled" Value="{DynamicResource WindowBackground}"/>
+    <Style x:Key="DeleteButtonPlusDark" TargetType="{x:Type fc:ButtonPlus}">
+        <Setter Property="Background" Value="Red"/>
+        <Setter Property="BackgroundOnMouseOver" Value="IndianRed"/>
+        <Setter Property="BackgroundOnPressed" Value="DarkRed"/>
+        <Setter Property="BackgroundOnDisabled" Value="#FF3F3F46"/>
+        <Setter Property="BorderBrush" Value="IndianRed"/>
+        <Setter Property="BorderBrushOnMouseOver" Value="IndianRed"/>
+        <Setter Property="BorderBrushOnPressed" Value="IndianRed"/>
+        <Setter Property="BorderBrushOnDisabled" Value="#FF575759"/>
         <Setter Property="Foreground" Value="WhiteSmoke"/>
         <Setter Property="ForegroundOnMouseOver" Value="WhiteSmoke"/>
         <Setter Property="ForegroundOnPressed" Value="WhiteSmoke"/>
         <Setter Property="ForegroundOnDisabled" Value="Gray"/>
     </Style>
 
-    <Style x:Key="SettingsButtonDark" TargetType="{x:Type fc:EButton}">
+    <Style x:Key="SettingsButtonDark" TargetType="{x:Type fc:ButtonPlus}">
         <Setter Property="Background" Value="#FF1C1C1C"/>
         <Setter Property="BackgroundOnMouseOver" Value="{DynamicResource WindowDivider}"/>
         <Setter Property="BackgroundOnPressed" Value="#FF2D2D30"/>
@@ -95,7 +75,7 @@
         <Setter Property="ForegroundOnDisabled" Value="Gray"/>
     </Style>
 
-    <Style x:Key="LogoutButtonDark" TargetType="{x:Type fc:EButton}" BasedOn="{StaticResource SettingsButtonDark}">
+    <Style x:Key="LogoutButtonDark" TargetType="{x:Type fc:ButtonPlus}" BasedOn="{StaticResource SettingsButtonDark}">
         <Setter Property="BackgroundOnPressed" Value="Red"/>
         <Setter Property="BorderBrushOnPressed" Value="Red"/>
     </Style>
@@ -118,7 +98,7 @@
         <Setter Property="ForegroundOnDisabled" Value="Gray"/>
     </Style>
 
-    <Style x:Key="ECheckBoxDark" TargetType="{x:Type fc:ECheckBox}">
+    <Style x:Key="CheckBoxPlusDark" TargetType="{x:Type fc:CheckBoxPlus}">
         <Setter Property="Background" Value="#FF262626"/>
         <Setter Property="BackgroundOnMouseOver" Value="#FF343434"/>
         <Setter Property="BackgroundOnChecked" Value="#FF262626"/>
@@ -141,7 +121,7 @@
         <Setter Property="ForeColorOnDisabled" Value="Gray"/>
     </Style>
 
-    <Style x:Key="EComboBoxDark" TargetType="{x:Type fc:EComboBox}">
+    <Style x:Key="ComboBoxPlusDark" TargetType="{x:Type fc:ComboBoxPlus}">
         <Setter Property="Background" Value="#FF3F3F46"/>
         <Setter Property="BackgroundOnMouseOver" Value="#FF575759"/>
         <Setter Property="BackgroundOnMouseOverOnChecked" Value="#FF2D2D30"/>
@@ -166,7 +146,7 @@
         <Setter Property="MaxDropDownHeight" Value="212"/>
     </Style>
 
-    <Style x:Key="EComboBoxItemDark" TargetType="{x:Type fc:EComboBoxItem}">
+    <Style x:Key="ComboBoxItemPlusDark" TargetType="{x:Type fc:ComboBoxItemPlus}">
         <Setter Property="Background" Value="#FF2D2D30"/>
         <Setter Property="BackgroundOnMouseOver" Value="#FF575759"/>
         <Setter Property="BackgroundOnSelected" Value="#FF0099FF"/>
@@ -183,4 +163,57 @@
         <Setter Property="ForegroundOnDisabled" Value="Gray"/>
     </Style>
     
+    <Style x:Key="CaptionButtonStyleDark" TargetType="{x:Type fc:ButtonPlus}">
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Width" Value="46"/>
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="Background" Value="#00000000"/>
+        <Setter Property="BackgroundOnMouseOver" Value="#FF333333"/>
+        <Setter Property="BackgroundOnPressed" Value="#FF404040"/>
+        <Setter Property="BackgroundOnDisabled" Value="#00000000"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="#00000000"/>
+        <Setter Property="BorderBrushOnMouseOver" Value="#FF333333"/>
+        <Setter Property="BorderBrushOnPressed" Value="#FF404040"/>
+        <Setter Property="BorderBrushOnDisabled" Value="#00000000"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="ForegroundOnMouseOver" Value="White"/>
+        <Setter Property="ForegroundOnPressed" Value="White"/>
+        <Setter Property="ForegroundOnDisabled" Value="DimGray"/>
+        <Setter Property="AnimationTime" Value="0:0:0.07"/>
+    </Style>
+
+    <Style x:Key="CaptionCloseButtonStyleDark" TargetType="{x:Type fc:ButtonPlus}">
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Width" Value="46"/>
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="Background" Value="#00000000"/>
+        <Setter Property="BackgroundOnMouseOver" Value="Red"/>
+        <Setter Property="BackgroundOnPressed" Value="Firebrick"/>
+        <Setter Property="BackgroundOnDisabled" Value="#00000000"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="#00000000"/>
+        <Setter Property="BorderBrushOnMouseOver" Value="Red"/>
+        <Setter Property="BorderBrushOnPressed" Value="Firebrick"/>
+        <Setter Property="BorderBrushOnDisabled" Value="#00000000"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="ForegroundOnMouseOver" Value="White"/>
+        <Setter Property="ForegroundOnPressed" Value="White"/>
+        <Setter Property="ForegroundOnDisabled" Value="DimGray"/>
+        <Setter Property="AnimationTime" Value="0:0:0.07"/>
+    </Style>
+
+    <Style x:Key="ItemsControlAccordionItemDark" TargetType="{x:Type fc:ItemsControlAccordionItem}">
+        <Setter Property="Foreground" Value="WhiteSmoke"/>
+        <Setter Property="ForegroundOnExpanded" Value="#67a9db"/>
+        <Setter Property="ForegroundOnMouseOver" Value="#b3b3b3"/>
+        <Setter Property="ForegroundOnMouseOverOnExpanded" Value="#4c8bba"/>
+        <Setter Property="ForegroundOnDisabled" Value="Gray"/>
+        <Setter Property="ArrowForeground" Value="WhiteSmoke"/>
+        <Setter Property="ArrowForegroundOnExpanded" Value="#67a9db"/>
+        <Setter Property="ArrowForegroundOnMouseOver" Value="#b3b3b3"/>
+        <Setter Property="ArrowForegroundOnMouseOverOnExpanded" Value="#4c8bba"/>
+        <Setter Property="ArrowForegroundOnDisabled" Value="Gray"/>
+    </Style>
+
 </ResourceDictionary>

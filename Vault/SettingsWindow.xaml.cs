@@ -1,4 +1,4 @@
-﻿using FullControls;
+﻿using FullControls.SystemComponents;
 using System;
 using System.Windows;
 using Vault.Core;
@@ -8,7 +8,7 @@ namespace Vault
     /// <summary>
     /// Finestra delle impostazioni.
     /// </summary>
-    public partial class SettingsWindow : EWindow
+    public partial class SettingsWindow : FlexWindow
     {
         private bool loaded;
 
@@ -41,7 +41,7 @@ namespace Vault
         {
             if (loaded) Settings.Instance.StartOnStartup = false;
         }
-        
+
         private void StartHided_Checked(object sender, RoutedEventArgs e)
         {
             if (loaded) Settings.Instance.StartHided = true;

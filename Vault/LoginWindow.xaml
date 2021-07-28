@@ -1,34 +1,33 @@
-﻿<fc:EWindow x:Class="Vault.LoginWindow"
-            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            xmlns:fc="http://devpelux.github.io/fullcontrols"
-            xmlns:tb="http://www.hardcodet.net/taskbar"
-            mc:Ignorable="d"
-            Title="Login"
-            Height="226"
-            Width="302"
-            WindowStyle="None"
-            CornerRadius="{DynamicResource WindowCornerRadius}"
-            BorderThickness="1"
-            BorderBrush="{DynamicResource WindowBorderBrush}"
-            Foreground="White"
-            CaptionButtonsForeground="White"
-            CaptionButtonsForegroundOnMouseOver="White"
-            CaptionButtonsForegroundOnPressed="White"
-            Background="{DynamicResource WindowBackground}"
-            CaptionButtonsBackground="{DynamicResource WindowBackground}"
-            CaptionButtonsBackgroundOnMouseOver="#FF575759"
-            CaptionButtonsBackgroundOnPressed="#FF2D2D30"
-            ToolbarBackground="{DynamicResource WindowBackground}"
-            Icon="/Icons/VaultIcon.ico"
-            WindowStartupLocation="CenterScreen"
-            ResizeMode="NoResize"
-            Loaded="Window_Loaded"
-            Closing="Window_Closing"
-            CloseAction="Window_CloseAction"
-            MinimizeAction="Window_MinimizeAction">
+﻿<fc:FlexWindow x:Class="Vault.LoginWindow"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:fc="http://devpelux.github.io/fullcontrols"
+               xmlns:tb="http://www.hardcodet.net/taskbar"
+               mc:Ignorable="d"
+               Title="Login"
+               Height="264"
+               Width="302"
+               Foreground="{DynamicResource WindowForeground}"
+               ForegroundOnActive="{DynamicResource WindowForeground}"
+               CornerRadius="{DynamicResource WindowCornerRadius}"
+               Background="{DynamicResource WindowBackground}"
+               BorderBrush="{DynamicResource WindowBorderBrush}"
+               BorderBrushOnActive="{DynamicResource WindowBorderBrushOnActive}"
+               TitlebarBackground="{DynamicResource WindowBackground}"
+               TitlebarBackgroundOnActive="{DynamicResource WindowBackground}"
+               MinimizeButtonStyle="{DynamicResource CaptionButtonStyleDark}"
+               MaximizeButtonStyle="{DynamicResource CaptionButtonStyleDark}"
+               RestoreButtonStyle="{DynamicResource CaptionButtonStyleDark}"
+               CloseButtonStyle="{DynamicResource CaptionCloseButtonStyleDark}"
+               Icon="/Icons/VaultIcon.ico"
+               WindowStartupLocation="CenterScreen"
+               ResizeMode="NoResize"
+               Loaded="Window_Loaded"
+               Closing="Window_Closing"
+               PreviewClose="Window_PreviewClose"
+               PreviewMinimize="Window_PreviewMinimize">
     <Grid>
 
         <tb:TaskbarIcon x:Name="notifyIcon"
@@ -39,65 +38,69 @@
                         PopupActivation="DoubleClick"
                         TrayMouseDoubleClick="NotifyIcon_TrayMouseDoubleClick">
             <tb:TaskbarIcon.ContextMenu>
-                <ContextMenu>
-                    <fc:PolymorphicMenuItem x:Name="CMShowLogin" Header="Visualizza Login" Click="CMShowLogin_Click"/>
-                    <fc:PolymorphicMenuItem ItemType="Separator"/>
-                    <fc:PolymorphicMenuItem x:Name="CMClose" Header="Chiudi" Click="CMClose_Click"/>
-                </ContextMenu>
+                <fc:FlatContextMenu>
+                    <fc:FlatMenuItem x:Name="CMShowLogin" Header="Visualizza Login" Click="CMShowLogin_Click"/>
+                    <fc:FlatMenuSeparator />
+                    <fc:FlatMenuItem x:Name="CMClose" Header="Chiudi" Click="CMClose_Click"/>
+                </fc:FlatContextMenu>
             </tb:TaskbarIcon.ContextMenu>
         </tb:TaskbarIcon>
 
         <Grid>
-            <fc:ETextBox x:Name="Username"
-                         Style="{DynamicResource ETextBoxDark}"
-                         VerticalAlignment="Top"
-                         Margin="0,25,0,0"
-                         Height="35"
-                         Width="250"
-                         VerticalContentAlignment="Center"
-                         LabelType="Icon"
-                         Order="Horizontal"
-                         Icon="Icons/ic_user.png"
-                         Hint="Username"/>
-            <fc:EPasswordBox x:Name="Password"
-                             Style="{DynamicResource EPasswordBoxDark}"
+            <fc:TextBoxPlus x:Name="Username"
+                            Style="{DynamicResource TextBoxPlusDark}"
+                            VerticalAlignment="Top"
+                            Margin="0,25,0,0"
+                            Height="35"
+                            Width="250"
+                            VerticalContentAlignment="Center"
+                            Icon="Icons/ic_user.png"
+                            LabelPlacement="Left"
+                            LabelMargin="0,0,5,0"
+                            LabelMaxHeight="24"
+                            Hint="Username"/>
+            <fc:PasswordBoxPlus x:Name="Password"
+                                Style="{DynamicResource PasswordBoxPlusDark}"
+                                VerticalAlignment="Top"
+                                Margin="0,75,0,0"
+                                Height="35"
+                                Width="250"
+                                VerticalContentAlignment="Center"
+                                EnablePeekButton="True"
+                                Icon="Icons/ic_lock.png"
+                                LabelPlacement="Left"
+                                LabelMargin="0,0,5,0"
+                                LabelMaxHeight="24"
+                                Hint="Password"/>
+            <fc:CheckBoxPlus x:Name="Remember"
+                             Style="{DynamicResource CheckBoxPlusDark}"
+                             HorizontalAlignment="Left"
                              VerticalAlignment="Top"
-                             Margin="0,75,0,0"
-                             Height="35"
-                             Width="250"
-                             VerticalContentAlignment="Center"
-                             EnablePeekButton="True"
-                             LabelType="Icon"
-                             Order="Horizontal"
-                             Icon="Icons/ic_lock.png"
-                             Hint="Password"/>
-            <fc:ECheckBox x:Name="Remember"
-                          Style="{DynamicResource ECheckBoxDark}"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Top"
-                          Margin="54,125,0,0"
-                          Height="15"
-                          Content="Ricorda username"/>
+                             Margin="54,125,0,0"
+                             Height="15"
+                             Content="Ricorda username"/>
+            
             <Grid x:Name="Buttons"
                   Width="160"
                   Height="34"
-                  VerticalAlignment="Top"
-                  Margin="0,165,0,0">
-                <fc:EButton x:Name="Login"
-                            Style="{DynamicResource EButtonDark}"
-                            Content="LOGIN"
-                            HorizontalAlignment="Left"
-                            Width="55"
-                            Height="34"
-                            Click="Login_Click"/>
-                <fc:EButton x:Name="Register"
-                            Style="{DynamicResource EButtonDark}"
-                            Content="REGISTRATI"
-                            HorizontalAlignment="Right"
-                            Width="80"
-                            Height="34"
-                            Click="Register_Click"/>
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Bottom"
+                  Margin="0,0,25,25">
+                <fc:ButtonPlus x:Name="Login"
+                               Style="{DynamicResource ButtonPlusDark}"
+                               Content="LOGIN"
+                               HorizontalAlignment="Left"
+                               Width="55"
+                               Height="34"
+                               Click="Login_Click"/>
+                <fc:ButtonPlus x:Name="Register"
+                               Style="{DynamicResource ButtonPlusDark}"
+                               Content="REGISTRATI"
+                               HorizontalAlignment="Right"
+                               Width="80"
+                               Height="34"
+                               Click="Register_Click"/>
             </Grid>
         </Grid>
     </Grid>
-</fc:EWindow>
+</fc:FlexWindow>

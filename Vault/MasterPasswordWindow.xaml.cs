@@ -1,4 +1,4 @@
-﻿using FullControls;
+﻿using FullControls.SystemComponents;
 using System;
 using System.Threading;
 using System.Windows;
@@ -9,7 +9,7 @@ namespace Vault
     /// <summary>
     /// Finestra di conferma password.
     /// </summary>
-    public partial class MasterPasswordWindow : EWindow
+    public partial class MasterPasswordWindow : FlexWindow
     {
         private int attempt = 0;
         private readonly bool DisplayError;

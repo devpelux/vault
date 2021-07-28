@@ -1,4 +1,4 @@
-﻿using FullControls;
+﻿using FullControls.SystemComponents;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
@@ -9,7 +9,7 @@ namespace Vault
     /// <summary>
     /// Finestra per la modifica delle carte memorizzate.
     /// </summary>
-    public partial class CardWindow : EWindow, IDialog
+    public partial class CardWindow : FlexWindow, IDialog
     {
         private readonly Card card;
         private readonly List<Category> categories;
@@ -36,7 +36,7 @@ namespace Vault
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Utility.LoadCategoryItems(CardCategory, (Style)FindResource("EComboBoxItemDark"), categories);
+            Utility.LoadCategoryItems(CardCategory, (Style)FindResource("ComboBoxItemPlusDark"), categories);
             if (card != null)
             {
                 CardRequestKey.IsChecked = card.RequestKey;
@@ -54,7 +54,7 @@ namespace Vault
             else
             {
                 CardCategory.SelectedIndex = 0;
-                Delete.Visibility = Visibility.Hidden;
+                Delete.Visibility = Visibility.Collapsed;
             }
         }
 

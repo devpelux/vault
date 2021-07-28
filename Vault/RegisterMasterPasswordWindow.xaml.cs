@@ -1,4 +1,4 @@
-﻿using FullControls;
+﻿using FullControls.SystemComponents;
 using System.Windows;
 using Vault.Core;
 
@@ -7,7 +7,7 @@ namespace Vault
     /// <summary>
     /// Finestra di registrazione.
     /// </summary>
-    public partial class RegisterMasterPasswordWindow : EWindow
+    public partial class RegisterMasterPasswordWindow : FlexWindow
     {
         public RegisterMasterPasswordWindow()
         {

@@ -1,4 +1,4 @@
-﻿using FullControls;
+﻿using FullControls.SystemComponents;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ namespace Vault
     /// <summary>
     /// Finestra per la gestione delle categorie.
     /// </summary>
-    public partial class CategoriesWindow : EWindow, IDialog
+    public partial class CategoriesWindow : FullWindow, IDialog
     {
         private List<Category> categories;
 

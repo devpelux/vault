@@ -1,4 +1,4 @@
-﻿using FullControls;
+﻿using FullControls.SystemComponents;
 using System;
 using System.ComponentModel;
 using System.Media;
@@ -10,7 +10,7 @@ namespace Vault
     /// <summary>
     /// Finestra di messaggio.
     /// </summary>
-    public partial class MessageWindow : EWindow, IDialog
+    public partial class MessageWindow : FlexWindow, IDialog
     {
         private string Message { get; set; }
         private MessageBoxImage IconType { get; set; }
