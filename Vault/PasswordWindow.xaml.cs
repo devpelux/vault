@@ -11,7 +11,7 @@ namespace Vault
     /// <summary>
     /// Finestra per la modifica delle password memorizzate.
     /// </summary>
-    public partial class PasswordWindow : FlexWindow, IDialog
+    public partial class PasswordWindow : FlexWindow, FullControls.Common.IDialog
     {
         private readonly Password password;
         private readonly List<Category> categories;

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using FullControls.Extra;
 using System.IO;
 using System.Windows;
 using Vault.Core;
@@ -12,7 +12,7 @@ namespace Vault
     {
         internal const string Name = "Vault";
         internal const string FileName = "Vault.exe";
-        internal static readonly string Directory = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+        internal static readonly string Directory = Tools.GetExecutingDirectory().FullName;
         internal static readonly string FullName = Path.Combine(Directory, FileName);
 
 
@@ -23,7 +23,7 @@ namespace Vault
 
             if (File.Exists(Settings.Instance.DBPath))
             {
-                if (Settings.Instance.DBPassword != "")
+                if (Settings.Instance.DBPassword != null)
                 {
                     OpenDatabaseWithSavedPassword();
                 }

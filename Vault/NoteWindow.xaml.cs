@@ -9,7 +9,7 @@ namespace Vault
     /// <summary>
     /// Finestra per la modifica delle note memorizzate.
     /// </summary>
-    public partial class NoteWindow : FlexWindow, IDialog
+    public partial class NoteWindow : FlexWindow, FullControls.Common.IDialog
     {
         private readonly Note note;
         private readonly List<Category> categories;

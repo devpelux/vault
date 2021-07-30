@@ -11,7 +11,7 @@ namespace Vault
     /// <summary>
     /// Finestra per la modifica delle carte memorizzate.
     /// </summary>
-    public partial class CardWindow : FlexWindow, IDialog
+    public partial class CardWindow : FlexWindow, FullControls.Common.IDialog
     {
         private readonly Card card;
         private readonly List<Category> categories;

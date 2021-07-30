@@ -10,7 +10,7 @@ namespace Vault
     /// <summary>
     /// Finestra di conferma password.
     /// </summary>
-    public partial class KeyWindow : FlexWindow, IDialog
+    public partial class KeyWindow : FlexWindow, FullControls.Common.IDialog
     {
         private int attempt = 0;
 

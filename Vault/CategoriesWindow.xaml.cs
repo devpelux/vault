@@ -11,7 +11,7 @@ namespace Vault
     /// <summary>
     /// Finestra per la gestione delle categorie.
     /// </summary>
-    public partial class CategoriesWindow : FullWindow, IDialog
+    public partial class CategoriesWindow : FullWindow, FullControls.Common.IDialog
     {
         private List<Category> categories;
 

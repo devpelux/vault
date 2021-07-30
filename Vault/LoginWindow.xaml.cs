@@ -112,7 +112,7 @@ namespace Vault
                     Session.Instance.Key = Encryptor.ConvertToBytes(Encryptor.Decrypt(user.Key, pkey));
 
                     if (Remember.IsChecked == true) Settings.Instance.User = Session.Instance.Username;
-                    else Settings.Instance.User = "";
+                    else Settings.Instance.User = null;
 
                     minimizeInTrayOnClose = false;
                     disposeSession = false;

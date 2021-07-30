@@ -10,7 +10,7 @@ namespace Vault
     /// <summary>
     /// Finestra di messaggio.
     /// </summary>
-    public partial class MessageWindow : FlexWindow, IDialog
+    public partial class MessageWindow : FlexWindow, FullControls.Common.IDialog
     {
         private string Message { get; set; }
         private MessageBoxImage IconType { get; set; }
