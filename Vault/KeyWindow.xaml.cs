@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using Vault.Core;
 
 namespace Vault
@@ -32,7 +33,17 @@ namespace Vault
             if (Result == null) Result = NONE;
         }
 
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) ConfirmCommand();
+        }
+
         private void Confirm_Click(object sender, RoutedEventArgs e)
+        {
+            ConfirmCommand();
+        }
+
+        private void ConfirmCommand()
         {
             if (Password.SecurePassword.Length > 0)
             {

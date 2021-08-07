@@ -23,7 +23,8 @@
                Icon="/Icons/VaultIcon.ico"
                ResizeMode="NoResize"
                WindowStartupLocation="CenterScreen"
-               Closing="Window_Closing">
+               Closing="Window_Closing"
+               KeyDown="Window_KeyDown">
     <Grid>
         <TextBlock x:Name="Subtitle"
                    VerticalAlignment="Top"

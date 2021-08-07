@@ -22,7 +22,8 @@
                CloseButtonStyle="{DynamicResource CaptionCloseButtonStyleDark}"
                Icon="/Icons/VaultIcon.ico"
                WindowStartupLocation="CenterScreen"
-               ResizeMode="NoResize">
+               ResizeMode="NoResize"
+               KeyDown="Window_KeyDown">
     <Grid>
         <fc:TextBoxPlus x:Name="Username"
                         Style="{DynamicResource TextBoxPlusDark}"

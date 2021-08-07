@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using Vault.Core;
 
 namespace Vault
@@ -74,7 +75,17 @@ namespace Vault
 
         #endregion
 
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) LoginCommand();
+        }
+
         private void Login_Click(object sender, RoutedEventArgs e)
+        {
+            LoginCommand();
+        }
+
+        private void LoginCommand()
         {
             if (Username.TextLength > 0 && Password.PasswordLength > 0)
             {

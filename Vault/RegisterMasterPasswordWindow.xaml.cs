@@ -1,5 +1,6 @@
 ﻿using FullControls.SystemComponents;
 using System.Windows;
+using System.Windows.Input;
 using Vault.Core;
 
 namespace Vault
@@ -14,7 +15,17 @@ namespace Vault
             InitializeComponent();
         }
 
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) ConfirmCommand();
+        }
+
         private void Confirm_Click(object sender, RoutedEventArgs e)
+        {
+            ConfirmCommand();
+        }
+
+        private void ConfirmCommand()
         {
             if (Password.PasswordLength > 0 && ConfirmPassword.PasswordLength > 0)
             {

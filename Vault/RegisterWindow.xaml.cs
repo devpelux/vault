@@ -1,6 +1,7 @@
 ﻿using FullControls.SystemComponents;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using Vault.Core;
 
 namespace Vault
@@ -18,13 +19,17 @@ namespace Vault
             InitializeComponent();
         }
 
-        private void Login_Click(object sender, RoutedEventArgs e)
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            new LoginWindow().Show();
-            Close();
+            if (e.Key == Key.Enter) RegisterCommand();
         }
 
         private void Register_Click(object sender, RoutedEventArgs e)
+        {
+            RegisterCommand();
+        }
+
+        private void RegisterCommand()
         {
             if (Username.TextLength > 0 && Password.PasswordLength > 0 && ConfirmPassword.PasswordLength > 0)
             {
@@ -55,6 +60,12 @@ namespace Vault
             {
                 _ = new DialogWindow(new MessageWindow("Immettere username e password!", "Errore", MessageBoxImage.Exclamation)).Show();
             }
+        }
+
+        private void Login_Click(object sender, RoutedEventArgs e)
+        {
+            new LoginWindow().Show();
+            Close();
         }
 
         private void RegisterUserAndLogin()
