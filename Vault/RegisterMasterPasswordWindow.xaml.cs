@@ -1,4 +1,5 @@
 ﻿using FullControls.SystemComponents;
+using System;
 using System.Windows;
 using System.Windows.Input;
 using Vault.Core;
@@ -13,6 +14,11 @@ namespace Vault
         public RegisterMasterPasswordWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            if (TrayIcon.Instance.WindowToShow == null && Application.Current.Windows.Count == 0) Application.Current.Shutdown();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)

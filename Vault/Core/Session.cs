@@ -39,6 +39,8 @@ namespace Vault.Core
             IsValidInstance = false;
         }
 
+        public static void ClearInstance() => Instance.Dispose();
+
         public void Clear()
         {
             UserID = -1;

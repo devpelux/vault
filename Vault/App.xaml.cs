@@ -16,10 +16,14 @@ namespace Vault
         internal static readonly string FullName = Path.Combine(Directory, FileName);
 
 
+        #region Startup and exit
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             SQLitePCL.Batteries_V2.Init();
             Settings.Instance.DBPath = GetDBPath();
+
+            TrayIcon.LoadInstance();
 
             if (File.Exists(Settings.Instance.DBPath))
             {
@@ -29,7 +33,8 @@ namespace Vault
                 }
                 else
                 {
-                    new MasterPasswordWindow().Show();
+                    if (Settings.Instance.StartHided == true) TrayIcon.Instance.WindowToShow = nameof(MasterPasswordWindow);
+                    else new MasterPasswordWindow().Show();
                 }
             }
             else
@@ -41,7 +46,10 @@ namespace Vault
         private void Application_Exit(object sender, ExitEventArgs e)
         {
             Settings.Instance.Dispose();
+            TrayIcon.Instance.Dispose();
         }
+
+        #endregion
 
         private static void OpenDatabaseWithSavedPassword()
         {
@@ -50,7 +58,8 @@ namespace Vault
             {
                 if (VaultDB.Instance.Users.Count() > 0)
                 {
-                    new LoginWindow().Show();
+                    if (Settings.Instance.StartHided == true) TrayIcon.Instance.WindowToShow = nameof(LoginWindow);
+                    else new LoginWindow().Show();
                 }
                 else
                 {

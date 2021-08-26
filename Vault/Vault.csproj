@@ -6,8 +6,16 @@
     <UseWPF>true</UseWPF>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <StartupObject>Vault.App</StartupObject>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <ApplicationIcon>Icons\VaultIcon.ico</ApplicationIcon>
+    <Authors>Salvatore Peluso</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/devpelux/vault</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/devpelux/vault</PackageProjectUrl>
+    <Copyright>Copyright (C) 2020-2021 devpelux (Salvatore Peluso)</Copyright>
+    <Description>Portable password manager open source and completely offline forever.</Description>
+    <PackageTags>vault password manager offline wpf</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,9 +42,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FullControls" Version="1.5.0" />
+    <PackageReference Include="FullControls" Version="1.5.1" />
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="5.0.8" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="5.0.9" />
     <PackageReference Include="Nucs.JsonSettings" Version="2.0.0-alpha7" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlcipher" Version="2.0.4" />
   </ItemGroup>

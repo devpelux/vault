@@ -3,7 +3,6 @@ using FullControls.Controls;
 using FullControls.SystemComponents;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,7 +32,6 @@ namespace Vault
 
         private bool enableSwitch = true;
         private int loadedSection = -1;
-        private bool minimizeInTrayOnClose = true;
 
         private const StringComparison SearchType = StringComparison.CurrentCultureIgnoreCase;
 
@@ -41,64 +39,29 @@ namespace Vault
         public Home()
         {
             InitializeComponent();
+            TrayIcon.Instance.HomeWindow = this;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Reload(Settings.Instance.SectionToLoad ?? 0);
+            TrayIcon.Instance.WindowToShow = null;
         }
 
-        private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_CloseCommandExecuting(object sender, EventArgs e)
         {
-            Session.Instance.Dispose();
+            if (Settings.Instance.HideOnClose == true) TrayIcon.Instance.WindowToShow = nameof(Home);
         }
 
-        private void Window_PreviewClose(object sender, CancelEventArgs e)
+        private void Window_Closed(object sender, EventArgs e)
         {
-            if (minimizeInTrayOnClose)
+            if (TrayIcon.Instance.WindowToShow == null && Application.Current.Windows.Count == 0)
             {
-                e.Cancel = true;
-                Hide();
+                TrayIcon.Instance.VaultStatus = VaultStatus.Locked;
+                Application.Current.Shutdown();
             }
+            TrayIcon.Instance.HomeWindow = null;
         }
-
-        private void Window_PreviewMinimize(object sender, CancelEventArgs e)
-        {
-            if (minimizeInTrayOnClose)
-            {
-                e.Cancel = true;
-                Hide();
-            }
-        }
-
-        #region NotifyIcon
-
-        private void CMShowHome_Click(object sender, RoutedEventArgs e)
-        {
-            Show();
-        }
-
-        private void CMLogout_Click(object sender, RoutedEventArgs e)
-        {
-            minimizeInTrayOnClose = false;
-            notifyIcon.Dispose();
-            new LoginWindow().Show();
-            Close();
-        }
-
-        private void CMLogoutAndClose_Click(object sender, RoutedEventArgs e)
-        {
-            minimizeInTrayOnClose = false;
-            notifyIcon.Dispose();
-            Close();
-        }
-
-        private void NotifyIcon_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
-        {
-            Show();
-        }
-
-        #endregion
 
         private void Reload(int sectionToLoad)
         {
@@ -109,9 +72,9 @@ namespace Vault
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
-            minimizeInTrayOnClose = false;
-            notifyIcon.Dispose();
+            Session.ClearInstance();
             new LoginWindow().Show();
+            TrayIcon.Instance.VaultStatus = VaultStatus.Locked;
             Close();
         }
 

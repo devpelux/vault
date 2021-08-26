@@ -22,6 +22,21 @@ namespace Vault
             DisplayError = displayError;
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            TrayIcon.Instance.WindowToShow = null;
+        }
+
+        private void Window_CloseCommandExecuting(object sender, EventArgs e)
+        {
+            if (Settings.Instance.HideOnClose == true) TrayIcon.Instance.WindowToShow = nameof(MasterPasswordWindow);
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            if (TrayIcon.Instance.WindowToShow == null && Application.Current.Windows.Count == 0) Application.Current.Shutdown();
+        }
+
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             if (DisplayError)
@@ -80,7 +95,7 @@ namespace Vault
                 _ = new DialogWindow(new MessageWindow("La password è errata o il file di dati è corrotto!", "Errore", MessageBoxImage.Exclamation)).Show();
             }
         }
-
+        
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             Close();

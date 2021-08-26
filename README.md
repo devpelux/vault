@@ -5,11 +5,23 @@ Portable password manager open source and completely offline forever.
 
 ## Single file executable
 
-The main application is a single `.exe` file, it does not require installation, and does not save anything on your pc.
-It creates a database file (`vault.db`), and saves all the passwords on this file.
-It creates also a `config.json` file that will contain all the application settings.
+The main application is a single `.exe` file, it does not require installation, it creates only 2 files:
+- A database file (`vault.db`), and saves all the passwords on this file.
+- A `config.json` file that will contain all the application settings.
 
 You can move the executable file and the database file into a pendrive and take all the passwords with you, the `config.json` file is not required but you can also copy that file to take keep the settings.
+
+
+## Double password
+
+The entire database file is encrypted with sqlcipher encryption technology, and every single record inside the database is also encrypted with Rijndael algorithm.
+
+
+## Completely offline
+
+*"The only secure computer is a computer disconnected from the internet and shutdown!"*
+This application will never use internet to send or receive data, everything is made completely offline.
+And you can move everything into an external pendrive and shutdown your pc.
 
 
 

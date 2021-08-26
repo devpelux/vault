@@ -1,4 +1,5 @@
 ﻿using FullControls.SystemComponents;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -17,6 +18,11 @@ namespace Vault
         public RegisterWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            if (TrayIcon.Instance.WindowToShow == null && Application.Current.Windows.Count == 0) Application.Current.Shutdown();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -78,6 +84,7 @@ namespace Vault
 
             VaultDB.Instance.Users.AddRecord(new User(Users.NewID, Username.Text, Encryptor.ConvertToString(hashPkey), cipherKey));
 
+            Session.ClearInstance();
             Session.Instance.UserID = VaultDB.Instance.Users.GetRecord(Username.Text).ID;
             Session.Instance.Username = Username.Text;
             Session.Instance.Key = key;
@@ -90,6 +97,7 @@ namespace Vault
             }
 
             new Home().Show();
+            TrayIcon.Instance.VaultStatus = VaultStatus.Unlocked;
             Close();
         }
 

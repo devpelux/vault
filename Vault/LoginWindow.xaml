@@ -4,7 +4,6 @@
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                xmlns:fc="http://devpelux.github.io/fullcontrols"
-               xmlns:tb="http://www.hardcodet.net/taskbar"
                mc:Ignorable="d"
                Title="Login"
                Height="264"
@@ -25,83 +24,63 @@
                WindowStartupLocation="CenterScreen"
                ResizeMode="NoResize"
                Loaded="Window_Loaded"
-               Closing="Window_Closing"
-               PreviewClose="Window_PreviewClose"
-               PreviewMinimize="Window_PreviewMinimize"
+               CloseCommandExecuting="Window_CloseCommandExecuting"
+               Closed="Window_Closed"
                KeyDown="Window_KeyDown">
     <Grid>
-
-        <tb:TaskbarIcon x:Name="notifyIcon"
-                        Visibility="Visible"
-                        ToolTipText="Vault è in esecuzione in background, per aprirlo fare doppio click."
-                        IconSource="/Icons/VaultTrayIconWhite.ico"
-                        MenuActivation="LeftOrRightClick"
-                        PopupActivation="DoubleClick"
-                        TrayMouseDoubleClick="NotifyIcon_TrayMouseDoubleClick">
-            <tb:TaskbarIcon.ContextMenu>
-                <fc:FlatContextMenu>
-                    <fc:FlatMenuItem x:Name="CMShowLogin" Header="Visualizza Login" Click="CMShowLogin_Click"/>
-                    <fc:FlatMenuSeparator />
-                    <fc:FlatMenuItem x:Name="CMClose" Header="Chiudi" Click="CMClose_Click"/>
-                </fc:FlatContextMenu>
-            </tb:TaskbarIcon.ContextMenu>
-        </tb:TaskbarIcon>
-
-        <Grid>
-            <fc:TextBoxPlus x:Name="Username"
-                            Style="{DynamicResource TextBoxPlusDark}"
+        <fc:TextBoxPlus x:Name="Username"
+                        Style="{DynamicResource TextBoxPlusDark}"
+                        VerticalAlignment="Top"
+                        Margin="0,25,0,0"
+                        Height="35"
+                        Width="250"
+                        VerticalContentAlignment="Center"
+                        Icon="Icons/ic_user.png"
+                        LabelPlacement="Left"
+                        LabelMargin="0,0,5,0"
+                        LabelMaxHeight="24"
+                        Hint="Username"/>
+        <fc:PasswordBoxPlus x:Name="Password"
+                            Style="{DynamicResource PasswordBoxPlusDark}"
                             VerticalAlignment="Top"
-                            Margin="0,25,0,0"
+                            Margin="0,75,0,0"
                             Height="35"
                             Width="250"
                             VerticalContentAlignment="Center"
-                            Icon="Icons/ic_user.png"
+                            EnablePeekButton="True"
+                            Icon="Icons/ic_lock.png"
                             LabelPlacement="Left"
                             LabelMargin="0,0,5,0"
                             LabelMaxHeight="24"
-                            Hint="Username"/>
-            <fc:PasswordBoxPlus x:Name="Password"
-                                Style="{DynamicResource PasswordBoxPlusDark}"
-                                VerticalAlignment="Top"
-                                Margin="0,75,0,0"
-                                Height="35"
-                                Width="250"
-                                VerticalContentAlignment="Center"
-                                EnablePeekButton="True"
-                                Icon="Icons/ic_lock.png"
-                                LabelPlacement="Left"
-                                LabelMargin="0,0,5,0"
-                                LabelMaxHeight="24"
-                                Hint="Password"/>
-            <fc:CheckBoxPlus x:Name="Remember"
-                             Style="{DynamicResource CheckBoxPlusDark}"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Top"
-                             Margin="54,125,0,0"
-                             Height="15"
-                             Content="Ricorda username"/>
-            
-            <Grid x:Name="Buttons"
-                  Width="160"
-                  Height="34"
-                  HorizontalAlignment="Right"
-                  VerticalAlignment="Bottom"
-                  Margin="0,0,25,25">
-                <fc:ButtonPlus x:Name="Login"
-                               Style="{DynamicResource ButtonPlusDark}"
-                               Content="LOGIN"
-                               HorizontalAlignment="Left"
-                               Width="55"
-                               Height="34"
-                               Click="Login_Click"/>
-                <fc:ButtonPlus x:Name="Register"
-                               Style="{DynamicResource ButtonPlusDark}"
-                               Content="REGISTRATI"
-                               HorizontalAlignment="Right"
-                               Width="80"
-                               Height="34"
-                               Click="Register_Click"/>
-            </Grid>
+                            Hint="Password"/>
+        <fc:CheckBoxPlus x:Name="Remember"
+                         Style="{DynamicResource CheckBoxPlusDark}"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Margin="54,125,0,0"
+                         Height="15"
+                         Content="Ricorda username"/>
+
+        <Grid x:Name="Buttons"
+              Width="160"
+              Height="34"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Bottom"
+              Margin="0,0,25,25">
+            <fc:ButtonPlus x:Name="Login"
+                           Style="{DynamicResource ButtonPlusDark}"
+                           Content="LOGIN"
+                           HorizontalAlignment="Left"
+                           Width="55"
+                           Height="34"
+                           Click="Login_Click"/>
+            <fc:ButtonPlus x:Name="Register"
+                           Style="{DynamicResource ButtonPlusDark}"
+                           Content="REGISTRATI"
+                           HorizontalAlignment="Right"
+                           Width="80"
+                           Height="34"
+                           Click="Register_Click"/>
         </Grid>
     </Grid>
 </fc:FlexWindow>

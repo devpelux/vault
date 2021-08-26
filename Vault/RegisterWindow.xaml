@@ -23,6 +23,7 @@
                Icon="/Icons/VaultIcon.ico"
                WindowStartupLocation="CenterScreen"
                ResizeMode="NoResize"
+               Closed="Window_Closed"
                KeyDown="Window_KeyDown">
     <Grid>
         <fc:TextBoxPlus x:Name="Username"

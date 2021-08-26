@@ -61,6 +61,12 @@ namespace Vault.Core
             set => settings[nameof(StartHided)] = value;
         }
 
+        public bool? HideOnClose
+        {
+            get => settings[nameof(HideOnClose)] as bool?;
+            set => settings[nameof(HideOnClose)] = value;
+        }
+
 #nullable disable
 
         #region Instance

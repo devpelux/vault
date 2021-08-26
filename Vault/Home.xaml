@@ -5,7 +5,6 @@
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                xmlns:cust="clr-namespace:Vault.CustomControls"
                xmlns:fc="http://devpelux.github.io/fullcontrols"
-               xmlns:tb="http://www.hardcodet.net/taskbar"
                mc:Ignorable="d"
                Title="Vault"
                Height="615"
@@ -25,208 +24,187 @@
                WindowStartupLocation="CenterScreen"
                ResizeMode="CanMinimize"
                Loaded="Window_Loaded"
-               Closing="Window_Closing"
-               PreviewClose="Window_PreviewClose"
-               PreviewMinimize="Window_PreviewMinimize">
-    <Grid>
+               CloseCommandExecuting="Window_CloseCommandExecuting"
+               Closed="Window_Closed">
+    <Grid Margin="0,32,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="140"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <tb:TaskbarIcon x:Name="notifyIcon"
-                        Visibility="Visible"
-                        ToolTipText="Vault è in esecuzione in background, per aprirlo fare doppio click."
-                        IconSource="/Icons/VaultTrayIcon.ico"
-                        MenuActivation="LeftOrRightClick"
-                        PopupActivation="DoubleClick"
-                        TrayMouseDoubleClick="NotifyIcon_TrayMouseDoubleClick">
-            <tb:TaskbarIcon.ContextMenu>
-                <fc:FlatContextMenu>
-                    <fc:FlatMenuItem x:Name="CMShowHome" Header="Visualizza Home" Click="CMShowHome_Click"/>
-                    <fc:FlatMenuSeparator />
-                    <fc:FlatMenuItem x:Name="CMLogout" Header="Logout" Click="CMLogout_Click"/>
-                    <fc:FlatMenuItem x:Name="CMLogoutAndClose" Header="Logout e chiudi" Click="CMLogoutAndClose_Click"/>
-                </fc:FlatContextMenu>
-            </tb:TaskbarIcon.ContextMenu>
-        </tb:TaskbarIcon>
-
-        <Grid Margin="0,32,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="140"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Border Grid.Column="0"
-                    Margin="0,-32,0,0"
-                    BorderThickness="0,0,1,0"
-                    Background="{DynamicResource WindowSwitcherBackground}"
-                    BorderBrush="{DynamicResource WindowDivider}"/>
-            <Grid x:Name="ContentCategorySwitcher" Grid.Column="0">
-                <fc:Switcher x:Name="SwitchToPasswordSection"
-                             Style="{DynamicResource SwitcherDark}"
-                             VerticalAlignment="Top"
-                             Margin="0,50,0,0"
-                             Height="75"
-                             Content="Password"
-                             GroupName="SectionSwitchers"
-                             Checked="SwitchSelected"/>
-                <fc:Switcher x:Name="SwitchToCardSection"
-                             Style="{DynamicResource SwitcherDark}"
-                             VerticalAlignment="Top"
-                             Margin="0,125,0,0"
-                             Height="75"
-                             Content="Carte"
-                             BorderThickness="1,0,1,1"
-                             GroupName="SectionSwitchers"
-                             Checked="SwitchSelected"/>
-                <fc:Switcher x:Name="SwitchToNoteSection"
-                             Style="{DynamicResource SwitcherDark}"
-                             VerticalAlignment="Top"
-                             Margin="0,200,0,0"
-                             Height="75"
-                             Content="Note"
-                             BorderThickness="1,0,1,1"
-                             GroupName="SectionSwitchers"
-                             Checked="SwitchSelected"/>
-                <fc:ButtonPlus x:Name="Logout"
-                               Style="{DynamicResource LogoutButtonDark}"
-                               Content="Logout"
-                               VerticalAlignment="Bottom"
-                               Margin="0"
-                               Height="50"
-                               Click="Logout_Click"/>
-                <fc:ButtonPlus x:Name="ShowSettings"
-                               Style="{DynamicResource SettingsButtonDark}"
-                               Content="Impostazioni"
-                               VerticalAlignment="Bottom"
-                               Margin="0,0,0,50"
-                               Height="50"
-                               BorderThickness="1,1,1,0"
-                               Click="ShowSettings_Click"/>
-            </Grid>
-            <Grid x:Name="ContentWindow" Grid.Column="1">
-                <Grid x:Name="PasswordSection" Visibility="Visible">
-                    <TextBlock Text="PASSWORD" FontSize="20" Foreground="White"
-                               HorizontalAlignment="Left" VerticalAlignment="Top"
-                               Margin="10,10,0,0"/>
-                    <fc:ButtonPlus x:Name="NewPassword"
-                                   Style="{DynamicResource ButtonPlusDark}"
-                                   Content="Aggiungi"
-                                   HorizontalAlignment="Right"
-                                   Margin="0,50,25,0"
-                                   VerticalAlignment="Top"
-                                   Width="70"
-                                   Height="40"
-                                   Click="NewPassword_Click"/>
-                    <fc:GlassScrollViewer Margin="10,50,125,82"
-                                          Padding="0,0,1,0">
-                        <fc:Accordion x:Name="PasswordList"
-                                      ItemIsExpandedChanged="Lists_ItemIsExpandedChanged">
-                            <fc:Accordion.Resources>
-                                <ResourceDictionary>
-                                    <DataTemplate x:Key="PasswordListDT">
-                                        <Grid Margin="0,0,0,4">
-                                            <cust:PasswordPreview
-                                                ID="{Binding ID}"
-                                                Label="{Binding Label}"
-                                                Url="{Binding Url}"
-                                                FontWeight="Regular"
-                                                MouseLeftButtonDown="PasswordPreviewMouseLeftButtonDown"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ResourceDictionary>
-                            </fc:Accordion.Resources>
-                        </fc:Accordion>
-                    </fc:GlassScrollViewer>
-                </Grid>
-                <Grid x:Name="CardSection" Visibility="Collapsed">
-                    <TextBlock Text="CARTE" FontSize="20" Foreground="White"
-                               HorizontalAlignment="Left" VerticalAlignment="Top"
-                               Margin="10,10,0,0"/>
-                    <fc:ButtonPlus x:Name="NewCard"
-                                   Style="{DynamicResource ButtonPlusDark}"
-                                   Content="Aggiungi"
-                                   HorizontalAlignment="Right"
-                                   Margin="0,50,25,0"
-                                   VerticalAlignment="Top"
-                                   Width="70"
-                                   Height="40"
-                                   Click="NewCard_Click"/>
-                    <fc:GlassScrollViewer Margin="10,50,125,82"
-                                          Padding="0,0,1,0">
-                        <fc:Accordion x:Name="CardList"
-                                      ItemIsExpandedChanged="Lists_ItemIsExpandedChanged">
-                            <fc:Accordion.Resources>
-                                <ResourceDictionary>
-                                    <DataTemplate x:Key="CardListDT">
-                                        <Grid Margin="0,0,0,4">
-                                            <cust:CardPreview
-                                                ID="{Binding ID}"
-                                                Label="{Binding Label}"
-                                                Type="{Binding Type}"
-                                                FontWeight="Regular"
-                                                MouseLeftButtonDown="CardPreviewMouseLeftButtonDown"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ResourceDictionary>
-                            </fc:Accordion.Resources>
-                        </fc:Accordion>
-                    </fc:GlassScrollViewer>
-                </Grid>
-                <Grid x:Name="NoteSection" Visibility="Collapsed">
-                    <TextBlock Text="NOTE" FontSize="20" Foreground="White"
-                               HorizontalAlignment="Left" VerticalAlignment="Top"
-                               Margin="10,10,0,0"/>
-                    <fc:ButtonPlus x:Name="NewNote"
-                                   Style="{DynamicResource ButtonPlusDark}"
-                                   Content="Aggiungi"
-                                   HorizontalAlignment="Right"
-                                   Margin="0,50,25,0"
-                                   VerticalAlignment="Top"
-                                   Width="70"
-                                   Height="40"
-                                   Click="NewNote_Click"/>
-                    <fc:GlassScrollViewer Margin="10,50,125,82"
-                                          Padding="0,0,1,0">
-                        <fc:Accordion x:Name="NoteList"
-                                      ItemIsExpandedChanged="Lists_ItemIsExpandedChanged">
-                            <fc:Accordion.Resources>
-                                <ResourceDictionary>
-                                    <DataTemplate x:Key="NoteListDT">
-                                        <Grid Margin="0,0,0,4">
-                                            <cust:NotePreview
-                                                ID="{Binding ID}"
-                                                Title="{Binding Title}"
-                                                Subtitle="{Binding Subtitle}"
-                                                FontWeight="Regular"
-                                                MouseLeftButtonDown="NotePreviewMouseLeftButtonDown"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ResourceDictionary>
-                            </fc:Accordion.Resources>
-                        </fc:Accordion>
-                    </fc:GlassScrollViewer>
-                </Grid>
-                <fc:TextBoxPlus x:Name="Search"
-                                Style="{DynamicResource TextBoxPlusDark}"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Bottom"
-                                Margin="10,0,0,25"
-                                Height="32"
-                                Width="363"
-                                Hint="Cerca..."
-                                Icon="Icons/ic_search.png"
-                                LabelPlacement="Left"
-                                LabelMargin="0,0,5,0"
-                                LabelMaxHeight="24"
-                                TextChanged="Search_TextChanged"/>
-                <fc:ButtonPlus x:Name="EditCategories"
+        <Border Grid.Column="0"
+                Margin="0,-32,0,0"
+                BorderThickness="0,0,1,0"
+                Background="{DynamicResource WindowSwitcherBackground}"
+                BorderBrush="{DynamicResource WindowDivider}"/>
+        <Grid x:Name="ContentCategorySwitcher" Grid.Column="0">
+            <fc:Switcher x:Name="SwitchToPasswordSection"
+                         Style="{DynamicResource SwitcherDark}"
+                         VerticalAlignment="Top"
+                         Margin="0,50,0,0"
+                         Height="75"
+                         Content="Password"
+                         GroupName="SectionSwitchers"
+                         Checked="SwitchSelected"/>
+            <fc:Switcher x:Name="SwitchToCardSection"
+                         Style="{DynamicResource SwitcherDark}"
+                         VerticalAlignment="Top"
+                         Margin="0,125,0,0"
+                         Height="75"
+                         Content="Carte"
+                         BorderThickness="1,0,1,1"
+                         GroupName="SectionSwitchers"
+                         Checked="SwitchSelected"/>
+            <fc:Switcher x:Name="SwitchToNoteSection"
+                         Style="{DynamicResource SwitcherDark}"
+                         VerticalAlignment="Top"
+                         Margin="0,200,0,0"
+                         Height="75"
+                         Content="Note"
+                         BorderThickness="1,0,1,1"
+                         GroupName="SectionSwitchers"
+                         Checked="SwitchSelected"/>
+            <fc:ButtonPlus x:Name="Logout"
+                           Style="{DynamicResource LogoutButtonDark}"
+                           Content="Logout"
+                           VerticalAlignment="Bottom"
+                           Margin="0"
+                           Height="50"
+                           Click="Logout_Click"/>
+            <fc:ButtonPlus x:Name="ShowSettings"
+                           Style="{DynamicResource SettingsButtonDark}"
+                           Content="Impostazioni"
+                           VerticalAlignment="Bottom"
+                           Margin="0,0,0,50"
+                           Height="50"
+                           BorderThickness="1,1,1,0"
+                           Click="ShowSettings_Click"/>
+        </Grid>
+        <Grid x:Name="ContentWindow" Grid.Column="1">
+            <Grid x:Name="PasswordSection" Visibility="Visible">
+                <TextBlock Text="PASSWORD" FontSize="20" Foreground="White"
+                           HorizontalAlignment="Left" VerticalAlignment="Top"
+                           Margin="10,10,0,0"/>
+                <fc:ButtonPlus x:Name="NewPassword"
                                Style="{DynamicResource ButtonPlusDark}"
-                               Content="Categorie"
+                               Content="Aggiungi"
                                HorizontalAlignment="Right"
-                               Margin="0,0,25,25"
-                               VerticalAlignment="Bottom"
+                               Margin="0,50,25,0"
+                               VerticalAlignment="Top"
                                Width="70"
                                Height="40"
-                               Click="EditCategories_Click"/>
+                               Click="NewPassword_Click"/>
+                <fc:GlassScrollViewer Margin="10,50,125,82"
+                                      Padding="0,0,1,0">
+                    <fc:Accordion x:Name="PasswordList"
+                                  ItemIsExpandedChanged="Lists_ItemIsExpandedChanged">
+                        <fc:Accordion.Resources>
+                            <ResourceDictionary>
+                                <DataTemplate x:Key="PasswordListDT">
+                                    <Grid Margin="0,0,0,4">
+                                        <cust:PasswordPreview 
+                                            ID="{Binding ID}"
+                                            Label="{Binding Label}"
+                                            Url="{Binding Url}"
+                                            FontWeight="Regular"
+                                            MouseLeftButtonDown="PasswordPreviewMouseLeftButtonDown"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ResourceDictionary>
+                        </fc:Accordion.Resources>
+                    </fc:Accordion>
+                </fc:GlassScrollViewer>
             </Grid>
+            <Grid x:Name="CardSection" Visibility="Collapsed">
+                <TextBlock Text="CARTE" FontSize="20" Foreground="White"
+                           HorizontalAlignment="Left" VerticalAlignment="Top"
+                           Margin="10,10,0,0"/>
+                <fc:ButtonPlus x:Name="NewCard"
+                               Style="{DynamicResource ButtonPlusDark}"
+                               Content="Aggiungi"
+                               HorizontalAlignment="Right"
+                               Margin="0,50,25,0"
+                               VerticalAlignment="Top"
+                               Width="70"
+                               Height="40"
+                               Click="NewCard_Click"/>
+                <fc:GlassScrollViewer Margin="10,50,125,82"
+                                      Padding="0,0,1,0">
+                    <fc:Accordion x:Name="CardList"
+                                  ItemIsExpandedChanged="Lists_ItemIsExpandedChanged">
+                        <fc:Accordion.Resources>
+                            <ResourceDictionary>
+                                <DataTemplate x:Key="CardListDT">
+                                    <Grid Margin="0,0,0,4">
+                                        <cust:CardPreview 
+                                            ID="{Binding ID}"
+                                            Label="{Binding Label}"
+                                            Type="{Binding Type}"
+                                            FontWeight="Regular"
+                                            MouseLeftButtonDown="CardPreviewMouseLeftButtonDown"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ResourceDictionary>
+                        </fc:Accordion.Resources>
+                    </fc:Accordion>
+                </fc:GlassScrollViewer>
+            </Grid>
+            <Grid x:Name="NoteSection" Visibility="Collapsed">
+                <TextBlock Text="NOTE" FontSize="20" Foreground="White"
+                           HorizontalAlignment="Left" VerticalAlignment="Top"
+                           Margin="10,10,0,0"/>
+                <fc:ButtonPlus x:Name="NewNote"
+                               Style="{DynamicResource ButtonPlusDark}"
+                               Content="Aggiungi"
+                               HorizontalAlignment="Right"
+                               Margin="0,50,25,0"
+                               VerticalAlignment="Top"
+                               Width="70"
+                               Height="40"
+                               Click="NewNote_Click"/>
+                <fc:GlassScrollViewer Margin="10,50,125,82"
+                                      Padding="0,0,1,0">
+                    <fc:Accordion x:Name="NoteList"
+                                  ItemIsExpandedChanged="Lists_ItemIsExpandedChanged">
+                        <fc:Accordion.Resources>
+                            <ResourceDictionary>
+                                <DataTemplate x:Key="NoteListDT">
+                                    <Grid Margin="0,0,0,4">
+                                        <cust:NotePreview 
+                                            ID="{Binding ID}"
+                                            Title="{Binding Title}"
+                                            Subtitle="{Binding Subtitle}"
+                                            FontWeight="Regular"
+                                            MouseLeftButtonDown="NotePreviewMouseLeftButtonDown"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ResourceDictionary>
+                        </fc:Accordion.Resources>
+                    </fc:Accordion>
+                </fc:GlassScrollViewer>
+            </Grid>
+            <fc:TextBoxPlus x:Name="Search"
+                            Style="{DynamicResource TextBoxPlusDark}"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Margin="10,0,0,25"
+                            Height="32"
+                            Width="363"
+                            Hint="Cerca..."
+                            Icon="Icons/ic_search.png"
+                            LabelPlacement="Left"
+                            LabelMargin="0,0,5,0"
+                            LabelMaxHeight="24"
+                            TextChanged="Search_TextChanged"/>
+            <fc:ButtonPlus x:Name="EditCategories"
+                           Style="{DynamicResource ButtonPlusDark}"
+                           Content="Categorie"
+                           HorizontalAlignment="Right"
+                           Margin="0,0,25,25"
+                           VerticalAlignment="Bottom"
+                           Width="70"
+                           Height="40"
+                           Click="EditCategories_Click"/>
         </Grid>
     </Grid>
 </fc:FlexWindow>

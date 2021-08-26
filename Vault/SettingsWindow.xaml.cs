@@ -23,6 +23,7 @@ namespace Vault
             if (Settings.Instance.StartOnStartup.HasValue) AutoStart.IsChecked = Settings.Instance.StartOnStartup.Value;
             else AutoStart.IsEnabled = false;
             StartHided.IsChecked = Settings.Instance.StartHided;
+            HideOnClose.IsChecked = Settings.Instance.HideOnClose;
             RememberDBPassword.IsChecked = RememberDBPassword.IsEnabled = Settings.Instance.DBPassword != null;
             loaded = true;
         }
@@ -50,6 +51,16 @@ namespace Vault
         private void StartHided_Unchecked(object sender, RoutedEventArgs e)
         {
             if (loaded) Settings.Instance.StartHided = false;
+        }
+
+        private void HideOnClose_Checked(object sender, RoutedEventArgs e)
+        {
+            if (loaded) Settings.Instance.HideOnClose = true;
+        }
+
+        private void HideOnClose_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (loaded) Settings.Instance.HideOnClose = false;
         }
 
         private void RememberDBPassword_Unchecked(object sender, RoutedEventArgs e)

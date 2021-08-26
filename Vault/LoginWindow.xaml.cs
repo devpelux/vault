@@ -1,5 +1,5 @@
 ﻿using FullControls.SystemComponents;
-using System.ComponentModel;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -14,8 +14,7 @@ namespace Vault
     public partial class LoginWindow : FlexWindow
     {
         private int attempt = 0;
-        private bool minimizeInTrayOnClose = true;
-        private bool disposeSession = true;
+
 
         public LoginWindow()
         {
@@ -29,51 +28,18 @@ namespace Vault
                 Username.Text = Settings.Instance.User;
                 Remember.IsChecked = true;
             }
+            TrayIcon.Instance.WindowToShow = null;
         }
 
-        private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_CloseCommandExecuting(object sender, EventArgs e)
         {
-            if (disposeSession) Session.Instance.Dispose();
+            if (Settings.Instance.HideOnClose == true) TrayIcon.Instance.WindowToShow = nameof(LoginWindow);
         }
 
-        private void Window_PreviewClose(object sender, CancelEventArgs e)
+        private void Window_Closed(object sender, EventArgs e)
         {
-            if (minimizeInTrayOnClose)
-            {
-                e.Cancel = true;
-                Hide();
-            }
+            if (TrayIcon.Instance.WindowToShow == null && Application.Current.Windows.Count == 0) Application.Current.Shutdown();
         }
-
-        private void Window_PreviewMinimize(object sender, CancelEventArgs e)
-        {
-            if (minimizeInTrayOnClose)
-            {
-                e.Cancel = true;
-                Hide();
-            }
-        }
-
-        #region NotifyIcon
-
-        private void CMShowLogin_Click(object sender, RoutedEventArgs e)
-        {
-            Show();
-        }
-
-        private void CMClose_Click(object sender, RoutedEventArgs e)
-        {
-            minimizeInTrayOnClose = false;
-            notifyIcon.Dispose();
-            Close();
-        }
-
-        private void NotifyIcon_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
-        {
-            Show();
-        }
-
-        #endregion
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
@@ -99,8 +65,6 @@ namespace Vault
 
         private void Register_Click(object sender, RoutedEventArgs e)
         {
-            minimizeInTrayOnClose = false;
-            notifyIcon.Dispose();
             new RegisterWindow().Show();
             Close();
         }
@@ -118,6 +82,7 @@ namespace Vault
                 byte[] hashPkey = salt.Concat(Encryptor.GenerateKey(pkey, salt)).ToArray();
                 if (user.Password.Equals(Encryptor.ConvertToString(hashPkey)))
                 {
+                    Session.ClearInstance();
                     Session.Instance.UserID = user.ID;
                     Session.Instance.Username = user.Username;
                     Session.Instance.Key = Encryptor.ConvertToBytes(Encryptor.Decrypt(user.Key, pkey));
@@ -125,10 +90,8 @@ namespace Vault
                     if (Remember.IsChecked == true) Settings.Instance.User = Session.Instance.Username;
                     else Settings.Instance.User = null;
 
-                    minimizeInTrayOnClose = false;
-                    disposeSession = false;
-                    notifyIcon.Dispose();
                     new Home().Show();
+                    TrayIcon.Instance.VaultStatus = VaultStatus.Unlocked;
                     Close();
                     return;
                 }

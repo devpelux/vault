@@ -23,8 +23,8 @@
                Icon="/Icons/VaultIcon.ico"
                WindowStartupLocation="CenterScreen"
                ResizeMode="NoResize"
-               Closed="Window_Closed"
-               Loaded="Window_Loaded">
+               Loaded="Window_Loaded"
+               Closed="Window_Closed">
     <Grid>
         <fc:CheckBoxPlus x:Name="AutoStart"
                          Style="{DynamicResource CheckBoxPlusDark}"
@@ -42,14 +42,22 @@
                          Margin="35,70,0,0"
                          Height="15"
                          Content="Avvia nascosto nella tray."
-                         IsEnabled="False"
                          Checked="StartHided_Checked"
                          Unchecked="StartHided_Unchecked"/>
+        <fc:CheckBoxPlus x:Name="HideOnClose"
+                         Style="{DynamicResource CheckBoxPlusDark}"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Margin="35,100,0,0"
+                         Height="15"
+                         Content="Nascondi nella tray alla chiusura."
+                         Checked="HideOnClose_Checked"
+                         Unchecked="HideOnClose_Unchecked"/>
         <fc:CheckBoxPlus x:Name="RememberDBPassword"
                          Style="{DynamicResource CheckBoxPlusDark}"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Top"
-                         Margin="35,120,0,0"
+                         Margin="35,130,0,0"
                          Height="15"
                          Content="Ricorda la password del database."
                          Unchecked="RememberDBPassword_Unchecked"/>
