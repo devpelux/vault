@@ -19,8 +19,8 @@ The entire database file is encrypted with sqlcipher encryption technology, and 
 
 ## Completely offline
 
-*"The only secure computer is a computer disconnected from the internet and shutdown!"*
-This application will never use internet to send or receive data, everything is made completely offline.
+*"The only secure computer is a computer disconnected from the internet and shutdown!"*  
+This application will never use internet to send or receive data, everything is made completely offline.  
 And you can move everything into an external pendrive and shutdown your pc.
 
 
@@ -28,7 +28,7 @@ And you can move everything into an external pendrive and shutdown your pc.
 <br><br>
 ### License
 Copyright (C) 2020-2021 devpelux (Salvatore Peluso)  
-Licensed under MIT license.   
+Licensed under MIT license.  
 
 [![mit](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/MIT_logo.svg/64px-MIT_logo.svg.png)][license]
 
