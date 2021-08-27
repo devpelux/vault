@@ -6,7 +6,7 @@
     <UseWPF>true</UseWPF>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <StartupObject>Vault.App</StartupObject>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
     <ApplicationIcon>Icons\VaultIcon.ico</ApplicationIcon>
     <Authors>Salvatore Peluso</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
