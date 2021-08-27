@@ -91,9 +91,10 @@ namespace Vault
 
         private void Lists_ItemIsExpandedChanged(object sender, ItemExpandedChangedEventArgs e)
         {
-            Category editedCategory = categories[e.Index] with { IsExpanded = e.IsExpanded };
-            categories[e.Index] = editedCategory;
+            int categoryID = (int)((Accordion)sender).Items[e.Index].Tag;
+            Category editedCategory = VaultDB.Instance.Categories.GetRecord(categoryID) with { IsExpanded = e.IsExpanded };
             VaultDB.Instance.Categories.UpdateRecord(editedCategory);
+            categories = VaultDB.Instance.Categories.GetRecords(UserID);
         }
 
         #region New element buttons
@@ -223,7 +224,7 @@ namespace Vault
             passwords = label is not null and not ""
                 ? PreDecryptAll(VaultDB.Instance.Passwords.GetRecords(UserID), Key).FindAll(p => p.Label.Contains(label, SearchType))
                 : PreDecryptAll(VaultDB.Instance.Passwords.GetRecords(UserID), Key);
-            PasswordList.Items = BuildVaultTreeViewItemSource(passwords, categories);
+            PasswordList.Items = GenerateAccordionItems(passwords, categories);
         }
 
         private void LoadCards(string label = "")
@@ -231,7 +232,7 @@ namespace Vault
             cards = label is not null and not ""
                 ? PreDecryptAll(VaultDB.Instance.Cards.GetRecords(UserID), Key).FindAll(c => c.Label.Contains(label, SearchType))
                 : PreDecryptAll(VaultDB.Instance.Cards.GetRecords(UserID), Key);
-            CardList.Items = BuildVaultTreeViewItemSource(cards, categories);
+            CardList.Items = GenerateAccordionItems(cards, categories);
         }
 
         private void LoadNotes(string title = "")
@@ -239,7 +240,7 @@ namespace Vault
             notes = title is not null and not ""
                 ? PreDecryptAll(VaultDB.Instance.Notes.GetRecords(UserID), Key).FindAll(n => n.Title.Contains(title, SearchType))
                 : PreDecryptAll(VaultDB.Instance.Notes.GetRecords(UserID), Key);
-            NoteList.Items = BuildVaultTreeViewItemSource(notes, categories);
+            NoteList.Items = GenerateAccordionItems(notes, categories);
         }
 
         private static List<T> PreDecryptAll<T>(List<T> list, byte[] key) where T : IDecryptable<T> => list.Select(d => d.PreDecrypt(key)).ToList();
@@ -251,7 +252,7 @@ namespace Vault
             else return CardList.FindResource("CardListDT") as DataTemplate;
         }
 
-        private AccordionItemCollection BuildVaultTreeViewItemSource<T>(List<T> list, List<Category> categories) where T : ICategorizable
+        private AccordionItemCollection GenerateAccordionItems<T>(List<T> list, List<Category> categories) where T : ICategorizable
         {
             AccordionItemCollection accordionItems = new();
 
@@ -266,7 +267,8 @@ namespace Vault
                         Header = cat.Label,
                         IsExpanded = cat.IsExpanded,
                         ItemsSource = categoryFiltered,
-                        ItemTemplate = GetListTemplate(list.GetType())
+                        ItemTemplate = GetListTemplate(list.GetType()),
+                        Tag = cat.ID
                     };
                     accordionItems.Add(item);
                 }
