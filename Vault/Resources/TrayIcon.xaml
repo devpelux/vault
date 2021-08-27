@@ -4,7 +4,7 @@
                     xmlns:core="clr-namespace:Vault.Core">
 
     <tb:TaskbarIcon x:Key="TrayIcon"
-                    ToolTipText="Vault"
+                    ToolTipText="{Binding ActualToolTipText}"
                     IconSource="{Binding ActualIcon}"
                     MenuActivation="RightClick"
                     PopupActivation="DoubleClick"
@@ -15,6 +15,8 @@
                                     UnlockedIcon="/Icons/VaultTrayIcon.ico"
                                     LockedContextMenu="{StaticResource TrayLockedContextMenu}"
                                     UnlockedContextMenu="{StaticResource TrayUnlockedContextMenu}"
+                                    LockedToolTipText="Vault - Bloccato"
+                                    UnlockedToolTipText="Vault - Sbloccato"
                                     VaultStatus="Undefined" />
         </tb:TaskbarIcon.DataContext>
     </tb:TaskbarIcon>

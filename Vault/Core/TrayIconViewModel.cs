@@ -8,41 +8,66 @@ namespace Vault.Core
 {
     public class TrayIconViewModel : INotifyPropertyChanged
     {
-        public Home HomeWindow { get; set; }
+        private VaultStatus _vaultStatus;
+
+        #region Commands
 
         public ICommand TrayActionShow { get; }
         public ICommand TrayActionLogout { get; }
         public ICommand TrayActionExit { get; }
 
+        #endregion
+
+        public Home HomeWindow { get; set; }
+
         public string WindowToShow { get; set; }
+
+        #region Icon
 
         public ImageSource LockedIcon { get; set; }
         public ImageSource UnlockedIcon { get; set; }
 
         public ImageSource ActualIcon { get; private set; }
 
+        #endregion
+
+        #region ContextMenu
+
         public ContextMenu LockedContextMenu { get; set; }
         public ContextMenu UnlockedContextMenu { get; set; }
 
         public ContextMenu ActualContextMenu { get; private set; }
 
-        private VaultStatus _vaultStatus;
+        #endregion
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        #region ToolTipText
+
+        public string LockedToolTipText { get; set; }
+        public string UnlockedToolTipText { get; set; }
+
+        public string ActualToolTipText { get; private set; }
+
+        #endregion
 
         public VaultStatus VaultStatus
         {
             get => _vaultStatus;
             set
             {
+                _vaultStatus = value;
+
                 ActualIcon = value == VaultStatus.Unlocked ? UnlockedIcon : LockedIcon;
                 ActualContextMenu = value == VaultStatus.Unlocked ? UnlockedContextMenu : LockedContextMenu;
-                _vaultStatus = value;
+                ActualToolTipText = value == VaultStatus.Unlocked ? UnlockedToolTipText : LockedToolTipText;
+                
                 OnPropertyChanged(nameof(VaultStatus));
                 OnPropertyChanged(nameof(ActualIcon));
                 OnPropertyChanged(nameof(ActualContextMenu));
+                OnPropertyChanged(nameof(ActualToolTipText));
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
 
         public TrayIconViewModel()
