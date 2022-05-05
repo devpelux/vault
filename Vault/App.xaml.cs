@@ -1,7 +1,7 @@
-﻿using FullControls.Extra;
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using Vault.Core;
+using WpfCoreTools;
 
 namespace Vault
 {
@@ -12,7 +12,7 @@ namespace Vault
     {
         internal const string Name = "Vault";
         internal const string FileName = "Vault.exe";
-        internal static readonly string Directory = Tools.GetExecutingDirectory().FullName;
+        internal static readonly string Directory = SystemUtils.GetExecutingDirectory().FullName;
         internal static readonly string FullName = Path.Combine(Directory, FileName);
 
 

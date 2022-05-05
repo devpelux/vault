@@ -5,13 +5,14 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using Vault.Core;
+using WpfCoreTools;
 
 namespace Vault
 {
     /// <summary>
     /// Finestra per la modifica delle password memorizzate.
     /// </summary>
-    public partial class PasswordWindow : FlexWindow, FullControls.Common.IDialog
+    public partial class PasswordWindow : FlexWindow, IDialog
     {
         private readonly Password password;
         private readonly List<Category> categories;

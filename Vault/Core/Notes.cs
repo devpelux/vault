@@ -7,7 +7,7 @@ namespace Vault.Core
     public class Notes : ITable
     {
         private readonly VaultDB VaultDB;
-        
+
         public const int NewID = -1;
         public const int InvalidID = -1;
 

@@ -5,13 +5,14 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using Vault.Core;
+using WpfCoreTools;
 
 namespace Vault
 {
     /// <summary>
     /// Finestra di conferma password.
     /// </summary>
-    public partial class KeyWindow : FlexWindow, FullControls.Common.IDialog
+    public partial class KeyWindow : FlexWindow, IDialog
     {
         private int attempt = 0;
 

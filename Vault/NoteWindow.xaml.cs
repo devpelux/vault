@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using Vault.Core;
+using WpfCoreTools;
 
 namespace Vault
 {
     /// <summary>
     /// Finestra per la modifica delle note memorizzate.
     /// </summary>
-    public partial class NoteWindow : FlexWindow, FullControls.Common.IDialog
+    public partial class NoteWindow : FlexWindow, IDialog
     {
         private readonly Note note;
         private readonly List<Category> categories;

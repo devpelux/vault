@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using Vault.Core;
+using WpfCoreTools;
 
 namespace Vault
 {
@@ -95,7 +96,7 @@ namespace Vault
                 _ = new DialogWindow(new MessageWindow("La password è errata o il file di dati è corrotto!", "Errore", MessageBoxImage.Exclamation)).Show();
             }
         }
-        
+
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             Close();

@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:fce="http://devpelux.github.io/fullcontrols/extra">
+                    xmlns:wct="http://devpelux.github.io/wpfcoretools">
 
-    <fce:ClipConverter x:Key="EqualClipConverter" />
+    <wct:ClipConverter x:Key="EqualClipConverter" />
 
 </ResourceDictionary>

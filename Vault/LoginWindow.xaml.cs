@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using Vault.Core;
+using WpfCoreTools;
 
 namespace Vault
 {

@@ -5,13 +5,14 @@ using System.ComponentModel;
 using System.Windows;
 using Vault.Core;
 using Vault.CustomControls;
+using WpfCoreTools;
 
 namespace Vault
 {
     /// <summary>
     /// Finestra per la gestione delle categorie.
     /// </summary>
-    public partial class CategoriesWindow : FullWindow, FullControls.Common.IDialog
+    public partial class CategoriesWindow : FullWindow, IDialog
     {
         private List<Category> categories;
 

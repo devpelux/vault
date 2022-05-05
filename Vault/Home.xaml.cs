@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Vault.Core;
 using Vault.CustomControls;
+using WpfCoreTools;
 
 namespace Vault
 {

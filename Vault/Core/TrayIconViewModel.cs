@@ -59,7 +59,7 @@ namespace Vault.Core
                 ActualIcon = value == VaultStatus.Unlocked ? UnlockedIcon : LockedIcon;
                 ActualContextMenu = value == VaultStatus.Unlocked ? UnlockedContextMenu : LockedContextMenu;
                 ActualToolTipText = value == VaultStatus.Unlocked ? UnlockedToolTipText : LockedToolTipText;
-                
+
                 OnPropertyChanged(nameof(VaultStatus));
                 OnPropertyChanged(nameof(ActualIcon));
                 OnPropertyChanged(nameof(ActualContextMenu));

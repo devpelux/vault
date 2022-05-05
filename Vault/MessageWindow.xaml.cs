@@ -4,13 +4,14 @@ using System.ComponentModel;
 using System.Media;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using WpfCoreTools;
 
 namespace Vault
 {
     /// <summary>
     /// Finestra di messaggio.
     /// </summary>
-    public partial class MessageWindow : FlexWindow, FullControls.Common.IDialog
+    public partial class MessageWindow : FlexWindow, IDialog
     {
         private string Message { get; set; }
         private MessageBoxImage IconType { get; set; }
@@ -28,7 +29,7 @@ namespace Vault
             {
                 Height = 210;
                 Width = 342;
-                message = message.Substring(0, Math.Min(130, message.Length));
+                message = message[..Math.Min(130, message.Length)];
             }
             Message = message;
             IconType = iconType;
