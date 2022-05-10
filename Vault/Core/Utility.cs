@@ -1,7 +1,9 @@
 ﻿using FullControls.Controls;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Security;
 using System.Windows;
+using Vault.Core.Database.Data;
 
 namespace Vault.Core
 {
@@ -15,7 +17,7 @@ namespace Vault.Core
                 ComboBoxItemPlus comboBoxItem = new()
                 {
                     Style = style,
-                    Content = category.Label
+                    Content = category.Name
                 };
                 comboBox.Items.Add(comboBoxItem);
             }
@@ -27,6 +29,11 @@ namespace Vault.Core
             string hashPassword1 = Encryptor.ConvertToString(Encryptor.GenerateKey(password1, salt, 1000));
             string hashPassword2 = Encryptor.ConvertToString(Encryptor.GenerateKey(password2, salt, 1000));
             return hashPassword1.Equals(hashPassword2);
+        }
+
+        public static T ConvertFromString<T>(string str)
+        {
+            return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(str);
         }
     }
 }
