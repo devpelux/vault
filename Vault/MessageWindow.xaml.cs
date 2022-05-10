@@ -1,6 +1,5 @@
 ﻿using FullControls.SystemComponents;
 using System;
-using System.ComponentModel;
 using System.Media;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -9,19 +8,18 @@ using WpfCoreTools;
 namespace Vault
 {
     /// <summary>
-    /// Finestra di messaggio.
+    /// Window for dialog boxes.
     /// </summary>
-    public partial class MessageWindow : FlexWindow, IDialog
+    public partial class MessageWindow : AvalonWindow, IDialog
     {
         private string Message { get; set; }
         private MessageBoxImage IconType { get; set; }
 
-        private object Result = null;
+        private object? Result = null;
 
-        public const string NONE = "MessageWindow.NONE";
-        public const string OK = "MessageWindow.OK";
-
-
+        /// <summary>
+        /// Initializes a new <see cref="MessageWindow"/> with a message, a title, and an icon type.
+        /// </summary>
         public MessageWindow(string message, string title, MessageBoxImage iconType)
         {
             InitializeComponent();
@@ -36,13 +34,13 @@ namespace Vault
             Title = title;
         }
 
-        public object GetResult() => Result;
+        /// <inheritdoc/>
+        public object? GetResult() => Result;
 
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            if (Result == null) Result = NONE;
-        }
-
+        /// <summary>
+        /// Executed when the window is loaded.
+        /// Loads the icon and plays the relative sound.
+        /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             MessageViewer.Text = Message;
@@ -83,9 +81,13 @@ namespace Vault
             }
         }
 
+        /// <summary>
+        /// Executed when the ok button is clicked.
+        /// Sets the result to "ok", then closes the window.
+        /// </summary>
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
-            Result = OK;
+            Result = "ok";
             Close();
         }
     }
