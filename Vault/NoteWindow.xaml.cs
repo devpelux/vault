@@ -1,50 +1,51 @@
 ﻿using FullControls.SystemComponents;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows;
 using Vault.Core;
+using Vault.Core.Database;
+using Vault.Core.Database.Data;
 using WpfCoreTools;
 
 namespace Vault
 {
     /// <summary>
-    /// Finestra per la modifica delle note memorizzate.
+    /// Window for display and edit a note.
     /// </summary>
-    public partial class NoteWindow : FlexWindow, IDialog
+    public partial class NoteWindow : AvalonWindow, IDialog
     {
-        private readonly Note note;
+        private readonly Note? note;
         private readonly List<Category> categories;
 
-        private object Result = null;
+        private object? Result = null;
 
-        public const string NONE = "NoteWindow.NONE";
-        public const string EDIT = "NoteWindow.EDIT";
-
-
-        public NoteWindow(Note note, List<Category> categories)
+        /// <summary>
+        /// Initializes a new <see cref="NoteWindow"/> with the specified note.
+        /// If the note is null, the window will create a new note, otherwise will display and edit the specified note.
+        /// </summary>
+        public NoteWindow(Note? note)
         {
             InitializeComponent();
-            this.note = note?.Decrypt(Session.Instance.Key);
-            this.categories = categories;
+            this.note = note;
+            categories = DB.Instance.Categories.GetAll();
         }
 
-        public object GetResult() => Result;
+        /// <inheritdoc/>
+        public object? GetResult() => Result;
 
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            if (Result == null) Result = NONE;
-        }
-
+        /// <summary>
+        /// Executed when the window is loaded.
+        /// Loads the note details.
+        /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Utility.LoadCategoryItems(NoteCategory, (Style)FindResource("ComboBoxItemPlusDark"), categories);
+            Utility.LoadCategoryItems(NoteCategory, (Style)FindResource("DarkComboBoxItemPlus"), categories);
             if (note != null)
             {
-                NoteRequestKey.IsChecked = note.RequestKey;
+                NoteRequestKey.IsChecked = note.IsLocked;
                 NoteTitle.Text = note.Title;
-                NoteSubtitle.Text = note.Subtitle;
                 NoteText.Text = note.Text;
-                NoteCategory.SelectedIndex = categories.FindIndex(c => c.ID == note.Category);
+                NoteCategory.SelectedIndex = categories.FindIndex(category => category.Name == note.Category);
                 Delete.Visibility = Visibility.Visible;
             }
             else
@@ -54,51 +55,71 @@ namespace Vault
             }
         }
 
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            Result = NONE;
-            Close();
-        }
+        /// <summary>
+        /// Executed when the cancel button is clicked.
+        /// Closes the window.
+        /// </summary>
+        private void Cancel_Click(object sender, RoutedEventArgs e) => Close();
 
+        /// <summary>
+        /// Executed when the ok button is clicked.
+        /// Edits the note if is not null, otherwise creates a new note.
+        /// </summary>
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
-            if (note == null) AddElement();
-            else EditElement();
-            Result = EDIT;
+            if (note == null) AddNote();
+            else EditNote();
+
+            Result = "edit";
             Close();
         }
 
-        private void AddElement()
+        /// <summary>
+        /// Adds a new note.
+        /// </summary>
+        private void AddNote()
         {
-            Note note = new(
-                    Passwords.NewID,
-                    Session.Instance.UserID,
-                    categories[NoteCategory.SelectedIndex].ID,
-                    NoteRequestKey.IsChecked ?? false,
-                    NoteTitle.Text,
-                    NoteSubtitle.Text,
-                    NoteText.Text
-                );
-            VaultDB.Instance.Notes.AddRecord(note.Encrypt(Session.Instance.Key));
+            string category = categories[NoteCategory.SelectedIndex].Name;
+            string title = NoteTitle.Text;
+            string text = NoteText.Text;
+            long timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+            bool isLocked = NoteRequestKey.IsChecked ?? false;
+
+            Note newNote = new(category, title, text, timestamp, isLocked);
+
+            DB.Instance.Notes.Add(newNote);
         }
 
-        private void EditElement()
+        /// <summary>
+        /// Edit the note.
+        /// </summary>
+        private void EditNote()
         {
-            Note editedNote = note with
-            {
-                Category = categories[NoteCategory.SelectedIndex].ID,
-                RequestKey = NoteRequestKey.IsChecked ?? false,
-                Title = NoteTitle.Text,
-                Subtitle = NoteSubtitle.Text,
-                Text = NoteText.Text
-            };
-            VaultDB.Instance.Notes.UpdateRecord(editedNote.Encrypt(Session.Instance.Key));
+            if (note == null) return;
+
+            int id = note.Id;
+            string category = categories[NoteCategory.SelectedIndex].Name;
+            string title = NoteTitle.Text;
+            string text = NoteText.Text;
+            long timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+            bool isLocked = NoteRequestKey.IsChecked ?? false;
+
+            Note newNote = new(id, category, title, text, timestamp, isLocked);
+
+            DB.Instance.Notes.Update(newNote);
         }
 
+        /// <summary>
+        /// Executed when the delete button is clicked.
+        /// Deletes the note if is not null.
+        /// </summary>
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            VaultDB.Instance.Notes.RemoveRecord(note.ID);
-            Result = EDIT;
+            if (note == null) return;
+
+            DB.Instance.Notes.Remove(note.Id);
+
+            Result = "edit";
             Close();
         }
     }
