@@ -56,11 +56,12 @@ namespace Vault.Core.Settings
         public bool IsLoaded => settings != null;
 
         /// <summary>
-        /// Sets the setting with the specified key to the specified value.
+        /// Sets the setting with the specified key to the specified value. (null to remove the setting)
         /// </summary>
-        public void SetSetting(string key, object value)
+        public void SetSetting(string key, object? value)
         {
-            settings?.Set(key, value);
+            if (value != null) settings?.Set(key, value);
+            else settings?.Remove(key);
         }
 
         /// <summary>

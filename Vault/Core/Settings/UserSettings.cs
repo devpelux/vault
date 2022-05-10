@@ -37,12 +37,16 @@ namespace Vault.Core.Settings
         /// <summary>
         /// Sets the setting with the specified key to the specified value.
         /// </summary>
-        public void SetSetting(string key, object value)
+        public void SetSetting(string key, object? value)
         {
-            UserSetting setting = new(key, value.ToString() ?? string.Empty);
+            if (value != null)
+            {
+                UserSetting setting = new(key, value.ToString() ?? string.Empty);
 
-            if (DB.Instance.UserSettings.Exists(key)) DB.Instance.UserSettings.Update(setting);
-            else DB.Instance.UserSettings.Add(setting);
+                if (DB.Instance.UserSettings.Exists(key)) DB.Instance.UserSettings.Update(setting);
+                else DB.Instance.UserSettings.Add(setting);
+            }
+            else DB.Instance.UserSettings.Remove(key);
         }
 
         /// <summary>

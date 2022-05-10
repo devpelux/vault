@@ -23,6 +23,9 @@ namespace Vault.Core.Database.Tables
             SqliteCommand query = new(command, DB.Connection);
             query.Prepare();
             query.ExecuteNonQuery();
+
+            //Adds the default category.
+            Add(new("None", false));
         }
 
         /// <inheritdoc/>

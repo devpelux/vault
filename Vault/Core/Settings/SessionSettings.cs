@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Vault.Core.Settings
 {
     /// <summary>
     /// Settings singleton that manages loading and saving the current session settings for the user.
     /// </summary>
-    public class SessionSettings
+    public sealed class SessionSettings : IDisposable
     {
         private readonly Dictionary<string, string> settings = new();
 
@@ -36,11 +37,18 @@ namespace Vault.Core.Settings
         #endregion
 
         /// <summary>
-        /// Sets the setting with the specified key to the specified value.
+        /// Sets the setting with the specified key to the specified value. (null to remove the setting)
         /// </summary>
-        public void SetSetting(string key, object value)
+        public void SetSetting(string key, object? value)
         {
-            settings.Add(key, value.ToString() ?? string.Empty);
+            if (value != null)
+            {
+                string setting = value.ToString() ?? string.Empty;
+
+                if (settings.ContainsKey(key)) settings[key] = setting;
+                else settings.Add(key, setting);
+            }
+            else settings.Remove(key);
         }
 
         /// <summary>
@@ -59,5 +67,10 @@ namespace Vault.Core.Settings
         /// Clears the settings.
         /// </summary>
         public void Clear() => settings.Clear();
+
+        /// <summary>
+        /// Clears the settings.
+        /// </summary>
+        public void Dispose() => Clear();
     }
 }

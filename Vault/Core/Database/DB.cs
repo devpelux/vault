@@ -37,6 +37,11 @@ namespace Vault.Core.Database
         /// </summary>
         public bool IsConnected => Connection != null;
 
+        /// <summary>
+        /// Gets the connection exception if there was a connection error.
+        /// </summary>
+        public Exception? ConnectionException { get; }
+
         #region Tables
 
         /// <summary>
@@ -121,7 +126,7 @@ namespace Vault.Core.Database
         private DB(DBContext? context)
         {
             //Checks if the information needed to connect to the database are present.
-            if (context == null) throw new ArgumentNullException("The database context cannot be null!");
+            if (context == null) throw new ArgumentNullException(nameof(context), "The database context cannot be null!");
 
             //Saves the connection info.
             CurrentContext = context;
@@ -139,10 +144,10 @@ namespace Vault.Core.Database
                 InitializeTables();
                 UpdateDatabase(Version, GetVersion());
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Dispose();
-                throw;
+                ConnectionException = e;
             }
         }
 
