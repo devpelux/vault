@@ -1,8 +1,9 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
 using System;
 using System.Windows;
+using Vault.Core;
 
-namespace Vault.Core
+namespace Vault.Controls
 {
     public sealed class TrayIcon : IDisposable
     {

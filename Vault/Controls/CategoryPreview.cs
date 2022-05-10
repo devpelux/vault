@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Vault.CustomControls
+namespace Vault.Controls
 {
     public class CategoryPreview : Control
     {
@@ -64,7 +64,7 @@ namespace Vault.CustomControls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            TextBox textBox = ((TextBox)Template.FindName("TextBox", this));
+            TextBox textBox = (TextBox)Template.FindName("TextBox", this);
             ((Button)Template.FindName("Button", this)).Click += (s, e) =>
             {
                 EditMode = true;

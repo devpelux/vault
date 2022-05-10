@@ -3,8 +3,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Vault.Core;
 
-namespace Vault.Core
+namespace Vault.Controls
 {
     public class TrayIconViewModel : INotifyPropertyChanged
     {
