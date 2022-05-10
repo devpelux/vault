@@ -40,6 +40,7 @@ namespace Vault
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Utility.LoadCategoryItems(NoteCategory, (Style)FindResource("DarkComboBoxItemPlus"), categories);
+
             if (note != null)
             {
                 NoteRequestKey.IsChecked = note.IsLocked;

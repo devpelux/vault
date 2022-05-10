@@ -1,57 +1,58 @@
 ﻿using FullControls.Controls;
 using FullControls.SystemComponents;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using Vault.Core;
+using Vault.Core.Database;
+using Vault.Core.Database.Data;
 using WpfCoreTools;
 
 namespace Vault
 {
     /// <summary>
-    /// Finestra per la modifica delle carte memorizzate.
+    /// Window for display and edit a card.
     /// </summary>
-    public partial class CardWindow : FlexWindow, IDialog
+    public partial class CardWindow : AvalonWindow, IDialog
     {
-        private readonly Card card;
+        private readonly Card? card;
         private readonly List<Category> categories;
 
-        private object Result = null;
+        private object? Result = null;
 
-        public const string NONE = "CardWindow.NONE";
-        public const string EDIT = "CardWindow.EDIT";
-
-
-        public CardWindow(Card card, List<Category> categories)
+        /// <summary>
+        /// Initializes a new <see cref="NoteWindow"/> with the specified note.
+        /// If the note is null, the window will create a new note, otherwise will display and edit the specified note.
+        /// </summary>
+        public CardWindow(Card? card)
         {
             InitializeComponent();
-            this.card = card?.Decrypt(Session.Instance.Key);
-            this.categories = categories;
+            this.card = card;
+            categories = DB.Instance.Categories.GetAll();
         }
 
-        public object GetResult() => Result;
+        /// <inheritdoc/>
+        public object? GetResult() => Result;
 
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            if (Result == null) Result = NONE;
-        }
-
+        /// <summary>
+        /// Executed when the window is loaded.
+        /// Loads the card details.
+        /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Utility.LoadCategoryItems(CardCategory, (Style)FindResource("ComboBoxItemPlusDark"), categories);
+            Utility.LoadCategoryItems(CardCategory, (Style)FindResource("DarkComboBoxItemPlus"), categories);
+
             if (card != null)
             {
-                CardRequestKey.IsChecked = card.RequestKey;
-                CardLabel.Text = card.Label;
-                CardDescription.Text = card.Description;
+                CardRequestKey.IsChecked = card.IsLocked;
+                CardLabel.Text = card.Name;
                 CardOwner.Text = card.Owner;
                 CardType.Text = card.Type;
                 CardNumber.Text = card.Number;
-                CardSecureCode.Text = card.SecureCode;
-                CardExpiration.Text = card.Expiration;
-                CardNote.Text = card.Note;
-                CardCategory.SelectedIndex = categories.FindIndex(c => c.ID == card.Category);
+                CardSecureCode.Text = card.Cvv;
+                CardExpiration.Text = "";
+                CardNote.Text = card.Notes;
+                CardCategory.SelectedIndex = categories.FindIndex(category => category.Name == card.Category);
                 Delete.Visibility = Visibility.Visible;
             }
             else
@@ -102,61 +103,81 @@ namespace Vault
 
         #endregion
 
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            Result = NONE;
-            Close();
-        }
+        /// <summary>
+        /// Executed when the cancel button is clicked.
+        /// Closes the window.
+        /// </summary>
+        private void Cancel_Click(object sender, RoutedEventArgs e) => Close();
 
+        /// <summary>
+        /// Executed when the ok button is clicked.
+        /// Edits the card if is not null, otherwise creates a new card.
+        /// </summary>
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
-            if (card == null) AddElement();
-            else EditElement();
-            Result = EDIT;
+            if (card == null) AddCard();
+            else EditCard();
+
+            Result = "edit";
             Close();
         }
 
-        private void AddElement()
+        /// <summary>
+        /// Adds a new card.
+        /// </summary>
+        private void AddCard()
         {
-            Card card = new(
-                    Cards.NewID,
-                    Session.Instance.UserID,
-                    categories[CardCategory.SelectedIndex].ID,
-                    CardRequestKey.IsChecked ?? false,
-                    CardLabel.Text,
-                    CardDescription.Text,
-                    CardOwner.Text,
-                    CardType.Text,
-                    CardNumber.Text,
-                    CardSecureCode.Text,
-                    CardExpiration.Text,
-                    CardNote.Text
-                );
-            VaultDB.Instance.Cards.AddRecord(card.Encrypt(Session.Instance.Key));
+            string category = categories[CardCategory.SelectedIndex].Name;
+            string name = CardLabel.Text;
+            string owner = CardOwner.Text;
+            string number = CardNumber.Text;
+            string type = CardType.Text;
+            string cvv = CardSecureCode.Text;
+            string? iban = null;
+            long expiration = -1; //CardExpiration.Text;
+            string? notes = CardNote.Text;
+            bool isLocked = CardRequestKey.IsChecked ?? false;
+
+            Card newCard = new(category, name, owner, number, type, cvv, iban, expiration, notes, isLocked);
+
+            DB.Instance.Cards.Add(newCard);
         }
 
-        private void EditElement()
+        /// <summary>
+        /// Edit the card.
+        /// </summary>
+        private void EditCard()
         {
-            Card editedCard = card with
-            {
-                Category = categories[CardCategory.SelectedIndex].ID,
-                RequestKey = CardRequestKey.IsChecked ?? false,
-                Label = CardLabel.Text,
-                Description = CardDescription.Text,
-                Owner = CardOwner.Text,
-                Type = CardType.Text,
-                Number = CardNumber.Text,
-                SecureCode = CardSecureCode.Text,
-                Expiration = CardExpiration.Text,
-                Note = CardNote.Text
-            };
-            VaultDB.Instance.Cards.UpdateRecord(editedCard.Encrypt(Session.Instance.Key));
+            if (card == null) return;
+
+            int id = card.Id;
+            string category = categories[CardCategory.SelectedIndex].Name;
+            string name = CardLabel.Text;
+            string owner = CardOwner.Text;
+            string number = CardNumber.Text;
+            string type = CardType.Text;
+            string cvv = CardSecureCode.Text;
+            string? iban = null;
+            long expiration = -1; //CardExpiration.Text;
+            string? notes = CardNote.Text;
+            bool isLocked = CardRequestKey.IsChecked ?? false;
+
+            Card newCard = new(id, category, name, owner, number, type, cvv, iban, expiration, notes, isLocked);
+
+            DB.Instance.Cards.Update(newCard);
         }
 
+        /// <summary>
+        /// Executed when the delete button is clicked.
+        /// Deletes the note if is not null.
+        /// </summary>
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            VaultDB.Instance.Cards.RemoveRecord(card.ID);
-            Result = EDIT;
+            if (card == null) return;
+
+            DB.Instance.Cards.Remove(card.Id);
+
+            Result = "edit";
             Close();
         }
     }

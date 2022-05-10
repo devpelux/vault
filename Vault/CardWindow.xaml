@@ -1,35 +1,23 @@
-﻿<fc:FlexWindow x:Class="Vault.CardWindow"
-               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-               xmlns:fc="http://devpelux.github.io/fullcontrols"
-               xmlns:core="clr-namespace:Vault.Core"
-               mc:Ignorable="d"
-               Title="Carta"
-               Height="644"
-               Width="312"
-               Foreground="{DynamicResource WindowForeground}"
-               ForegroundOnActive="{DynamicResource WindowForeground}"
-               CornerRadius="{DynamicResource WindowCornerRadius}"
-               Background="{DynamicResource WindowBackground}"
-               BorderBrush="{DynamicResource WindowBorderBrush}"
-               BorderBrushOnActive="{DynamicResource WindowBorderBrushOnActive}"
-               TitlebarBackground="{DynamicResource WindowBackground}"
-               TitlebarBackgroundOnActive="{DynamicResource WindowBackground}"
-               MinimizeButtonStyle="{DynamicResource CaptionButtonStyleDark}"
-               MaximizeButtonStyle="{DynamicResource CaptionButtonStyleDark}"
-               RestoreButtonStyle="{DynamicResource CaptionButtonStyleDark}"
-               CloseButtonStyle="{DynamicResource CaptionCloseButtonStyleDark}"
-               Icon="/Icons/VaultIcon.ico"
-               WindowStartupLocation="CenterScreen"
-               ResizeMode="NoResize"
-               Loaded="Window_Loaded"
-               Closing="Window_Closing">
+﻿<fc:AvalonWindow x:Class="Vault.CardWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:fc="http://devpelux.github.io/fullcontrols"
+                 xmlns:core="clr-namespace:Vault.Core"
+                 mc:Ignorable="d"
+                 Style="{StaticResource DarkAvalonWindow}"
+                 Title="Carta"
+                 Height="644"
+                 Width="312"
+                 Icon="/Icons/VaultIcon.ico"
+                 WindowStartupLocation="CenterScreen"
+                 ResizeMode="NoResize"
+                 Loaded="Window_Loaded">
     <Grid>
         <fc:TextBoxPlus x:Name="CardLabel"
-                        Style="{DynamicResource TextBoxPlusDark}"
-                        ContextMenu="{DynamicResource FieldContextMenu}"
+                        Style="{StaticResource TextBoxPlusDark}"
+                        ContextMenu="{StaticResource FieldContextMenu}"
                         VerticalAlignment="Top"
                         Margin="0,25,0,0"
                         Height="35"
@@ -50,8 +38,8 @@
             </fc:TextBoxPlus.CommandBindings>
         </fc:TextBoxPlus>
         <fc:TextBoxPlus x:Name="CardType"
-                        Style="{DynamicResource TextBoxPlusDark}"
-                        ContextMenu="{DynamicResource FieldContextMenu}"
+                        Style="{StaticResource DarkTextBoxPlus}"
+                        ContextMenu="{StaticResource FieldContextMenu}"
                         VerticalAlignment="Top"
                         Margin="0,65,0,0"
                         Height="35"
@@ -72,8 +60,8 @@
             </fc:TextBoxPlus.CommandBindings>
         </fc:TextBoxPlus>
         <fc:TextBoxPlus x:Name="CardOwner"
-                        Style="{DynamicResource TextBoxPlusDark}"
-                        ContextMenu="{DynamicResource FieldContextMenu}"
+                        Style="{StaticResource DarkTextBoxPlus}"
+                        ContextMenu="{StaticResource FieldContextMenu}"
                         VerticalAlignment="Top"
                         Margin="0,115,0,0"
                         Height="35"
@@ -98,8 +86,8 @@
               Height="35"
               Width="260">
             <fc:TextBoxPlus x:Name="CardNumber"
-                            Style="{DynamicResource TextBoxPlusDark}"
-                            ContextMenu="{DynamicResource FieldContextMenu}"
+                            Style="{StaticResource DarkTextBoxPlus}"
+                            ContextMenu="{StaticResource FieldContextMenu}"
                             HorizontalAlignment="Left"
                             Width="175"
                             VerticalContentAlignment="Center"
@@ -119,8 +107,8 @@
                 </fc:TextBoxPlus.CommandBindings>
             </fc:TextBoxPlus>
             <fc:TextBoxPlus x:Name="CardSecureCode"
-                            Style="{DynamicResource TextBoxPlusDark}"
-                            ContextMenu="{DynamicResource FieldContextMenu}"
+                            Style="{StaticResource DarkTextBoxPlus}"
+                            ContextMenu="{StaticResource FieldContextMenu}"
                             HorizontalAlignment="Right"
                             Width="65"
                             VerticalContentAlignment="Center"
@@ -138,8 +126,8 @@
         </Grid>
 
         <fc:TextBoxPlus x:Name="CardExpiration"
-                        Style="{DynamicResource TextBoxPlusDark}"
-                        ContextMenu="{DynamicResource FieldContextMenu}"
+                        Style="{StaticResource DarkTextBoxPlus}"
+                        ContextMenu="{StaticResource FieldContextMenu}"
                         VerticalAlignment="Top"
                         Margin="0,195,0,0"
                         Height="35"
@@ -175,10 +163,10 @@
                        FontSize="16"/>
             <fc:ComboBoxPlus x:Name="CardCategory"
                              Grid.Column="1"
-                             Style="{DynamicResource ComboBoxPlusDark}"/>
+                             Style="{StaticResource DarkComboBoxPlus}"/>
         </Grid>
         <fc:TextBoxPlus x:Name="CardDescription"
-                        Style="{DynamicResource TextBoxPlusDark}"
+                        Style="{StaticResource DarkTextBoxPlus}"
                         VerticalAlignment="Top"
                         Margin="0,295,0,0"
                         Height="45"
@@ -193,7 +181,7 @@
                         MaxLines="2"
                         MaxLength="64"/>
         <fc:TextBoxPlus x:Name="CardNote"
-                        Style="{DynamicResource TextBoxPlusDark}"
+                        Style="{StaticResource DarkTextBoxPlus}"
                         VerticalAlignment="Top"
                         Margin="0,345,0,0"
                         Height="140"
@@ -205,7 +193,7 @@
                         MaxLines="8"
                         MaxLength="420"/>
         <fc:CheckBoxPlus x:Name="CardRequestKey"
-                         Style="{DynamicResource CheckBoxPlusDark}"
+                         Style="{StaticResource DarkCheckBoxPlus}"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Top"
                          Margin="54,500,0,0"
@@ -223,20 +211,20 @@
             </Grid.ColumnDefinitions>
             <fc:ButtonPlus x:Name="Ok"
                            Grid.Column="0"
-                           Style="{DynamicResource ButtonPlusDark}"
+                           Style="{StaticResource DarkButtonPlus}"
                            Content="SALVA"
                            Width="55"
                            Click="Ok_Click"/>
             <fc:ButtonPlus x:Name="Cancel"
                            Grid.Column="1"
-                           Style="{DynamicResource ButtonPlusDark}"
+                           Style="{StaticResource DarkButtonPlus}"
                            Content="ANNULLA"
                            Width="70"
                            Margin="20,0,0,0"
                            Click="Cancel_Click"/>
             <fc:ButtonPlus x:Name="Delete"
                            Grid.Column="2"
-                           Style="{DynamicResource DeleteButtonPlusDark}"
+                           Style="{StaticResource DarkButtonPlus}"
                            Content="&#xE74D;"
                            Width="34"
                            Margin="30,0,0,0"
@@ -246,4 +234,4 @@
         </Grid>
 
     </Grid>
-</fc:FlexWindow>
+</fc:AvalonWindow>
