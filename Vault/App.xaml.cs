@@ -39,8 +39,8 @@ namespace Vault
 
             TrayIcon.LoadInstance();
 
-            if (Settings.Instance.GetSetting<bool>("start_hided")) TrayIcon.Instance.WindowToShow = nameof(CredentialsWindow);
-            else new CredentialsWindow(CredentialsWindow.Action.Login).Show();
+            if (Settings.Instance.GetSetting("start_hided", false)) TrayIcon.Instance.WindowToShow = nameof(CredentialsWindow);
+            else new CredentialsWindow(CredentialsWindow.Request.Login).Show();
         }
 
         /// <summary>

@@ -12,7 +12,7 @@ using WpfCoreTools;
 namespace Vault
 {
     /// <summary>
-    /// Finestra delle credenziali.
+    /// Window for input the credentials.
     /// </summary>
     public partial class CredentialsWindow : AvalonWindow, IDialog
     {
@@ -48,10 +48,12 @@ namespace Vault
 
         /// <summary>
         /// Executed when the window is closed.
+        /// Shutdown the application if is the only window opened,
+        /// if is not requested to hide the app in the taskbar if there are no windows.
         /// </summary>
         private void Window_Closed(object sender, EventArgs e)
         {
-            if (CurrentRequest != Request.Reauthentication && !Settings.Instance.GetSetting<bool>("exit_explicit")) Application.Current.Shutdown();
+            if (CurrentRequest != Request.Reauthentication && !Settings.Instance.GetSetting("exit_explicit", true)) Application.Current.Shutdown();
         }
 
         /// <summary>

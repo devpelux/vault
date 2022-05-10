@@ -54,13 +54,13 @@ namespace Vault.Core.Settings
         /// <summary>
         /// Gets the setting with the specified key, if exists, null otherwise.
         /// </summary>
-        public TValue? GetSetting<TValue>(string key)
+        public TValue? GetSetting<TValue>(string key, TValue? defaultValue = default)
         {
             if (settings.ContainsKey(key))
             {
                 return Utility.ConvertFromString<TValue>(settings[key]);
             }
-            return default;
+            return defaultValue;
         }
 
         /// <summary>

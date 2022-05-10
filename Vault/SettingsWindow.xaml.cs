@@ -1,75 +1,81 @@
 ﻿using FullControls.SystemComponents;
 using System;
 using System.Windows;
-using Vault.Core;
+using Vault.Core.Settings;
 
 namespace Vault
 {
     /// <summary>
-    /// Finestra delle impostazioni.
+    /// Window for changing the settings.
     /// </summary>
-    public partial class SettingsWindow : FlexWindow
+    public partial class SettingsWindow : AvalonWindow
     {
         private bool loaded;
 
-
+        /// <summary>
+        /// Initializes a new <see cref="SettingsWindow"/>.
+        /// </summary>
         public SettingsWindow()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Executed when the window is loaded.
+        /// Loads all the editable settings values in the window.
+        /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (Settings.Instance.StartOnStartup.HasValue) AutoStart.IsChecked = Settings.Instance.StartOnStartup.Value;
+            if (SystemSettings.StartOnStartup.HasValue) AutoStart.IsChecked = SystemSettings.StartOnStartup.Value;
             else AutoStart.IsEnabled = false;
-            StartHided.IsChecked = Settings.Instance.StartHided;
-            HideOnClose.IsChecked = Settings.Instance.HideOnClose;
-            RememberDBPassword.IsChecked = RememberDBPassword.IsEnabled = Settings.Instance.DBPassword != null;
+
+            StartHided.IsChecked = Settings.Instance.GetSetting("start_hided", false);
+            HideOnClose.IsChecked = Settings.Instance.GetSetting("exit_explicit", true);
+
             loaded = true;
         }
 
+        /// <summary>
+        /// Executed when the window is closed.
+        /// Saves the settings.
+        /// </summary>
         private void Window_Closed(object sender, EventArgs e)
         {
             Settings.Instance.Save();
         }
 
+        #region Checkboxes for to change the settings
+
         private void AutoStart_Checked(object sender, RoutedEventArgs e)
         {
-            if (loaded) Settings.Instance.StartOnStartup = true;
+            if (loaded) SystemSettings.StartOnStartup = true;
         }
 
         private void AutoStart_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (loaded) Settings.Instance.StartOnStartup = false;
+            if (loaded) SystemSettings.StartOnStartup = false;
         }
 
         private void StartHided_Checked(object sender, RoutedEventArgs e)
         {
-            if (loaded) Settings.Instance.StartHided = true;
+            if (loaded) Settings.Instance.SetSetting("start_hided", true);
         }
 
         private void StartHided_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (loaded) Settings.Instance.StartHided = false;
+            if (loaded) Settings.Instance.SetSetting("start_hided", false);
         }
 
         private void HideOnClose_Checked(object sender, RoutedEventArgs e)
         {
-            if (loaded) Settings.Instance.HideOnClose = true;
+            if (loaded) Settings.Instance.SetSetting("exit_explicit", true);
         }
 
         private void HideOnClose_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (loaded) Settings.Instance.HideOnClose = false;
+            if (loaded) Settings.Instance.SetSetting("exit_explicit", false);
         }
 
-        private void RememberDBPassword_Unchecked(object sender, RoutedEventArgs e)
-        {
-            if (loaded)
-            {
-                Settings.Instance.DBPassword = null;
-                RememberDBPassword.IsEnabled = false;
-            }
-        }
+        #endregion
     }
 }

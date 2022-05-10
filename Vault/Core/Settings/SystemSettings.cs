@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 
-namespace Vault.Core.AppData
+namespace Vault.Core.Settings
 {
     /// <summary>
     /// Settings static class that manages loading and saving settings from the system registry.

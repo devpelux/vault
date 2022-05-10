@@ -52,7 +52,7 @@ namespace Vault.Core.Settings
         /// <summary>
         /// Gets the setting with the specified key, if exists, null otherwise.
         /// </summary>
-        public TValue? GetSetting<TValue>(string key)
+        public TValue? GetSetting<TValue>(string key, TValue? defaultValue = default)
         {
             UserSetting? setting = DB.Instance.UserSettings.Get(key);
 
@@ -60,7 +60,7 @@ namespace Vault.Core.Settings
             {
                 return Utility.ConvertFromString<TValue>(setting.Value);
             }
-            return default;
+            return defaultValue;
         }
     }
 }

@@ -67,9 +67,9 @@ namespace Vault.Core.Settings
         /// <summary>
         /// Gets the setting with the specified key, if exists, null otherwise.
         /// </summary>
-        public TValue? GetSetting<TValue>(string key)
+        public TValue? GetSetting<TValue>(string key, TValue? defaultValue = default)
         {
-            return settings != null ? settings.Get<TValue>(key) : default;
+            return settings != null ? settings.Get<TValue>(key) ?? defaultValue : defaultValue;
         }
 
         /// <summary>
