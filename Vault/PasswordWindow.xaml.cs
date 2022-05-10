@@ -11,23 +11,23 @@ using WpfCoreTools;
 namespace Vault
 {
     /// <summary>
-    /// Window for display and edit a card.
+    /// Window for display and edit a password.
     /// </summary>
-    public partial class CardWindow : AvalonWindow, IDialog
+    public partial class PasswordWindow : AvalonWindow, IDialog
     {
-        private readonly Card? card;
+        private readonly Password? password;
         private readonly List<Category> categories;
 
         private object? Result = null;
 
         /// <summary>
-        /// Initializes a new <see cref="CardWindow"/> with the specified card.
-        /// If the card is null, the window will create a new card, otherwise will display and edit the specified card.
+        /// Initializes a new <see cref="PasswordWindow"/> with the specified password.
+        /// If the password is null, the window will create a new password, otherwise will display and edit the specified password.
         /// </summary>
-        public CardWindow(Card? card)
+        public PasswordWindow(Password? password)
         {
             InitializeComponent();
-            this.card = card;
+            this.password = password;
             categories = DB.Instance.Categories.GetAll();
         }
 
@@ -36,28 +36,25 @@ namespace Vault
 
         /// <summary>
         /// Executed when the window is loaded.
-        /// Loads the card details.
+        /// Loads the password details.
         /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Utility.LoadCategoryItems(CardCategory, (Style)FindResource("DarkComboBoxItemPlus"), categories);
+            Utility.LoadCategoryItems(PasswordCategory, (Style)FindResource("DarkComboBoxItemPlus"), categories);
 
-            if (card != null)
+            if (password != null)
             {
-                CardRequestKey.IsChecked = card.IsLocked;
-                CardLabel.Text = card.Name;
-                CardOwner.Text = card.Owner;
-                CardType.Text = card.Type;
-                CardNumber.Text = card.Number;
-                CardSecureCode.Text = card.Cvv;
-                CardExpiration.Text = "";
-                CardNote.Text = card.Notes;
-                CardCategory.SelectedIndex = categories.FindIndex(category => category.Name == card.Category);
+                PasswordRequestKey.IsChecked = password.IsLocked;
+                PasswordLabel.Text = password.Account;
+                PasswordUsername.Text = password.Username;
+                PasswordKey.Password = password.Value;
+                PasswordNote.Text = password.Notes;
+                PasswordCategory.SelectedIndex = categories.FindIndex(category => category.Name == password.Category);
                 Delete.Visibility = Visibility.Visible;
             }
             else
             {
-                CardCategory.SelectedIndex = 0;
+                PasswordCategory.SelectedIndex = 0;
                 Delete.Visibility = Visibility.Collapsed;
             }
         }
@@ -111,71 +108,67 @@ namespace Vault
 
         /// <summary>
         /// Executed when the ok button is clicked.
-        /// Edits the card if is not null, otherwise creates a new card.
+        /// Edits the password if is not null, otherwise creates a new password.
         /// </summary>
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
-            if (card == null) AddCard();
-            else EditCard();
+            if (password == null) AddPassword();
+            else EditPassword();
 
             Result = "edit";
             Close();
         }
 
         /// <summary>
-        /// Adds a new card.
+        /// Adds a new password.
         /// </summary>
-        private void AddCard()
+        private void AddPassword()
         {
-            string category = categories[CardCategory.SelectedIndex].Name;
-            string name = CardLabel.Text;
-            string owner = CardOwner.Text;
-            string number = CardNumber.Text;
-            string type = CardType.Text;
-            string cvv = CardSecureCode.Text;
-            string? iban = null;
-            long expiration = -1; //CardExpiration.Text;
-            string? notes = CardNote.Text;
-            bool isLocked = CardRequestKey.IsChecked ?? false;
+            string category = categories[PasswordCategory.SelectedIndex].Name;
+            string account = PasswordLabel.Text;
+            long timestamp = -1;
+            string? username = PasswordUsername.Text;
+            string value = PasswordKey.Password;
+            string? notes = PasswordNote.Text;
+            bool isViolated = false;
+            bool isLocked = PasswordRequestKey.IsChecked ?? false;
 
-            Card newCard = new(category, name, owner, number, type, cvv, iban, expiration, notes, isLocked);
+            Password newPassword = new(category, account, timestamp, username, value, notes, isViolated, isLocked);
 
-            DB.Instance.Cards.Add(newCard);
+            DB.Instance.Passwords.Add(newPassword);
         }
 
         /// <summary>
-        /// Edit the card.
+        /// Edit the password.
         /// </summary>
-        private void EditCard()
+        private void EditPassword()
         {
-            if (card == null) return;
+            if (password == null) return;
 
-            int id = card.Id;
-            string category = categories[CardCategory.SelectedIndex].Name;
-            string name = CardLabel.Text;
-            string owner = CardOwner.Text;
-            string number = CardNumber.Text;
-            string type = CardType.Text;
-            string cvv = CardSecureCode.Text;
-            string? iban = null;
-            long expiration = -1; //CardExpiration.Text;
-            string? notes = CardNote.Text;
-            bool isLocked = CardRequestKey.IsChecked ?? false;
+            int id = password.Id;
+            string category = categories[PasswordCategory.SelectedIndex].Name;
+            string account = PasswordLabel.Text;
+            long timestamp = -1;
+            string? username = PasswordUsername.Text;
+            string value = PasswordKey.Password;
+            string? notes = PasswordNote.Text;
+            bool isViolated = false;
+            bool isLocked = PasswordRequestKey.IsChecked ?? false;
 
-            Card newCard = new(id, category, name, owner, number, type, cvv, iban, expiration, notes, isLocked);
+            Password newPassword = new(id, category, account, timestamp, username, value, notes, isViolated, isLocked);
 
-            DB.Instance.Cards.Update(newCard);
+            DB.Instance.Passwords.Update(newPassword);
         }
 
         /// <summary>
         /// Executed when the delete button is clicked.
-        /// Deletes the card if is not null.
+        /// Deletes the password if is not null.
         /// </summary>
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            if (card == null) return;
+            if (password == null) return;
 
-            DB.Instance.Cards.Remove(card.Id);
+            DB.Instance.Passwords.Remove(password.Id);
 
             Result = "edit";
             Close();
