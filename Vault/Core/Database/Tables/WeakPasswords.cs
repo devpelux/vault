@@ -10,6 +10,9 @@ namespace Vault.Core.Database.Tables
     public class WeakPasswords : Table
     {
         /// <inheritdoc/>
+        public WeakPasswords(DB db) : base(db) { }
+
+        /// <inheritdoc/>
         public override void Create()
         {
             string command = @"CREATE TABLE IF NOT EXISTS `WeakPasswords` ( `value` TEXT PRIMARY KEY );";

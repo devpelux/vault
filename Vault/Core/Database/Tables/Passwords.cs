@@ -11,6 +11,9 @@ namespace Vault.Core.Database.Tables
     public class Passwords : Table
     {
         /// <inheritdoc/>
+        public Passwords(DB db) : base(db) { }
+
+        /// <inheritdoc/>
         public override void Create()
         {
             string command =
@@ -18,10 +21,10 @@ namespace Vault.Core.Database.Tables
                     CREATE TABLE IF NOT EXISTS `Passwords` (
                     `id` INTEGER PRIMARY KEY AUTOINCREMENT,
                     `category` TEXT NOT NULL REFERENCES `Categories` ( `name` ) ON DELETE RESTRICT ON UPDATE CASCADE,
-                    `account` TEXT NOT NULL,
-                    `timestamp` INTEGER NOT NULL,
+                    `account` TEXT NOT NULL DEFAULT """",
+                    `timestamp` INTEGER NOT NULL DEFAULT -1,
                     `username` TEXT,
-                    `value` TEXT NOT NULL,
+                    `value` TEXT NOT NULL DEFAULT """",
                     `notes` TEXT,
                     `violated` INTEGER NOT NULL DEFAULT 0,
                     `locked` INTEGER NOT NULL DEFAULT 0

@@ -11,18 +11,21 @@ namespace Vault.Core.Database.Tables
     public class Reports : Table
     {
         /// <inheritdoc/>
+        public Reports(DB db) : base(db) { }
+
+        /// <inheritdoc/>
         public override void Create()
         {
             string command =
                 @"
                     CREATE TABLE IF NOT EXISTS `Reports` (
                     `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-                    `total` INTEGER NOT NULL,
-                    `duplicated` INTEGER NOT NULL,
-                    `weak` INTEGER NOT NULL,
-                    `old` INTEGER NOT NULL,
-                    `violated` INTEGER NOT NULL,
-                    `timestamp` INTEGER NOT NULL
+                    `total` INTEGER NOT NULL DEFAULT 0,
+                    `duplicated` INTEGER NOT NULL DEFAULT 0,
+                    `weak` INTEGER NOT NULL DEFAULT 0,
+                    `old` INTEGER NOT NULL DEFAULT 0,
+                    `violated` INTEGER NOT NULL DEFAULT 0,
+                    `timestamp` INTEGER NOT NULL DEFAULT -1
                     );
                 ";
             SqliteCommand query = new(command, DB.Connection);

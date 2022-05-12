@@ -11,12 +11,16 @@ namespace Vault.Core.Database.Tables
     public class Categories : Table
     {
         /// <inheritdoc/>
+        public Categories(DB db) : base(db) { }
+
+        /// <inheritdoc/>
         public override void Create()
         {
             string command =
                 @"
                     CREATE TABLE IF NOT EXISTS `Categories` (
                     `name` TEXT PRIMARY KEY,
+                    `label` TEXT NOT NULL DEFAULT """",
                     `expanded` INTEGER NOT NULL DEFAULT 0
                     );
                 ";
@@ -24,8 +28,8 @@ namespace Vault.Core.Database.Tables
             query.Prepare();
             query.ExecuteNonQuery();
 
-            //Adds the default category.
-            Add(new("None", false));
+            //Adds the default "none" category.
+            Add(Category.None);
         }
 
         /// <inheritdoc/>
@@ -50,13 +54,14 @@ namespace Vault.Core.Database.Tables
         {
             string command =
                 @"
-                    INSERT INTO `Categories` (`name`, `expanded`)
-                    VALUES (@name, @expanded);
+                    INSERT INTO `Categories` (`name`, `label`, `expanded`)
+                    VALUES (@name, @label, @expanded);
                 ";
             SqliteCommand query = new(command, DB.Connection);
 
             //Injects the record values into the query.
             query.Parameters.AddWithValue("@name", category.Name);
+            query.Parameters.AddWithValue("@label", category.Label);
             query.Parameters.AddWithValue("@expanded", category.IsExpanded);
 
             query.Prepare();
@@ -134,18 +139,27 @@ namespace Vault.Core.Database.Tables
         /// <summary>
         /// Updates the specified category, if exists.
         /// </summary>
-        public void UpdateRecord(Category category)
+        public void Update(Category category) => Update(category.Name, category);
+
+        /// <summary>
+        /// Updates the specified category, if exists.
+        /// </summary>
+        public void Update(string name, Category category)
         {
             string command =
                 @"
                     UPDATE `Categories`
-                    SET `expanded` = @expanded
+                    SET `name` = @newname,
+                        `label` = @label,
+                        `expanded` = @expanded
                     WHERE `name` = @name;
                 ";
             SqliteCommand query = new(command, DB.Connection);
 
             //Injects the record values into the query.
-            query.Parameters.AddWithValue("@name", category.Name);
+            query.Parameters.AddWithValue("@name", name);
+            query.Parameters.AddWithValue("@newname", category.Name);
+            query.Parameters.AddWithValue("@label", category.Label);
             query.Parameters.AddWithValue("@expanded", category.IsExpanded);
 
             query.Prepare();
@@ -186,6 +200,7 @@ namespace Vault.Core.Database.Tables
         /// </summary>
         private static Category ReadRecord(SqliteDataReader reader)
             => new(reader.GetString(0),
-                   reader.GetBoolean(1));
+                   reader.GetString(1),
+                   reader.GetBoolean(2));
     }
 }

@@ -136,7 +136,7 @@ namespace Vault.Core.Database
             try
             {
                 //Creates the directory of the database if not exists, then opens the connection.
-                Directory.CreateDirectory(CurrentContext.DatabasePath);
+                Directory.CreateDirectory(Path.GetDirectoryName(CurrentContext.DatabasePath) ?? string.Empty);
                 Connection = new SqliteConnection(CurrentContext.ConnectionString);
                 Connection.Open();
 
@@ -157,14 +157,14 @@ namespace Vault.Core.Database
 
         private void InitializeTables()
         {
-            _tables.Add(new Cards());
-            _tables.Add(new Categories());
-            _tables.Add(new Documents());
-            _tables.Add(new Notes());
-            _tables.Add(new Passwords());
-            _tables.Add(new Reports());
-            _tables.Add(new UserSettings());
-            _tables.Add(new WeakPasswords());
+            _tables.Add(new Cards(this));
+            _tables.Add(new Categories(this));
+            _tables.Add(new Documents(this));
+            _tables.Add(new Notes(this));
+            _tables.Add(new Passwords(this));
+            _tables.Add(new Reports(this));
+            _tables.Add(new UserSettings(this));
+            _tables.Add(new WeakPasswords(this));
         }
 
         /// <summary>
@@ -214,6 +214,11 @@ namespace Vault.Core.Database
             }
             _tables.Clear();
         }
+
+        /// <summary>
+        /// Disposes the current instance.
+        /// </summary>
+        public static void DisposeInstance() => _instance?.Dispose();
 
         /// <summary>
         /// Changes the password of the database.

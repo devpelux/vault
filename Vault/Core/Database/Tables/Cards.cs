@@ -11,6 +11,9 @@ namespace Vault.Core.Database.Tables
     public class Cards : Table
     {
         /// <inheritdoc/>
+        public Cards(DB db) : base(db) { }
+
+        /// <inheritdoc/>
         public override void Create()
         {
             string command =
@@ -18,13 +21,13 @@ namespace Vault.Core.Database.Tables
                     CREATE TABLE IF NOT EXISTS `Cards` (
                     `id` INTEGER PRIMARY KEY AUTOINCREMENT,
                     `category` TEXT NOT NULL REFERENCES `Categories` ( `name` ) ON DELETE RESTRICT ON UPDATE CASCADE,
-                    `name` TEXT NOT NULL,
-                    `owner` TEXT NOT NULL,
-                    `number` TEXT NOT NULL,
-                    `type` TEXT NOT NULL,
-                    `cvv` TEXT NOT NULL,
+                    `name` TEXT NOT NULL DEFAULT """",
+                    `owner` TEXT NOT NULL DEFAULT """",
+                    `number` TEXT NOT NULL DEFAULT """",
+                    `type` TEXT NOT NULL DEFAULT """",
+                    `cvv` TEXT NOT NULL DEFAULT """",
                     `iban` TEXT,
-                    `expiration` INTEGER NOT NULL,
+                    `expiration` INTEGER NOT NULL DEFAULT -1,
                     `notes` TEXT,
                     `locked` INTEGER NOT NULL DEFAULT 0
                     );

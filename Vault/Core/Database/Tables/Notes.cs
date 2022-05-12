@@ -11,6 +11,9 @@ namespace Vault.Core.Database.Tables
     public class Notes : Table
     {
         /// <inheritdoc/>
+        public Notes(DB db) : base(db) { }
+
+        /// <inheritdoc/>
         public override void Create()
         {
             string command =
@@ -18,9 +21,9 @@ namespace Vault.Core.Database.Tables
                     CREATE TABLE IF NOT EXISTS `Notes` (
                     `id` INTEGER PRIMARY KEY AUTOINCREMENT,
                     `category` TEXT NOT NULL REFERENCES `Categories` ( `name` ) ON DELETE RESTRICT ON UPDATE CASCADE,
-                    `title` TEXT NOT NULL,
-                    `text` TEXT NOT NULL,
-                    `timestamp` INTEGER NOT NULL,
+                    `title` TEXT NOT NULL DEFAULT """",
+                    `text` TEXT NOT NULL DEFAULT """",
+                    `timestamp` INTEGER NOT NULL DEFAULT -1,
                     `locked` INTEGER NOT NULL DEFAULT 0
                     );
                 ";

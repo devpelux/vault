@@ -8,12 +8,12 @@
         /// <summary>
         /// Database instance.
         /// </summary>
-        protected DB DB => DB.Instance;
+        protected DB DB { get; }
 
         /// <summary>
         /// Initializes a new table.
         /// </summary>
-        public Table() { }
+        public Table(DB db) => DB = db;
 
         /// <summary>
         /// Creates the table.

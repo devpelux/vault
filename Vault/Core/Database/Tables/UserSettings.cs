@@ -11,13 +11,16 @@ namespace Vault.Core.Database.Tables
     public class UserSettings : Table
     {
         /// <inheritdoc/>
+        public UserSettings(DB db) : base(db) { }
+
+        /// <inheritdoc/>
         public override void Create()
         {
             string command =
                 @"
                     CREATE TABLE IF NOT EXISTS `UserSettings` (
                     `key` TEXT PRIMARY KEY,
-                    `value` TEXT NOT NULL
+                    `value` TEXT NOT NULL DEFAULT """"
                     );
                 ";
             SqliteCommand query = new(command, DB.Connection);
@@ -104,6 +107,8 @@ namespace Vault.Core.Database.Tables
         /// </summary>
         public UserSetting? Get(string key)
         {
+            if (!TableExists()) return null;
+
             //Selects the setting with the specified key.
             string command = "SELECT * FROM `UserSettings` WHERE `key` = @key;";
             SqliteCommand query = new(command, DB.Connection);
@@ -167,6 +172,17 @@ namespace Vault.Core.Database.Tables
             SqliteCommand query = new(command, DB.Connection);
             query.Prepare();
             return Convert.ToInt32(query.ExecuteScalar());
+        }
+
+        /// <summary>
+        /// Checks if the table exists.
+        /// </summary>
+        public bool TableExists()
+        {
+            string tableCkeck = "SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name = 'UserSettings';";
+            SqliteCommand tableCkeckQuery = new(tableCkeck, DB.Connection);
+            tableCkeckQuery.Prepare();
+            return Convert.ToInt32(tableCkeckQuery.ExecuteScalar()) > 0;
         }
 
         /// <summary>
