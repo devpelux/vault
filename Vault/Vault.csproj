@@ -7,7 +7,7 @@
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <StartupObject>Vault.App</StartupObject>
-    <Version>0.3.0</Version>
+    <Version>0.4.0</Version>
     <ApplicationIcon>Icons\VaultIcon.ico</ApplicationIcon>
     <Authors>Salvatore Peluso</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -16,7 +16,7 @@
     <PackageProjectUrl>https://github.com/devpelux/vault</PackageProjectUrl>
     <Copyright>Copyright (C) 2020-2021 devpelux (Salvatore Peluso)</Copyright>
     <Description>Portable password manager open source and completely offline forever.</Description>
-    <PackageTags>vault password manager offline wpf</PackageTags>
+    <PackageTags>vault password-manager offline wpf sqlcipher</PackageTags>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
