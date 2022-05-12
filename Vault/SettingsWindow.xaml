@@ -6,41 +6,79 @@
                  xmlns:fc="http://devpelux.github.io/fullcontrols"
                  mc:Ignorable="d"
                  Style="{StaticResource DarkAvalonWindow}"
+                 TitleMargin="16,0,0,0"
                  Title="Impostazioni"
-                 Height="250"
+                 SizeToContent="Height"
                  Width="300"
-                 Icon="/Icons/VaultIcon.ico"
                  WindowStartupLocation="CenterScreen"
                  ResizeMode="NoResize"
                  Loaded="Window_Loaded"
                  Closed="Window_Closed">
-    <Grid>
-        <fc:CheckBoxPlus x:Name="AutoStart"
-                         Style="{StaticResource DarkCheckBoxPlus}"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Margin="35,40,0,0"
-                         Height="15"
-                         Content="Avvia all'avvio di windows."
-                         Checked="AutoStart_Checked"
-                         Unchecked="AutoStart_Unchecked"/>
-        <fc:CheckBoxPlus x:Name="StartHided"
-                         Style="{StaticResource DarkCheckBoxPlus}"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Margin="35,70,0,0"
-                         Height="15"
-                         Content="Avvia nascosto nella tray."
-                         Checked="StartHided_Checked"
-                         Unchecked="StartHided_Unchecked"/>
-        <fc:CheckBoxPlus x:Name="HideOnClose"
-                         Style="{StaticResource DarkCheckBoxPlus}"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Margin="35,100,0,0"
-                         Height="15"
-                         Content="Nascondi nella tray alla chiusura."
-                         Checked="HideOnClose_Checked"
-                         Unchecked="HideOnClose_Unchecked" />
+    
+    <Grid VerticalAlignment="Top">
+
+        <Grid VerticalAlignment="Top"
+              Margin="0,0,0,0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <fc:CheckBoxPlus x:Name="StartOnStartup"
+                             Style="{StaticResource DarkCheckBoxPlus}"
+                             Grid.Row="0"
+                             HorizontalAlignment="Left"
+                             Margin="24,24,24,0"
+                             Height="15"
+                             Content="Avvia all'avvio di windows"
+                             Checked="StartOnStartup_Checked"
+                             Unchecked="StartOnStartup_Unchecked" />
+
+            <TextBlock Grid.Row="1"
+                       HorizontalAlignment="Left"
+                       Margin="42,2,24,0"
+                       TextWrapping="Wrap"
+                       Text="L'applicazione verrà avviata subito dopo l'avvio di Windows."
+                       Foreground="Gray" />
+
+            <fc:CheckBoxPlus x:Name="StartHided"
+                             Style="{StaticResource DarkCheckBoxPlus}"
+                             Grid.Row="2"
+                             HorizontalAlignment="Left"
+                             Margin="24,16,24,0"
+                             Height="15"
+                             Content="Avvia nascosto"
+                             Checked="StartHided_Checked"
+                             Unchecked="StartHided_Unchecked" />
+
+            <TextBlock Grid.Row="3"
+                       HorizontalAlignment="Left"
+                       Margin="42,2,24,0"
+                       TextWrapping="Wrap"
+                       Text="L'applicazione verrà avviata nascosta nella tray."
+                       Foreground="Gray" />
+
+            <fc:CheckBoxPlus x:Name="ExitExplicit"
+                             Style="{StaticResource DarkCheckBoxPlus}"
+                             Grid.Row="4"
+                             HorizontalAlignment="Left"
+                             Margin="24,16,24,0"
+                             Height="15"
+                             Content="Nascondi alla chiusura"
+                             Checked="ExitExplicit_Checked"
+                             Unchecked="ExitExplicit_Unchecked" />
+
+            <TextBlock Grid.Row="5"
+                       HorizontalAlignment="Left"
+                       Margin="42,2,24,24"
+                       TextWrapping="Wrap"
+                       Text="L'applicazione verrà nascosta senza chiuderla se non ci sono finestre aperte."
+                       Foreground="Gray" />
+        </Grid>
     </Grid>
 </fc:AvalonWindow>

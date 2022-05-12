@@ -10,7 +10,7 @@ namespace Vault
     /// </summary>
     public partial class SettingsWindow : AvalonWindow
     {
-        private bool loaded;
+        private bool lockCheckboxes;
 
         /// <summary>
         /// Initializes a new <see cref="SettingsWindow"/>.
@@ -24,56 +24,68 @@ namespace Vault
         /// Executed when the window is loaded.
         /// Loads all the editable settings values in the window.
         /// </summary>
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e) => LoadSettings();
+
+        /// <summary>
+        /// Loads all the editable settings values in the window.
+        /// </summary>
+        private void LoadSettings()
         {
-            if (SystemSettings.StartOnStartup.HasValue) AutoStart.IsChecked = SystemSettings.StartOnStartup.Value;
-            else AutoStart.IsEnabled = false;
+            lockCheckboxes = true;
 
+            StartOnStartup.IsChecked = SystemSettings.StartOnStartup == true;
             StartHided.IsChecked = Settings.Instance.GetSetting("start_hided", false);
-            HideOnClose.IsChecked = Settings.Instance.GetSetting("exit_explicit", true);
+            ExitExplicit.IsChecked = Settings.Instance.GetSetting("exit_explicit", true);
 
-            loaded = true;
+            StartOnStartup.IsEnabled = SystemSettings.StartOnStartup.HasValue;
+
+            lockCheckboxes = false;
         }
 
         /// <summary>
         /// Executed when the window is closed.
         /// Saves the settings.
         /// </summary>
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            Settings.Instance.Save();
-        }
+        private void Window_Closed(object sender, EventArgs e) => Settings.Instance.Save();
 
         #region Checkboxes for to change the settings
 
-        private void AutoStart_Checked(object sender, RoutedEventArgs e)
+        //When a checkbox changes its state, the relative setting is changed.
+
+        private void StartOnStartup_Checked(object sender, RoutedEventArgs e)
         {
-            if (loaded) SystemSettings.StartOnStartup = true;
+            if (lockCheckboxes) return;
+            SystemSettings.StartOnStartup = true;
         }
 
-        private void AutoStart_Unchecked(object sender, RoutedEventArgs e)
+        private void StartOnStartup_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (loaded) SystemSettings.StartOnStartup = false;
+            if (lockCheckboxes) return;
+            SystemSettings.StartOnStartup = false;
         }
 
         private void StartHided_Checked(object sender, RoutedEventArgs e)
         {
-            if (loaded) Settings.Instance.SetSetting("start_hided", true);
+            if (lockCheckboxes) return;
+            Settings.Instance.SetSetting("start_hided", true);
         }
 
         private void StartHided_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (loaded) Settings.Instance.SetSetting("start_hided", false);
+            if (lockCheckboxes) return;
+            Settings.Instance.SetSetting("start_hided", false);
         }
 
-        private void HideOnClose_Checked(object sender, RoutedEventArgs e)
+        private void ExitExplicit_Checked(object sender, RoutedEventArgs e)
         {
-            if (loaded) Settings.Instance.SetSetting("exit_explicit", true);
+            if (lockCheckboxes) return;
+            Settings.Instance.SetSetting("exit_explicit", true);
         }
 
-        private void HideOnClose_Unchecked(object sender, RoutedEventArgs e)
+        private void ExitExplicit_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (loaded) Settings.Instance.SetSetting("exit_explicit", false);
+            if (lockCheckboxes) return;
+            Settings.Instance.SetSetting("exit_explicit", false);
         }
 
         #endregion

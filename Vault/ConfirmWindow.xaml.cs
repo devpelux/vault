@@ -3,14 +3,20 @@ using System;
 using System.Media;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using WpfCoreTools;
 
 namespace Vault
 {
     /// <summary>
     /// Window for dialog boxes.
     /// </summary>
-    public partial class MessageWindow : AvalonWindow
+    public partial class ConfirmWindow : AvalonWindow, IDialog
     {
+        /// <summary>
+        /// Result: false = no, true = yes. (default: false)
+        /// </summary>
+        private bool Result = false;
+
         /// <summary>
         /// Gets or sets the message.
         /// </summary>
@@ -22,9 +28,9 @@ namespace Vault
         public MessageBoxImage IconType { get; set; }
 
         /// <summary>
-        /// Initializes a new <see cref="MessageWindow"/> with a message, a title, and an icon type.
+        /// Initializes a new <see cref="ConfirmWindow"/> with a message, a title, and an icon type.
         /// </summary>
-        public MessageWindow(string message, string title, MessageBoxImage iconType)
+        public ConfirmWindow(string message, string title, MessageBoxImage iconType)
         {
             InitializeComponent();
             if (message.Length > 45)
@@ -36,6 +42,9 @@ namespace Vault
             IconType = iconType;
             Title = title;
         }
+
+        /// <inheritdoc/>
+        public object? GetResult() => Result;
 
         /// <summary>
         /// Executed when the window is loaded.
@@ -82,9 +91,23 @@ namespace Vault
         }
 
         /// <summary>
-        /// Executed when the ok button is clicked.
-        /// Closes the window.
+        /// Executed when the yes button is clicked.
+        /// Sets the result to true (yes), then closes the window.
         /// </summary>
-        private void Ok_Click(object sender, RoutedEventArgs e) => Close();
+        private void Yes_Click(object sender, RoutedEventArgs e)
+        {
+            Result = true;
+            Close();
+        }
+
+        /// <summary>
+        /// Executed when the no button is clicked.
+        /// Sets the result to false (no), then closes the window.
+        /// </summary>
+        private void No_Click(object sender, RoutedEventArgs e)
+        {
+            Result = false;
+            Close();
+        }
     }
 }

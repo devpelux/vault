@@ -16,7 +16,7 @@ namespace Vault
     /// </summary>
     public partial class CredentialsWindow : AvalonWindow, IDialog
     {
-        private readonly Request CurrentRequest;
+        private Request CurrentRequest;
         private bool ReauthResult = false;
 
         /// <summary>
@@ -24,21 +24,40 @@ namespace Vault
         /// </summary>
         public CredentialsWindow(Request request)
         {
-            CurrentRequest = request;
             InitializeComponent();
+            CurrentRequest = request;
+        }
 
-            switch (request)
+        /// <summary>
+        /// Setups the window for the specified request.
+        /// </summary>
+        private void Reload()
+        {
+            switch (CurrentRequest)
             {
                 case Request.Login:
                     ConfirmPassword.Visibility = Visibility.Collapsed;
+                    Username.Visibility = Visibility.Visible;
+                    Remember.Visibility = Visibility.Visible;
+                    RegisterLink.Visibility = Visibility.Visible;
+                    LoginLink.Visibility = Visibility.Collapsed;
+                    Title = "Login";
                     break;
                 case Request.Registration:
+                    ConfirmPassword.Visibility = Visibility.Visible;
+                    Username.Visibility = Visibility.Visible;
+                    Remember.Visibility = Visibility.Visible;
+                    RegisterLink.Visibility = Visibility.Collapsed;
+                    LoginLink.Visibility = Visibility.Visible;
+                    Title = "Registrazione";
                     break;
                 case Request.Reauthentication:
                     ConfirmPassword.Visibility = Visibility.Collapsed;
                     Username.Visibility = Visibility.Collapsed;
-                    break;
-                default:
+                    Remember.Visibility = Visibility.Collapsed;
+                    RegisterLink.Visibility = Visibility.Collapsed;
+                    LoginLink.Visibility = Visibility.Collapsed;
+                    Title = "Password";
                     break;
             }
         }
@@ -47,13 +66,44 @@ namespace Vault
         public object? GetResult() => ReauthResult;
 
         /// <summary>
+        /// Executed when the window is loaded.
+        /// Loads the username if is saved, then setups the window.
+        /// </summary>
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            string? username = Settings.Instance.GetSetting("username", string.Empty);
+            Username.Text = username;
+            Remember.IsChecked = username != string.Empty;
+            Reload();
+        }
+
+        /// <summary>
         /// Executed when the window is closed.
-        /// Shutdown the application if is the only window opened,
-        /// if is not requested to hide the app in the taskbar if there are no windows.
+        /// Request the shutdown if the window is a login or register window.
         /// </summary>
         private void Window_Closed(object sender, EventArgs e)
         {
-            if (CurrentRequest != Request.Reauthentication && !Settings.Instance.GetSetting("exit_explicit", true)) Application.Current.Shutdown();
+            if (CurrentRequest != Request.Reauthentication) App.RequestShutDown();
+        }
+
+        /// <summary>
+        /// Executed when the register label is pressed.
+        /// Switches the request to registration, then resetups the window.
+        /// </summary>
+        private void RegisterLink_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            CurrentRequest = Request.Registration;
+            Reload();
+        }
+
+        /// <summary>
+        /// Executed when the login label is pressed.
+        /// Switches the request to login, then resetups the window.
+        /// </summary>
+        private void LoginLink_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            CurrentRequest = Request.Login;
+            Reload();
         }
 
         /// <summary>
@@ -61,18 +111,18 @@ namespace Vault
         /// </summary>
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter) Enter();
+            if (e.Key == Key.Enter) ExecuteRequest();
         }
 
         /// <summary>
         /// Executed when the ok button is pressed.
         /// </summary>
-        private void Enter_Click(object sender, RoutedEventArgs e) => Enter();
+        private void Confirm_Click(object sender, RoutedEventArgs e) => ExecuteRequest();
 
         /// <summary>
-        /// Enter action executed if the enter key is pressed or if the "ok" button is pressed.
+        /// Executes the requested request.
         /// </summary>
-        private void Enter()
+        private void ExecuteRequest()
         {
             switch (CurrentRequest)
             {
@@ -85,8 +135,6 @@ namespace Vault
                 case Request.Reauthentication:
                     Reauthenticate();
                     break;
-                default:
-                    break;
             }
         }
 
@@ -97,7 +145,7 @@ namespace Vault
         {
             if (Username.TextLength == 0 && Password.PasswordLength == 0 || Username.Text.Contains(' '))
             {
-                _ = new DialogWindow(new MessageWindow("Input non validi!", "Errore", MessageBoxImage.Exclamation)).Show();
+                new MessageWindow("Input non validi!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
                 return;
             }
 
@@ -113,12 +161,12 @@ namespace Vault
                 }
                 else
                 {
-                    _ = new DialogWindow(new MessageWindow("Username o password errati o file di dati corrotto!", "Errore", MessageBoxImage.Exclamation)).Show();
+                    new MessageWindow("Username o password errati o file di dati corrotto!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
                 }
                 return;
             }
 
-            _ = new DialogWindow(new MessageWindow("Username o password errati!", "Errore", MessageBoxImage.Exclamation)).Show();
+            new MessageWindow("Username o password errati!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
         }
 
         /// <summary>
@@ -128,28 +176,35 @@ namespace Vault
         {
             if (Username.TextLength == 0 || Password.PasswordLength == 0 || ConfirmPassword.PasswordLength == 0 || Username.Text.Contains(' '))
             {
-                _ = new DialogWindow(new MessageWindow("Input non validi!", "Errore", MessageBoxImage.Exclamation)).Show();
+                new MessageWindow("Input non validi!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
                 return;
             }
 
             if (!Utility.ComparePasswords(Password.SecurePassword, ConfirmPassword.SecurePassword))
             {
-                _ = new DialogWindow(new MessageWindow("Le password non corrispondono!", "Errore", MessageBoxImage.Exclamation)).Show();
+                new MessageWindow("Le password non corrispondono!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
                 return;
             }
 
             if (File.Exists(App.GetDBPath(Username.Text)))
             {
-                _ = new DialogWindow(new MessageWindow("Utente già esistente!", "Errore", MessageBoxImage.Exclamation)).Show();
+                new MessageWindow("Utente già esistente!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
                 return;
             }
 
             DB.Context = new(App.GetDBPath(Username.Text), Password.Password);
 
-            //Loads the database instance to initialize it.
-            _ = DB.Instance;
-
-            StartSession();
+            //Try to load the database instance to initialize it and check if the connection is ok.
+            //If the connection fails aborts the launch and displays an error message.
+            if (DB.Instance.IsConnected)
+            {
+                StartSession();
+            }
+            else
+            {
+                new MessageWindow("Impossibile creare il file di dati!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+            }
+            return;
         }
 
         /// <summary>
@@ -159,7 +214,7 @@ namespace Vault
         {
             if (Password.PasswordLength == 0)
             {
-                _ = new DialogWindow(new MessageWindow("Input non validi!", "Errore", MessageBoxImage.Exclamation)).Show();
+                new MessageWindow("Input non validi!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
                 return;
             }
 
@@ -169,7 +224,7 @@ namespace Vault
 
             //Closes the window if the password is verified, otherwise displays an error message.
             if (ReauthResult) Close();
-            else _ = new DialogWindow(new MessageWindow("Password errata!", "Errore", MessageBoxImage.Exclamation)).Show();
+            else new MessageWindow("Password errata!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
         }
 
         /// <summary>
