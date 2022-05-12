@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Vault.Core;
+using Vault.Core.Settings;
 
 namespace Vault.Controls
 {
@@ -100,14 +101,14 @@ namespace Vault.Controls
 
         private void TrayActionLogout_Executed(object obj)
         {
-            Session.ClearInstance();
+            SessionSettings.Instance.Clear();
             VaultStatus = VaultStatus.Locked;
             if (HomeWindow != null)
             {
-                new LoginWindow().Show();
+                new CredentialsWindow(CredentialsWindow.Request.Login).Show();
                 HomeWindow.Close();
             }
-            else WindowToShow = nameof(LoginWindow);
+            else WindowToShow = nameof(CredentialsWindow);
         }
 
         private bool TrayActionExit_CanExecute(object obj)
@@ -120,13 +121,12 @@ namespace Vault.Controls
             Application.Current.Shutdown();
         }
 
-        private static Window CreateWindow(string windowName)
+        private static Window? CreateWindow(string windowName)
         {
             return windowName switch
             {
                 nameof(Home) => new Home(),
-                nameof(LoginWindow) => new LoginWindow(),
-                nameof(MasterPasswordWindow) => new MasterPasswordWindow(),
+                nameof(CredentialsWindow) => new CredentialsWindow(CredentialsWindow.Request.Login),
                 _ => null,
             };
         }

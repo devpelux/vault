@@ -16,7 +16,7 @@
                  Loaded="Window_Loaded">
     <Grid>
         <fc:TextBoxPlus x:Name="CardLabel"
-                        Style="{StaticResource TextBoxPlusDark}"
+                        Style="{StaticResource DarkTextBoxPlus}"
                         ContextMenu="{StaticResource FieldContextMenu}"
                         VerticalAlignment="Top"
                         Margin="0,25,0,0"
