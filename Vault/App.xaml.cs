@@ -13,6 +13,11 @@ namespace Vault
     public partial class App : Application
     {
         /// <summary>
+        /// Gets the application name.
+        /// </summary>
+        public static string AppName { get; } = "Vault";
+
+        /// <summary>
         /// Gets the current executing directory.
         /// </summary>
         public static string CurrentDirectory { get; } = SystemUtils.GetExecutingDirectory().FullName;
@@ -39,6 +44,8 @@ namespace Vault
 
             TrayIcon.LoadInstance();
 
+            CheckAndFixSettings();
+
             if (Settings.Instance.GetSetting("start_hided", false)) TrayIcon.Instance.WindowToShow = nameof(CredentialsWindow);
             else new CredentialsWindow(CredentialsWindow.Request.Login).Show();
         }
@@ -49,12 +56,42 @@ namespace Vault
         /// </summary>
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            DB.Instance.Dispose();
-            TrayIcon.Instance.Dispose();
-            Settings.Instance.Dispose();
-            SessionSettings.Instance.Dispose();
+            DB.DisposeInstance();
+            TrayIcon.DisposeInstance();
+            Settings.DisposeInstance();
+            SessionSettings.DisposeInstance();
         }
 
         #endregion
+        
+        /// <summary>
+        /// Checks if the "config.json" file is ok and, eventually, resets the file.
+        /// </summary>
+        private void CheckAndFixSettings()
+        {
+            if (!Settings.Instance.IsLoaded)
+            {
+                if (Settings.Instance.Reset())
+                {
+                    new MessageWindow("Il file di impostazioni era corrotto, quindi è stato resettato!", 
+                        "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                }
+                else
+                {
+                    new MessageWindow("Il file di impostazioni era corrotto, e non è stato possibile resettarlo! Verranno usate le impostazioni di default.",
+                        "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Request to shutdown the application.
+        /// The application will be closed if is not requested the explicit exit (hide on close and exit by context menu)
+        /// and there is no window opened.
+        /// </summary>
+        public static void RequestShutDown()
+        {
+            if (!Settings.Instance.GetSetting("exit_explicit", true) && Current.Windows.Count == 0) Current.Shutdown();
+        }
     }
 }

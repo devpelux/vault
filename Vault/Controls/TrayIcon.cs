@@ -59,6 +59,11 @@ namespace Vault.Controls
             IsValidInstance = false;
         }
 
+        /// <summary>
+        /// Disposes the current instance.
+        /// </summary>
+        public static void DisposeInstance() => _instance?.Dispose();
+
         public static void LoadInstance()
         {
             if (_instance == null || !_instance.IsValidInstance)

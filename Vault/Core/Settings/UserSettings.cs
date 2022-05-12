@@ -35,7 +35,8 @@ namespace Vault.Core.Settings
         #endregion
 
         /// <summary>
-        /// Sets the setting with the specified key to the specified value.
+        /// Sets the setting with the specified key to the specified value
+        /// (Set null to remove the setting)
         /// </summary>
         public void SetSetting(string key, object? value)
         {
@@ -50,7 +51,7 @@ namespace Vault.Core.Settings
         }
 
         /// <summary>
-        /// Gets the setting with the specified key, if exists, null otherwise.
+        /// Gets the setting with the specified key, if exists, or the specified default value, otherwise.
         /// </summary>
         public TValue? GetSetting<TValue>(string key, TValue? defaultValue = default)
         {

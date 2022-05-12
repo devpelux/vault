@@ -1,5 +1,6 @@
 ﻿using Nucs.JsonSettings;
 using System;
+using System.IO;
 
 namespace Vault.Core.Settings
 {
@@ -56,7 +57,8 @@ namespace Vault.Core.Settings
         public bool IsLoaded => settings != null;
 
         /// <summary>
-        /// Sets the setting with the specified key to the specified value. (null to remove the setting)
+        /// Sets the setting with the specified key to the specified value.
+        /// (Set null to remove the setting)
         /// </summary>
         public void SetSetting(string key, object? value)
         {
@@ -65,11 +67,30 @@ namespace Vault.Core.Settings
         }
 
         /// <summary>
-        /// Gets the setting with the specified key, if exists, null otherwise.
+        /// Gets the setting with the specified key, if exists, or the specified default value, otherwise.
         /// </summary>
         public TValue? GetSetting<TValue>(string key, TValue? defaultValue = default)
         {
-            return settings != null ? settings.Get<TValue>(key) ?? defaultValue : defaultValue;
+            return (TValue?)(settings?.Get<object>(key) ?? defaultValue);
+        }
+
+        /// <summary>
+        /// Removes all the settings and recreates the configuration file.<br/>
+        /// Returns a value indicating if the operation was succesful.
+        /// </summary>
+        public bool Reset()
+        {
+            Dispose();
+            try
+            {
+                File.Delete("config.json");
+                _instance = new Settings();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -86,5 +107,10 @@ namespace Vault.Core.Settings
             settings?.Dispose();
             settings = null;
         }
+
+        /// <summary>
+        /// Disposes the current instance.
+        /// </summary>
+        public static void DisposeInstance() => _instance?.Dispose();
     }
 }

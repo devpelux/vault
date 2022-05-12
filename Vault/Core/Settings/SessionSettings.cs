@@ -37,7 +37,8 @@ namespace Vault.Core.Settings
         #endregion
 
         /// <summary>
-        /// Sets the setting with the specified key to the specified value. (null to remove the setting)
+        /// Sets the setting with the specified key to the specified value.
+        /// (Set null to remove the setting)
         /// </summary>
         public void SetSetting(string key, object? value)
         {
@@ -52,7 +53,7 @@ namespace Vault.Core.Settings
         }
 
         /// <summary>
-        /// Gets the setting with the specified key, if exists, null otherwise.
+        /// Gets the setting with the specified key, if exists, or the specified default value, otherwise.
         /// </summary>
         public TValue? GetSetting<TValue>(string key, TValue? defaultValue = default)
         {
@@ -72,5 +73,10 @@ namespace Vault.Core.Settings
         /// Clears the settings.
         /// </summary>
         public void Dispose() => Clear();
+
+        /// <summary>
+        /// Disposes the current instance.
+        /// </summary>
+        public static void DisposeInstance() => _instance?.Dispose();
     }
 }

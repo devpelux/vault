@@ -16,7 +16,7 @@ namespace Vault.Core.Settings
             get
             {
                 using RegistryKey? key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
-                if (key != null && key.GetValue(App.Name) is string skey)
+                if (key != null && key.GetValue(App.AppName) is string skey)
                 {
                     return skey == App.CurrentExecutable ? true : null;
                 }
@@ -30,8 +30,8 @@ namespace Vault.Core.Settings
                     if (key != null)
                     {
                         //If the value is true, then sets the registry key to enable the autorun, otherwise the key is deleted.
-                        if (value.Value) key.SetValue(App.Name, App.CurrentExecutable);
-                        else key.DeleteValue(App.Name);
+                        if (value.Value) key.SetValue(App.AppName, App.CurrentExecutable);
+                        else key.DeleteValue(App.AppName);
                     }
                 }
             }
