@@ -1,0 +1,120 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:fc="http://devpelux.github.io/fullcontrols">
+
+    <Style x:Key="DarkAvalonWindow"
+           TargetType="{x:Type fc:AvalonWindow}">
+        <Setter Property="BorderBrush"
+                Value="{StaticResource DarkWindowBorder}" />
+        <Setter Property="BorderBrushOnActive"
+                Value="{StaticResource DarkWindowBorderActive}" />
+        <Setter Property="Background"
+                Value="{StaticResource DarkWindowPrimaryColor}" />
+        <Setter Property="Foreground"
+                Value="{StaticResource DarkWindowForeground}" />
+        <Setter Property="ForegroundOnActive"
+                Value="{StaticResource DarkWindowForegroundActive}" />
+        <Setter Property="TitlebarBackground"
+                Value="{StaticResource DarkWindowTitlebarBackground}" />
+        <Setter Property="TitlebarBackgroundOnActive"
+                Value="{StaticResource DarkWindowTitlebarBackgroundActive}" />
+        <Setter Property="IconBackground"
+                Value="Transparent" />
+        <Setter Property="ButtonsAreaBackground"
+                Value="Transparent" />
+
+        <Setter Property="MinimizeButtonStyle"
+                Value="{StaticResource DarkCaptionButton}" />
+        <Setter Property="MaximizeButtonStyle"
+                Value="{StaticResource DarkCaptionButton}" />
+        <Setter Property="RestoreButtonStyle"
+                Value="{StaticResource DarkCaptionButton}" />
+        <Setter Property="CloseButtonStyle"
+                Value="{StaticResource DarkCaptionCloseButton}" />
+    </Style>
+
+    <Style x:Key="CategorySwitcher"
+           TargetType="{x:Type fc:Switcher}">
+        <Setter Property="Background"
+                Value="{StaticResource DarkWindowPrimaryColor}" />
+        <Setter Property="BackgroundOnChecked"
+                Value="{StaticResource DarkButtonBackgroundChecked}" />
+        <Setter Property="BackgroundOnMouseOver"
+                Value="{StaticResource DarkWindowPrimaryColor}" />
+        <Setter Property="BackgroundOnMouseOverOnChecked"
+                Value="{StaticResource DarkButtonBackgroundCheckedHover}" />
+        <Setter Property="BackgroundOnPressed"
+                Value="{StaticResource DarkButtonBackgroundClicked}" />
+        <Setter Property="BackgroundOnPressedOnChecked"
+                Value="{StaticResource DarkButtonBackgroundCheckedClicked}" />
+        <Setter Property="BackgroundOnDisabled"
+                Value="{StaticResource DarkWindowPrimaryColor}" />
+        <Setter Property="BackgroundOnDisabledOnChecked"
+                Value="{StaticResource DarkWindowPrimaryColor}" />
+        <Setter Property="BorderBrush"
+                Value="{StaticResource DarkButtonBackgroundChecked}" />
+        <Setter Property="BorderBrushOnChecked"
+                Value="{StaticResource DarkButtonBackgroundChecked}" />
+        <Setter Property="BorderBrushOnMouseOver"
+                Value="{StaticResource DarkButtonBackgroundCheckedHover}" />
+        <Setter Property="BorderBrushOnMouseOverOnChecked"
+                Value="{StaticResource DarkButtonBackgroundCheckedHover}" />
+        <Setter Property="BorderBrushOnPressed"
+                Value="{StaticResource DarkButtonBackgroundCheckedClicked}" />
+        <Setter Property="BorderBrushOnPressedOnChecked"
+                Value="{StaticResource DarkButtonBackgroundCheckedClicked}" />
+        <Setter Property="BorderBrushOnDisabled"
+                Value="{StaticResource DarkButtonBackgroundCheckedDisabled}" />
+        <Setter Property="BorderBrushOnDisabledOnChecked"
+                Value="{StaticResource DarkButtonBackgroundCheckedDisabled}" />
+        <Setter Property="Foreground"
+                Value="{StaticResource DarkButtonBackgroundChecked}" />
+        <Setter Property="ForegroundOnChecked"
+                Value="{StaticResource DarkButtonTextChecked}" />
+        <Setter Property="ForegroundOnMouseOver"
+                Value="{StaticResource DarkButtonBackgroundCheckedHover}" />
+        <Setter Property="ForegroundOnMouseOverOnChecked"
+                Value="{StaticResource DarkButtonTextCheckedHover}" />
+        <Setter Property="ForegroundOnPressed"
+                Value="{StaticResource DarkButtonBackgroundCheckedClicked}" />
+        <Setter Property="ForegroundOnPressedOnChecked"
+                Value="{StaticResource DarkButtonTextCheckedClicked}" />
+        <Setter Property="ForegroundOnDisabled"
+                Value="{StaticResource DarkButtonBackgroundCheckedDisabled}" />
+        <Setter Property="ForegroundOnDisabledOnChecked"
+                Value="{StaticResource DarkButtonBackgroundCheckedDisabled}" />
+        <Setter Property="Height"
+                Value="28" />
+        <Setter Property="CornerRadius"
+                Value="14" />
+        <Setter Property="BorderThickness"
+                Value="2" />
+        <Setter Property="Padding"
+                Value="8,2,8,2" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type fc:Switcher}">
+                    <Border Background="{TemplateBinding ActualBorderBrush}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                        <Border Background="{TemplateBinding ActualBackground}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                TextBlock.Foreground="{TemplateBinding ActualForeground}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}"
+                                              RecognizesAccessKey="True"
+                                              Content="{TemplateBinding Content}"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              Focusable="False" />
+                        </Border>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

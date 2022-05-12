@@ -1,117 +1,101 @@
-﻿using FullControls.SystemComponents;
-using System;
+﻿using FullControls.Controls;
+using FullControls.SystemComponents;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows;
-using Vault.Core;
-using Vault.CustomControls;
+using System.Windows.Input;
+using Vault.Core.Database;
+using Vault.Core.Database.Data;
 using WpfCoreTools;
 
 namespace Vault
 {
     /// <summary>
-    /// Finestra per la gestione delle categorie.
+    /// Window for managing the categories.
     /// </summary>
-    public partial class CategoriesWindow : FullWindow, IDialog
+    public partial class CategoriesWindow : AvalonWindow, IDialog
     {
-        private List<Category> categories;
+        private List<Category> categories = new();
 
-        public const int WindowID = 1;
+        private Category? selectedCategory = null;
 
-        public const string OK = "CategoriesWindow.OK";
-
-
+        /// <summary>
+        /// Initializes a new <see cref="CategoriesWindow"/>.
+        /// </summary>
         public CategoriesWindow()
         {
             InitializeComponent();
         }
 
-        public object GetResult() => OK;
+        /// <inheritdoc/>
+        public object? GetResult() => null;
 
-        private void Ok_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+        /// <summary>
+        /// Executed when the window is loaded.
+        /// Loads the categories details.
+        /// </summary>
+        private void Window_Loaded(object sender, RoutedEventArgs e) => Reload();
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            WindowParams wp = WindowsSettings.Instance.GetWindowParams(nameof(CategoriesWindow), WindowParams.INVALID);
-            if (wp.Height != -1) Height = wp.Height;
-            if (wp.Width != -1) Width = wp.Width;
-            if (wp.Top != -1) Top = wp.Top;
-            if (wp.Left != -1) Left = wp.Left;
-
-            WindowState = WindowsSettings.Instance.GetWindowState(nameof(CategoriesWindow), WindowState.Normal);
-
-            Reload();
-        }
-
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            if (WindowState == WindowState.Normal)
-            {
-                WindowsSettings.Instance.SetWindowParams(nameof(CategoriesWindow), new(Height, Width, Top, Left));
-            }
-            if (WindowState != WindowState.Minimized)
-            {
-                WindowsSettings.Instance.SetWindowState(nameof(CategoriesWindow), WindowState);
-            }
-        }
-
-        private void Window_StateChanged(object sender, EventArgs e)
-        {
-            if (WindowState != WindowState.Minimized)
-            {
-                WindowsSettings.Instance.SetWindowState(nameof(CategoriesWindow), WindowState);
-            }
-        }
-
+        /// <summary>
+        /// Reloads the categories details.
+        /// </summary>
         private void Reload()
         {
-            categories = VaultDB.Instance.Categories.GetRecords(Session.Instance.UserID);
-            categories.Add(new Category(Categories.NewID, Session.Instance.UserID, "", true));
+            //Gets all the categories, then hides the default "none" category to avoid editing it.
+            categories = DB.Instance.Categories.GetAll();
+            categories.Remove(Category.None);
+
             CategoryList.ItemsSource = categories;
+
+            if (categories.Count == 0)
+            {
+                CategoryViewer.Visibility = Visibility.Collapsed;
+                NoCategory.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                CategoryViewer.Visibility = Visibility.Visible;
+                NoCategory.Visibility = Visibility.Collapsed;
+            }
         }
 
-        private void CategoryPreview_EditModeChanged(object sender, EditModeChangedEventArgs e)
+        private void Category_Checked(object sender, RoutedEventArgs e)
         {
-            if (!e.EditMode)
+            string? categoryName = ((Switcher)sender).Content.ToString();
+
+            selectedCategory = categories.Find(c => c.Name == categoryName);
+
+            CategoryName.Text = selectedCategory?.Name ?? string.Empty;
+            CategoryLabel.Text = selectedCategory?.Label ?? string.Empty;
+        }
+
+        private void Category_Unchecked(object sender, RoutedEventArgs e)
+        {
+            selectedCategory = null;
+            CategoryName.Text = string.Empty;
+            CategoryLabel.Text = string.Empty;
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
             {
-                CategoryPreview categoryPreview = (CategoryPreview)sender;
-                Category targetCategory = categories.Find(e => e.ID == categoryPreview.ID);
-                if (categoryPreview.Label != "")
+                Category newCategory = new(CategoryName.Text, CategoryLabel.Text);
+
+                if (selectedCategory == null)
                 {
-                    if (targetCategory.ID == Categories.NewID)
-                    {
-                        VaultDB.Instance.Categories.AddRecord(targetCategory with { Label = categoryPreview.Label });
-                        Reload();
-                    }
-                    else
-                    {
-                        VaultDB.Instance.Categories.UpdateRecord(targetCategory with { Label = categoryPreview.Label });
-                    }
+                    if (newCategory.Name != string.Empty) DB.Instance.Categories.Add(newCategory);
                 }
                 else
                 {
-                    if (targetCategory.ID != Categories.NewID)
-                    {
-                        if (categories.Count > 2)
-                        {
-                            if (!VaultDB.Instance.Categories.RemoveRecord(targetCategory.ID))
-                            {
-                                _ = new DialogWindow(new MessageWindow($"Eliminare prima tutto ciò che fa parte del gruppo {targetCategory.Label}!",
-                                    "Errore", MessageBoxImage.Error)).Show();
-                            }
-                        }
-                        else
-                        {
-                            _ = new DialogWindow(new MessageWindow($"Deve esistere almeno un gruppo!",
-                                    "Errore", MessageBoxImage.Error)).Show();
-                        }
-                        Reload();
-                    }
-                    else categoryPreview.EditMode = true;
+                    if (newCategory.Name != string.Empty) DB.Instance.Categories.Update(selectedCategory.Name, newCategory);
+                    else DB.Instance.Categories.Remove(selectedCategory.Name);
                 }
+
+                selectedCategory = null;
+                CategoryName.Text = string.Empty;
+                CategoryLabel.Text = string.Empty;
+
+                Reload();
             }
         }
     }
