@@ -68,6 +68,7 @@ namespace Vault
         {
             if (lockCheckboxes) return;
             Settings.Instance.SetSetting("start_hided", true);
+            ExitExplicit.IsChecked = true;
         }
 
         private void StartHided_Unchecked(object sender, RoutedEventArgs e)
@@ -86,6 +87,7 @@ namespace Vault
         {
             if (lockCheckboxes) return;
             Settings.Instance.SetSetting("exit_explicit", false);
+            StartHided.IsChecked = false;
         }
 
         #endregion
