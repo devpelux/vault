@@ -50,22 +50,33 @@ namespace Vault.Core.Database.Tables
         /// <summary>
         /// Adds a new category to the table.
         /// </summary>
-        public void Add(Category category)
+        public bool Add(Category category)
         {
-            string command =
-                @"
-                    INSERT INTO `Categories` (`name`, `label`, `expanded`)
-                    VALUES (@name, @label, @expanded);
-                ";
-            SqliteCommand query = new(command, DB.Connection);
+            try
+            {
+                string command =
+                    @"
+                        INSERT INTO `Categories` (`name`, `label`, `expanded`)
+                        VALUES (@name, @label, @expanded);
+                    ";
+                SqliteCommand query = new(command, DB.Connection);
 
-            //Injects the record values into the query.
-            query.Parameters.AddWithValue("@name", category.Name);
-            query.Parameters.AddWithValue("@label", category.Label);
-            query.Parameters.AddWithValue("@expanded", category.IsExpanded);
+                //Injects the record values into the query.
+                query.Parameters.AddWithValue("@name", category.Name);
+                query.Parameters.AddWithValue("@label", category.Label);
+                query.Parameters.AddWithValue("@expanded", category.IsExpanded);
 
-            query.Prepare();
-            query.ExecuteNonQuery();
+                query.Prepare();
+                query.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (SqliteException e)
+            {
+                //If the category already exists cannot be added.
+                //So returns false and does nothing.
+                return e.SqliteErrorCode == 19 ? false : throw e;
+            }
         }
 
         /// <summary>
@@ -89,7 +100,7 @@ namespace Vault.Core.Database.Tables
             }
             catch (SqliteException e)
             {
-                //If the category is used to categorize data, is not eliminable.
+                //If the category is used to categorize data is not eliminable.
                 //So returns false and does nothing.
                 return e.SqliteErrorCode == 19 ? false : throw e;
             }
@@ -144,26 +155,37 @@ namespace Vault.Core.Database.Tables
         /// <summary>
         /// Updates the specified category, if exists.
         /// </summary>
-        public void Update(string name, Category category)
+        public bool Update(string name, Category category)
         {
-            string command =
-                @"
-                    UPDATE `Categories`
-                    SET `name` = @newname,
-                        `label` = @label,
-                        `expanded` = @expanded
-                    WHERE `name` = @name;
-                ";
-            SqliteCommand query = new(command, DB.Connection);
+            try
+            {
+                string command =
+                    @"
+                        UPDATE `Categories`
+                        SET `name` = @newname,
+                            `label` = @label,
+                            `expanded` = @expanded
+                        WHERE `name` = @name;
+                    ";
+                SqliteCommand query = new(command, DB.Connection);
 
-            //Injects the record values into the query.
-            query.Parameters.AddWithValue("@name", name);
-            query.Parameters.AddWithValue("@newname", category.Name);
-            query.Parameters.AddWithValue("@label", category.Label);
-            query.Parameters.AddWithValue("@expanded", category.IsExpanded);
+                //Injects the record values into the query.
+                query.Parameters.AddWithValue("@name", name);
+                query.Parameters.AddWithValue("@newname", category.Name);
+                query.Parameters.AddWithValue("@label", category.Label);
+                query.Parameters.AddWithValue("@expanded", category.IsExpanded);
 
-            query.Prepare();
-            query.ExecuteNonQuery();
+                query.Prepare();
+                query.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (SqliteException e)
+            {
+                //If the category already exists cannot be updated.
+                //So returns false and does nothing.
+                return e.SqliteErrorCode == 19 ? false : throw e;
+            }
         }
 
         /// <summary>

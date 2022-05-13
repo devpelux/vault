@@ -15,8 +15,12 @@ namespace Vault
     public partial class CategoriesWindow : AvalonWindow, IDialog
     {
         private List<Category> categories = new();
-
         private Category? selectedCategory = null;
+
+        /// <summary>
+        /// EditResult: false = no edits, true = edits. (default: false)
+        /// </summary>
+        private bool EditResult = false;
 
         /// <summary>
         /// Initializes a new <see cref="CategoriesWindow"/>.
@@ -27,7 +31,7 @@ namespace Vault
         }
 
         /// <inheritdoc/>
-        public object? GetResult() => null;
+        public object? GetResult() => EditResult;
 
         /// <summary>
         /// Executed when the window is loaded.
@@ -46,6 +50,8 @@ namespace Vault
 
             CategoryList.ItemsSource = categories;
 
+            //If there is no editable category (the default "none" is not editable), displays a warning.
+            //Otherwise displays the categories.
             if (categories.Count == 0)
             {
                 CategoryViewer.Visibility = Visibility.Collapsed;
@@ -58,16 +64,25 @@ namespace Vault
             }
         }
 
+        /// <summary>
+        /// Executed when a category is checked.
+        /// Loads the category details to edit it.
+        /// </summary>
         private void Category_Checked(object sender, RoutedEventArgs e)
         {
             string? categoryName = ((Switcher)sender).Content.ToString();
 
             selectedCategory = categories.Find(c => c.Name == categoryName);
 
+            //Uses string.Empty to avoid null strings.
             CategoryName.Text = selectedCategory?.Name ?? string.Empty;
             CategoryLabel.Text = selectedCategory?.Label ?? string.Empty;
         }
 
+        /// <summary>
+        /// Executed when a category is unchecked.
+        /// Cleans the category details.
+        /// </summary>
         private void Category_Unchecked(object sender, RoutedEventArgs e)
         {
             selectedCategory = null;
@@ -75,27 +90,76 @@ namespace Vault
             CategoryLabel.Text = string.Empty;
         }
 
+        /// <summary>
+        /// Executed when a key is pressed.
+        /// </summary>
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Enter && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
             {
-                Category newCategory = new(CategoryName.Text, CategoryLabel.Text);
+                //If is pressed ENTER + CTRL (DX or SX), removes the category details and reloads the window. (cancels the operation)
+                selectedCategory = null;
+                CategoryName.Text = string.Empty;
+                CategoryLabel.Text = string.Empty;
 
-                if (selectedCategory == null)
-                {
-                    if (newCategory.Name != string.Empty) DB.Instance.Categories.Add(newCategory);
-                }
-                else
-                {
-                    if (newCategory.Name != string.Empty) DB.Instance.Categories.Update(selectedCategory.Name, newCategory);
-                    else DB.Instance.Categories.Remove(selectedCategory.Name);
-                }
+                MoveFocus(new(FocusNavigationDirection.Last));
+
+                Reload();
+            }
+            else if (e.Key == Key.Enter)
+            {
+                //If is pressed only ENTER, saves the category, then removes the category details and reloads the window. (saves the operation)
+                SaveCategory();
 
                 selectedCategory = null;
                 CategoryName.Text = string.Empty;
                 CategoryLabel.Text = string.Empty;
 
+                MoveFocus(new(FocusNavigationDirection.Last));
+
                 Reload();
+            }
+        }
+
+        /// <summary>
+        /// Saves the details for the edited category or the new category.
+        /// </summary>
+        private void SaveCategory()
+        {
+            Category newCategory = new(CategoryName.Text, CategoryLabel.Text);
+
+            if (selectedCategory == null)
+            {
+                if (newCategory.Name != string.Empty)
+                {
+                    if (!DB.Instance.Categories.Add(newCategory))
+                    {
+                        new MessageWindow("Impossibile aggiungere la categoria perché ne esiste un altra uguale!",
+                            "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                        EditResult = true;
+                    }
+                }
+            }
+            else
+            {
+                if (newCategory.Name != string.Empty)
+                {
+                    if (!DB.Instance.Categories.Update(selectedCategory.Name, newCategory))
+                    {
+                        new MessageWindow("Impossibile modificare la categoria perché ne esiste un altra uguale!",
+                            "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                        EditResult = true;
+                    }
+                }
+                else if ((bool?)new DialogWindow(new ConfirmWindow("Conferma eliminazione?", "Conferma", MessageBoxImage.Question)).Show() == true)
+                {
+                    if (!DB.Instance.Categories.Remove(selectedCategory.Name))
+                    {
+                        new MessageWindow("Impossibile eliminare la categoria perché è in uso!",
+                            "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                        EditResult = true;
+                    }
+                }
             }
         }
     }
