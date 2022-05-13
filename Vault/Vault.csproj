@@ -38,9 +38,9 @@
     <None Remove="Icons\ic_user.png" />
     <None Remove="Icons\ic_world.ico" />
     <None Remove="Icons\ic_world.png" />
+    <None Remove="Icons\tray_locked.ico" />
+    <None Remove="Icons\tray_unlocked.ico" />
     <None Remove="Icons\VaultIcon.ico" />
-    <None Remove="Icons\VaultTrayIcon.ico" />
-    <None Remove="Icons\VaultTrayIconWhite.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -107,10 +107,10 @@
     <Resource Include="Icons\VaultIcon.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Icons\VaultTrayIcon.ico">
+    <Resource Include="Icons\tray_unlocked.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Icons\VaultTrayIconWhite.ico">
+    <Resource Include="Icons\tray_locked.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

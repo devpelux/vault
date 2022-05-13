@@ -15,7 +15,6 @@
                  WindowStartupLocation="CenterScreen"
                  ResizeMode="CanMinimize"
                  Loaded="Window_Loaded"
-                 CloseCommandExecuting="Window_CloseCommandExecuting"
                  Closed="Window_Closed">
     <Grid Margin="0,32,0,0">
         <Grid.ColumnDefinitions>
@@ -58,14 +57,14 @@
                          BorderThickness="1,0,1,1"
                          GroupName="SectionSwitchers"
                          Checked="SwitchSelected"/>
-            <fc:ButtonPlus x:Name="Logout"
+            <fc:ButtonPlus x:Name="LogoutButton"
                            Style="{StaticResource DarkButtonPlus}"
                            Content="Logout"
                            VerticalAlignment="Bottom"
                            CornerRadius="0"
                            Margin="0"
                            Height="50"
-                           Click="Logout_Click"/>
+                           Click="LogoutButton_Click"/>
             <fc:ButtonPlus x:Name="ShowSettings"
                            Style="{StaticResource DarkButtonPlus}"
                            Content="Impostazioni"

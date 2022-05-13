@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Windows;
 using Vault.Controls;
 using Vault.Core.Database;
@@ -28,6 +29,11 @@ namespace Vault
         public static string CurrentExecutable { get; } = SystemUtils.GetExecutingFile().FullName;
 
         /// <summary>
+        /// Gets a value indicating if there are no windows displayed.
+        /// </summary>
+        public static bool IsHided => !Current.Windows.Cast<Window>().Any(w => w.ActualHeight != 0 && w.ActualWidth != 0);
+
+        /// <summary>
         /// Gets the database path for the specified username.
         /// </summary>
         public static string GetDBPath(string username) => Path.Combine(CurrentDirectory, username + ".db");
@@ -42,11 +48,14 @@ namespace Vault
         {
             SQLitePCL.Batteries_V2.Init();
 
-            TrayIcon.LoadInstance();
+            TrayIcon.Instance.Show();
 
             CheckAndFixSettings();
 
-            if (Settings.Instance.GetSetting("start_hided", false)) TrayIcon.Instance.WindowToShow = nameof(CredentialsWindow);
+            if (Settings.Instance.GetSetting("start_hided", false) && Settings.Instance.GetSetting("exit_explicit", true))
+            {
+                InstanceSettings.Instance.SetSetting("last_window", nameof(CredentialsWindow));
+            }
             else new CredentialsWindow(CredentialsWindow.Request.Login).Show();
         }
 
@@ -59,7 +68,7 @@ namespace Vault
             DB.DisposeInstance();
             TrayIcon.DisposeInstance();
             Settings.DisposeInstance();
-            SessionSettings.DisposeInstance();
+            InstanceSettings.DisposeInstance();
         }
 
         #endregion
@@ -89,9 +98,23 @@ namespace Vault
         /// The application will be closed if is not requested the explicit exit (hide on close and exit by context menu)
         /// and there is no window opened.
         /// </summary>
-        public static void RequestShutDown()
+        public static void RequestShutDown(object sender)
         {
-            if (!Settings.Instance.GetSetting("exit_explicit", true) && Current.Windows.Count == 0) Current.Shutdown();
+            if (sender is TrayIcon)
+            {
+                //If the request was sent by the tray icon, then closes the application. (exit explicit)
+                Current.Shutdown();
+            }
+            else if (sender is Window && IsHided)
+            {
+                //If the request was sent by the tray icon, then checks if can close the application.
+                if (Settings.Instance.GetSetting("exit_explicit", true))
+                {
+                    //If is requested the explicit exit, instead of close the application, saves the window, so it can be opened again.
+                    InstanceSettings.Instance.SetSetting("last_window", sender.GetType().Name);
+                }
+                else Current.Shutdown();
+            }
         }
     }
 }

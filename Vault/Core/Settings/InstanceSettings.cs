@@ -4,35 +4,35 @@ using System.Collections.Generic;
 namespace Vault.Core.Settings
 {
     /// <summary>
-    /// Settings singleton that manages loading and saving the current session settings for the user.
+    /// Settings singleton that manages loading and saving temporary settings for the current instance of the application.
     /// </summary>
-    public sealed class SessionSettings : IDisposable
+    public sealed class InstanceSettings : IDisposable
     {
-        private readonly Dictionary<string, string> settings = new();
+        private readonly Dictionary<string, object> settings = new();
 
         #region Instance
 
-        private static SessionSettings? _instance;
+        private static InstanceSettings? _instance;
 
         /// <summary>
         /// Gets the instance of the settings.
         /// </summary>
-        public static SessionSettings Instance
+        public static InstanceSettings Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = new SessionSettings();
+                    _instance = new InstanceSettings();
                 }
                 return _instance;
             }
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="SessionSettings"/>.
+        /// Initializes a new instance of <see cref="InstanceSettings"/>.
         /// </summary>
-        private SessionSettings() { }
+        private InstanceSettings() { }
 
         #endregion
 
@@ -44,10 +44,8 @@ namespace Vault.Core.Settings
         {
             if (value != null)
             {
-                string setting = value.ToString() ?? string.Empty;
-
-                if (settings.ContainsKey(key)) settings[key] = setting;
-                else settings.Add(key, setting);
+                if (settings.ContainsKey(key)) settings[key] = value;
+                else settings.Add(key, value);
             }
             else settings.Remove(key);
         }
@@ -57,9 +55,9 @@ namespace Vault.Core.Settings
         /// </summary>
         public TValue? GetSetting<TValue>(string key, TValue? defaultValue = default)
         {
-            if (settings.ContainsKey(key))
+            if (settings.ContainsKey(key) && settings[key] is TValue value)
             {
-                return Utility.ConvertFromString<TValue>(settings[key]);
+                return value;
             }
             return defaultValue;
         }

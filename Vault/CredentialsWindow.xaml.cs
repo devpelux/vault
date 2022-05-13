@@ -3,7 +3,6 @@ using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
-using Vault.Controls;
 using Vault.Core;
 using Vault.Core.Database;
 using Vault.Core.Settings;
@@ -17,6 +16,10 @@ namespace Vault
     public partial class CredentialsWindow : AvalonWindow, IDialog
     {
         private Request CurrentRequest;
+
+        /// <summary>
+        /// ReauthResult: false = failed, true = successful. (default: false)
+        /// </summary>
         private bool ReauthResult = false;
 
         /// <summary>
@@ -83,7 +86,7 @@ namespace Vault
         /// </summary>
         private void Window_Closed(object sender, EventArgs e)
         {
-            if (CurrentRequest != Request.Reauthentication) App.RequestShutDown();
+            if (CurrentRequest != Request.Reauthentication) App.RequestShutDown(this);
         }
 
         /// <summary>
@@ -219,7 +222,7 @@ namespace Vault
             }
 
             //Checks the password with the current session password.
-            string? sessionPassword = SessionSettings.Instance.GetSetting<string>("password");
+            string? sessionPassword = InstanceSettings.Instance.GetSetting<string>("password");
             ReauthResult = Password.Password.Equals(sessionPassword);
 
             //Closes the window if the password is verified, otherwise displays an error message.
@@ -233,8 +236,8 @@ namespace Vault
         private void StartSession()
         {
             //Save the username and password in the session settings.
-            SessionSettings.Instance.SetSetting("username", Username.Text);
-            SessionSettings.Instance.SetSetting("password", Password.Password);
+            InstanceSettings.Instance.SetSetting("username", Username.Text);
+            InstanceSettings.Instance.SetSetting("password", Password.Password);
 
             //If the remember button is checked, remembers the username.
             if (Remember.IsChecked == true) Settings.Instance.SetSetting("username", Username.Text);
@@ -242,7 +245,6 @@ namespace Vault
 
             //Loads the home window.
             new Home().Show();
-            TrayIcon.Instance.VaultStatus = VaultStatus.Unlocked;
             Close();
         }
 

@@ -38,28 +38,30 @@ namespace Vault
         public Home()
         {
             InitializeComponent();
-            TrayIcon.Instance.HomeWindow = this;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            TrayIcon.Instance.SetIconType(TrayIconType.Unlocked);
+            TrayIcon.Instance.LogoutCommandExecuted += TrayIcon_LogoutClick;
             Reload(Settings.Instance.GetSetting("section_to_load", 0));
-            TrayIcon.Instance.WindowToShow = null;
-        }
-
-        private void Window_CloseCommandExecuting(object sender, EventArgs e)
-        {
-            if (Settings.Instance.GetSetting("exit_explicit", true) == true) TrayIcon.Instance.WindowToShow = nameof(Home);
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            if (TrayIcon.Instance.WindowToShow == null && Application.Current.Windows.Count == 0)
-            {
-                TrayIcon.Instance.VaultStatus = VaultStatus.Locked;
-                Application.Current.Shutdown();
-            }
-            TrayIcon.Instance.HomeWindow = null;
+            TrayIcon.Instance.SetIconType(TrayIconType.Locked);
+            TrayIcon.Instance.LogoutCommandExecuted -= TrayIcon_LogoutClick;
+            App.RequestShutDown(this);
+        }
+
+        private void TrayIcon_LogoutClick(object? sender, EventArgs e) => Logout();
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e) => Logout();
+
+        private void Logout()
+        {
+            new CredentialsWindow(CredentialsWindow.Request.Login).Show();
+            Close();
         }
 
         private void Reload(int sectionToLoad)
@@ -67,14 +69,6 @@ namespace Vault
             categories = DB.Instance.Categories.GetAll();
             LoadSection(sectionToLoad);
             SelectSwitch(sectionToLoad);
-        }
-
-        private void Logout_Click(object sender, RoutedEventArgs e)
-        {
-            SessionSettings.Instance.Clear();
-            new CredentialsWindow(CredentialsWindow.Request.Login).Show();
-            TrayIcon.Instance.VaultStatus = VaultStatus.Locked;
-            Close();
         }
 
         private void ShowSettings_Click(object sender, RoutedEventArgs e)
