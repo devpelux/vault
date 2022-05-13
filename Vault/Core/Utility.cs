@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Security;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using Vault.Core.Database.Data;
 
 namespace Vault.Core
@@ -35,15 +34,6 @@ namespace Vault.Core
         public static T ConvertFromString<T>(string str)
         {
             return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(str);
-        }
-
-        public static BitmapImage LoadIconFromUri(string uri)
-        {
-            BitmapImage icon = new();
-            icon.BeginInit();
-            icon.UriSource = new(uri);
-            icon.EndInit();
-            return icon;
         }
     }
 }

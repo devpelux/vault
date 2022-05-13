@@ -48,9 +48,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FullControls" Version="2.0.0-rc.4" />
+    <PackageReference Include="FullControls" Version="2.0.1" />
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.4" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.5" />
     <PackageReference Include="Nucs.JsonSettings" Version="2.0.0-alpha7" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlcipher" Version="2.0.7" />
   </ItemGroup>

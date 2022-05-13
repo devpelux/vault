@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Input;
-using Vault.Core;
+using WpfCoreTools;
 
 namespace Vault.Controls
 {
@@ -64,39 +64,39 @@ namespace Vault.Controls
         public TrayIconDC()
         {
             IconType = TrayIconType.Locked;
-            TrayCommandShow = new DelegatedCommand(OnTrayCommandShowExecuted, OnTrayCommandShowCanExecute);
-            TrayCommandExit = new DelegatedCommand(OnTrayCommandExitExecuted, OnTrayCommandExitCanExecute);
-            TrayCommandLogout = new DelegatedCommand(OnTrayCommandLogoutExecuted, OnTrayCommandLogoutCanExecute);
+            TrayCommandShow = new DelegateCommand(OnTrayCommandShowExecuted, OnTrayCommandShowCanExecute);
+            TrayCommandExit = new DelegateCommand(OnTrayCommandExitExecuted, OnTrayCommandExitCanExecute);
+            TrayCommandLogout = new DelegateCommand(OnTrayCommandLogoutExecuted, OnTrayCommandLogoutCanExecute);
         }
 
         #region Commands handlers
 
-        private bool OnTrayCommandShowCanExecute(object obj)
+        private bool OnTrayCommandShowCanExecute(object? obj)
         {
             return App.IsHided;
         }
 
-        private bool OnTrayCommandExitCanExecute(object obj)
+        private bool OnTrayCommandExitCanExecute(object? obj)
         {
             return true;
         }
 
-        private bool OnTrayCommandLogoutCanExecute(object obj)
+        private bool OnTrayCommandLogoutCanExecute(object? obj)
         {
             return IconType == TrayIconType.Unlocked;
         }
 
-        private void OnTrayCommandShowExecuted(object obj)
+        private void OnTrayCommandShowExecuted(object? obj)
         {
             ShowCommandExecuted?.Invoke(this, EventArgs.Empty);
         }
 
-        private void OnTrayCommandExitExecuted(object obj)
+        private void OnTrayCommandExitExecuted(object? obj)
         {
             ExitCommandExecuted?.Invoke(this, EventArgs.Empty);
         }
 
-        private void OnTrayCommandLogoutExecuted(object obj)
+        private void OnTrayCommandLogoutExecuted(object? obj)
         {
             LogoutCommandExecuted?.Invoke(this, EventArgs.Empty);
         }

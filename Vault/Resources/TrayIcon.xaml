@@ -6,13 +6,20 @@
     <tb:TaskbarIcon x:Key="TrayIcon"
                     ToolTipText="Vault"
                     MenuActivation="RightClick"
-                    PopupActivation="LeftClick"
                     LeftClickCommand="{Binding TrayCommandShow}"
+                    DoubleClickCommand="{Binding TrayCommandShow}"
                     ContextMenu="{StaticResource TrayIconContextMenu}">
 
-        <tb:TaskbarIcon.DataContext>
-            <local:TrayIconDC />
-        </tb:TaskbarIcon.DataContext>
+        <tb:TaskbarIcon.TrayToolTip>
+            <Border Height="32"
+                    Padding="10"
+                    Background="{StaticResource DarkWindowPrimaryColor}"
+                    BorderBrush="{StaticResource DarkWindowSecondaryColor}"
+                    BorderThickness="1">
+                <TextBlock Text="Vault"
+                           Foreground="White" />
+            </Border>
+        </tb:TaskbarIcon.TrayToolTip>
 
         <tb:TaskbarIcon.Style>
             <Style TargetType="{x:Type tb:TaskbarIcon}">
@@ -30,6 +37,10 @@
                 </Style.Triggers>
             </Style>
         </tb:TaskbarIcon.Style>
+
+        <tb:TaskbarIcon.DataContext>
+            <local:TrayIconDC />
+        </tb:TaskbarIcon.DataContext>
 
     </tb:TaskbarIcon>
 

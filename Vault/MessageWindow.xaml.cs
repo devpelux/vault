@@ -2,8 +2,7 @@
 using System;
 using System.Media;
 using System.Windows;
-using System.Windows.Media.Imaging;
-using Vault.Core;
+using WpfCoreTools;
 
 namespace Vault
 {
@@ -48,19 +47,19 @@ namespace Vault
             switch (IconType)
             {
                 case MessageBoxImage.Hand:
-                    Image.Source = Utility.LoadIconFromUri("pack://application:,,,/Vault;component/Icons/ic_hand.png");
+                    Image.Source = GraphicUtils.LoadBitmapImageFromUri("pack://application:,,,/Vault;component/Icons/ic_hand.png");
                     SystemSounds.Hand.Play();
                     break;
                 case MessageBoxImage.Question:
-                    Image.Source = Utility.LoadIconFromUri("pack://application:,,,/Vault;component/Icons/ic_question.png");
+                    Image.Source = GraphicUtils.LoadBitmapImageFromUri("pack://application:,,,/Vault;component/Icons/ic_question.png");
                     SystemSounds.Question.Play();
                     break;
                 case MessageBoxImage.Exclamation:
-                    Image.Source = Utility.LoadIconFromUri("pack://application:,,,/Vault;component/Icons/ic_exclamation.png");
+                    Image.Source = GraphicUtils.LoadBitmapImageFromUri("pack://application:,,,/Vault;component/Icons/ic_exclamation.png");
                     SystemSounds.Exclamation.Play();
                     break;
                 case MessageBoxImage.Asterisk:
-                    Image.Source = Utility.LoadIconFromUri("pack://application:,,,/Vault;component/Icons/ic_asterisk.png");
+                    Image.Source = GraphicUtils.LoadBitmapImageFromUri("pack://application:,,,/Vault;component/Icons/ic_asterisk.png");
                     SystemSounds.Asterisk.Play();
                     break;
                 default:
