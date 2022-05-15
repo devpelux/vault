@@ -59,7 +59,7 @@ namespace Vault.Core.Settings
 
             if (setting != null)
             {
-                return Utility.ConvertFromString<TValue>(setting.Value);
+                return Utility.ConvertFromString<TValue>(setting.Value) ?? defaultValue;
             }
             return defaultValue;
         }

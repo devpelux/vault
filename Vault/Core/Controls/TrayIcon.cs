@@ -3,7 +3,7 @@ using System;
 using System.Windows;
 using Vault.Core.Settings;
 
-namespace Vault.Controls
+namespace Vault.Core.Controls
 {
     /// <summary>
     /// Tray icon singleton that manages showing and hiding the tray icon, and some icon features.

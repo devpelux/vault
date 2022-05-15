@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Cryptography;
@@ -11,39 +9,6 @@ namespace Vault.Core
     {
         public const int HASH_SIZE = 32;
         public const int ITERATIONS = 10000;
-
-
-        public static string Encrypt(string str, byte[] key, byte[] iv = null)
-        {
-            using Aes aes = Aes.Create();
-            aes.Key = key;
-            if (iv != null) aes.IV = iv;
-            else aes.GenerateIV();
-            aes.Padding = PaddingMode.PKCS7;
-            ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-            using MemoryStream memoryStream = new();
-            using CryptoStream cryptoStream = new(memoryStream, encryptor, CryptoStreamMode.Write);
-            using StreamWriter streamWriter = new(cryptoStream);
-            streamWriter.Write(str);
-            streamWriter.Close();
-            return ConvertToString(aes.IV.Concat(memoryStream.ToArray()).ToArray());
-        }
-
-        public static string Encrypt(byte[] data, byte[] key, byte[] iv = null) => Encrypt(ConvertToString(data), key, iv);
-
-        public static string Decrypt(string cipherIvStr, byte[] key)
-        {
-            byte[] cipherIvData = ConvertToBytes(cipherIvStr);
-            using Aes aes = Aes.Create();
-            aes.Key = key;
-            aes.IV = cipherIvData.Take(16).ToArray();
-            aes.Padding = PaddingMode.PKCS7;
-            ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-            using MemoryStream memoryStream = new(cipherIvData.Skip(16).ToArray());
-            using CryptoStream cryptoStream = new(memoryStream, decryptor, CryptoStreamMode.Read);
-            using StreamReader streamReader = new(cryptoStream);
-            return streamReader.ReadToEnd();
-        }
 
         public static byte[] GenerateKey(string password, byte[] salt, int iterations = ITERATIONS)
         {

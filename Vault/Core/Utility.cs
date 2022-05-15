@@ -7,8 +7,14 @@ using Vault.Core.Database.Data;
 
 namespace Vault.Core
 {
+    /// <summary>
+    /// Provides some utility methods.
+    /// </summary>
     public static class Utility
     {
+        /// <summary>
+        /// Loads the category items in the specified combobox with the specified style for the items.
+        /// </summary>
         public static void LoadCategoryItems(ComboBoxPlus comboBox, Style style, List<Category> categories)
         {
             comboBox.Items.Clear();
@@ -17,12 +23,16 @@ namespace Vault.Core
                 ComboBoxItemPlus comboBoxItem = new()
                 {
                     Style = style,
-                    Content = category.Name
+                    Content = category != Category.None ? category.Name : "Non categorizzato",
+                    Tag = category.Name
                 };
                 comboBox.Items.Add(comboBoxItem);
             }
         }
 
+        /// <summary>
+        /// Compares two secure strings for equality.
+        /// </summary>
         public static bool ComparePasswords(SecureString password1, SecureString password2)
         {
             byte[] salt = Encryptor.GenerateSalt();
@@ -31,9 +41,12 @@ namespace Vault.Core
             return hashPassword1.Equals(hashPassword2);
         }
 
-        public static T ConvertFromString<T>(string str)
+        /// <summary>
+        /// Converts a string to the specific value using a <see cref="TypeDescriptor"/> converter.
+        /// </summary>
+        public static T? ConvertFromString<T>(string str)
         {
-            return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(str);
+            return (T?)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(str);
         }
     }
 }

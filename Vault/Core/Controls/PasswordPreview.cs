@@ -3,9 +3,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace Vault.Controls
+namespace Vault.Core.Controls
 {
-    public class CardPreview : Control
+    public class PasswordPreview : Control
     {
         public Brush BackgroundOnMouseOver
         {
@@ -14,7 +14,7 @@ namespace Vault.Controls
         }
 
         public static readonly DependencyProperty BackgroundOnMouseOverProperty =
-            DependencyProperty.Register(nameof(BackgroundOnMouseOver), typeof(Brush), typeof(CardPreview));
+            DependencyProperty.Register(nameof(BackgroundOnMouseOver), typeof(Brush), typeof(PasswordPreview));
 
         public Brush BorderBrushOnMouseOver
         {
@@ -23,7 +23,7 @@ namespace Vault.Controls
         }
 
         public static readonly DependencyProperty BorderBrushOnMouseOverProperty =
-            DependencyProperty.Register(nameof(BorderBrushOnMouseOver), typeof(Brush), typeof(CardPreview));
+            DependencyProperty.Register(nameof(BorderBrushOnMouseOver), typeof(Brush), typeof(PasswordPreview));
 
         public int ID
         {
@@ -32,7 +32,7 @@ namespace Vault.Controls
         }
 
         public static readonly DependencyProperty IDProperty =
-            DependencyProperty.Register(nameof(ID), typeof(int), typeof(CardPreview), new PropertyMetadata(-1));
+            DependencyProperty.Register(nameof(ID), typeof(int), typeof(PasswordPreview), new PropertyMetadata(-1));
 
         public string Label
         {
@@ -41,16 +41,16 @@ namespace Vault.Controls
         }
 
         public static readonly DependencyProperty LabelProperty =
-            DependencyProperty.Register(nameof(Label), typeof(string), typeof(CardPreview));
+            DependencyProperty.Register(nameof(Label), typeof(string), typeof(PasswordPreview));
 
-        public string Type
+        public string Url
         {
-            get => (string)GetValue(TypeProperty);
-            set => SetValue(TypeProperty, value);
+            get => (string)GetValue(UrlProperty);
+            set => SetValue(UrlProperty, value);
         }
 
-        public static readonly DependencyProperty TypeProperty =
-            DependencyProperty.Register(nameof(Type), typeof(string), typeof(CardPreview));
+        public static readonly DependencyProperty UrlProperty =
+            DependencyProperty.Register(nameof(Url), typeof(string), typeof(PasswordPreview));
 
         public CornerRadius CornerRadius
         {
@@ -59,7 +59,7 @@ namespace Vault.Controls
         }
 
         public static readonly DependencyProperty CornerRadiusProperty =
-            DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(CardPreview));
+            DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(PasswordPreview));
 
         public Brush LabelForeground
         {
@@ -68,16 +68,16 @@ namespace Vault.Controls
         }
 
         public static readonly DependencyProperty LabelForegroundProperty =
-            DependencyProperty.Register(nameof(LabelForeground), typeof(Brush), typeof(CardPreview));
+            DependencyProperty.Register(nameof(LabelForeground), typeof(Brush), typeof(PasswordPreview));
 
-        public Brush TypeForeground
+        public Brush UrlForeground
         {
-            get => (Brush)GetValue(TypeForegroundProperty);
-            set => SetValue(TypeForegroundProperty, value);
+            get => (Brush)GetValue(UrlForegroundProperty);
+            set => SetValue(UrlForegroundProperty, value);
         }
 
-        public static readonly DependencyProperty TypeForegroundProperty =
-            DependencyProperty.Register(nameof(TypeForeground), typeof(Brush), typeof(CardPreview));
+        public static readonly DependencyProperty UrlForegroundProperty =
+            DependencyProperty.Register(nameof(UrlForeground), typeof(Brush), typeof(PasswordPreview));
 
         public double LabelFontSize
         {
@@ -86,21 +86,21 @@ namespace Vault.Controls
         }
 
         public static readonly DependencyProperty LabelFontSizeProperty =
-            DependencyProperty.Register(nameof(LabelFontSize), typeof(double), typeof(CardPreview));
+            DependencyProperty.Register(nameof(LabelFontSize), typeof(double), typeof(PasswordPreview));
 
-        public double TypeFontSize
+        public double UrlFontSize
         {
-            get => (double)GetValue(TypeFontSizeProperty);
-            set => SetValue(TypeFontSizeProperty, value);
+            get => (double)GetValue(UrlFontSizeProperty);
+            set => SetValue(UrlFontSizeProperty, value);
         }
 
-        public static readonly DependencyProperty TypeFontSizeProperty =
-            DependencyProperty.Register(nameof(TypeFontSize), typeof(double), typeof(CardPreview));
+        public static readonly DependencyProperty UrlFontSizeProperty =
+            DependencyProperty.Register(nameof(UrlFontSize), typeof(double), typeof(PasswordPreview));
 
 
-        static CardPreview()
+        static PasswordPreview()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(CardPreview), new FrameworkPropertyMetadata(typeof(CardPreview)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(PasswordPreview), new FrameworkPropertyMetadata(typeof(PasswordPreview)));
         }
 
         protected override void OnMouseEnter(MouseEventArgs e)

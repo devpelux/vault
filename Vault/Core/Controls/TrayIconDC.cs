@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Windows.Input;
 using WpfCoreTools;
 
-namespace Vault.Controls
+namespace Vault.Core.Controls
 {
     /// <summary>
     /// Represents the data context for the tray icon.

@@ -1,17 +1,17 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:fc="http://devpelux.github.io/fullcontrols"
-                    xmlns:core="clr-namespace:Vault.Core">
+                    xmlns:controls="clr-namespace:Vault.Core.Controls">
 
     <fc:FlatContextMenu x:Key="FieldContextMenu"
                         Style="{StaticResource DarkFlatContextMenu}">
         <fc:FlatMenuItem Style="{StaticResource DarkFlatMenuItem}"
                          Header="Copia"
-                         Command="core:VaultCommands.CopyValue"
+                         Command="controls:FieldCommands.CopyValue"
                          CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}" />
         <fc:FlatMenuItem Style="{StaticResource DarkFlatMenuItem}"
                          Header="Sovrascrivi"
-                         Command="core:VaultCommands.ReplaceValue"
+                         Command="controls:FieldCommands.ReplaceValue"
                          CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}" />
     </fc:FlatContextMenu>
 

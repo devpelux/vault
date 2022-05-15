@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Windows;
-using Vault.Controls;
+using Vault.Core.Controls;
 using Vault.Core.Database;
 using Vault.Core.Settings;
 using WpfCoreTools;

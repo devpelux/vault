@@ -4,234 +4,229 @@
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:fc="http://devpelux.github.io/fullcontrols"
-                 xmlns:core="clr-namespace:Vault.Core"
                  mc:Ignorable="d"
                  Style="{StaticResource DarkAvalonWindow}"
+                 Background="{StaticResource DarkWindowSecondaryColor}"
+                 TitlebarBackground="{StaticResource DarkWindowSecondaryColor}"
+                 TitlebarBackgroundOnActive="{StaticResource DarkWindowSecondaryColor}"
                  TitleMargin="16,0,0,0"
                  Title="Carta"
-                 Height="644"
+                 SizeToContent="Height"
                  Width="312"
                  WindowStartupLocation="CenterScreen"
                  ResizeMode="NoResize"
                  Loaded="Window_Loaded">
-    <Grid>
-        <fc:TextBoxPlus x:Name="CardLabel"
+    
+    <Grid VerticalAlignment="Top"
+          Margin="0,0,0,0">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <fc:ComboBoxPlus x:Name="CardCategory"
+                         Style="{StaticResource DarkComboBoxPlus}"
+                         Grid.Row="0"
+                         Height="36"
+                         Margin="24,24,24,0" />
+
+        <fc:TextBoxPlus x:Name="CardName"
                         Style="{StaticResource DarkTextBoxPlus}"
                         ContextMenu="{StaticResource FieldContextMenu}"
-                        VerticalAlignment="Top"
-                        Margin="0,25,0,0"
-                        Height="35"
-                        Width="260"
+                        Grid.Row="1"
+                        Height="36"
+                        Margin="24,24,24,0"
                         VerticalContentAlignment="Center"
                         Icon="Icons/ic_label.png"
                         LabelPlacement="Left"
-                        LabelMargin="0,0,5,0"
-                        LabelMaxHeight="24"
-                        Hint="Nome">
-            <fc:TextBoxPlus.CommandBindings>
-                <CommandBinding Command="core:VaultCommands.CopyValue"
-                                CanExecute="CopyValue_CanExecute"
-                                Executed="CopyValue_Executed"/>
-                <CommandBinding Command="core:VaultCommands.ReplaceValue"
-                                CanExecute="ReplaceValue_CanExecute"
-                                Executed="ReplaceValue_Executed"/>
-            </fc:TextBoxPlus.CommandBindings>
-        </fc:TextBoxPlus>
-        <fc:TextBoxPlus x:Name="CardType"
-                        Style="{StaticResource DarkTextBoxPlus}"
-                        ContextMenu="{StaticResource FieldContextMenu}"
-                        VerticalAlignment="Top"
-                        Margin="0,65,0,0"
-                        Height="35"
-                        Width="260"
-                        VerticalContentAlignment="Center"
-                        Icon="Icons/ic_bank.png"
-                        LabelPlacement="Left"
-                        LabelMargin="0,0,5,0"
-                        LabelMaxHeight="24"
-                        Hint="Tipo">
-            <fc:TextBoxPlus.CommandBindings>
-                <CommandBinding Command="core:VaultCommands.CopyValue"
-                                CanExecute="CopyValue_CanExecute"
-                                Executed="CopyValue_Executed"/>
-                <CommandBinding Command="core:VaultCommands.ReplaceValue"
-                                CanExecute="ReplaceValue_CanExecute"
-                                Executed="ReplaceValue_Executed"/>
-            </fc:TextBoxPlus.CommandBindings>
-        </fc:TextBoxPlus>
+                        LabelMargin="0,0,8,0"
+                        LabelMaxHeight="20"
+                        Hint="Nome" />
+
         <fc:TextBoxPlus x:Name="CardOwner"
                         Style="{StaticResource DarkTextBoxPlus}"
                         ContextMenu="{StaticResource FieldContextMenu}"
-                        VerticalAlignment="Top"
-                        Margin="0,115,0,0"
-                        Height="35"
-                        Width="260"
+                        Grid.Row="2"
+                        Height="36"
+                        Margin="24,4,24,0"
                         VerticalContentAlignment="Center"
-                        Icon="Icons/ic_user.png"
+                        Icon="/Icons/ic_user.png"
                         LabelPlacement="Left"
-                        LabelMargin="0,0,5,0"
-                        LabelMaxHeight="24"
-                        Hint="Nome sulla carta">
-            <fc:TextBoxPlus.CommandBindings>
-                <CommandBinding Command="core:VaultCommands.CopyValue"
-                                CanExecute="CopyValue_CanExecute"
-                                Executed="CopyValue_Executed"/>
-                <CommandBinding Command="core:VaultCommands.ReplaceValue"
-                                CanExecute="ReplaceValue_CanExecute"
-                                Executed="ReplaceValue_Executed"/>
-            </fc:TextBoxPlus.CommandBindings>
-        </fc:TextBoxPlus>
-        <Grid VerticalAlignment="Top"
-              Margin="0,155,0,0"
-              Height="35"
-              Width="260">
+                        LabelMargin="0,0,8,0"
+                        LabelMaxHeight="20"
+                        Hint="Proprietario" />
+
+        <Grid Grid.Row="3"
+              Margin="24,4,24,0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
             <fc:TextBoxPlus x:Name="CardNumber"
                             Style="{StaticResource DarkTextBoxPlus}"
                             ContextMenu="{StaticResource FieldContextMenu}"
-                            HorizontalAlignment="Left"
-                            Width="175"
+                            Grid.Column="0"
+                            Height="36"
+                            Margin="0,0,8,0"
                             VerticalContentAlignment="Center"
-                            Icon="Icons/ic_card.png"
+                            Icon="/Icons/ic_card.png"
                             LabelPlacement="Left"
-                            LabelMargin="0,0,5,0"
-                            LabelMaxHeight="24"
-                            Hint="Numero"
-                            MaxLength="16">
-                <fc:TextBoxPlus.CommandBindings>
-                    <CommandBinding Command="core:VaultCommands.CopyValue"
-                                    CanExecute="CopyValue_CanExecute"
-                                    Executed="CopyValue_Executed"/>
-                    <CommandBinding Command="core:VaultCommands.ReplaceValue"
-                                    CanExecute="ReplaceValue_CanExecute"
-                                    Executed="ReplaceValue_Executed"/>
-                </fc:TextBoxPlus.CommandBindings>
-            </fc:TextBoxPlus>
-            <fc:TextBoxPlus x:Name="CardSecureCode"
+                            LabelMargin="0,0,8,0"
+                            LabelMaxHeight="20"
+                            Hint="Numero" />
+
+            <fc:TextBoxPlus x:Name="CardCvv"
                             Style="{StaticResource DarkTextBoxPlus}"
                             ContextMenu="{StaticResource FieldContextMenu}"
+                            Grid.Column="1"
+                            Height="36"
+                            Width="50"
                             HorizontalAlignment="Right"
-                            Width="65"
                             VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center"
                             Hint="CVV"
-                            MaxLength="3">
-                <fc:TextBoxPlus.CommandBindings>
-                    <CommandBinding Command="core:VaultCommands.CopyValue"
-                                    CanExecute="CopyValue_CanExecute"
-                                    Executed="CopyValue_Executed"/>
-                    <CommandBinding Command="core:VaultCommands.ReplaceValue"
-                                    CanExecute="ReplaceValue_CanExecute"
-                                    Executed="ReplaceValue_Executed"/>
-                </fc:TextBoxPlus.CommandBindings>
-            </fc:TextBoxPlus>
+                            TextType="NumericOnly" />
         </Grid>
 
-        <fc:TextBoxPlus x:Name="CardExpiration"
+        <fc:TextBoxPlus x:Name="CardType"
                         Style="{StaticResource DarkTextBoxPlus}"
                         ContextMenu="{StaticResource FieldContextMenu}"
-                        VerticalAlignment="Top"
-                        Margin="0,195,0,0"
-                        Height="35"
-                        Width="260"
+                        Grid.Row="4"
+                        Height="36"
+                        Margin="24,4,24,0"
                         VerticalContentAlignment="Center"
-                        Icon="Icons/ic_Hourglass.png"
+                        Icon="/Icons/ic_world.png"
                         LabelPlacement="Left"
-                        LabelMargin="0,0,5,0"
-                        LabelMaxHeight="24"
-                        Hint="Scadenza">
-            <fc:TextBoxPlus.CommandBindings>
-                <CommandBinding Command="core:VaultCommands.CopyValue"
-                                CanExecute="CopyValue_CanExecute"
-                                Executed="CopyValue_Executed"/>
-                <CommandBinding Command="core:VaultCommands.ReplaceValue"
-                                CanExecute="ReplaceValue_CanExecute"
-                                Executed="ReplaceValue_Executed"/>
-            </fc:TextBoxPlus.CommandBindings>
-        </fc:TextBoxPlus>
-        <Grid VerticalAlignment="Top"
-              Margin="0,245,0,0"
-              Height="35"
-              Width="260">
+                        LabelMargin="0,0,8,0"
+                        LabelMaxHeight="20"
+                        Hint="Tipo" />
+
+        <fc:TextBoxPlus x:Name="CardIban"
+                        Style="{StaticResource DarkTextBoxPlus}"
+                        ContextMenu="{StaticResource FieldContextMenu}"
+                        Grid.Row="5"
+                        Height="36"
+                        Margin="24,4,24,0"
+                        VerticalContentAlignment="Center"
+                        Icon="Icons/ic_card.png"
+                        LabelPlacement="Left"
+                        LabelMargin="0,0,8,0"
+                        LabelMaxHeight="20"
+                        Hint="Iban" />
+        
+        <Grid Grid.Row="6"
+              Margin="24,4,24,0">
+
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="70"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0"
-                       VerticalAlignment="Center"
-                       TextWrapping="NoWrap"
-                       Text="Gruppo"
+            
+            <fc:TextBoxPlus x:Name="CardExpirationMonth"
+                            Style="{StaticResource DarkTextBoxPlus}"
+                            ContextMenu="{StaticResource FieldContextMenu}"
+                            Grid.Column="0"
+                            Height="36"
+                            Width="70"
+                            Margin="0,0,8,0"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            Icon="Icons/ic_hourglass.png"
+                            LabelPlacement="Left"
+                            LabelMargin="0,0,8,0"
+                            LabelMaxHeight="20"
+                            Hint="MM"
+                            TextType="NumericOnly" />
+
+            <TextBlock Grid.Column="1"
                        Foreground="White"
-                       FontSize="16"/>
-            <fc:ComboBoxPlus x:Name="CardCategory"
-                             Grid.Column="1"
-                             Style="{StaticResource DarkComboBoxPlus}"/>
+                       VerticalAlignment="Center"
+                       Text="/" />
+
+            <fc:TextBoxPlus x:Name="CardExpirationYear"
+                            Style="{StaticResource DarkTextBoxPlus}"
+                            ContextMenu="{StaticResource FieldContextMenu}"
+                            Grid.Column="2"
+                            Height="36"
+                            Width="50"
+                            Margin="8,0,0,0"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            Hint="YYYY"
+                            TextType="NumericOnly" />
         </Grid>
-        <fc:TextBoxPlus x:Name="CardDescription"
+
+        <fc:TextBoxPlus x:Name="CardNotes"
                         Style="{StaticResource DarkTextBoxPlus}"
-                        VerticalAlignment="Top"
-                        Margin="0,295,0,0"
-                        Height="45"
-                        Width="260"
-                        VerticalContentAlignment="Center"
-                        Icon="Icons/ic_info.png"
-                        LabelPlacement="Left"
-                        LabelMargin="0,0,5,0"
-                        LabelMaxHeight="24"
-                        Hint="Dettagli"
-                        TextWrapping="Wrap"
-                        MaxLines="2"
-                        MaxLength="64"/>
-        <fc:TextBoxPlus x:Name="CardNote"
-                        Style="{StaticResource DarkTextBoxPlus}"
-                        VerticalAlignment="Top"
-                        Margin="0,345,0,0"
+                        ContextMenu="{StaticResource FieldContextMenu}"
+                        Grid.Row="7"
                         Height="140"
-                        Width="260"
-                        Label="Note"
+                        Margin="24,8,24,0"
                         VerticalContentAlignment="Top"
                         TextWrapping="Wrap"
                         AcceptsReturn="True"
                         MaxLines="8"
-                        MaxLength="420"/>
-        <fc:CheckBoxPlus x:Name="CardRequestKey"
-                         Style="{StaticResource DarkCheckBoxPlus}"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Margin="54,500,0,0"
-                         Content="Richiedi conferma password"
-                         Foreground="White"/>
-        <Grid x:Name="Buttons"
-              Height="34"
-              HorizontalAlignment="Right"
-              VerticalAlignment="Bottom"
-              Margin="0,0,25,25">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <fc:ButtonPlus x:Name="Ok"
-                           Grid.Column="0"
-                           Style="{StaticResource DarkButtonPlus}"
-                           Content="SALVA"
-                           Width="55"
-                           Click="Ok_Click"/>
-            <fc:ButtonPlus x:Name="Cancel"
-                           Grid.Column="1"
-                           Style="{StaticResource DarkButtonPlus}"
-                           Content="ANNULLA"
-                           Width="70"
-                           Margin="20,0,0,0"
-                           Click="Cancel_Click"/>
-            <fc:ButtonPlus x:Name="Delete"
-                           Grid.Column="2"
-                           Style="{StaticResource DarkButtonPlus}"
-                           Content="&#xE74D;"
-                           Width="34"
-                           Margin="30,0,0,0"
-                           FontFamily="Segoe MDL2 Assets"
-                           FontSize="16"
-                           Click="Delete_Click"/>
-        </Grid>
+                        MaxLength="420"
+                        Icon="Icons/ic_notes.png"
+                        LabelPlacement="Left"
+                        LabelVerticalAlignment="Top"
+                        LabelMargin="0,4,8,0"
+                        LabelMaxHeight="20"
+                        Hint="Note" />
 
+        <fc:CheckBoxPlus x:Name="Reauthenticate"
+                         Style="{StaticResource DarkCheckBoxPlus}"
+                         Grid.Row="8"
+                         HorizontalAlignment="Left"
+                         Margin="54,16,24,24"
+                         Height="16"
+                         Content="Chiedi conferma password" />
+
+        <Grid Grid.Row="9"
+              Background="{StaticResource DarkWindowPrimaryColor}">
+
+            <Grid HorizontalAlignment="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <fc:ButtonPlus x:Name="Save"
+                               Style="{StaticResource DarkButtonPlus}"
+                               Grid.Column="0"
+                               Content="Salva"
+                               Margin="24,24,24,24"
+                               Width="84"
+                               Height="36"
+                               Click="Save_Click" />
+
+                <fc:ButtonPlus x:Name="Delete"
+                               Style="{StaticResource DarkButtonPlus}"
+                               BackgroundOnMouseOver="Red"
+                               BackgroundOnPressed="Firebrick"
+                               BorderBrushOnMouseOver="Red"
+                               BorderBrushOnPressed="Firebrick"
+                               Grid.Column="1"
+                               Content="&#xE74D;"
+                               FontFamily="Segoe MDL2 Assets"
+                               FontSize="16"
+                               Margin="0,24,24,24"
+                               Width="36"
+                               Height="36"
+                               Click="Delete_Click" />
+            </Grid>
+        </Grid>
     </Grid>
 </fc:AvalonWindow>

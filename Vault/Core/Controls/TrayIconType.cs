@@ -1,4 +1,4 @@
-﻿namespace Vault.Controls
+﻿namespace Vault.Core.Controls
 {
     /// <summary>
     /// Defines which icon type is used as tray icon.

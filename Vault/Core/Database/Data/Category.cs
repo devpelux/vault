@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Vault.Core.Database.Data
 {
@@ -45,5 +46,11 @@ namespace Vault.Core.Database.Data
 
         /// <inheritdoc/>
         public override int GetHashCode() => HashCode.Combine(Name);
+
+        /// <inheritdoc/>
+        public static bool operator ==(Category? left, Category? right) => EqualityComparer<Category>.Default.Equals(left, right);
+
+        /// <inheritdoc/>
+        public static bool operator !=(Category? left, Category? right) => !(left == right);
     }
 }
