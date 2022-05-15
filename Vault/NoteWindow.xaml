@@ -6,10 +6,10 @@
                  xmlns:fc="http://devpelux.github.io/fullcontrols"
                  mc:Ignorable="d"
                  Style="{StaticResource DarkAvalonWindow}"
+                 TitleMargin="16,0,0,0"
                  Title="Nota"
                  Height="584"
                  Width="402"
-                 Icon="/Icons/VaultIcon.ico"
                  WindowStartupLocation="CenterScreen"
                  ResizeMode="NoResize"
                  Loaded="Window_Loaded">

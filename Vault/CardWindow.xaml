@@ -7,10 +7,10 @@
                  xmlns:core="clr-namespace:Vault.Core"
                  mc:Ignorable="d"
                  Style="{StaticResource DarkAvalonWindow}"
+                 TitleMargin="16,0,0,0"
                  Title="Carta"
                  Height="644"
                  Width="312"
-                 Icon="/Icons/VaultIcon.ico"
                  WindowStartupLocation="CenterScreen"
                  ResizeMode="NoResize"
                  Loaded="Window_Loaded">

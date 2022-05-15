@@ -8,19 +8,20 @@
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <StartupObject>Vault.App</StartupObject>
     <Version>0.4.0</Version>
-    <ApplicationIcon>Icons\VaultIcon.ico</ApplicationIcon>
+    <ApplicationIcon>Icons\icon.ico</ApplicationIcon>
     <Authors>Salvatore Peluso</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/devpelux/vault</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/devpelux/vault</PackageProjectUrl>
-    <Copyright>Copyright (C) 2020-2021 devpelux (Salvatore Peluso)</Copyright>
+    <Copyright>Copyright (C) 2020-2022 devpelux (Salvatore Peluso)</Copyright>
     <Description>Portable password manager open source and completely offline forever.</Description>
     <PackageTags>vault password-manager offline wpf sqlcipher</PackageTags>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
+	<None Remove="Icons\icon.ico" />
     <None Remove="Icons\ic_asterisk.png" />
     <None Remove="Icons\ic_bank.png" />
     <None Remove="Icons\ic_card.png" />
@@ -40,7 +41,6 @@
     <None Remove="Icons\ic_world.png" />
     <None Remove="Icons\tray_locked.ico" />
     <None Remove="Icons\tray_unlocked.ico" />
-    <None Remove="Icons\VaultIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,6 +56,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Icons\icon.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	</Resource>
     <Resource Include="Icons\ic_asterisk.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -102,9 +105,6 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Icons\ic_world.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Icons\VaultIcon.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Icons\tray_unlocked.ico">

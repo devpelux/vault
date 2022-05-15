@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg id="SVGRoot" width="256px" height="256px" version="1.1" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <filter id="filter10021" x="-.36" y="-.075" width="1.72" height="1.1812" color-interpolation-filters="sRGB">
+   <feFlood flood-color="rgb(0,0,0)" flood-opacity=".30196" result="flood"/>
+   <feComposite in="flood" in2="SourceGraphic" operator="in" result="composite1"/>
+   <feGaussianBlur in="composite1" result="blur" stdDeviation="6"/>
+   <feOffset dx="2.77556e-17" dy="6" result="offset"/>
+   <feComposite in="SourceGraphic" in2="offset" result="composite2"/>
+  </filter>
+  <linearGradient id="linearGradient1238" x2="256" y2="256" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#90959c" offset="0"/>
+   <stop stop-color="#57626b" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient1676" x1="75" x2="180" y1="5" y2="110" gradientTransform="matrix(1.0833 0 0 1.0833 -10.666 1.3333)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#419cc1" offset="0"/>
+   <stop stop-color="#2461a1" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g>
+  <circle id="ellipse" cx="128" cy="128" r="128" fill="url(#linearGradient1238)" stroke-width="0"/>
+  <circle cx="128" cy="62" r="52" fill="url(#linearGradient1676)" stroke="#fff" stroke-width="8"/>
+  <path x="108.00002" y="32" width="39.999962" height="192" d="m128 32a20 20 45 0 1 20 20v152a20 20 135 0 1-20 20 20 20 45 0 1-20-20v-152a20 20 135 0 1 20-20z" fill="#fcfeff" filter="url(#filter10021)" stroke-width="0"/>
+ </g>
+</svg>
