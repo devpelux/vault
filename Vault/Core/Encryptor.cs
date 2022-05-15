@@ -5,40 +5,25 @@ using System.Security.Cryptography;
 
 namespace Vault.Core
 {
+    /// <summary>
+    /// Provides utilities to encrypt data.
+    /// </summary>
     public class Encryptor
     {
+        /// <summary>
+        /// Default hash size.
+        /// </summary>
         public const int HASH_SIZE = 32;
-        public const int ITERATIONS = 10000;
 
-        public static byte[] GenerateKey(string password, byte[] salt, int iterations = ITERATIONS)
-        {
-            using Rfc2898DeriveBytes rfc2898 = new(password, salt, iterations, HashAlgorithmName.SHA256);
-            return rfc2898.GetBytes(HASH_SIZE);
-        }
+        /// <summary>
+        /// Default iteration count.
+        /// </summary>
+        public const int ITERATIONS = 1000;
 
-        public static byte[] GenerateKey(byte[] password, byte[] salt, int iterations = ITERATIONS)
-        {
-            using Rfc2898DeriveBytes rfc2898 = new(password, salt, iterations, HashAlgorithmName.SHA256);
-            return rfc2898.GetBytes(HASH_SIZE);
-        }
-
-        public static byte[] GenerateKey(SecureString password, byte[] salt, int iterations = ITERATIONS)
-            => DeriveKey(password, salt, iterations, HASH_SIZE);
-
-        public static byte[] GenerateKey() => GenerateSalt();
-
-        public static byte[] GenerateSalt()
-        {
-            byte[] key = new byte[HASH_SIZE];
-            new RNGCryptoServiceProvider().GetBytes(key);
-            return key;
-        }
-
-        public static string ConvertToString(byte[] data) => Convert.ToBase64String(data);
-
-        public static byte[] ConvertToBytes(string str) => Convert.FromBase64String(str);
-
-        private static byte[] DeriveKey(SecureString password, byte[] salt, int iterations, int hashSize)
+        /// <summary>
+        /// Generates a byte hash key from the specified secure string, with the specified salt size, iteration count, and size in byte number.
+        /// </summary>
+        public static byte[] GenerateKey(SecureString password, byte[] salt, int iterations = ITERATIONS, int hashSize = HASH_SIZE)
         {
             IntPtr ptr = IntPtr.Zero;
             try
@@ -64,5 +49,15 @@ namespace Vault.Core
                 if (ptr != IntPtr.Zero) Marshal.ZeroFreeBSTR(ptr);
             }
         }
+
+        /// <summary>
+        /// Generates a random salt of the specified size in byte number.
+        /// </summary>
+        public static byte[] GenerateSalt(int saltSize = HASH_SIZE) => RandomNumberGenerator.GetBytes(saltSize);
+
+        /// <summary>
+        /// Converts a byte hash key array into a string.
+        /// </summary>
+        public static string ConvertToString(byte[] data) => Convert.ToBase64String(data);
     }
 }

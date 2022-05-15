@@ -36,17 +36,14 @@ namespace Vault.Core
         public static bool ComparePasswords(SecureString password1, SecureString password2)
         {
             byte[] salt = Encryptor.GenerateSalt();
-            string hashPassword1 = Encryptor.ConvertToString(Encryptor.GenerateKey(password1, salt, 1000));
-            string hashPassword2 = Encryptor.ConvertToString(Encryptor.GenerateKey(password2, salt, 1000));
+            string hashPassword1 = Encryptor.ConvertToString(Encryptor.GenerateKey(password1, salt));
+            string hashPassword2 = Encryptor.ConvertToString(Encryptor.GenerateKey(password2, salt));
             return hashPassword1.Equals(hashPassword2);
         }
 
         /// <summary>
         /// Converts a string to the specific value using a <see cref="TypeDescriptor"/> converter.
         /// </summary>
-        public static T? ConvertFromString<T>(string str)
-        {
-            return (T?)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(str);
-        }
+        public static T? ConvertFromString<T>(string str) => (T?)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(str);
     }
 }
