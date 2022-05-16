@@ -25,9 +25,7 @@
         <TextBlock Grid.Row="0"
                    Margin="24,24,24,0"
                    TextWrapping="Wrap"
-                   Text="Seleziona una categoria per modificarla o eliminarla.
-                   Non selezionando nulla sarà aggiunta una nuova categoria.
-                   Premi INVIO per salvare, o CTRL + INVIO per annullare." />
+                   Text="Seleziona una categoria per modificarla o eliminarla.&#x0a;Non selezionando nulla sarà aggiunta una nuova categoria.&#x0a;Premi INVIO per salvare, o CTRL + INVIO per annullare." />
 
         <TextBlock x:Name="NoCategory"
                    Grid.Row="1"
