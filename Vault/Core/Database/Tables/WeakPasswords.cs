@@ -37,7 +37,7 @@ namespace Vault.Core.Database.Tables
         }
 
         /// <summary>
-        /// Adds a new password to the table.
+        /// Adds a new password to the table, if not exists.
         /// </summary>
         public void Add(string password)
         {
@@ -52,7 +52,15 @@ namespace Vault.Core.Database.Tables
             query.Parameters.AddWithValue("@value", password);
 
             query.Prepare();
-            query.ExecuteNonQuery();
+
+            try
+            {
+                query.ExecuteNonQuery();
+            }
+            catch (SqliteException)
+            {
+                return;
+            }
         }
 
         /// <summary>
@@ -66,6 +74,17 @@ namespace Vault.Core.Database.Tables
             //Injects the password into the query.
             query.Parameters.AddWithValue("@value", password);
 
+            query.Prepare();
+            query.ExecuteNonQuery();
+        }
+
+        /// <summary>
+        /// Removes all the passwords.
+        /// </summary>
+        public void Clear()
+        {
+            string command = "DELETE FROM `WeakPasswords`;";
+            SqliteCommand query = new(command, DB.Connection);
             query.Prepare();
             query.ExecuteNonQuery();
         }

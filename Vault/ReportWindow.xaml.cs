@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using Vault.Core;
 using Vault.Core.Database;
 using Vault.Core.Database.Data;
@@ -39,6 +40,14 @@ namespace Vault
         {
             GenerateReport();
             Reload();
+        }
+
+        /// <summary>
+        /// Executed when the weak passwords link is clicked.
+        /// </summary>
+        private void WeakPasswordsLink_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            new WeakPasswordsWindow().ShowDialog();
         }
 
         /// <summary>

@@ -57,7 +57,7 @@
 
         <Grid Grid.Row="2"
               Grid.Column="0"
-              Margin="0,16,0,0"
+              Margin="0,24,0,0"
               HorizontalAlignment="Left">
 
             <Grid.ColumnDefinitions>
@@ -74,7 +74,7 @@
                        Margin="16,0,0,0"
                        Text="0"
                        FontWeight="Bold"
-                       Foreground="White" />
+                       Foreground="{StaticResource DarkAccentColor}" />
         </Grid>
 
         <TextBlock Grid.Row="3"
@@ -104,7 +104,7 @@
                        Margin="16,0,0,0"
                        Text="0"
                        FontWeight="Bold"
-                       Foreground="White" />
+                       Foreground="{StaticResource DarkAccentColor}" />
         </Grid>
 
         <TextBlock Grid.Row="5"
@@ -125,16 +125,19 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0"
+            <TextBlock x:Name="WeakPasswordsLink"
+                       Grid.Column="0"
                        Text="Password deboli:"
-                       Foreground="White" />
+                       Foreground="White"
+                       Cursor="Hand"
+                       MouseDown="WeakPasswordsLink_MouseDown" />
 
             <TextBlock x:Name="ReportWeak"
                        Grid.Column="1"
                        Margin="16,0,0,0"
                        Text="0"
                        FontWeight="Bold"
-                       Foreground="White" />
+                       Foreground="{StaticResource DarkAccentColor}" />
         </Grid>
         
 
@@ -165,7 +168,7 @@
                        Margin="16,0,0,0"
                        Text="0"
                        FontWeight="Bold"
-                       Foreground="White" />
+                       Foreground="{StaticResource DarkAccentColor}" />
         </Grid>
 
         <TextBlock Grid.Row="9"
@@ -195,7 +198,7 @@
                        Margin="16,0,0,0"
                        Text="0"
                        FontWeight="Bold"
-                       Foreground="White" />
+                       Foreground="{StaticResource DarkAccentColor}" />
         </Grid>
 
         <TextBlock Grid.Row="11"
