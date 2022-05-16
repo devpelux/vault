@@ -13,6 +13,11 @@ namespace Vault.Core
     public static class Utility
     {
         /// <summary>
+        /// Gets a value indicating the number of seconds in an unix day.
+        /// </summary>
+        public const ulong UnixDaySeconds = 86400;
+
+        /// <summary>
         /// Loads the category items in the specified combobox with the specified style for the items.
         /// </summary>
         public static void LoadCategoryItems(ComboBoxPlus comboBox, Style style, List<Category> categories)
@@ -45,5 +50,17 @@ namespace Vault.Core
         /// Converts a string to the specific value using a <see cref="TypeDescriptor"/> converter.
         /// </summary>
         public static T? ConvertFromString<T>(string str) => (T?)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(str);
+
+        /// <summary>
+        /// Returns the max value from 4 int.
+        /// </summary>
+        public static int Max(int a, int b, int c, int d)
+        {
+            int m = a;
+            if (m < b) m = b;
+            if (m < c) m = c;
+            if (m < d) m = d;
+            return m;
+        }
     }
 }

@@ -2,6 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:fc="http://devpelux.github.io/fullcontrols">
 
+    <SolidColorBrush x:Key="AccentColor"
+                     Color="#22a8f5" />
+
     <Style x:Key="DarkAvalonWindow"
            TargetType="{x:Type fc:AvalonWindow}">
         <Setter Property="BorderBrush"

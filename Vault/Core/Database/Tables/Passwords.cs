@@ -197,6 +197,78 @@ namespace Vault.Core.Database.Tables
         }
 
         /// <summary>
+        /// Counts the number of duplicated passwords.
+        /// </summary>
+        public int DuplicatedCount()
+        {
+            string command =
+                @"
+                    SELECT COUNT(DISTINCT(p.`value`))
+                    FROM `Passwords` AS p
+	                WHERE (
+		                SELECT COUNT(*)
+		                FROM `Passwords` AS p2
+		                WHERE p2.`value` = p.`value` AND p2.`id` <> p.`id`
+	                ) > 0;
+                ";
+            SqliteCommand query = new(command, DB.Connection);
+            query.Prepare();
+            return Convert.ToInt32(query.ExecuteScalar());
+        }
+
+        /// <summary>
+        /// Counts the number of weak passwords.
+        /// </summary>
+        public int WeakCount()
+        {
+            string command =
+                @"
+                    SELECT COUNT(*)
+	                FROM `Passwords`
+	                WHERE `value` IN ( SELECT * FROM `WeakPasswords` );
+                ";
+            SqliteCommand query = new(command, DB.Connection);
+            query.Prepare();
+            return Convert.ToInt32(query.ExecuteScalar());
+        }
+
+        /// <summary>
+        /// Counts the number of password that older than the time specified.
+        /// </summary>
+        public int OldCount(ulong time)
+        {
+            string command =
+                @"
+                    SELECT COUNT(*)
+	                FROM `Passwords`
+	                WHERE (strftime('%s', 'now') - `timestamp`) > @time;
+                ";
+            SqliteCommand query = new(command, DB.Connection);
+
+            //Injects the time into the query.
+            query.Parameters.AddWithValue("@time", time);
+
+            query.Prepare();
+            return Convert.ToInt32(query.ExecuteScalar());
+        }
+
+        /// <summary>
+        /// Counts the number of violated passwords.
+        /// </summary>
+        public int ViolatedCount()
+        {
+            string command =
+                @"
+                    SELECT COUNT(*)
+	                FROM `Passwords`
+	                WHERE `violated` = 1;
+                ";
+            SqliteCommand query = new(command, DB.Connection);
+            query.Prepare();
+            return Convert.ToInt32(query.ExecuteScalar());
+        }
+
+        /// <summary>
         /// Reads a password record from the reader.
         /// </summary>
         private static Password ReadRecord(SqliteDataReader reader)

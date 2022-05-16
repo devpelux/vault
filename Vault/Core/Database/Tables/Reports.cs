@@ -192,11 +192,11 @@ namespace Vault.Core.Database.Tables
         /// </summary>
         private static Report ReadRecord(SqliteDataReader reader)
             => new(reader.GetInt32(0),
-                   reader.GetInt64(1),
-                   reader.GetInt64(2),
-                   reader.GetInt64(3),
-                   reader.GetInt64(4),
-                   reader.GetInt64(5),
+                   reader.GetInt32(1),
+                   reader.GetInt32(2),
+                   reader.GetInt32(3),
+                   reader.GetInt32(4),
+                   reader.GetInt32(5),
                    reader.GetInt64(6));
     }
 }

@@ -52,7 +52,7 @@
                    HorizontalAlignment="Left"
                    Margin="0,8,0,0"
                    TextWrapping="Wrap"
-                   Text="Il punteggio è calcolato dividendo il valore massimo per il numero di password e sottraendolo a 100."
+                   Text="Il punteggio è calcolato dividendo il problema massimo per il numero di password e sottraendolo a 100."
                    Foreground="White" />
 
         <Grid Grid.Row="2"
@@ -73,6 +73,7 @@
                        Grid.Column="1"
                        Margin="16,0,0,0"
                        Text="0"
+                       FontWeight="Bold"
                        Foreground="White" />
         </Grid>
 
@@ -102,6 +103,7 @@
                        Grid.Column="1"
                        Margin="16,0,0,0"
                        Text="0"
+                       FontWeight="Bold"
                        Foreground="White" />
         </Grid>
 
@@ -131,6 +133,7 @@
                        Grid.Column="1"
                        Margin="16,0,0,0"
                        Text="0"
+                       FontWeight="Bold"
                        Foreground="White" />
         </Grid>
         
@@ -161,6 +164,7 @@
                        Grid.Column="1"
                        Margin="16,0,0,0"
                        Text="0"
+                       FontWeight="Bold"
                        Foreground="White" />
         </Grid>
 
@@ -190,6 +194,7 @@
                        Grid.Column="1"
                        Margin="16,0,0,0"
                        Text="0"
+                       FontWeight="Bold"
                        Foreground="White" />
         </Grid>
 
@@ -226,12 +231,14 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="1"
+                <TextBlock x:Name="ReportScore"
+                           Grid.Row="1"
                            Grid.Column="0"
                            VerticalAlignment="Bottom"
                            TextAlignment="Center"
                            Text="100"
                            FontSize="34"
+                           FontWeight="Bold"
                            Foreground="White" />
 
                 <TextBlock Grid.Row="1"
@@ -240,7 +247,7 @@
                            VerticalAlignment="Bottom"
                            TextAlignment="Center"
                            Text="/100"
-                           Foreground="White" />
+                           Foreground="Gray" />
             </Grid>
 
             <fc:ButtonPlus x:Name="NewReport"
