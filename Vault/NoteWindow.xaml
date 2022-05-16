@@ -6,95 +6,111 @@
                  xmlns:fc="http://devpelux.github.io/fullcontrols"
                  mc:Ignorable="d"
                  Style="{StaticResource DarkAvalonWindow}"
+                 Background="{StaticResource DarkWindowSecondaryColor}"
+                 TitlebarBackground="{StaticResource DarkWindowSecondaryColor}"
+                 TitlebarBackgroundOnActive="{StaticResource DarkWindowSecondaryColor}"
                  TitleMargin="16,0,0,0"
                  Title="Nota"
-                 Height="584"
-                 Width="402"
+                 SizeToContent="Height"
+                 Width="380"
                  WindowStartupLocation="CenterScreen"
                  ResizeMode="NoResize"
                  Loaded="Window_Loaded">
-    <Grid>
+    
+    <Grid VerticalAlignment="Top"
+          Margin="0,0,0,0">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="NoteTimestamp"
+                   Grid.Row="0"
+                   Margin="24,24,24,0"
+                   Text="01/01/1990  00:00:00" />
+
+        <fc:ComboBoxPlus x:Name="NoteCategory"
+                         Style="{StaticResource DarkComboBoxPlus}"
+                         Grid.Row="1"
+                         Height="36"
+                         Margin="24,24,24,0" />
+
         <fc:TextBoxPlus x:Name="NoteTitle"
                         Style="{StaticResource DarkTextBoxPlus}"
-                        VerticalAlignment="Top"
-                        Margin="0,25,0,0"
-                        Height="35"
-                        Width="350"
+                        ContextMenu="{StaticResource FieldContextMenu}"
+                        Grid.Row="2"
+                        Height="36"
+                        Margin="24,24,24,0"
                         VerticalContentAlignment="Center"
                         Icon="Icons/ic_label.png"
                         LabelPlacement="Left"
-                        LabelMargin="0,0,5,0"
-                        LabelMaxHeight="24"
+                        LabelMargin="0,0,8,0"
+                        LabelMaxHeight="20"
                         Hint="Titolo" />
-        <Grid VerticalAlignment="Top"
-              Margin="0,115,0,0"
-              Height="35"
-              Width="350">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="75"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0"
-                       VerticalAlignment="Center"
-                       TextWrapping="NoWrap"
-                       Text="Categoria"
-                       Foreground="White"
-                       FontSize="16"/>
-            <fc:ComboBoxPlus x:Name="NoteCategory"
-                             Grid.Column="1"
-                             Style="{StaticResource DarkComboBoxPlus}"/>
-        </Grid>
+
         <fc:TextBoxPlus x:Name="NoteText"
                         Style="{StaticResource DarkTextBoxPlus}"
-                        VerticalAlignment="Top"
-                        Margin="25,165,25,0"
-                        Height="260"
-                        Width="350"
-                        Label="Contenuto nota"
+                        Grid.Row="3"
+                        Height="140"
+                        Margin="24,8,24,0"
                         VerticalContentAlignment="Top"
                         TextWrapping="Wrap"
                         AcceptsReturn="True"
                         MaxLines="8"
-                        MaxLength="420"/>
-        <fc:CheckBoxPlus x:Name="NoteRequestKey"
+                        MaxLength="420"
+                        Icon="Icons/ic_notes.png"
+                        LabelPlacement="Left"
+                        LabelVerticalAlignment="Top"
+                        LabelMargin="0,4,8,0"
+                        LabelMaxHeight="20"
+                        Hint="Nota" />
+        
+        <fc:CheckBoxPlus x:Name="Reauthenticate"
                          Style="{StaticResource DarkCheckBoxPlus}"
+                         Grid.Row="4"
                          HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Margin="54,440,0,0"
-                         Content="Richiedi conferma password"
-                         Foreground="White"/>
-        <Grid x:Name="Buttons"
-              Height="34"
-              HorizontalAlignment="Right"
-              VerticalAlignment="Bottom"
-              Margin="0,0,25,25">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <fc:ButtonPlus x:Name="Ok"
-                           Grid.Column="0"
-                           Style="{StaticResource DarkButtonPlus}"
-                           Content="SALVA"
-                           Width="55"
-                           Click="Ok_Click"/>
-            <fc:ButtonPlus x:Name="Cancel"
-                           Grid.Column="1"
-                           Style="{StaticResource DarkButtonPlus}"
-                           Content="ANNULLA"
-                           Width="70"
-                           Margin="20,0,0,0"
-                           Click="Cancel_Click"/>
-            <fc:ButtonPlus x:Name="Delete"
-                           Grid.Column="2"
-                           Style="{StaticResource DarkButtonPlus}"
-                           Content="&#xE74D;"
-                           Width="34"
-                           Margin="30,0,0,0"
-                           FontFamily="Segoe MDL2 Assets"
-                           FontSize="16"
-                           Click="Delete_Click"/>
+                         Margin="54,16,24,24"
+                         Height="16"
+                         Content="Chiedi conferma password" />
+
+        <Grid Grid.Row="5"
+              Background="{StaticResource DarkWindowPrimaryColor}">
+
+            <Grid HorizontalAlignment="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <fc:ButtonPlus x:Name="Save"
+                               Style="{StaticResource DarkButtonPlus}"
+                               Grid.Column="0"
+                               Content="Salva"
+                               Margin="24,24,24,24"
+                               Width="84"
+                               Height="36"
+                               Click="Save_Click" />
+
+                <fc:ButtonPlus x:Name="Delete"
+                               Style="{StaticResource DarkButtonPlus}"
+                               BackgroundOnMouseOver="Red"
+                               BackgroundOnPressed="Firebrick"
+                               BorderBrushOnMouseOver="Red"
+                               BorderBrushOnPressed="Firebrick"
+                               Grid.Column="1"
+                               Content="&#xE74D;"
+                               FontFamily="Segoe MDL2 Assets"
+                               FontSize="16"
+                               Margin="0,24,24,24"
+                               Width="36"
+                               Height="36"
+                               Click="Delete_Click" />
+            </Grid>
         </Grid>
     </Grid>
 </fc:AvalonWindow>

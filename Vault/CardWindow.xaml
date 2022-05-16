@@ -12,7 +12,7 @@
                  TitleMargin="16,0,0,0"
                  Title="Carta"
                  SizeToContent="Height"
-                 Width="312"
+                 Width="320"
                  WindowStartupLocation="CenterScreen"
                  ResizeMode="NoResize"
                  Loaded="Window_Loaded">
@@ -170,7 +170,6 @@
 
         <fc:TextBoxPlus x:Name="CardNotes"
                         Style="{StaticResource DarkTextBoxPlus}"
-                        ContextMenu="{StaticResource FieldContextMenu}"
                         Grid.Row="7"
                         Height="140"
                         Margin="24,8,24,0"

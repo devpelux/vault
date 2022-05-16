@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using Vault.Core;
+using Vault.Core.Controls;
 using Vault.Core.Database;
 using Vault.Core.Database.Data;
 using WpfCoreTools;
@@ -16,7 +17,11 @@ namespace Vault
     {
         private readonly Note? note;
         private readonly List<Category> categories;
+        private readonly DateTimeOffset now = DateTimeOffset.Now;
 
+        /// <summary>
+        /// Result: "edited", "deleted", null = nothing. (default: null)
+        /// </summary>
         private object? Result = null;
 
         /// <summary>
@@ -26,8 +31,12 @@ namespace Vault
         public NoteWindow(Note? note)
         {
             InitializeComponent();
+
             this.note = note;
             categories = DB.Instance.Categories.GetAll();
+
+            //Adds the field commands
+            FieldCommands.AddFieldCommands(CommandBindings);
         }
 
         /// <inheritdoc/>
@@ -43,71 +52,53 @@ namespace Vault
 
             if (note != null)
             {
-                NoteRequestKey.IsChecked = note.IsLocked;
+                NoteCategory.SelectedIndex = categories.FindIndex(category => category.Name == note.Category);
+
                 NoteTitle.Text = note.Title;
                 NoteText.Text = note.Text;
-                NoteCategory.SelectedIndex = categories.FindIndex(category => category.Name == note.Category);
+
+                DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(note.Timestamp);
+                string year = time.Year.ToString();
+                string month = time.Month.ToString();
+                string day = time.Day.ToString();
+                string hour = time.Hour.ToString();
+                string minute = time.Minute.ToString();
+                string second = time.Second.ToString();
+
+                NoteTimestamp.Text = $"{day}/{month}/{year}  {hour}:{minute}:{second}";
+
+                Reauthenticate.IsChecked = note.IsLocked;
+
                 Delete.Visibility = Visibility.Visible;
             }
             else
             {
                 NoteCategory.SelectedIndex = 0;
+
+                string year = now.Year.ToString();
+                string month = now.Month.ToString();
+                string day = now.Day.ToString();
+                string hour = now.Hour.ToString();
+                string minute = now.Minute.ToString();
+                string second = now.Second.ToString();
+
+                NoteTimestamp.Text = $"{day}/{month}/{year}  {hour}:{minute}:{second}";
+
                 Delete.Visibility = Visibility.Collapsed;
             }
         }
 
         /// <summary>
-        /// Executed when the cancel button is clicked.
-        /// Closes the window.
-        /// </summary>
-        private void Cancel_Click(object sender, RoutedEventArgs e) => Close();
-
-        /// <summary>
-        /// Executed when the ok button is clicked.
+        /// Executed when the save button is clicked.
         /// Edits the note if is not null, otherwise creates a new note.
         /// </summary>
-        private void Ok_Click(object sender, RoutedEventArgs e)
+        private void Save_Click(object sender, RoutedEventArgs e)
         {
             if (note == null) AddNote();
             else EditNote();
 
             Result = "edit";
             Close();
-        }
-
-        /// <summary>
-        /// Adds a new note.
-        /// </summary>
-        private void AddNote()
-        {
-            string category = categories[NoteCategory.SelectedIndex].Name;
-            string title = NoteTitle.Text;
-            string text = NoteText.Text;
-            long timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
-            bool isLocked = NoteRequestKey.IsChecked ?? false;
-
-            Note newNote = new(category, title, text, timestamp, isLocked);
-
-            DB.Instance.Notes.Add(newNote);
-        }
-
-        /// <summary>
-        /// Edit the note.
-        /// </summary>
-        private void EditNote()
-        {
-            if (note == null) return;
-
-            int id = note.Id;
-            string category = categories[NoteCategory.SelectedIndex].Name;
-            string title = NoteTitle.Text;
-            string text = NoteText.Text;
-            long timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
-            bool isLocked = NoteRequestKey.IsChecked ?? false;
-
-            Note newNote = new(id, category, title, text, timestamp, isLocked);
-
-            DB.Instance.Notes.Update(newNote);
         }
 
         /// <summary>
@@ -122,6 +113,42 @@ namespace Vault
 
             Result = "edit";
             Close();
+        }
+
+        /// <summary>
+        /// Adds a new note.
+        /// </summary>
+        private void AddNote()
+        {
+            string category = categories[NoteCategory.SelectedIndex].Name;
+            string title = NoteTitle.Text;
+            string text = NoteText.Text;
+            long timestamp = now.ToUnixTimeSeconds();
+            bool isLocked = Reauthenticate.IsChecked ?? false;
+
+            Note newNote = new(category, title, text, timestamp, isLocked);
+
+            DB.Instance.Notes.Add(newNote);
+        }
+
+        /// <summary>
+        /// Edit the note.
+        /// </summary>
+        private void EditNote()
+        {
+            if (note == null) return;
+
+            int id = note.Id;
+
+            string category = categories[NoteCategory.SelectedIndex].Name;
+            string title = NoteTitle.Text;
+            string text = NoteText.Text;
+            long timestamp = now.ToUnixTimeSeconds();
+            bool isLocked = Reauthenticate.IsChecked ?? false;
+
+            Note newNote = new(id, category, title, text, timestamp, isLocked);
+
+            DB.Instance.Notes.Update(newNote);
         }
     }
 }
