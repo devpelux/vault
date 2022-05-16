@@ -186,7 +186,7 @@ namespace Vault.Core.Database.Tables
 
             //Injects the id into the query.
             query.Parameters.AddWithValue("@id", id);
-            
+
             query.Prepare();
 
             //If the card exists the result of the query must be 1.
@@ -208,7 +208,7 @@ namespace Vault.Core.Database.Tables
         /// Reads a card record from the reader.
         /// </summary>
         private static Card ReadRecord(SqliteDataReader reader)
-            => new(reader.GetInt32(0), 
+            => new(reader.GetInt32(0),
                    reader.GetString(1),
                    reader.GetString(2),
                    reader.GetString(3),

@@ -1,9 +1,10 @@
-﻿using FullControls.Controls;
+﻿using CoreTools.Extensions;
 using FullControls.SystemComponents;
+using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Input;
 using Vault.Core;
+using Vault.Core.Controls;
 using Vault.Core.Database;
 using Vault.Core.Database.Data;
 using WpfCoreTools;
@@ -18,6 +19,9 @@ namespace Vault
         private readonly Password? password;
         private readonly List<Category> categories;
 
+        /// <summary>
+        /// Result: "edited", "deleted", null = nothing. (default: null)
+        /// </summary>
         private object? Result = null;
 
         /// <summary>
@@ -27,8 +31,12 @@ namespace Vault
         public PasswordWindow(Password? password)
         {
             InitializeComponent();
+
             this.password = password;
             categories = DB.Instance.Categories.GetAll();
+
+            //Adds the field commands
+            FieldCommands.AddFieldCommands(CommandBindings);
         }
 
         /// <inheritdoc/>
@@ -44,12 +52,21 @@ namespace Vault
 
             if (password != null)
             {
-                PasswordRequestKey.IsChecked = password.IsLocked;
-                PasswordLabel.Text = password.Account;
-                PasswordUsername.Text = password.Username;
-                PasswordKey.Password = password.Value;
-                PasswordNote.Text = password.Notes;
                 PasswordCategory.SelectedIndex = categories.FindIndex(category => category.Name == password.Category);
+
+                PasswordAccount.Text = password.Account;
+                PasswordUsername.Text = password.Username;
+                PasswordValue.Password = password.Value;
+                PasswordNotes.Text = password.Account;
+                Violated.IsChecked = password.IsViolated;
+
+                DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(password.Timestamp);
+                PasswordTimestampYear.Text = time.Year.ToString();
+                PasswordTimestampMonth.Text = time.Month.ToString();
+                PasswordTimestampDay.Text = time.Day.ToString();
+
+                Reauthenticate.IsChecked = password.IsLocked;
+
                 Delete.Visibility = Visibility.Visible;
             }
             else
@@ -59,105 +76,17 @@ namespace Vault
             }
         }
 
-        #region Commands
-
-        private void CopyValue_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            if (sender is TextBoxPlus textBox)
-            {
-                e.CanExecute = textBox.TextLength > 0;
-            }
-            else if (sender is PasswordBoxPlus passwordBox)
-            {
-                e.CanExecute = passwordBox.PasswordLength > 0;
-            }
-        }
-
-        private void ReplaceValue_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = Clipboard.ContainsText();
-        }
-
-        private void CopyValue_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (sender is TextBoxPlus textBox) textBox.CopyAll();
-            else if (sender is PasswordBoxPlus passwordBox) passwordBox.CopyAll();
-        }
-
-        private void ReplaceValue_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (sender is TextBoxPlus textBox)
-            {
-                textBox.Clear();
-                textBox.Paste();
-            }
-            else if (sender is PasswordBoxPlus passwordBox)
-            {
-                passwordBox.Clear();
-                passwordBox.Paste();
-            }
-        }
-
-        #endregion
-
         /// <summary>
-        /// Executed when the cancel button is clicked.
-        /// Closes the window.
-        /// </summary>
-        private void Cancel_Click(object sender, RoutedEventArgs e) => Close();
-
-        /// <summary>
-        /// Executed when the ok button is clicked.
+        /// Executed when the save button is clicked.
         /// Edits the password if is not null, otherwise creates a new password.
         /// </summary>
-        private void Ok_Click(object sender, RoutedEventArgs e)
+        private void Save_Click(object sender, RoutedEventArgs e)
         {
             if (password == null) AddPassword();
             else EditPassword();
 
-            Result = "edit";
+            Result = "edited";
             Close();
-        }
-
-        /// <summary>
-        /// Adds a new password.
-        /// </summary>
-        private void AddPassword()
-        {
-            string category = categories[PasswordCategory.SelectedIndex].Name;
-            string account = PasswordLabel.Text;
-            long timestamp = -1;
-            string? username = PasswordUsername.Text;
-            string value = PasswordKey.Password;
-            string? notes = PasswordNote.Text;
-            bool isViolated = false;
-            bool isLocked = PasswordRequestKey.IsChecked ?? false;
-
-            Password newPassword = new(category, account, timestamp, username, value, notes, isViolated, isLocked);
-
-            DB.Instance.Passwords.Add(newPassword);
-        }
-
-        /// <summary>
-        /// Edit the password.
-        /// </summary>
-        private void EditPassword()
-        {
-            if (password == null) return;
-
-            int id = password.Id;
-            string category = categories[PasswordCategory.SelectedIndex].Name;
-            string account = PasswordLabel.Text;
-            long timestamp = -1;
-            string? username = PasswordUsername.Text;
-            string value = PasswordKey.Password;
-            string? notes = PasswordNote.Text;
-            bool isViolated = false;
-            bool isLocked = PasswordRequestKey.IsChecked ?? false;
-
-            Password newPassword = new(id, category, account, timestamp, username, value, notes, isViolated, isLocked);
-
-            DB.Instance.Passwords.Update(newPassword);
         }
 
         /// <summary>
@@ -170,8 +99,76 @@ namespace Vault
 
             DB.Instance.Passwords.Remove(password.Id);
 
-            Result = "edit";
+            Result = "deleted";
             Close();
+        }
+
+        /// <summary>
+        /// Executed when the now button is clicked.
+        /// Sets the date to now.
+        /// </summary>
+        private void PasswordTimestampNow_Click(object sender, RoutedEventArgs e)
+        {
+            DateTimeOffset now = DateTimeOffset.Now;
+            PasswordTimestampYear.Text = now.Year.ToString();
+            PasswordTimestampMonth.Text = now.Month.ToString();
+            PasswordTimestampDay.Text = now.Day.ToString();
+        }
+
+        /// <summary>
+        /// Adds a new password.
+        /// </summary>
+        private void AddPassword()
+        {
+            string category = categories[PasswordCategory.SelectedIndex].Name;
+            string account = PasswordAccount.Text;
+            string username = PasswordUsername.Text;
+            string value = PasswordValue.Password;
+
+            int year = PasswordTimestampYear.Text.IsInt() ? int.Parse(PasswordTimestampYear.Text) : 0;
+            int month = PasswordTimestampMonth.Text.IsInt() ? int.Parse(PasswordTimestampMonth.Text) : 0;
+            int day = PasswordTimestampDay.Text.IsInt() ? int.Parse(PasswordTimestampDay.Text) : 0;
+            DateTimeOffset time = new DateTime(year, month, day);
+
+            long timestamp = time.ToUnixTimeSeconds();
+
+            string? notes = PasswordNotes.Text;
+            bool isViolated = Violated.IsChecked ?? false;
+            bool isLocked = Reauthenticate.IsChecked ?? false;
+
+            Password newPassword = new(category, account, timestamp, username, value, notes, isViolated, isLocked);
+
+            DB.Instance.Passwords.Add(newPassword);
+        }
+
+        /// <summary>
+        /// Edits the password.
+        /// </summary>
+        private void EditPassword()
+        {
+            if (password == null) return;
+
+            int id = password.Id;
+
+            string category = categories[PasswordCategory.SelectedIndex].Name;
+            string account = PasswordAccount.Text;
+            string username = PasswordUsername.Text;
+            string value = PasswordValue.Password;
+
+            int year = PasswordTimestampYear.Text.IsInt() ? int.Parse(PasswordTimestampYear.Text) : 0;
+            int month = PasswordTimestampMonth.Text.IsInt() ? int.Parse(PasswordTimestampMonth.Text) : 0;
+            int day = PasswordTimestampDay.Text.IsInt() ? int.Parse(PasswordTimestampDay.Text) : 0;
+            DateTimeOffset time = new DateTime(year, month, day);
+
+            long timestamp = time.ToUnixTimeSeconds();
+
+            string? notes = PasswordNotes.Text;
+            bool isViolated = Violated.IsChecked ?? false;
+            bool isLocked = Reauthenticate.IsChecked ?? false;
+
+            Password newPassword = new(id, category, account, timestamp, username, value, notes, isViolated, isLocked);
+
+            DB.Instance.Passwords.Update(newPassword);
         }
     }
 }

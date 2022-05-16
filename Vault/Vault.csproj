@@ -26,11 +26,9 @@
     <None Remove="Icons\ic_bank.png" />
     <None Remove="Icons\ic_card.png" />
     <None Remove="Icons\ic_done.png" />
-    <None Remove="Icons\ic_edit.png" />
     <None Remove="Icons\ic_exclamation.png" />
     <None Remove="Icons\ic_hand.png" />
     <None Remove="Icons\ic_hourglass.png" />
-    <None Remove="Icons\ic_info.png" />
     <None Remove="Icons\ic_label.png" />
     <None Remove="Icons\ic_lock.png" />
     <None Remove="Icons\ic_notes.png" />
@@ -71,9 +69,6 @@
     <Resource Include="Icons\ic_done.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Icons\ic_edit.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Icons\ic_exclamation.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -81,9 +76,6 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Icons\ic_hourglass.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Icons\ic_info.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Icons\ic_label.png">

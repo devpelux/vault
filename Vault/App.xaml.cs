@@ -72,7 +72,7 @@ namespace Vault
         }
 
         #endregion
-        
+
         /// <summary>
         /// Checks if the "config.json" file is ok and, eventually, resets the file.
         /// </summary>
@@ -82,7 +82,7 @@ namespace Vault
             {
                 if (Settings.Instance.Reset())
                 {
-                    new MessageWindow("Il file di impostazioni era corrotto, quindi è stato resettato!", 
+                    new MessageWindow("Il file di impostazioni era corrotto, quindi è stato resettato!",
                         "Errore", MessageBoxImage.Exclamation).ShowDialog();
                 }
                 else

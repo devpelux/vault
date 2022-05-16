@@ -251,7 +251,7 @@ namespace Vault
         /// <summary>
         /// Defines the credentials window request types.
         /// </summary>
-        public enum Request 
+        public enum Request
         {
             /// <summary>
             /// The window will act as a login window.

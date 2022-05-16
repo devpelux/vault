@@ -10,7 +10,7 @@
                  TitlebarBackground="{StaticResource DarkWindowSecondaryColor}"
                  TitlebarBackgroundOnActive="{StaticResource DarkWindowSecondaryColor}"
                  TitleMargin="16,0,0,0"
-                 Title="Document"
+                 Title="Documento"
                  SizeToContent="Height"
                  Width="320"
                  WindowStartupLocation="CenterScreen"
@@ -21,8 +21,6 @@
           Margin="0,0,0,0">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -78,7 +76,7 @@
                         LabelMaxHeight="20"
                         Hint="Codice" />
 
-        <Grid Grid.Row="6"
+        <Grid Grid.Row="4"
               Margin="24,4,24,0">
 
             <Grid.ColumnDefinitions>
@@ -94,7 +92,7 @@
                             ContextMenu="{StaticResource FieldContextMenu}"
                             Grid.Column="0"
                             Height="36"
-                            Width="70"
+                            Width="68"
                             VerticalContentAlignment="Center"
                             HorizontalContentAlignment="Center"
                             Icon="Icons/ic_hourglass.png"
@@ -115,7 +113,7 @@
                             ContextMenu="{StaticResource FieldContextMenu}"
                             Grid.Column="2"
                             Height="36"
-                            Width="50"
+                            Width="40"
                             VerticalContentAlignment="Center"
                             HorizontalContentAlignment="Center"
                             Hint="MM"
@@ -132,7 +130,7 @@
                             ContextMenu="{StaticResource FieldContextMenu}"
                             Grid.Column="4"
                             Height="36"
-                            Width="50"
+                            Width="46"
                             VerticalContentAlignment="Center"
                             HorizontalContentAlignment="Center"
                             Hint="YYYY"
@@ -141,7 +139,7 @@
 
         <fc:TextBoxPlus x:Name="DocumentNotes"
                         Style="{StaticResource DarkTextBoxPlus}"
-                        Grid.Row="7"
+                        Grid.Row="5"
                         Height="140"
                         Margin="24,8,24,0"
                         VerticalContentAlignment="Top"
@@ -158,13 +156,13 @@
 
         <fc:CheckBoxPlus x:Name="Reauthenticate"
                          Style="{StaticResource DarkCheckBoxPlus}"
-                         Grid.Row="8"
+                         Grid.Row="6"
                          HorizontalAlignment="Left"
                          Margin="54,16,24,24"
                          Height="16"
                          Content="Chiedi conferma password" />
 
-        <Grid Grid.Row="9"
+        <Grid Grid.Row="7"
               Background="{StaticResource DarkWindowPrimaryColor}">
 
             <Grid HorizontalAlignment="Right">

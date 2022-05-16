@@ -86,7 +86,7 @@ namespace Vault.Core.Database.Tables
 
             //Injects the id into the query.
             query.Parameters.AddWithValue("@id", id);
-            
+
             query.Prepare();
             query.ExecuteNonQuery();
         }
