@@ -97,7 +97,7 @@ namespace Vault
             if (note == null) AddNote();
             else EditNote();
 
-            Result = "edit";
+            Result = "edited";
             Close();
         }
 
@@ -111,7 +111,7 @@ namespace Vault
 
             DB.Instance.Notes.Remove(note.Id);
 
-            Result = "edit";
+            Result = "deleted";
             Close();
         }
 
@@ -132,7 +132,7 @@ namespace Vault
         }
 
         /// <summary>
-        /// Edit the note.
+        /// Edits the note.
         /// </summary>
         private void EditNote()
         {

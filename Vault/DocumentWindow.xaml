@@ -1,4 +1,4 @@
-﻿<fc:AvalonWindow x:Class="Vault.CardWindow"
+﻿<fc:AvalonWindow x:Class="Vault.DocumentWindow"
                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,7 +10,7 @@
                  TitlebarBackground="{StaticResource DarkWindowSecondaryColor}"
                  TitlebarBackgroundOnActive="{StaticResource DarkWindowSecondaryColor}"
                  TitleMargin="16,0,0,0"
-                 Title="Carta"
+                 Title="Document"
                  SizeToContent="Height"
                  Width="320"
                  WindowStartupLocation="CenterScreen"
@@ -33,13 +33,13 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <fc:ComboBoxPlus x:Name="CardCategory"
+        <fc:ComboBoxPlus x:Name="DocumentCategory"
                          Style="{StaticResource DarkComboBoxPlus}"
                          Grid.Row="0"
                          Height="36"
                          Margin="24,24,24,0" />
 
-        <fc:TextBoxPlus x:Name="CardName"
+        <fc:TextBoxPlus x:Name="DocumentName"
                         Style="{StaticResource DarkTextBoxPlus}"
                         ContextMenu="{StaticResource FieldContextMenu}"
                         Grid.Row="1"
@@ -52,7 +52,7 @@
                         LabelMaxHeight="20"
                         Hint="Nome" />
 
-        <fc:TextBoxPlus x:Name="CardOwner"
+        <fc:TextBoxPlus x:Name="DocumentOwner"
                         Style="{StaticResource DarkTextBoxPlus}"
                         ContextMenu="{StaticResource FieldContextMenu}"
                         Grid.Row="2"
@@ -65,66 +65,19 @@
                         LabelMaxHeight="20"
                         Hint="Proprietario" />
 
-        <Grid Grid.Row="3"
-              Margin="24,4,24,0">
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <fc:TextBoxPlus x:Name="CardNumber"
-                            Style="{StaticResource DarkTextBoxPlus}"
-                            ContextMenu="{StaticResource FieldContextMenu}"
-                            Grid.Column="0"
-                            Height="36"
-                            Margin="0,0,8,0"
-                            VerticalContentAlignment="Center"
-                            Icon="/Icons/ic_card.png"
-                            LabelPlacement="Left"
-                            LabelMargin="0,0,8,0"
-                            LabelMaxHeight="20"
-                            Hint="Numero" />
-
-            <fc:TextBoxPlus x:Name="CardCvv"
-                            Style="{StaticResource DarkTextBoxPlus}"
-                            ContextMenu="{StaticResource FieldContextMenu}"
-                            Grid.Column="1"
-                            Height="36"
-                            Width="50"
-                            HorizontalAlignment="Right"
-                            VerticalContentAlignment="Center"
-                            HorizontalContentAlignment="Center"
-                            Hint="CVV"
-                            TextType="NumericOnly" />
-        </Grid>
-
-        <fc:TextBoxPlus x:Name="CardType"
+        <fc:TextBoxPlus x:Name="DocumentCode"
                         Style="{StaticResource DarkTextBoxPlus}"
                         ContextMenu="{StaticResource FieldContextMenu}"
-                        Grid.Row="4"
+                        Grid.Row="3"
                         Height="36"
                         Margin="24,4,24,0"
                         VerticalContentAlignment="Center"
-                        Icon="/Icons/ic_world.png"
+                        Icon="/Icons/ic_card.png"
                         LabelPlacement="Left"
                         LabelMargin="0,0,8,0"
                         LabelMaxHeight="20"
-                        Hint="Tipo" />
+                        Hint="Codice" />
 
-        <fc:TextBoxPlus x:Name="CardIban"
-                        Style="{StaticResource DarkTextBoxPlus}"
-                        ContextMenu="{StaticResource FieldContextMenu}"
-                        Grid.Row="5"
-                        Height="36"
-                        Margin="24,4,24,0"
-                        VerticalContentAlignment="Center"
-                        Icon="Icons/ic_card.png"
-                        LabelPlacement="Left"
-                        LabelMargin="0,0,8,0"
-                        LabelMaxHeight="20"
-                        Hint="Iban" />
-        
         <Grid Grid.Row="6"
               Margin="24,4,24,0">
 
@@ -132,9 +85,11 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             
-            <fc:TextBoxPlus x:Name="CardExpirationMonth"
+            <fc:TextBoxPlus x:Name="DocumentExpirationDay"
                             Style="{StaticResource DarkTextBoxPlus}"
                             ContextMenu="{StaticResource FieldContextMenu}"
                             Grid.Column="0"
@@ -146,7 +101,7 @@
                             LabelPlacement="Left"
                             LabelMargin="0,0,8,0"
                             LabelMaxHeight="20"
-                            Hint="MM"
+                            Hint="DD"
                             TextType="NumericOnly" />
 
             <TextBlock Grid.Column="1"
@@ -155,10 +110,27 @@
                        Margin="8,0,8,0"
                        Text="/" />
 
-            <fc:TextBoxPlus x:Name="CardExpirationYear"
+            <fc:TextBoxPlus x:Name="DocumentExpirationMonth"
                             Style="{StaticResource DarkTextBoxPlus}"
                             ContextMenu="{StaticResource FieldContextMenu}"
                             Grid.Column="2"
+                            Height="36"
+                            Width="50"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            Hint="MM"
+                            TextType="NumericOnly" />
+
+            <TextBlock Grid.Column="3"
+                       Foreground="White"
+                       VerticalAlignment="Center"
+                       Margin="8,0,8,0"
+                       Text="/" />
+
+            <fc:TextBoxPlus x:Name="DocumentExpirationYear"
+                            Style="{StaticResource DarkTextBoxPlus}"
+                            ContextMenu="{StaticResource FieldContextMenu}"
+                            Grid.Column="4"
                             Height="36"
                             Width="50"
                             VerticalContentAlignment="Center"
@@ -167,7 +139,7 @@
                             TextType="NumericOnly" />
         </Grid>
 
-        <fc:TextBoxPlus x:Name="CardNotes"
+        <fc:TextBoxPlus x:Name="DocumentNotes"
                         Style="{StaticResource DarkTextBoxPlus}"
                         Grid.Row="7"
                         Height="140"

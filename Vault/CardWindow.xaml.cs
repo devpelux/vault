@@ -132,7 +132,7 @@ namespace Vault
         }
 
         /// <summary>
-        /// Edit the card.
+        /// Edits the card.
         /// </summary>
         private void EditCard()
         {
