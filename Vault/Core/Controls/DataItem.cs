@@ -11,7 +11,7 @@ namespace Vault.Core.Controls
     /// <summary>
     /// Displays a preview of a <see cref="Data"/> type with a header and a sub-header.
     /// </summary>
-    public class DataPreview : Control, IVState
+    public class DataItem : Control, IVState
     {
         private bool loaded = false;
 
@@ -28,7 +28,7 @@ namespace Vault.Core.Controls
         /// Identifies the <see cref="BackgroundOnMouseOver"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty BackgroundOnMouseOverProperty =
-            DependencyProperty.Register(nameof(BackgroundOnMouseOver), typeof(Brush), typeof(DataPreview));
+            DependencyProperty.Register(nameof(BackgroundOnMouseOver), typeof(Brush), typeof(DataItem));
 
         /// <summary>
         /// Gets the actual background brush of the control.
@@ -41,7 +41,7 @@ namespace Vault.Core.Controls
         /// The <see cref="DependencyPropertyKey"/> for <see cref="ActualBackground"/> dependency property.
         /// </summary>
         private static readonly DependencyPropertyKey ActualBackgroundPropertyKey =
-            DependencyProperty.RegisterReadOnly(nameof(ActualBackground), typeof(Brush), typeof(DataPreview),
+            DependencyProperty.RegisterReadOnly(nameof(ActualBackground), typeof(Brush), typeof(DataItem),
                 new FrameworkPropertyMetadata(default(Brush)));
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Vault.Core.Controls
         /// Proxy for <see cref="ActualBackground"/> dependency property.
         /// </summary>
         private static readonly DependencyProperty ActualBackgroundPropertyProxy =
-            DependencyProperty.Register("ActualBackgroundProxy", typeof(Brush), typeof(DataPreview),
+            DependencyProperty.Register("ActualBackgroundProxy", typeof(Brush), typeof(DataItem),
                 new FrameworkPropertyMetadata(default(Brush), new PropertyChangedCallback((d, e)
                     => d.SetValue(ActualBackgroundPropertyKey, e.NewValue))));
 
@@ -72,7 +72,7 @@ namespace Vault.Core.Controls
         /// Identifies the <see cref="BorderBrushOnMouseOver"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty BorderBrushOnMouseOverProperty =
-            DependencyProperty.Register(nameof(BorderBrushOnMouseOver), typeof(Brush), typeof(DataPreview));
+            DependencyProperty.Register(nameof(BorderBrushOnMouseOver), typeof(Brush), typeof(DataItem));
 
         /// <summary>
         /// Gets the actual border brush of the control.
@@ -85,7 +85,7 @@ namespace Vault.Core.Controls
         /// The <see cref="DependencyPropertyKey"/> for <see cref="ActualBorderBrush"/> dependency property.
         /// </summary>
         private static readonly DependencyPropertyKey ActualBorderBrushPropertyKey =
-            DependencyProperty.RegisterReadOnly(nameof(ActualBorderBrush), typeof(Brush), typeof(DataPreview),
+            DependencyProperty.RegisterReadOnly(nameof(ActualBorderBrush), typeof(Brush), typeof(DataItem),
                 new FrameworkPropertyMetadata(default(Brush)));
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Vault.Core.Controls
         /// Proxy for <see cref="ActualBorderBrush"/> dependency property.
         /// </summary>
         private static readonly DependencyProperty ActualBorderBrushPropertyProxy =
-            DependencyProperty.Register("ActualBorderBrushProxy", typeof(Brush), typeof(DataPreview),
+            DependencyProperty.Register("ActualBorderBrushProxy", typeof(Brush), typeof(DataItem),
                 new FrameworkPropertyMetadata(default(Brush), new PropertyChangedCallback((d, e)
                     => d.SetValue(ActualBorderBrushPropertyKey, e.NewValue))));
 
@@ -116,7 +116,7 @@ namespace Vault.Core.Controls
         /// Identifies the <see cref="Header"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HeaderProperty =
-            DependencyProperty.Register(nameof(Header), typeof(string), typeof(DataPreview), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Header), typeof(string), typeof(DataItem), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets the sub-header.
@@ -131,7 +131,7 @@ namespace Vault.Core.Controls
         /// Identifies the <see cref="SubHeader"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty SubHeaderProperty =
-            DependencyProperty.Register(nameof(SubHeader), typeof(string), typeof(DataPreview), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(SubHeader), typeof(string), typeof(DataItem), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets the header foreground brush.
@@ -146,7 +146,7 @@ namespace Vault.Core.Controls
         /// Identifies the <see cref="HeaderForeground"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HeaderForegroundProperty =
-            DependencyProperty.Register(nameof(HeaderForeground), typeof(Brush), typeof(DataPreview));
+            DependencyProperty.Register(nameof(HeaderForeground), typeof(Brush), typeof(DataItem));
 
         /// <summary>
         /// Gets or sets the header foreground brush when the mouse is over the control.
@@ -161,7 +161,7 @@ namespace Vault.Core.Controls
         /// Identifies the <see cref="HeaderForegroundOnMouseOver"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HeaderForegroundOnMouseOverProperty =
-            DependencyProperty.Register(nameof(HeaderForegroundOnMouseOver), typeof(Brush), typeof(DataPreview));
+            DependencyProperty.Register(nameof(HeaderForegroundOnMouseOver), typeof(Brush), typeof(DataItem));
 
         /// <summary>
         /// Gets the actual header foreground brush.
@@ -174,7 +174,7 @@ namespace Vault.Core.Controls
         /// The <see cref="DependencyPropertyKey"/> for <see cref="ActualHeaderForeground"/> dependency property.
         /// </summary>
         private static readonly DependencyPropertyKey ActualHeaderForegroundPropertyKey =
-            DependencyProperty.RegisterReadOnly(nameof(ActualHeaderForeground), typeof(Brush), typeof(DataPreview),
+            DependencyProperty.RegisterReadOnly(nameof(ActualHeaderForeground), typeof(Brush), typeof(DataItem),
                 new FrameworkPropertyMetadata(default(Brush)));
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace Vault.Core.Controls
         /// Proxy for <see cref="ActualHeaderForeground"/> dependency property.
         /// </summary>
         private static readonly DependencyProperty ActualHeaderForegroundPropertyProxy =
-            DependencyProperty.Register("ActualHeaderForegroundProxy", typeof(Brush), typeof(DataPreview),
+            DependencyProperty.Register("ActualHeaderForegroundProxy", typeof(Brush), typeof(DataItem),
                 new FrameworkPropertyMetadata(default(Brush), new PropertyChangedCallback((d, e)
                     => d.SetValue(ActualHeaderForegroundPropertyKey, e.NewValue))));
 
@@ -205,7 +205,7 @@ namespace Vault.Core.Controls
         /// Identifies the <see cref="SubHeaderForeground"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty SubHeaderForegroundProperty =
-            DependencyProperty.Register(nameof(SubHeaderForeground), typeof(Brush), typeof(DataPreview));
+            DependencyProperty.Register(nameof(SubHeaderForeground), typeof(Brush), typeof(DataItem));
 
         /// <summary>
         /// Gets or sets the sub-header foreground brush when the mouse is over the control.
@@ -220,7 +220,7 @@ namespace Vault.Core.Controls
         /// Identifies the <see cref="SubHeaderForegroundOnMouseOver"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty SubHeaderForegroundOnMouseOverProperty =
-            DependencyProperty.Register(nameof(SubHeaderForegroundOnMouseOver), typeof(Brush), typeof(DataPreview));
+            DependencyProperty.Register(nameof(SubHeaderForegroundOnMouseOver), typeof(Brush), typeof(DataItem));
 
         /// <summary>
         /// Gets the actual sub-header foreground brush.
@@ -233,7 +233,7 @@ namespace Vault.Core.Controls
         /// The <see cref="DependencyPropertyKey"/> for <see cref="ActualSubHeaderForeground"/> dependency property.
         /// </summary>
         private static readonly DependencyPropertyKey ActualSubHeaderForegroundPropertyKey =
-            DependencyProperty.RegisterReadOnly(nameof(ActualSubHeaderForeground), typeof(Brush), typeof(DataPreview),
+            DependencyProperty.RegisterReadOnly(nameof(ActualSubHeaderForeground), typeof(Brush), typeof(DataItem),
                 new FrameworkPropertyMetadata(default(Brush)));
 
         /// <summary>
@@ -245,7 +245,7 @@ namespace Vault.Core.Controls
         /// Proxy for <see cref="ActualSubHeaderForeground"/> dependency property.
         /// </summary>
         private static readonly DependencyProperty ActualSubHeaderForegroundPropertyProxy =
-            DependencyProperty.Register("ActualSubHeaderForegroundProxy", typeof(Brush), typeof(DataPreview),
+            DependencyProperty.Register("ActualSubHeaderForegroundProxy", typeof(Brush), typeof(DataItem),
                 new FrameworkPropertyMetadata(default(Brush), new PropertyChangedCallback((d, e)
                     => d.SetValue(ActualSubHeaderForegroundPropertyKey, e.NewValue))));
 
@@ -264,7 +264,7 @@ namespace Vault.Core.Controls
         /// Identifies the <see cref="HeaderFontSize"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HeaderFontSizeProperty =
-            DependencyProperty.Register(nameof(HeaderFontSize), typeof(double), typeof(DataPreview));
+            DependencyProperty.Register(nameof(HeaderFontSize), typeof(double), typeof(DataItem));
 
         /// <summary>
         /// Gets or sets the sub-header font size.
@@ -279,7 +279,7 @@ namespace Vault.Core.Controls
         /// Identifies the <see cref="SubHeaderFontSize"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty SubHeaderFontSizeProperty =
-            DependencyProperty.Register(nameof(SubHeaderFontSize), typeof(double), typeof(DataPreview));
+            DependencyProperty.Register(nameof(SubHeaderFontSize), typeof(double), typeof(DataItem));
 
         /// <summary>
         /// Gets or sets the corner radius to set the roundness of the corners.
@@ -294,7 +294,7 @@ namespace Vault.Core.Controls
         /// Identifies the <see cref="CornerRadius"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty CornerRadiusProperty =
-            DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(DataPreview));
+            DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(DataItem));
 
         /// <summary>
         /// Gets or sets the duration of the control animation when it changes state.
@@ -309,17 +309,48 @@ namespace Vault.Core.Controls
         /// Identifies the <see cref="AnimationTime"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty AnimationTimeProperty =
-            DependencyProperty.Register(nameof(AnimationTime), typeof(TimeSpan), typeof(DataPreview));
+            DependencyProperty.Register(nameof(AnimationTime), typeof(TimeSpan), typeof(DataItem));
 
-        static DataPreview()
+        /// <summary>
+        /// Gets or sets a value indicating if the displayed data is locked.
+        /// </summary>
+        public bool IsLocked
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(DataPreview), new FrameworkPropertyMetadata(typeof(DataPreview)));
+            get => (bool)GetValue(IsLockedProperty);
+            set => SetValue(IsLockedProperty, value);
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="DataPreview"/>.
+        /// Identifies the <see cref="Position"/> dependency property.
         /// </summary>
-        public DataPreview() : base()
+        public static readonly DependencyProperty IsLockedProperty =
+            DependencyProperty.Register(nameof(IsLocked), typeof(bool), typeof(DataItem));
+
+        /// <summary>
+        /// Gets or sets the position of the item.
+        /// </summary>
+        public DataItemAdapter.ItemPosition Position
+        {
+            get => (DataItemAdapter.ItemPosition)GetValue(PositionProperty);
+            set => SetValue(PositionProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Position"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty PositionProperty =
+            DependencyProperty.Register(nameof(Position), typeof(DataItemAdapter.ItemPosition), typeof(DataItem),
+                new PropertyMetadata(DataItemAdapter.ItemPosition.Middle));
+
+        static DataItem()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DataItem), new FrameworkPropertyMetadata(typeof(DataItem)));
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="DataItem"/>.
+        /// </summary>
+        public DataItem() : base()
         {
             Loaded += (o, e) => OnLoaded(e);
         }
@@ -392,12 +423,12 @@ namespace Vault.Core.Controls
             /// <summary>
             /// Default state.
             /// </summary>
-            public static readonly VState DEFAULT = new(nameof(DEFAULT), typeof(DataPreview));
+            public static readonly VState DEFAULT = new(nameof(DEFAULT), typeof(DataItem));
 
             /// <summary>
             /// The mouse is over the control.
             /// </summary>
-            public static readonly VState MOUSE_OVER = new(nameof(MOUSE_OVER), typeof(DataPreview));
+            public static readonly VState MOUSE_OVER = new(nameof(MOUSE_OVER), typeof(DataItem));
         }
     }
 }

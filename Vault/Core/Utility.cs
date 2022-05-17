@@ -33,7 +33,7 @@ namespace Vault.Core
                 ComboBoxItemPlus comboBoxItem = new()
                 {
                     Style = style,
-                    Content = category != Category.None ? category.Name : "Non categorizzato",
+                    Content = AdaptLabel(category),
                     Tag = category.Name
                 };
                 comboBox.Items.Add(comboBoxItem);
@@ -112,6 +112,17 @@ namespace Vault.Core
             else if (header.Length == 0) return defaultValue;
             else if (header.Length <= maxLength) return header;
             else return $"{new string(header.Take(maxLength).ToArray())}...";
+        }
+
+        /// <summary>
+        /// Adapt the category label for displaying.
+        /// If the label is empty, returns the name.
+        /// </summary>
+        internal static string AdaptLabel(Category category)
+        {
+            if (category == Category.None) return "Non categorizzato";
+            else if (category.Label.Length == 0) return category.Name;
+            else return category.Label;
         }
     }
 }

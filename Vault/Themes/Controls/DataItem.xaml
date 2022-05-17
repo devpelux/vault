@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Vault.Core.Controls">
 
-    <Style TargetType="{x:Type local:DataPreview}">
+    <Style TargetType="{x:Type local:DataItem}">
 
         <!-- Generic styling -->
 
@@ -23,17 +23,17 @@
         <Setter Property="SubHeaderForegroundOnMouseOver"
                 Value="Black" />
         <Setter Property="HeaderFontSize"
-                Value="24" />
+                Value="16" />
         <Setter Property="SubHeaderFontSize"
-                Value="12" />
+                Value="10" />
         <Setter Property="Padding"
                 Value="8" />
         <Setter Property="BorderThickness"
-                Value="0" />
+                Value="0,0,0,1" />
         <Setter Property="CornerRadius"
                 Value="0" />
         <Setter Property="AnimationTime"
-                Value="00:00:00.3000000" />
+                Value="00:00:00.1000000" />
 
         <!-- Header and SubHeader values -->
 
@@ -46,7 +46,7 @@
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:DataPreview}">
+                <ControlTemplate TargetType="{x:Type local:DataItem}">
 
                     <Border x:Name="PART_Border"
                             Background="{TemplateBinding ActualBackground}"
@@ -64,10 +64,16 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
+                            
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
                             <TextBlock x:Name="PART_Header"
                                        Grid.Row="0"
-                                       Margin="0,0,0,0"
+                                       Grid.Column="0"
+                                       Margin="0,0,0,2"
                                        FontSize="{TemplateBinding HeaderFontSize}"
                                        Foreground="{TemplateBinding ActualHeaderForeground}"
                                        Text="{TemplateBinding Header}"
@@ -76,19 +82,32 @@
 
                             <TextBlock x:Name="PART_SubHeader"
                                        Grid.Row="1"
-                                       Margin="0,4,0,0"
+                                       Grid.Column="0"
+                                       Margin="0,2,0,0"
                                        FontSize="{TemplateBinding SubHeaderFontSize}"
                                        Foreground="{TemplateBinding ActualSubHeaderForeground}"
                                        Text="{TemplateBinding SubHeader}"
                                        Focusable="False"
                                        IsHitTestVisible="False" />
 
+                            <Image x:Name="PART_Lock"
+                                   Grid.Row="0"
+                                   Grid.Column="1"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Top"
+                                   Source="/Icons/ic_lock.png"
+                                   Width="14"
+                                   Height="14"
+                                   SnapsToDevicePixels="True"
+                                   UseLayoutRounding="True"
+                                   IsHitTestVisible="False"
+                                   RenderOptions.BitmapScalingMode="Fant"/>
+
                         </Grid>
 
                     </Border>
 
                     <ControlTemplate.Triggers>
-
                         <Trigger Property="Header"
                                  Value="{x:Null}">
                             <Setter TargetName="PART_Header"
@@ -103,11 +122,27 @@
                                     Value="Collapsed" />
                         </Trigger>
 
+                        <Trigger Property="IsLocked"
+                                 Value="False">
+                            <Setter TargetName="PART_Lock"
+                                    Property="Visibility"
+                                    Value="Collapsed" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
 
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="Position"
+                     Value="Last">
+                <Setter Property="BorderThickness"
+                        Value="0,0,0,0" />
+                <Setter Property="CornerRadius"
+                        Value="0,0,4,4" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

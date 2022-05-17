@@ -103,13 +103,13 @@
                         <fc:Accordion.Resources>
                             <ResourceDictionary>
                                 <DataTemplate x:Key="PasswordListDT">
-                                    <Grid Margin="0,0,0,4">
-                                        <cust:DataPreview Style="{StaticResource DarkDataPreview}"
-                                                          Tag="{Binding Id}"
-                                                          Header="{Binding Header}"
-                                                          SubHeader="{Binding SubHeader}"
-                                                          MouseLeftButtonDown="PasswordPreviewMouseLeftButtonDown" />
-                                    </Grid>
+                                    <cust:DataItem Style="{StaticResource DarkDataItem}"
+                                                   Tag="{Binding Id}"
+                                                   Header="{Binding Header}"
+                                                   SubHeader="{Binding SubHeader}"
+                                                   IsLocked="{Binding IsLocked}"
+                                                   Position="{Binding Position}"
+                                                   MouseLeftButtonDown="PasswordPreviewMouseLeftButtonDown" />
                                 </DataTemplate>
                             </ResourceDictionary>
                         </fc:Accordion.Resources>
@@ -149,13 +149,13 @@
                         <fc:Accordion.Resources>
                             <ResourceDictionary>
                                 <DataTemplate x:Key="CardListDT">
-                                    <Grid Margin="0,0,0,4">
-                                        <cust:DataPreview Style="{StaticResource DarkDataPreview}"
-                                                          Tag="{Binding Id}"
-                                                          Header="{Binding Header}"
-                                                          SubHeader="{Binding SubHeader}"
-                                                          MouseLeftButtonDown="CardPreviewMouseLeftButtonDown" />
-                                    </Grid>
+                                    <cust:DataItem Style="{StaticResource DarkDataItem}"
+                                                   Tag="{Binding Id}"
+                                                   Header="{Binding Header}"
+                                                   SubHeader="{Binding SubHeader}"
+                                                   IsLocked="{Binding IsLocked}"
+                                                   Position="{Binding Position}"
+                                                   MouseLeftButtonDown="CardPreviewMouseLeftButtonDown" />
                                 </DataTemplate>
                             </ResourceDictionary>
                         </fc:Accordion.Resources>
@@ -186,13 +186,13 @@
                         <fc:Accordion.Resources>
                             <ResourceDictionary>
                                 <DataTemplate x:Key="NoteListDT">
-                                    <Grid Margin="0,0,0,4">
-                                        <cust:DataPreview Style="{StaticResource DarkDataPreview}"
-                                                          Tag="{Binding Id}"
-                                                          Header="{Binding Header}"
-                                                          SubHeader="{Binding SubHeader}"
-                                                          MouseLeftButtonDown="NotePreviewMouseLeftButtonDown" />
-                                    </Grid>
+                                    <cust:DataItem Style="{StaticResource DarkDataItem}"
+                                                   Tag="{Binding Id}"
+                                                   Header="{Binding Header}"
+                                                   SubHeader="{Binding SubHeader}"
+                                                   IsLocked="{Binding IsLocked}"
+                                                   Position="{Binding Position}"
+                                                   MouseLeftButtonDown="NotePreviewMouseLeftButtonDown" />
                                 </DataTemplate>
                             </ResourceDictionary>
                         </fc:Accordion.Resources>

@@ -16,55 +16,52 @@
                  ResizeMode="NoResize"
                  Loaded="Window_Loaded">
 
-    <Grid VerticalAlignment="Top">
+    <Grid VerticalAlignment="Top"
+          Margin="0,0,0,0">
 
-        <Grid VerticalAlignment="Top"
-              Margin="0,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+        <Image x:Name="Image"
+               Grid.Column="0"
+               Margin="32,32,8,32"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Height="32"
+               Width="32"
+               Source="Icons/ic_asterisk.png"
+               Visibility="Visible"
+               Stretch="Uniform"
+               RenderOptions.BitmapScalingMode="Fant"
+               SnapsToDevicePixels="True" />
 
-            <Image x:Name="Image"
-                   Grid.Column="0"
-                   Margin="32,32,8,32"
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Top"
-                   Height="32"
-                   Width="32"
-                   Source="Icons/ic_asterisk.png"
-                   Visibility="Visible"
-                   Stretch="Uniform"
-                   RenderOptions.BitmapScalingMode="Fant"
-                   SnapsToDevicePixels="True" />
-            
-            <TextBlock x:Name="MessageViewer"
-                       Grid.Column="1"
-                       Margin="24,24,24,24"
-                       VerticalAlignment="Center"
-                       TextAlignment="Center"
-                       TextWrapping="Wrap"
-                       Text="Do not go gentle into that good night... old age should burn and rave at close of day... rage, rage against the dying of the light."
-                       Foreground="White" />
+        <TextBlock x:Name="MessageViewer"
+                   Grid.Column="1"
+                   Margin="24,24,24,24"
+                   VerticalAlignment="Center"
+                   TextAlignment="Center"
+                   TextWrapping="Wrap"
+                   Text="Do not go gentle into that good night... old age should burn and rave at close of day... rage, rage against the dying of the light."
+                   Foreground="White" />
 
-            <Grid Grid.Row="4"
-                  Grid.ColumnSpan="2"
-                  Background="{StaticResource DarkWindowPrimaryColor}">
+        <Grid Grid.Row="4"
+              Grid.ColumnSpan="2"
+              Background="{StaticResource DarkWindowPrimaryColor}">
 
-                <fc:ButtonPlus x:Name="Ok"
-                               Style="{StaticResource DarkButtonPlus}"
-                               Content="Ok"
-                               HorizontalAlignment="Right"
-                               Margin="24,24,24,24"
-                               Width="64"
-                               Height="36"
-                               Click="Ok_Click" />
-            </Grid>
+            <fc:ButtonPlus x:Name="Ok"
+                           Style="{StaticResource DarkButtonPlus}"
+                           Content="Ok"
+                           HorizontalAlignment="Right"
+                           Margin="24,24,24,24"
+                           Width="64"
+                           Height="36"
+                           Click="Ok_Click" />
         </Grid>
     </Grid>
 </fc:AvalonWindow>

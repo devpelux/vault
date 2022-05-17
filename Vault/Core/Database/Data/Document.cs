@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Vault.Core.Database.Data
+﻿namespace Vault.Core.Database.Data
 {
     /// <summary>
     /// Represents a document data.

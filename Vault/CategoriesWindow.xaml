@@ -14,6 +14,7 @@
                  ResizeMode="NoResize"
                  Loaded="Window_Loaded"
                  KeyDown="Window_KeyDown">
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

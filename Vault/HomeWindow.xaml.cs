@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Vault.Core;
 using Vault.Core.Controls;
 using Vault.Core.Database;
 using Vault.Core.Database.Data;
@@ -140,7 +141,7 @@ namespace Vault
 
         private void PasswordPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Password? selectedPassword = DB.Instance.Passwords.Get((int)((DataPreview)sender).Tag);
+            Password? selectedPassword = DB.Instance.Passwords.Get((int)((DataItem)sender).Tag);
 
             if (selectedPassword == null) return;
 
@@ -165,7 +166,7 @@ namespace Vault
 
         private void CardPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Card? selectedCard = DB.Instance.Cards.Get((int)((DataPreview)sender).Tag);
+            Card? selectedCard = DB.Instance.Cards.Get((int)((DataItem)sender).Tag);
 
             if (selectedCard == null) return;
 
@@ -190,7 +191,7 @@ namespace Vault
 
         private void NotePreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Note? selectedNote = DB.Instance.Notes.Get((int)((DataPreview)sender).Tag);
+            Note? selectedNote = DB.Instance.Notes.Get((int)((DataItem)sender).Tag);
 
             if (selectedNote == null) return;
 
@@ -267,26 +268,33 @@ namespace Vault
             else return (DataTemplate)CardList.FindResource("CardListDT");
         }
 
-        private AccordionItemCollection GenerateAccordionItems<T>(List<T> list, List<Category>? categories) where T : Data
+        private AccordionItemCollection GenerateAccordionItems<T>(List<T> datas, List<Category>? categories) where T : Data
         {
             AccordionItemCollection accordionItems = new();
 
             if (categories != null)
             {
-                foreach (Category cat in categories)
+                foreach (Category category in categories)
                 {
-                    List<T> categoryFiltered = list.FindAll(e => e.Category == cat.Name);
-                    if (categoryFiltered.Count > 0)
+                    List<T> datasByCategory = datas.FindAll(data => data.Category == category.Name);
+                    List<DataItemAdapter> items = datasByCategory.ConvertAll(data => new DataItemAdapter(data));
+
+                    if (items.Count > 0)
                     {
+                        items[0].Position = DataItemAdapter.ItemPosition.First;
+                        items[^1].Position = DataItemAdapter.ItemPosition.Last;
+
                         ItemsControlAccordionItem item = new()
                         {
                             Style = FindResource("DarkItemsControlAccordionItem") as Style,
-                            Header = cat.Name,
-                            IsExpanded = cat.IsExpanded,
-                            ItemsSource = categoryFiltered,
-                            ItemTemplate = GetListTemplate(list.GetType()),
-                            Tag = cat.Name
+                            Margin = new Thickness(0, 2, 0, 2),
+                            Header = Utility.AdaptLabel(category),
+                            IsExpanded = category.IsExpanded,
+                            ItemsSource = items,
+                            ItemTemplate = GetListTemplate(datas.GetType()),
+                            Tag = category.Name
                         };
+
                         accordionItems.Add(item);
                     }
                 }

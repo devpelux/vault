@@ -37,24 +37,24 @@
                 Value="{StaticResource DarkCaptionCloseButton}" />
     </Style>
 
-    <Style x:Key="DarkDataPreview"
-           TargetType="{x:Type controls:DataPreview}">
+    <Style x:Key="DarkDataItem"
+           TargetType="{x:Type controls:DataItem}">
         <Setter Property="Background"
-                Value="Transparent" />
+                Value="{StaticResource DarkAccordionBackground}" />
         <Setter Property="BackgroundOnMouseOver"
-                Value="Transparent" />
+                Value="{StaticResource DarkButtonBackgroundHover}" />
         <Setter Property="BorderBrush"
-                Value="{x:Null}" />
+                Value="{StaticResource DarkAccordionBorder}" />
         <Setter Property="BorderBrushOnMouseOver"
-                Value="{x:Null}" />
+                Value="{StaticResource DarkAccordionBorder}" />
         <Setter Property="HeaderForeground"
-                Value="Black" />
+                Value="White" />
         <Setter Property="HeaderForegroundOnMouseOver"
-                Value="Black" />
+                Value="White" />
         <Setter Property="SubHeaderForeground"
-                Value="Black" />
+                Value="Gray" />
         <Setter Property="SubHeaderForegroundOnMouseOver"
-                Value="Black" />
+                Value="Gray" />
     </Style>
 
     <Style x:Key="CategorySwitcher"
