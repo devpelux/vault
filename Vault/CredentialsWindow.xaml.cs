@@ -130,13 +130,13 @@ namespace Vault
             switch (CurrentRequest)
             {
                 case Request.Login:
-                    Login();
+                    LoginRequest();
                     break;
                 case Request.Registration:
-                    Register();
+                    RegisterRequest();
                     break;
                 case Request.Reauthentication:
-                    Reauthenticate();
+                    ReauthenticateRequest();
                     break;
             }
         }
@@ -144,7 +144,7 @@ namespace Vault
         /// <summary>
         /// Executes the login.
         /// </summary>
-        private void Login()
+        private void LoginRequest()
         {
             if (Username.TextLength == 0 && Password.PasswordLength == 0 || Username.Text.Contains(' '))
             {
@@ -160,7 +160,7 @@ namespace Vault
                 //If the connection fails aborts the launch and displays an error message.
                 if (DB.Instance.IsConnected)
                 {
-                    StartSession();
+                    Login();
                 }
                 else
                 {
@@ -175,7 +175,7 @@ namespace Vault
         /// <summary>
         /// Executes the registration.
         /// </summary>
-        private void Register()
+        private void RegisterRequest()
         {
             if (Username.TextLength == 0 || Password.PasswordLength == 0 || ConfirmPassword.PasswordLength == 0 || Username.Text.Contains(' '))
             {
@@ -201,7 +201,7 @@ namespace Vault
             //If the connection fails aborts the launch and displays an error message.
             if (DB.Instance.IsConnected)
             {
-                StartSession();
+                Login();
             }
             else
             {
@@ -213,7 +213,7 @@ namespace Vault
         /// <summary>
         /// Executes the registration.
         /// </summary>
-        private void Reauthenticate()
+        private void ReauthenticateRequest()
         {
             if (Password.PasswordLength == 0)
             {
@@ -231,20 +231,19 @@ namespace Vault
         }
 
         /// <summary>
-        /// Starts the new session.
+        /// Executes the login by starting a new session and loading the home window.
         /// </summary>
-        private void StartSession()
+        private void Login()
         {
-            //Save the username and password in the session settings.
-            InstanceSettings.Instance.SetSetting("username", Username.Text);
-            InstanceSettings.Instance.SetSetting("password", Password.Password);
+            //Starts a new session.
+            App.StartSession(Username.Text, Password.Password);
 
             //If the remember button is checked, remembers the username.
             if (Remember.IsChecked == true) Settings.Instance.SetSetting("username", Username.Text);
             else Settings.Instance.SetSetting("username", null);
 
             //Loads the home window.
-            new Home().Show();
+            new HomeWindow().Show();
             Close();
         }
 

@@ -1,4 +1,6 @@
-﻿namespace Vault.Core.Database.Data
+﻿using System.Linq;
+
+namespace Vault.Core.Database.Data
 {
     /// <summary>
     /// Represents a password data.
@@ -34,6 +36,12 @@
         /// Gets or sets a value indicating if the password is violated.
         /// </summary>
         public bool IsViolated { get; set; } = false;
+
+        /// <inheritdoc/>
+        public override string Header => Account;
+
+        /// <inheritdoc/>
+        public override string SubHeader => Utility.AdaptHeader(Username, 6, "No username");
 
         /// <summary>
         /// Initializes a new <see cref="Password"/> without id.

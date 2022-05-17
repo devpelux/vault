@@ -20,6 +20,20 @@
         /// </summary>
         public bool IsLocked { get; set; } = false;
 
+        #region Header and SubHeader
+
+        /// <summary>
+        /// Gets the header representing the data.
+        /// </summary>
+        public virtual string Header => string.Empty;
+
+        /// <summary>
+        /// Gets the sub-header representing the data.
+        /// </summary>
+        public virtual string SubHeader => string.Empty;
+
+        #endregion
+
         /// <summary>
         /// Initializes a new <see cref="Data"/>.
         /// </summary>

@@ -65,6 +65,7 @@ namespace Vault
         /// </summary>
         private void Application_Exit(object sender, ExitEventArgs e)
         {
+            TerminateSession();
             DB.DisposeInstance();
             TrayIcon.DisposeInstance();
             Settings.DisposeInstance();
@@ -91,6 +92,26 @@ namespace Vault
                         "Errore", MessageBoxImage.Exclamation).ShowDialog();
                 }
             }
+        }
+
+        /// <summary>
+        /// Starts a new session.
+        /// </summary>
+        public static void StartSession(string username, string password)
+        {
+            //Save the username and password in the session settings.
+            InstanceSettings.Instance.SetSetting("username", username);
+            InstanceSettings.Instance.SetSetting("password", password);
+        }
+
+        /// <summary>
+        /// Terminates the current session.
+        /// </summary>
+        public static void TerminateSession()
+        {
+            //Removes the username and password in the session settings.
+            InstanceSettings.Instance.SetSetting("username", null);
+            InstanceSettings.Instance.SetSetting("password", null);
         }
 
         /// <summary>

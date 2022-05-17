@@ -1,4 +1,6 @@
-﻿namespace Vault.Core.Database.Data
+﻿using System.Linq;
+
+namespace Vault.Core.Database.Data
 {
     /// <summary>
     /// Represents a document data.
@@ -29,6 +31,12 @@
         /// Gets or sets the notes.
         /// </summary>
         public string? Notes { get; set; } = null;
+
+        /// <inheritdoc/>
+        public override string Header => Name;
+
+        /// <inheritdoc/>
+        public override string SubHeader => Utility.AdaptHeader(Code, 4, "No code");
 
         /// <summary>
         /// Initializes a new <see cref="Document"/> without id.

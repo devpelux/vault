@@ -1,4 +1,6 @@
-﻿namespace Vault.Core.Database.Data
+﻿using System.Linq;
+
+namespace Vault.Core.Database.Data
 {
     /// <summary>
     /// Represents a card data.
@@ -44,6 +46,12 @@
         /// Gets or sets the notes.
         /// </summary>
         public string? Notes { get; set; } = null;
+
+        /// <inheritdoc/>
+        public override string Header => Name;
+
+        /// <inheritdoc/>
+        public override string SubHeader => Utility.AdaptHeader(Number, 4);
 
         /// <summary>
         /// Initializes a new <see cref="Card"/> without id.

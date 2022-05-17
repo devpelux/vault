@@ -107,7 +107,13 @@ namespace Vault.Core.Controls
         private void OnLogoutCommandExecuted(object? sender, EventArgs e)
         {
             SetIconType(TrayIconType.Locked);
-            if (App.IsHided) InstanceSettings.Instance.SetSetting("last_window", nameof(CredentialsWindow));
+            if (App.IsHided)
+            {
+                InstanceSettings.Instance.SetSetting("last_window", nameof(CredentialsWindow));
+
+                //Terminates the current session.
+                App.TerminateSession();
+            }
             LogoutCommandExecuted?.Invoke(this, e);
         }
 
@@ -135,8 +141,8 @@ namespace Vault.Core.Controls
             //If there is no last window, on the default case, executes a log out.
             switch (lastWindow)
             {
-                case nameof(Home):
-                    new Home().Show();
+                case nameof(HomeWindow):
+                    new HomeWindow().Show();
                     break;
                 case nameof(CredentialsWindow):
                     new CredentialsWindow(CredentialsWindow.Request.Login).Show();

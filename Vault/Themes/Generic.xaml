@@ -1,7 +1,5 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Vault;component/Themes/CustomControls/CardPreview.xaml" />
-        <ResourceDictionary Source="/Vault;component/Themes/CustomControls/NotePreview.xaml"/>
-        <ResourceDictionary Source="/Vault;component/Themes/CustomControls/PasswordPreview.xaml"/>
+        <ResourceDictionary Source="/Vault;component/Themes/Controls/DataPreview.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

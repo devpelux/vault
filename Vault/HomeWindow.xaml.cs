@@ -17,23 +17,26 @@ namespace Vault
     /// <summary>
     /// Home window.
     /// </summary>
-    public partial class Home : AvalonWindow
+    public partial class HomeWindow : AvalonWindow
     {
         private const int PASSWORD_SECTION = 0;
         private const int CARD_SECTION = 1;
         private const int NOTE_SECTION = 2;
 
-        private List<Password> passwords;
-        private List<Card> cards;
-        private List<Note> notes;
+        private List<Password>? passwords;
+        private List<Card>? cards;
+        private List<Note>? notes;
 
-        private List<Category> categories;
+        private List<Category>? categories;
 
         private bool enableSwitch = true;
         private int loadedSection = -1;
 
 
-        public Home()
+        /// <summary>
+        /// Initializes a new <see cref="HomeWindow"/>.
+        /// </summary>
+        public HomeWindow()
         {
             InitializeComponent();
         }
@@ -56,8 +59,15 @@ namespace Vault
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e) => Logout();
 
+        /// <summary>
+        /// Executes the logout by terminating the current session and loading the credentials window.
+        /// </summary>
         private void Logout()
         {
+            //Terminates the current session.
+            App.TerminateSession();
+
+            //Loads the credentials window.
             new CredentialsWindow(CredentialsWindow.Request.Login).Show();
             Close();
         }
@@ -71,13 +81,18 @@ namespace Vault
 
         private void ShowSettings_Click(object sender, RoutedEventArgs e)
         {
-            new SettingsWindow().Show();
+            new SettingsWindow().ShowDialog();
         }
 
         private void EditCategories_Click(object sender, RoutedEventArgs e)
         {
             _ = new DialogWindow(new CategoriesWindow()).Show();
             Reload(loadedSection);
+        }
+
+        private void Report_Click(object sender, RoutedEventArgs e)
+        {
+            new ReportWindow().ShowDialog();
         }
 
         private void Lists_ItemIsExpandedChanged(object sender, ItemExpandedChangedEventArgs e)
@@ -97,7 +112,7 @@ namespace Vault
 
         private void NewPassword_Click(object sender, RoutedEventArgs e)
         {
-            if (new DialogWindow(new PasswordWindow(null)).Show()?.Equals("edit") == true)
+            if (new DialogWindow(new PasswordWindow(null)).Show() != null)
             {
                 LoadPasswords(Search.Text);
             }
@@ -105,7 +120,7 @@ namespace Vault
 
         private void NewCard_Click(object sender, RoutedEventArgs e)
         {
-            if (new DialogWindow(new CardWindow(null)).Show()?.Equals("edit") == true)
+            if (new DialogWindow(new CardWindow(null)).Show() != null)
             {
                 LoadCards(Search.Text);
             }
@@ -113,7 +128,7 @@ namespace Vault
 
         private void NewNote_Click(object sender, RoutedEventArgs e)
         {
-            if (new DialogWindow(new NoteWindow(null)).Show()?.Equals("edit") == true)
+            if (new DialogWindow(new NoteWindow(null)).Show() != null)
             {
                 LoadNotes(Search.Text);
             }
@@ -125,13 +140,13 @@ namespace Vault
 
         private void PasswordPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Password? selectedPassword = DB.Instance.Passwords.Get(((PasswordPreview)sender).ID);
+            Password? selectedPassword = DB.Instance.Passwords.Get((int)((DataPreview)sender).Tag);
 
             if (selectedPassword == null) return;
 
             if (!selectedPassword.IsLocked)
             {
-                if (new DialogWindow(new PasswordWindow(selectedPassword)).Show()?.Equals("edit") == true)
+                if (new DialogWindow(new PasswordWindow(selectedPassword)).Show() != null)
                 {
                     LoadPasswords(Search.Text);
                 }
@@ -140,7 +155,7 @@ namespace Vault
             {
                 if ((bool?)new DialogWindow(new CredentialsWindow(CredentialsWindow.Request.Reauthentication)).Show() == true)
                 {
-                    if (new DialogWindow(new PasswordWindow(selectedPassword)).Show()?.Equals("edit") == true)
+                    if (new DialogWindow(new PasswordWindow(selectedPassword)).Show() != null)
                     {
                         LoadPasswords(Search.Text);
                     }
@@ -150,13 +165,13 @@ namespace Vault
 
         private void CardPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Card? selectedCard = DB.Instance.Cards.Get(((CardPreview)sender).ID);
+            Card? selectedCard = DB.Instance.Cards.Get((int)((DataPreview)sender).Tag);
 
             if (selectedCard == null) return;
 
             if (!selectedCard.IsLocked)
             {
-                if (new DialogWindow(new CardWindow(selectedCard)).Show()?.Equals("edit") == true)
+                if (new DialogWindow(new CardWindow(selectedCard)).Show() != null)
                 {
                     LoadCards(Search.Text);
                 }
@@ -165,7 +180,7 @@ namespace Vault
             {
                 if ((bool?)new DialogWindow(new CredentialsWindow(CredentialsWindow.Request.Reauthentication)).Show() == true)
                 {
-                    if (new DialogWindow(new CardWindow(selectedCard)).Show()?.Equals("edit") == true)
+                    if (new DialogWindow(new CardWindow(selectedCard)).Show() != null)
                     {
                         LoadCards(Search.Text);
                     }
@@ -175,13 +190,13 @@ namespace Vault
 
         private void NotePreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Note? selectedNote = DB.Instance.Notes.Get(((NotePreview)sender).ID);
+            Note? selectedNote = DB.Instance.Notes.Get((int)((DataPreview)sender).Tag);
 
             if (selectedNote == null) return;
 
             if (!selectedNote.IsLocked)
             {
-                if (new DialogWindow(new NoteWindow(selectedNote)).Show()?.Equals("edit") == true)
+                if (new DialogWindow(new NoteWindow(selectedNote)).Show() != null)
                 {
                     LoadNotes(Search.Text);
                 }
@@ -190,7 +205,7 @@ namespace Vault
             {
                 if ((bool?)new DialogWindow(new CredentialsWindow(CredentialsWindow.Request.Reauthentication)).Show() == true)
                 {
-                    if (new DialogWindow(new NoteWindow(selectedNote)).Show()?.Equals("edit") == true)
+                    if (new DialogWindow(new NoteWindow(selectedNote)).Show() != null)
                     {
                         LoadNotes(Search.Text);
                     }
@@ -252,25 +267,28 @@ namespace Vault
             else return (DataTemplate)CardList.FindResource("CardListDT");
         }
 
-        private AccordionItemCollection GenerateAccordionItems<T>(List<T> list, List<Category> categories) where T : Data
+        private AccordionItemCollection GenerateAccordionItems<T>(List<T> list, List<Category>? categories) where T : Data
         {
             AccordionItemCollection accordionItems = new();
 
-            foreach (Category cat in categories)
+            if (categories != null)
             {
-                List<T> categoryFiltered = list.FindAll(e => e.Category == cat.Name);
-                if (categoryFiltered.Count > 0)
+                foreach (Category cat in categories)
                 {
-                    ItemsControlAccordionItem item = new()
+                    List<T> categoryFiltered = list.FindAll(e => e.Category == cat.Name);
+                    if (categoryFiltered.Count > 0)
                     {
-                        Style = FindResource("DarkItemsControlAccordionItem") as Style,
-                        Header = cat.Name,
-                        IsExpanded = cat.IsExpanded,
-                        ItemsSource = categoryFiltered,
-                        ItemTemplate = GetListTemplate(list.GetType()),
-                        Tag = cat.Name
-                    };
-                    accordionItems.Add(item);
+                        ItemsControlAccordionItem item = new()
+                        {
+                            Style = FindResource("DarkItemsControlAccordionItem") as Style,
+                            Header = cat.Name,
+                            IsExpanded = cat.IsExpanded,
+                            ItemsSource = categoryFiltered,
+                            ItemTemplate = GetListTemplate(list.GetType()),
+                            Tag = cat.Name
+                        };
+                        accordionItems.Add(item);
+                    }
                 }
             }
 

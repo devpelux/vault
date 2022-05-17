@@ -1,4 +1,6 @@
-﻿namespace Vault.Core.Database.Data
+﻿using System;
+
+namespace Vault.Core.Database.Data
 {
     /// <summary>
     /// Represents a note data.
@@ -19,6 +21,25 @@
         /// Gets or sets the timestamp.
         /// </summary>
         public long Timestamp { get; set; } = -1;
+
+        /// <inheritdoc/>
+        public override string Header => Title;
+
+        /// <inheritdoc/>
+        public override string SubHeader
+        {
+            get
+            {
+                DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(Timestamp);
+                string year = time.Year.ToString();
+                string month = time.Month.ToString();
+                string day = time.Day.ToString();
+                string hour = time.Hour.ToString();
+                string minute = time.Minute.ToString();
+
+                return $"{day}/{month}/{year}  {hour}:{minute}";
+            }
+        }
 
         /// <summary>
         /// Initializes a new <see cref="Note"/> without id.
