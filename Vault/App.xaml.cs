@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using Vault.Core.Controls;
 using Vault.Core.Database;
@@ -137,5 +139,10 @@ namespace Vault
                 else Current.Shutdown();
             }
         }
+
+        /// <summary>
+        /// Gets the current version number for the application.
+        /// </summary>
+        public static string GetVersionCode() => Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "N/A";
     }
 }

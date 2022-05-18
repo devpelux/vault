@@ -7,7 +7,7 @@
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <StartupObject>Vault.App</StartupObject>
-    <Version>0.4.0</Version>
+    <Version>1.0.0-pre1</Version>
     <ApplicationIcon>Icons\icon.ico</ApplicationIcon>
     <Authors>Salvatore Peluso</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

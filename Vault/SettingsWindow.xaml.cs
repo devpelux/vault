@@ -19,6 +19,7 @@ namespace Vault
         public SettingsWindow()
         {
             InitializeComponent();
+            VersionCode.Text = App.GetVersionCode();
         }
 
         /// <summary>
