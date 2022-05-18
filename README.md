@@ -1,5 +1,5 @@
 # Vault
-Portable password manager open source and completely offline forever.
+Portable password manager open source and completely offline.
 
 ![home](https://raw.githubusercontent.com/devpelux/vault/1.0.0-pre.1/Assets/home.png)
 

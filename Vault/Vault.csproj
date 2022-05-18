@@ -15,8 +15,8 @@
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/devpelux/vault</PackageProjectUrl>
     <Copyright>Copyright (C) 2020-2022 devpelux (Salvatore Peluso)</Copyright>
-    <Description>Portable password manager open source and completely offline forever.</Description>
-    <PackageTags>vault password-manager offline wpf sqlcipher</PackageTags>
+    <Description>Portable password manager open source and completely offline.</Description>
+    <PackageTags>vault password-manager offline sqlcipher fluent-design wpf</PackageTags>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
