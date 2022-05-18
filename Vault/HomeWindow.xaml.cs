@@ -20,19 +20,18 @@ namespace Vault
     /// </summary>
     public partial class HomeWindow : AvalonWindow
     {
-        private const int PASSWORD_SECTION = 0;
-        private const int CARD_SECTION = 1;
-        private const int NOTE_SECTION = 2;
+        #region Sections identifiers
 
-        private List<Password>? passwords;
-        private List<Card>? cards;
-        private List<Note>? notes;
+        private const long PASSWORDS_SECTION = 0;
+        private const long NOTES_SECTION = 1;
+        private const long CARDS_SECTION = 2;
+        private const long DOCUMENTS_SECTION = 3;
 
-        private List<Category>? categories;
+        private long currentSection = -1;
 
-        private bool enableSwitch = true;
-        private int loadedSection = -1;
+        #endregion
 
+        private bool lockSwitchers = true;
 
         /// <summary>
         /// Initializes a new <see cref="HomeWindow"/>.
@@ -42,13 +41,24 @@ namespace Vault
             InitializeComponent();
         }
 
+        #region Login and logout
+
+        /// <summary>
+        /// Executed when the window is loaded.
+        /// Changes the tray icon type to unlocked, add a listener for the logout by tray, reloads the window.
+        /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             TrayIcon.Instance.SetIconType(TrayIconType.Unlocked);
             TrayIcon.Instance.LogoutCommandExecuted += TrayIcon_LogoutClick;
-            Reload(Settings.Instance.GetSetting("section_to_load", 0));
+            Reload();
         }
 
+        /// <summary>
+        /// Executed when the window is loaded.
+        /// Changes the tray icon type to locked, removes the listener for the logout by tray,
+        /// request to shut down the application.
+        /// </summary>
         private void Window_Closed(object sender, EventArgs e)
         {
             TrayIcon.Instance.SetIconType(TrayIconType.Locked);
@@ -56,12 +66,21 @@ namespace Vault
             App.RequestShutDown(this);
         }
 
+        /// <summary>
+        /// Executed when is received the logout command from the tray icon.
+        /// Executes the logout.
+        /// </summary>
         private void TrayIcon_LogoutClick(object? sender, EventArgs e) => Logout();
 
-        private void LogoutButton_Click(object sender, RoutedEventArgs e) => Logout();
+        /// <summary>
+        /// Executed when is pressed the logout button.
+        /// Executes the logout.
+        /// </summary>
+        private void ExecuteLogout_Click(object sender, RoutedEventArgs e) => Logout();
 
         /// <summary>
         /// Executes the logout by terminating the current session and loading the credentials window.
+        /// Then closes the window.
         /// </summary>
         private void Logout()
         {
@@ -73,326 +92,281 @@ namespace Vault
             Close();
         }
 
-        private void Reload(int sectionToLoad)
+        #endregion
+
+        #region Categories, report and settings
+
+        /// <summary>
+        /// Executed when is pressed the categories button.
+        /// Displays the categories window and, if it edits some categories, reloads.
+        /// </summary>
+        private void ShowCategories_Click(object sender, RoutedEventArgs e)
         {
-            categories = DB.Instance.Categories.GetAll();
-            LoadSection(sectionToLoad);
-            SelectSwitch(sectionToLoad);
+            if ((bool?)new DialogWindow(new CategoriesWindow()).Show() == true)
+            {
+                Reload();
+            }
         }
 
+        /// <summary>
+        /// Executed when is pressed the settings button.
+        /// Displays the settings window.
+        /// </summary>
         private void ShowSettings_Click(object sender, RoutedEventArgs e)
         {
             new SettingsWindow().ShowDialog();
         }
 
-        private void EditCategories_Click(object sender, RoutedEventArgs e)
-        {
-            _ = new DialogWindow(new CategoriesWindow()).Show();
-            Reload(loadedSection);
-        }
-
-        private void Report_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Executed when is pressed the report button.
+        /// Displays the report window.
+        /// </summary>
+        private void ShowReport_Click(object sender, RoutedEventArgs e)
         {
             new ReportWindow().ShowDialog();
         }
 
-        private void Lists_ItemIsExpandedChanged(object sender, ItemExpandedChangedEventArgs e)
-        {
-            string categoryName = (string)((Accordion)sender).Items[e.Index].Tag;
-            Category? category = DB.Instance.Categories.Get(categoryName);
-            if (category != null)
-            {
-                category.IsExpanded = e.IsExpanded;
+        #endregion
 
-                DB.Instance.Categories.Update(category);
-                categories = DB.Instance.Categories.GetAll();
+        #region Section loading
+
+        /// <summary>
+        /// Reloads the window.
+        /// If no section is loaded, loads the default section.
+        /// </summary>
+        private void Reload()
+        {
+            if (currentSection == -1)
+            {
+                //Gets the saved section from the settings
+                string? user = InstanceSettings.Instance.GetSetting("username", "default");
+                long defaultSection = Settings.Instance.GetSetting($"{user}_loaded_section", PASSWORDS_SECTION);
+                LoadSection(defaultSection);
             }
+            else LoadSection(currentSection);
         }
 
-        #region New element buttons
-
-        private void NewPassword_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Loads the specified section and saves remembers it into the settings.
+        /// </summary>
+        private void LoadSection(long section)
         {
-            if (new DialogWindow(new PasswordWindow(null)).Show() != null)
-            {
-                LoadPasswords(Search.Text);
-            }
+            currentSection = section;
+
+            //Saves the current section to remember it
+            string? user = InstanceSettings.Instance.GetSetting("username", "default");
+            Settings.Instance.SetSetting($"{user}_loaded_section", section);
+
+            ReloadCurrentSection();
         }
 
-        private void NewCard_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Reloads the current section.
+        /// </summary>
+        private void ReloadCurrentSection()
         {
-            if (new DialogWindow(new CardWindow(null)).Show() != null)
+            lockSwitchers = true;
+            switch (currentSection)
             {
-                LoadCards(Search.Text);
+                case PASSWORDS_SECTION:
+                    ShowPasswords.IsChecked = true;
+                    DisplayFilteredDatas(DB.Instance.Passwords.GetAll(), Search.Text);
+                    SectionName.Text = "Password";
+                    break;
+                case NOTES_SECTION:
+                    ShowNotes.IsChecked = true;
+                    DisplayFilteredDatas(DB.Instance.Notes.GetAll(), Search.Text);
+                    SectionName.Text = "Note";
+                    break;
+                case CARDS_SECTION:
+                    ShowCards.IsChecked = true;
+                    DisplayFilteredDatas(DB.Instance.Cards.GetAll(), Search.Text);
+                    SectionName.Text = "Carte";
+                    break;
+                case DOCUMENTS_SECTION:
+                    ShowDocuments.IsChecked = true;
+                    DisplayFilteredDatas(DB.Instance.Documents.GetAll(), Search.Text);
+                    SectionName.Text = "Documenti";
+                    break;
+                default:
+                    break;
             }
+            lockSwitchers = false;
         }
 
-        private void NewNote_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Executed when a switcher is clicked.
+        /// Loads its relative section saved in the tag.
+        /// </summary>
+        private void Navigation_Switch(object sender, RoutedEventArgs e)
         {
-            if (new DialogWindow(new NoteWindow(null)).Show() != null)
-            {
-                LoadNotes(Search.Text);
-            }
+            if (lockSwitchers) return;
+
+            long section = (long)((Switcher)sender).Tag;
+            LoadSection(section);
         }
 
         #endregion
 
-        #region Click on element previews
+        #region Add button and search
 
-        private void PasswordPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        /// <summary>
+        /// Executed when is pressed the add button.
+        /// Displays the edit window for the loaded section and, if it edits, reloads.
+        /// </summary>
+        private void Add_Click(object sender, RoutedEventArgs e)
         {
-            Password? selectedPassword = DB.Instance.Passwords.Get((int)((DataItem)sender).Tag);
-
-            if (selectedPassword == null) return;
-
-            if (!selectedPassword.IsLocked)
+            object? result = null;
+            switch (currentSection)
             {
-                if (new DialogWindow(new PasswordWindow(selectedPassword)).Show() != null)
-                {
-                    LoadPasswords(Search.Text);
-                }
+                case PASSWORDS_SECTION:
+                    result = new DialogWindow(new PasswordWindow(null)).Show();
+                    break;
+                case NOTES_SECTION:
+                    result = new DialogWindow(new NoteWindow(null)).Show();
+                    break;
+                case CARDS_SECTION:
+                    result = new DialogWindow(new CardWindow(null)).Show();
+                    break;
+                case DOCUMENTS_SECTION:
+                    result = new DialogWindow(new DocumentWindow(null)).Show();
+                    break;
+                default:
+                    break;
             }
-            else
-            {
-                if ((bool?)new DialogWindow(new CredentialsWindow(CredentialsWindow.Request.Reauthentication)).Show() == true)
-                {
-                    if (new DialogWindow(new PasswordWindow(selectedPassword)).Show() != null)
-                    {
-                        LoadPasswords(Search.Text);
-                    }
-                }
-            }
+
+            if (result != null) ReloadCurrentSection();
         }
 
-        private void CardPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Card? selectedCard = DB.Instance.Cards.Get((int)((DataItem)sender).Tag);
-
-            if (selectedCard == null) return;
-
-            if (!selectedCard.IsLocked)
-            {
-                if (new DialogWindow(new CardWindow(selectedCard)).Show() != null)
-                {
-                    LoadCards(Search.Text);
-                }
-            }
-            else
-            {
-                if ((bool?)new DialogWindow(new CredentialsWindow(CredentialsWindow.Request.Reauthentication)).Show() == true)
-                {
-                    if (new DialogWindow(new CardWindow(selectedCard)).Show() != null)
-                    {
-                        LoadCards(Search.Text);
-                    }
-                }
-            }
-        }
-
-        private void NotePreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Note? selectedNote = DB.Instance.Notes.Get((int)((DataItem)sender).Tag);
-
-            if (selectedNote == null) return;
-
-            if (!selectedNote.IsLocked)
-            {
-                if (new DialogWindow(new NoteWindow(selectedNote)).Show() != null)
-                {
-                    LoadNotes(Search.Text);
-                }
-            }
-            else
-            {
-                if ((bool?)new DialogWindow(new CredentialsWindow(CredentialsWindow.Request.Reauthentication)).Show() == true)
-                {
-                    if (new DialogWindow(new NoteWindow(selectedNote)).Show() != null)
-                    {
-                        LoadNotes(Search.Text);
-                    }
-                }
-            }
-        }
-
-        #endregion
-
-        #region Search
-
+        /// <summary>
+        /// Executed when the search text is changed.
+        /// Reloads the current section with the filtered elements.
+        /// </summary>
         private void Search_TextChanged(object sender, TextChangedEventArgs e)
         {
-            switch (loadedSection)
-            {
-                case PASSWORD_SECTION:
-                    LoadPasswords(Search.Text);
-                    break;
-                case CARD_SECTION:
-                    LoadCards(Search.Text);
-                    break;
-                case NOTE_SECTION:
-                    LoadNotes(Search.Text);
-                    break;
-                default:
-                    break;
-            }
+            ReloadCurrentSection();
         }
 
         #endregion
 
-        #region Loaders
+        #region Items displayer
 
-        private void LoadPasswords(string account = "")
+        /// <summary>
+        /// Displays the datas after filtering them with a search.
+        /// </summary>
+        private void DisplayFilteredDatas<T>(List<T> datas, string filter = "") where T : Data
         {
-            passwords = DB.Instance.Passwords.GetAll().FindAll(password
-                => account == string.Empty || password.Account.Contains(account, StringComparison.CurrentCultureIgnoreCase));
-            PasswordList.Items = GenerateAccordionItems(passwords, categories);
-        }
-
-        private void LoadCards(string name = "")
-        {
-            cards = DB.Instance.Cards.GetAll().FindAll(card
-                => name == string.Empty || card.Name.Contains(name, StringComparison.CurrentCultureIgnoreCase));
-            CardList.Items = GenerateAccordionItems(cards, categories);
-        }
-
-        private void LoadNotes(string title = "")
-        {
-            notes = DB.Instance.Notes.GetAll().FindAll(note
-                => title == string.Empty || note.Title.Contains(title, StringComparison.CurrentCultureIgnoreCase));
-            NoteList.Items = GenerateAccordionItems(notes, categories);
-        }
-
-        private DataTemplate GetListTemplate(Type type)
-        {
-            if (type == typeof(List<Password>)) return (DataTemplate)PasswordList.FindResource("PasswordListDT");
-            else if (type == typeof(List<Note>)) return (DataTemplate)NoteList.FindResource("NoteListDT");
-            else return (DataTemplate)CardList.FindResource("CardListDT");
-        }
-
-        private AccordionItemCollection GenerateAccordionItems<T>(List<T> datas, List<Category>? categories) where T : Data
-        {
+            //Creates the accordion items collection for displaying the items
             AccordionItemCollection accordionItems = new();
 
-            if (categories != null)
+            //Filter the items if the filter is not empty
+            if (filter != "") datas = datas.FindAll(p => p.Header.Contains(filter, StringComparison.CurrentCultureIgnoreCase));
+
+            //Creates an accordion item for each category
+            List<Category> categories = DB.Instance.Categories.GetAll();
+            foreach (Category category in categories)
             {
-                foreach (Category category in categories)
+                //Filter the items for the category
+                List<T> datasByCategory = datas.FindAll(data => data.Category == category.Name);
+
+                //If the category does not have items, is not displayed
+                if (datasByCategory.Count > 0)
                 {
-                    List<T> datasByCategory = datas.FindAll(data => data.Category == category.Name);
+                    //Wraps each item into an adapter with extra info for displaying it correctly
                     List<DataItemAdapter> items = datasByCategory.ConvertAll(data => new DataItemAdapter(data));
 
-                    if (items.Count > 0)
+                    //Expecially save the position of the first and last element
+                    items[0].Position = DataItemAdapter.ItemPosition.First;
+                    items[^1].Position = DataItemAdapter.ItemPosition.Last;
+
+                    //Creates the accordion items and adds it to the list
+                    ItemsControlAccordionItem item = new()
                     {
-                        items[0].Position = DataItemAdapter.ItemPosition.First;
-                        items[^1].Position = DataItemAdapter.ItemPosition.Last;
+                        Style = FindResource("DarkItemsControlAccordionItem") as Style,
+                        Margin = new Thickness(0, 2, 0, 2),
+                        Header = Utility.AdaptLabel(category),
+                        IsExpanded = category.IsExpanded,
+                        ItemsSource = items,
+                        ItemTemplate = (DataTemplate)SectionList.FindResource("SectionListItemTemplate"),
+                        Tag = category.Name
+                    };
 
-                        ItemsControlAccordionItem item = new()
-                        {
-                            Style = FindResource("DarkItemsControlAccordionItem") as Style,
-                            Margin = new Thickness(0, 2, 0, 2),
-                            Header = Utility.AdaptLabel(category),
-                            IsExpanded = category.IsExpanded,
-                            ItemsSource = items,
-                            ItemTemplate = GetListTemplate(datas.GetType()),
-                            Tag = category.Name
-                        };
-
-                        accordionItems.Add(item);
-                    }
+                    accordionItems.Add(item);
                 }
             }
 
-            return accordionItems;
+            //Displays the accordion items
+            SectionList.Items = accordionItems;
         }
 
         #endregion
 
-        #region Switcher
+        #region Accordion events
 
-        private void SwitchSelected(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Executed when an accordion item is expanded or collapsed.
+        /// Updates the category with the expanding state.
+        /// </summary>
+        private void SectionList_ItemIsExpandedChanged(object sender, ItemExpandedChangedEventArgs e)
         {
-            if (!enableSwitch) return;
-            if (SwitchToPasswordSection.IsChecked == true)
-            {
-                LoadSection(PASSWORD_SECTION);
-            }
-            else if (SwitchToCardSection.IsChecked == true)
-            {
-                LoadSection(CARD_SECTION);
-            }
-            else if (SwitchToNoteSection.IsChecked == true)
-            {
-                LoadSection(NOTE_SECTION);
-            }
-        }
+            //Gets the category of the item
+            string categoryName = (string)((Accordion)sender).Items[e.Index].Tag;
+            Category? category = DB.Instance.Categories.Get(categoryName);
 
-        private void SelectSwitch(int section)
-        {
-            enableSwitch = false;
-            switch (section)
+            if (category != null)
             {
-                case PASSWORD_SECTION:
-                    SwitchToPasswordSection.IsChecked = true;
-                    break;
-                case CARD_SECTION:
-                    SwitchToCardSection.IsChecked = true;
-                    break;
-                case NOTE_SECTION:
-                    SwitchToNoteSection.IsChecked = true;
-                    break;
-                default:
-                    break;
-            }
-            enableSwitch = true;
-        }
-
-        private void LoadSection(int section)
-        {
-            switch (section)
-            {
-                case PASSWORD_SECTION:
-                    LoadPasswordSection();
-                    break;
-                case CARD_SECTION:
-                    LoadCardSection();
-                    break;
-                case NOTE_SECTION:
-                    LoadNoteSection();
-                    break;
-                default:
-                    break;
+                //Updates the expanding state of the category
+                category.IsExpanded = e.IsExpanded;
+                DB.Instance.Categories.Update(category);
             }
         }
 
-        private void LoadPasswordSection()
+        /// <summary>
+        /// Executed when an item in an accordion item is selected.
+        /// Displays the window for viewing the item info and editing the item.
+        /// If the item is edited, reloads.
+        /// </summary>
+        private void DataItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            loadedSection = -1;
-            PasswordSection.Visibility = Visibility.Visible;
-            CardSection.Visibility = Visibility.Collapsed;
-            NoteSection.Visibility = Visibility.Collapsed;
-            Search.Text = "";
-            LoadPasswords();
-            loadedSection = PASSWORD_SECTION;
-        }
+            //Check if the item is locked
+            bool isLocked = ((DataItem)sender).IsLocked;
+            if (isLocked)
+            {
+                //If the item is locked, shows the credentials window to reauthenticate
+                //If the reauthentication is succesful, the item will be unlocked
+                isLocked = (bool?)new DialogWindow(new CredentialsWindow(CredentialsWindow.Request.Reauthentication)).Show() == false;
+            }
 
-        private void LoadCardSection()
-        {
-            loadedSection = -1;
-            PasswordSection.Visibility = Visibility.Collapsed;
-            CardSection.Visibility = Visibility.Visible;
-            NoteSection.Visibility = Visibility.Collapsed;
-            Search.Text = "";
-            LoadCards();
-            loadedSection = CARD_SECTION;
-        }
+            //If the item is now unlocked, displays the window for viewing the item info and editing the item
+            if (!isLocked)
+            {
+                string? result = null;
 
-        private void LoadNoteSection()
-        {
-            loadedSection = -1;
-            PasswordSection.Visibility = Visibility.Collapsed;
-            CardSection.Visibility = Visibility.Collapsed;
-            NoteSection.Visibility = Visibility.Visible;
-            Search.Text = "";
-            LoadNotes();
-            loadedSection = NOTE_SECTION;
+                switch (currentSection)
+                {
+                    case PASSWORDS_SECTION:
+                        Password? password = DB.Instance.Passwords.Get((int)((DataItem)sender).Tag);
+                        result = (string?)new DialogWindow(new PasswordWindow(password)).Show();
+                        break;
+                    case NOTES_SECTION:
+                        Note? note = DB.Instance.Notes.Get((int)((DataItem)sender).Tag);
+                        result = (string?)new DialogWindow(new NoteWindow(note)).Show();
+                        break;
+                    case CARDS_SECTION:
+                        Card? card = DB.Instance.Cards.Get((int)((DataItem)sender).Tag);
+                        result = (string?)new DialogWindow(new CardWindow(card)).Show();
+                        break;
+                    case DOCUMENTS_SECTION:
+                        Document? document = DB.Instance.Documents.Get((int)((DataItem)sender).Tag);
+                        result = (string?)new DialogWindow(new DocumentWindow(document)).Show();
+                        break;
+                    default:
+                        break;
+                }
+
+                //If the item is edited, reloads
+                if (result != null) ReloadCurrentSection();
+            }
         }
 
         #endregion

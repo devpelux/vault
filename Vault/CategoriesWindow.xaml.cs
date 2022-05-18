@@ -136,20 +136,21 @@ namespace Vault
                     {
                         new MessageWindow("Impossibile aggiungere la categoria perché ne esiste un altra uguale!",
                             "Errore", MessageBoxImage.Exclamation).ShowDialog();
-                        EditResult = true;
                     }
+                    else EditResult = true;
                 }
             }
             else
             {
                 if (newCategory.Name != string.Empty)
                 {
+                    newCategory.IsExpanded = selectedCategory.IsExpanded;
                     if (!DB.Instance.Categories.Update(selectedCategory.Name, newCategory))
                     {
                         new MessageWindow("Impossibile modificare la categoria perché ne esiste un altra uguale!",
                             "Errore", MessageBoxImage.Exclamation).ShowDialog();
-                        EditResult = true;
                     }
+                    else EditResult = true;
                 }
                 else if ((bool?)new DialogWindow(new ConfirmWindow("Conferma eliminazione?", "Conferma", MessageBoxImage.Question)).Show() == true)
                 {
@@ -157,8 +158,8 @@ namespace Vault
                     {
                         new MessageWindow("Impossibile eliminare la categoria perché è in uso!",
                             "Errore", MessageBoxImage.Exclamation).ShowDialog();
-                        EditResult = true;
                     }
+                    else EditResult = true;
                 }
             }
         }

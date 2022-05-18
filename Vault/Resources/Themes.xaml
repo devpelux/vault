@@ -57,6 +57,16 @@
                 Value="Gray" />
     </Style>
 
+    <Style x:Key="DarkNavigationSwitcher"
+           TargetType="{x:Type fc:Switcher}"
+           BasedOn="{StaticResource DarkSwitcher}">
+    </Style>
+
+    <Style x:Key="DarkNavigationButton"
+           TargetType="{x:Type fc:ButtonPlus}"
+           BasedOn="{StaticResource DarkButtonPlus}">
+    </Style>
+
     <Style x:Key="CategorySwitcher"
            TargetType="{x:Type fc:Switcher}">
         <Setter Property="Background"

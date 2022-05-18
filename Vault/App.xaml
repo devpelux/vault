@@ -9,8 +9,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/FullControls;component/Light.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/FullControls;component/Dark.xaml" />
+                <ResourceDictionary Source="/Vault;component/Resources/Themes.xaml" />
                 <ResourceDictionary Source="/Vault;component/Resources/ContextMenus.xaml" />
-                <ResourceDictionary Source="/Vault;component/Resources/Styles.xaml" />
                 <ResourceDictionary Source="/Vault;component/Resources/TrayIcon.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

@@ -5,222 +5,250 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:cust="clr-namespace:Vault.Core.Controls"
                  xmlns:fc="http://devpelux.github.io/fullcontrols"
+                 xmlns:sys="clr-namespace:System;assembly=netstandard"
                  mc:Ignorable="d"
                  Style="{StaticResource DarkAvalonWindow}"
                  TitleMargin="8,0,0,0"
                  Title="Vault"
-                 Height="615"
-                 Width="760"
+                 Height="700"
+                 Width="800"
                  MergeTitlebarAndContent="True"
                  Icon="/Icons/icon.ico"
                  WindowStartupLocation="CenterScreen"
                  ResizeMode="CanMinimize"
                  Loaded="Window_Loaded"
                  Closed="Window_Closed">
-    <Grid Margin="0,32,0,0">
+    <fc:AvalonWindow.Resources>
+        <ResourceDictionary>
+            <sys:Int64 x:Key="PasswordsSection">0</sys:Int64>
+            <sys:Int64 x:Key="NotesSection">1</sys:Int64>
+            <sys:Int64 x:Key="CardsSection">2</sys:Int64>
+            <sys:Int64 x:Key="DocumentsSection">3</sys:Int64>
+        </ResourceDictionary>
+    </fc:AvalonWindow.Resources>
+
+    <Grid Margin="0,0,0,0">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="140" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Border Grid.Column="0"
-                Margin="0,-32,0,0"
-                BorderThickness="0,0,1,0"
-                Background="{StaticResource DarkWindowSecondaryColor}"
-                BorderBrush="{StaticResource DarkWindowSecondaryColor}" />
-        <Grid x:Name="ContentCategorySwitcher"
-              Grid.Column="0">
-            <fc:Switcher x:Name="SwitchToPasswordSection"
-                         Style="{StaticResource DarkSwitcher}"
-                         VerticalAlignment="Top"
-                         Margin="0,50,0,0"
-                         CornerRadius="0"
-                         Height="75"
-                         Content="Password"
-                         GroupName="SectionSwitchers"
-                         Checked="SwitchSelected" />
-            <fc:Switcher x:Name="SwitchToCardSection"
-                         Style="{StaticResource DarkSwitcher}"
-                         VerticalAlignment="Top"
-                         Margin="0,125,0,0"
-                         CornerRadius="0"
-                         Height="75"
-                         Content="Carte"
-                         BorderThickness="1,0,1,1"
-                         GroupName="SectionSwitchers"
-                         Checked="SwitchSelected" />
-            <fc:Switcher x:Name="SwitchToNoteSection"
-                         Style="{StaticResource DarkSwitcher}"
-                         VerticalAlignment="Top"
-                         Margin="0,200,0,0"
-                         CornerRadius="0"
-                         Height="75"
-                         Content="Note"
-                         BorderThickness="1,0,1,1"
-                         GroupName="SectionSwitchers"
-                         Checked="SwitchSelected" />
-            <fc:ButtonPlus x:Name="LogoutButton"
-                           Style="{StaticResource DarkButtonPlus}"
-                           Content="Logout"
-                           VerticalAlignment="Bottom"
-                           CornerRadius="0"
-                           Margin="0"
-                           Height="50"
-                           Click="LogoutButton_Click" />
-            <fc:ButtonPlus x:Name="ShowSettings"
-                           Style="{StaticResource DarkButtonPlus}"
-                           Content="Impostazioni"
-                           VerticalAlignment="Bottom"
-                           CornerRadius="0"
-                           Margin="0,0,0,50"
-                           Height="50"
-                           BorderThickness="1,1,1,0"
-                           Click="ShowSettings_Click" />
-        </Grid>
-        <Grid x:Name="ContentWindow"
-              Grid.Column="1">
-            <Grid x:Name="PasswordSection"
-                  Visibility="Visible">
-                <TextBlock Text="PASSWORD"
-                           FontSize="20"
-                           Foreground="White"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Margin="10,10,0,0" />
-                <fc:ButtonPlus x:Name="NewPassword"
-                               Style="{StaticResource DarkButtonPlus}"
-                               Content="Aggiungi"
-                               HorizontalAlignment="Right"
-                               Margin="0,50,25,0"
-                               VerticalAlignment="Top"
-                               Width="70"
-                               Height="40"
-                               Click="NewPassword_Click" />
-                <fc:GlassScrollViewer Margin="10,50,125,82"
-                                      Padding="0,0,1,0">
-                    <fc:Accordion x:Name="PasswordList"
-                                  ItemIsExpandedChanged="Lists_ItemIsExpandedChanged">
-                        <fc:Accordion.Resources>
-                            <ResourceDictionary>
-                                <DataTemplate x:Key="PasswordListDT">
-                                    <cust:DataItem Style="{StaticResource DarkDataItem}"
-                                                   Tag="{Binding Id}"
-                                                   Header="{Binding Header}"
-                                                   SubHeader="{Binding SubHeader}"
-                                                   IsLocked="{Binding IsLocked}"
-                                                   Position="{Binding Position}"
-                                                   MouseLeftButtonDown="PasswordPreviewMouseLeftButtonDown" />
-                                </DataTemplate>
-                            </ResourceDictionary>
-                        </fc:Accordion.Resources>
-                    </fc:Accordion>
-                </fc:GlassScrollViewer>
-                <fc:ButtonPlus x:Name="Report"
-                               Style="{StaticResource DarkButtonPlus}"
-                               Content="Report"
-                               HorizontalAlignment="Right"
-                               Margin="0,124,25,0"
-                               VerticalAlignment="Top"
-                               Width="70"
-                               Height="40"
-                               Click="Report_Click" />
-            </Grid>
-            <Grid x:Name="CardSection"
-                  Visibility="Collapsed">
-                <TextBlock Text="CARTE"
-                           FontSize="20"
-                           Foreground="White"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Margin="10,10,0,0" />
-                <fc:ButtonPlus x:Name="NewCard"
-                               Style="{StaticResource DarkButtonPlus}"
-                               Content="Aggiungi"
-                               HorizontalAlignment="Right"
-                               Margin="0,50,25,0"
-                               VerticalAlignment="Top"
-                               Width="70"
-                               Height="40"
-                               Click="NewCard_Click" />
-                <fc:GlassScrollViewer Margin="10,50,125,82"
-                                      Padding="0,0,1,0">
-                    <fc:Accordion x:Name="CardList"
-                                  ItemIsExpandedChanged="Lists_ItemIsExpandedChanged">
-                        <fc:Accordion.Resources>
-                            <ResourceDictionary>
-                                <DataTemplate x:Key="CardListDT">
-                                    <cust:DataItem Style="{StaticResource DarkDataItem}"
-                                                   Tag="{Binding Id}"
-                                                   Header="{Binding Header}"
-                                                   SubHeader="{Binding SubHeader}"
-                                                   IsLocked="{Binding IsLocked}"
-                                                   Position="{Binding Position}"
-                                                   MouseLeftButtonDown="CardPreviewMouseLeftButtonDown" />
-                                </DataTemplate>
-                            </ResourceDictionary>
-                        </fc:Accordion.Resources>
-                    </fc:Accordion>
-                </fc:GlassScrollViewer>
-            </Grid>
-            <Grid x:Name="NoteSection"
-                  Visibility="Collapsed">
-                <TextBlock Text="NOTE"
-                           FontSize="20"
-                           Foreground="White"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Margin="10,10,0,0" />
-                <fc:ButtonPlus x:Name="NewNote"
-                               Style="{StaticResource DarkButtonPlus}"
-                               Content="Aggiungi"
-                               HorizontalAlignment="Right"
-                               Margin="0,50,25,0"
-                               VerticalAlignment="Top"
-                               Width="70"
-                               Height="40"
-                               Click="NewNote_Click" />
-                <fc:GlassScrollViewer Margin="10,50,125,82"
-                                      Padding="0,0,1,0">
-                    <fc:Accordion x:Name="NoteList"
-                                  ItemIsExpandedChanged="Lists_ItemIsExpandedChanged">
-                        <fc:Accordion.Resources>
-                            <ResourceDictionary>
-                                <DataTemplate x:Key="NoteListDT">
-                                    <cust:DataItem Style="{StaticResource DarkDataItem}"
-                                                   Tag="{Binding Id}"
-                                                   Header="{Binding Header}"
-                                                   SubHeader="{Binding SubHeader}"
-                                                   IsLocked="{Binding IsLocked}"
-                                                   Position="{Binding Position}"
-                                                   MouseLeftButtonDown="NotePreviewMouseLeftButtonDown" />
-                                </DataTemplate>
-                            </ResourceDictionary>
-                        </fc:Accordion.Resources>
-                    </fc:Accordion>
-                </fc:GlassScrollViewer>
-            </Grid>
+        <Grid Grid.Row="1"
+              Grid.Column="0"
+              Width="180"
+              Margin="4">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
             <fc:TextBoxPlus x:Name="Search"
+                            Grid.Row="0"
                             Style="{StaticResource DarkTextBoxPlus}"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Bottom"
-                            Margin="10,0,0,25"
                             Height="32"
-                            Width="363"
+                            Margin="12"
                             Hint="Cerca..."
                             Icon="Icons/ic_search.png"
                             LabelPlacement="Left"
-                            LabelMargin="0,0,5,0"
-                            LabelMaxHeight="24"
+                            LabelMargin="0,0,6,0"
+                            LabelMaxHeight="18"
                             TextChanged="Search_TextChanged" />
-            <fc:ButtonPlus x:Name="EditCategories"
-                           Style="{StaticResource DarkButtonPlus}"
+
+            <fc:Switcher x:Name="ShowPasswords"
+                         Grid.Row="1"
+                         Style="{StaticResource DarkNavigationSwitcher}"
+                         GroupName="Navigation"
+                         Checked="Navigation_Switch"
+                         Content="Password"
+                         VerticalAlignment="Top"
+                         HorizontalContentAlignment="Left"
+                         Height="36"
+                         CornerRadius="8,8,8,8"
+                         Margin="0,2,0,2"
+                         Padding="12,2,2,2"
+                         Tag="{StaticResource PasswordsSection}" />
+
+            <fc:Switcher x:Name="ShowNotes"
+                         Grid.Row="2"
+                         Style="{StaticResource DarkNavigationSwitcher}"
+                         GroupName="Navigation"
+                         Checked="Navigation_Switch"
+                         Content="Note"
+                         VerticalAlignment="Top"
+                         HorizontalContentAlignment="Left"
+                         Height="36"
+                         CornerRadius="8,8,8,8"
+                         Margin="0,2,0,2"
+                         Padding="12,2,2,2"
+                         Tag="{StaticResource NotesSection}" />
+
+            <fc:Switcher x:Name="ShowCards"
+                         Grid.Row="3"
+                         Style="{StaticResource DarkNavigationSwitcher}"
+                         GroupName="Navigation"
+                         Checked="Navigation_Switch"
+                         Content="Carte"
+                         VerticalAlignment="Top"
+                         HorizontalContentAlignment="Left"
+                         Height="36"
+                         CornerRadius="8,8,8,8"
+                         Margin="0,2,0,2"
+                         Padding="12,2,2,2"
+                         Tag="{StaticResource CardsSection}" />
+
+            <fc:Switcher x:Name="ShowDocuments"
+                         Grid.Row="4"
+                         Style="{StaticResource DarkNavigationSwitcher}"
+                         GroupName="Navigation"
+                         Checked="Navigation_Switch"
+                         Content="Documenti"
+                         VerticalAlignment="Top"
+                         HorizontalContentAlignment="Left"
+                         Height="36"
+                         CornerRadius="8,8,8,8"
+                         Margin="0,2,0,2"
+                         Padding="12,2,2,2"
+                         Tag="{StaticResource DocumentsSection}" />
+
+            <fc:FlatMenuSeparator Grid.Row="5"
+                                  Style="{StaticResource DarkFlatMenuSeparator}"
+                                  Padding="0"
+                                  Margin="-4,0,-4,0" />
+
+            <fc:ButtonPlus x:Name="ShowCategories"
+                           Grid.Row="6"
+                           Style="{StaticResource DarkNavigationButton}"
+                           Click="ShowCategories_Click"
                            Content="Categorie"
-                           HorizontalAlignment="Right"
-                           Margin="0,0,25,25"
-                           VerticalAlignment="Bottom"
-                           Width="70"
-                           Height="40"
-                           Click="EditCategories_Click" />
+                           VerticalAlignment="Top"
+                           HorizontalContentAlignment="Left"
+                           Height="36"
+                           CornerRadius="8,8,8,8"
+                           Margin="0,2,0,2"
+                           Padding="12,2,2,2" />
+
+            <fc:FlatMenuSeparator Grid.Row="7"
+                                  Style="{StaticResource DarkFlatMenuSeparator}"
+                                  Padding="0"
+                                  Margin="-4,0,-4,0" />
+
+            <fc:ButtonPlus x:Name="ShowReport"
+                           Grid.Row="8"
+                           Style="{StaticResource DarkNavigationButton}"
+                           Click="ShowReport_Click"
+                           Content="Report"
+                           VerticalAlignment="Top"
+                           HorizontalContentAlignment="Left"
+                           Height="36"
+                           CornerRadius="8,8,8,8"
+                           Margin="0,2,0,2"
+                           Padding="12,2,2,2" />
+
+            <fc:ButtonPlus x:Name="ShowSettings"
+                           Grid.Row="9"
+                           Style="{StaticResource DarkNavigationButton}"
+                           Click="ShowSettings_Click"
+                           Content="Impostazioni"
+                           VerticalAlignment="Top"
+                           HorizontalContentAlignment="Left"
+                           Height="36"
+                           CornerRadius="8,8,8,8"
+                           Margin="0,2,0,2"
+                           Padding="12,2,2,2" />
+
+            <fc:ButtonPlus x:Name="ExecuteLogout"
+                           Grid.Row="10"
+                           Style="{StaticResource DarkNavigationButton}"
+                           Click="ExecuteLogout_Click"
+                           Content="Logout"
+                           VerticalAlignment="Top"
+                           HorizontalContentAlignment="Left"
+                           Height="36"
+                           CornerRadius="8,8,8,8"
+                           Margin="0,2,0,2"
+                           Padding="12,2,2,2" />
         </Grid>
+
+        <Border Grid.Row="1"
+                Grid.Column="1"
+                CornerRadius="8,0,0,0"
+                BorderThickness="1,1,0,0"
+                Background="{StaticResource DarkWindowSecondaryColor}"
+                BorderBrush="#1d1d1d">
+
+            <Grid Margin="32">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock x:Name="SectionName"
+                           Grid.Row="0"
+                           Text="Section"
+                           FontSize="20"
+                           Foreground="White"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           Margin="10,0,0,0" />
+
+                <fc:ButtonPlus x:Name="Add"
+                               Style="{StaticResource DarkButtonPlus}"
+                               Grid.Row="0"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Right"
+                               BorderThickness="0"
+                               Background="{StaticResource DarkWindowSecondaryColor}"
+                               Margin="0,10,20,10"
+                               Padding="10,0,10,0"
+                               Height="36"
+                               Content="Aggiungi"
+                               Click="Add_Click" />
+
+                <fc:GlassScrollViewer Grid.Row="1"
+                                      Margin="10">
+
+                    <fc:Accordion x:Name="SectionList"
+                                  ItemIsExpandedChanged="SectionList_ItemIsExpandedChanged">
+
+                        <fc:Accordion.Resources>
+                            <ResourceDictionary>
+                                <DataTemplate x:Key="SectionListItemTemplate">
+
+                                    <cust:DataItem Style="{StaticResource DarkDataItem}"
+                                                   Tag="{Binding Id}"
+                                                   Header="{Binding Header}"
+                                                   SubHeader="{Binding SubHeader}"
+                                                   IsLocked="{Binding IsLocked}"
+                                                   Position="{Binding Position}"
+                                                   MouseLeftButtonDown="DataItem_MouseLeftButtonDown" />
+
+                                </DataTemplate>
+                            </ResourceDictionary>
+                        </fc:Accordion.Resources>
+
+                    </fc:Accordion>
+
+                </fc:GlassScrollViewer>
+                
+            </Grid>
+        </Border>
+
     </Grid>
 </fc:AvalonWindow>
