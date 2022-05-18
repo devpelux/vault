@@ -33,7 +33,7 @@
         <Setter Property="CornerRadius"
                 Value="0" />
         <Setter Property="AnimationTime"
-                Value="00:00:00.1000000" />
+                Value="00:00:00.2000000" />
 
         <!-- Header and SubHeader values -->
 

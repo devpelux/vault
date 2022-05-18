@@ -282,7 +282,7 @@ namespace Vault
                     //Creates the accordion items and adds it to the list
                     ItemsControlAccordionItem item = new()
                     {
-                        Style = FindResource("DarkItemsControlAccordionItem") as Style,
+                        Style = FindResource("DarkAccordionItem") as Style,
                         Header = Utility.AdaptLabel(category),
                         IsExpanded = category.IsExpanded,
                         ItemsSource = items,

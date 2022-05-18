@@ -79,9 +79,7 @@
                          VerticalAlignment="Top"
                          HorizontalContentAlignment="Left"
                          Height="36"
-                         CornerRadius="8,8,8,8"
                          Margin="0,2,0,2"
-                         Padding="12,2,2,2"
                          Tag="{StaticResource PasswordsSection}" />
 
             <fc:Switcher x:Name="ShowNotes"
@@ -93,9 +91,7 @@
                          VerticalAlignment="Top"
                          HorizontalContentAlignment="Left"
                          Height="36"
-                         CornerRadius="8,8,8,8"
                          Margin="0,2,0,2"
-                         Padding="12,2,2,2"
                          Tag="{StaticResource NotesSection}" />
 
             <fc:Switcher x:Name="ShowCards"
@@ -107,9 +103,7 @@
                          VerticalAlignment="Top"
                          HorizontalContentAlignment="Left"
                          Height="36"
-                         CornerRadius="8,8,8,8"
                          Margin="0,2,0,2"
-                         Padding="12,2,2,2"
                          Tag="{StaticResource CardsSection}" />
 
             <fc:Switcher x:Name="ShowDocuments"
@@ -121,9 +115,7 @@
                          VerticalAlignment="Top"
                          HorizontalContentAlignment="Left"
                          Height="36"
-                         CornerRadius="8,8,8,8"
                          Margin="0,2,0,2"
-                         Padding="12,2,2,2"
                          Tag="{StaticResource DocumentsSection}" />
 
             <fc:FlatMenuSeparator Grid.Row="5"
@@ -139,9 +131,7 @@
                            VerticalAlignment="Top"
                            HorizontalContentAlignment="Left"
                            Height="36"
-                           CornerRadius="8,8,8,8"
-                           Margin="0,2,0,2"
-                           Padding="12,2,2,2" />
+                           Margin="0,2,0,2" />
 
             <fc:FlatMenuSeparator Grid.Row="7"
                                   Style="{StaticResource DarkFlatMenuSeparator}"
@@ -156,9 +146,7 @@
                            VerticalAlignment="Top"
                            HorizontalContentAlignment="Left"
                            Height="36"
-                           CornerRadius="8,8,8,8"
-                           Margin="0,2,0,2"
-                           Padding="12,2,2,2" />
+                           Margin="0,2,0,2" />
 
             <fc:ButtonPlus x:Name="ShowSettings"
                            Grid.Row="9"
@@ -168,9 +156,7 @@
                            VerticalAlignment="Top"
                            HorizontalContentAlignment="Left"
                            Height="36"
-                           CornerRadius="8,8,8,8"
-                           Margin="0,2,0,2"
-                           Padding="12,2,2,2" />
+                           Margin="0,2,0,2" />
 
             <fc:ButtonPlus x:Name="ExecuteLogout"
                            Grid.Row="10"
@@ -180,9 +166,7 @@
                            VerticalAlignment="Top"
                            HorizontalContentAlignment="Left"
                            Height="36"
-                           CornerRadius="8,8,8,8"
-                           Margin="0,2,0,2"
-                           Padding="12,2,2,2" />
+                           Margin="0,2,0,2" />
         </Grid>
 
         <Border Grid.Row="1"
@@ -190,7 +174,7 @@
                 CornerRadius="8,0,0,0"
                 BorderThickness="1,1,0,0"
                 Background="{StaticResource DarkWindowSecondaryBackground}"
-                BorderBrush="#1d1d1d">
+                BorderBrush="{StaticResource DarkWindowSecondaryBorder}">
 
             <Grid Margin="32">
 
@@ -218,6 +202,7 @@
                                Margin="0,10,20,10"
                                Padding="10,0,10,0"
                                Height="36"
+                               AnimationTime="00:00:00.2000000"
                                Content="Aggiungi"
                                Click="Add_Click" />
 
