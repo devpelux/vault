@@ -218,6 +218,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0"
@@ -263,6 +264,26 @@
                            Height="36"
                            Click="NewReport_Click" />
 
+            <Grid Grid.Row="3"
+                  Margin="0,16,0,0"
+                  HorizontalAlignment="Center">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           Text="Report del:"
+                           Foreground="White" />
+
+                <TextBlock x:Name="ReportDate"
+                           Grid.Column="1"
+                           Margin="16,0,0,0"
+                           Text="01/01/1970 00:00:00"
+                           FontWeight="Bold"
+                           Foreground="{StaticResource DarkAccentColor}" />
+            </Grid>
         </Grid>
     </Grid>
 </fc:AvalonWindow>

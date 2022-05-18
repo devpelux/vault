@@ -2,6 +2,7 @@
 using System;
 using System.Windows;
 using Vault.Core.Settings;
+using WpfCoreTools;
 
 namespace Vault
 {
@@ -37,8 +38,6 @@ namespace Vault
             StartHided.IsChecked = Settings.Instance.GetSetting("start_hided", false);
             ExitExplicit.IsChecked = Settings.Instance.GetSetting("exit_explicit", true);
 
-            StartOnStartup.IsEnabled = SystemSettings.StartOnStartup.HasValue;
-
             lockCheckboxes = false;
         }
 
@@ -55,7 +54,26 @@ namespace Vault
         private void StartOnStartup_Checked(object sender, RoutedEventArgs e)
         {
             if (lockCheckboxes) return;
-            SystemSettings.StartOnStartup = true;
+
+            bool? startOnStartup = SystemSettings.StartOnStartup;
+
+            //Checks the actual value of StartOnStartup.
+            //If it has not a value then requests if to overwrite it.
+            if (startOnStartup.HasValue)
+            {
+                SystemSettings.StartOnStartup = true;
+            }
+            else if ((bool?)new DialogWindow(new ConfirmWindow("L'avvio automatico è già in uso da un altra istanza! Sovrascrivere?",
+                "Attenzione!", MessageBoxImage.Question)).Show() == true)
+            {
+                SystemSettings.StartOnStartup = true;
+            }
+            else
+            {
+                lockCheckboxes = true;
+                StartOnStartup.IsChecked = false;
+                lockCheckboxes = false;
+            }
         }
 
         private void StartOnStartup_Unchecked(object sender, RoutedEventArgs e)

@@ -81,11 +81,18 @@ namespace Vault
         /// </summary>
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            if (document == null) AddDocument();
-            else EditDocument();
+            try
+            {
+                if (document == null) AddDocument();
+                else EditDocument();
 
-            Result = "edited";
-            Close();
+                Result = "edited";
+                Close();
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                new MessageWindow("Data non valida!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+            }
         }
 
         /// <summary>
@@ -112,10 +119,10 @@ namespace Vault
             string owner = DocumentOwner.Text;
             string code = DocumentCode.Text;
 
-            int year = DocumentExpirationYear.Text.IsInt() ? int.Parse(DocumentExpirationYear.Text) : 0;
-            int month = DocumentExpirationMonth.Text.IsInt() ? int.Parse(DocumentExpirationMonth.Text) : 0;
-            int day = DocumentExpirationDay.Text.IsInt() ? int.Parse(DocumentExpirationDay.Text) : 0;
-            DateTimeOffset time = new DateTime(year, month, day);
+            int year = DocumentExpirationYear.Text.IsInt() ? int.Parse(DocumentExpirationYear.Text) : 1;
+            int month = DocumentExpirationMonth.Text.IsInt() ? int.Parse(DocumentExpirationMonth.Text) : 1;
+            int day = DocumentExpirationDay.Text.IsInt() ? int.Parse(DocumentExpirationDay.Text) : 1;
+            DateTimeOffset time = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1));
 
             long expiration = time.ToUnixTimeSeconds();
 
@@ -139,10 +146,10 @@ namespace Vault
             string owner = DocumentOwner.Text;
             string code = DocumentCode.Text;
 
-            int year = DocumentExpirationYear.Text.IsInt() ? int.Parse(DocumentExpirationYear.Text) : 0;
-            int month = DocumentExpirationMonth.Text.IsInt() ? int.Parse(DocumentExpirationMonth.Text) : 0;
-            int day = DocumentExpirationDay.Text.IsInt() ? int.Parse(DocumentExpirationDay.Text) : 0;
-            DateTimeOffset time = new DateTime(year, month, day);
+            int year = DocumentExpirationYear.Text.IsInt() ? int.Parse(DocumentExpirationYear.Text) : 1;
+            int month = DocumentExpirationMonth.Text.IsInt() ? int.Parse(DocumentExpirationMonth.Text) : 1;
+            int day = DocumentExpirationDay.Text.IsInt() ? int.Parse(DocumentExpirationDay.Text) : 1;
+            DateTimeOffset time = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1));
 
             long expiration = time.ToUnixTimeSeconds();
 

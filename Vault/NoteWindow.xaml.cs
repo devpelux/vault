@@ -58,14 +58,7 @@ namespace Vault
                 NoteText.Text = note.Text;
 
                 DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(note.Timestamp);
-                string year = time.Year.ToString();
-                string month = time.Month.ToString();
-                string day = time.Day.ToString();
-                string hour = time.Hour.ToString();
-                string minute = time.Minute.ToString();
-                string second = time.Second.ToString();
-
-                NoteTimestamp.Text = $"{day}/{month}/{year}  {hour}:{minute}:{second}";
+                NoteTimestamp.Text = Utility.FormatDate(time);
 
                 Reauthenticate.IsChecked = note.IsLocked;
 
@@ -75,14 +68,7 @@ namespace Vault
             {
                 NoteCategory.SelectedIndex = 0;
 
-                string year = now.Year.ToString();
-                string month = now.Month.ToString();
-                string day = now.Day.ToString();
-                string hour = now.Hour.ToString();
-                string minute = now.Minute.ToString();
-                string second = now.Second.ToString();
-
-                NoteTimestamp.Text = $"{day}/{month}/{year}  {hour}:{minute}:{second}";
+                NoteTimestamp.Text = Utility.FormatDate(now);
 
                 Delete.Visibility = Visibility.Collapsed;
             }

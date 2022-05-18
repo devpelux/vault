@@ -124,5 +124,20 @@ namespace Vault.Core
             else if (category.Label.Length == 0) return category.Name;
             else return category.Label;
         }
+
+        /// <summary>
+        /// Formats the specified date into a string.
+        /// </summary>
+        internal static string FormatDate(DateTimeOffset date)
+        {
+            string year = date.Year.ToString();
+            string month = date.Month.ToString();
+            string day = date.Day.ToString();
+            string hour = date.Hour.ToString();
+            string minute = date.Minute.ToString();
+            string second = date.Second.ToString();
+
+            return date.ToString();
+        }
     }
 }

@@ -82,11 +82,18 @@ namespace Vault
         /// </summary>
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            if (password == null) AddPassword();
-            else EditPassword();
+            try
+            {
+                if (password == null) AddPassword();
+                else EditPassword();
 
-            Result = "edited";
-            Close();
+                Result = "edited";
+                Close();
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                new MessageWindow("Data non valida!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+            }
         }
 
         /// <summary>
@@ -125,10 +132,10 @@ namespace Vault
             string username = PasswordUsername.Text;
             string value = PasswordValue.Password;
 
-            int year = PasswordTimestampYear.Text.IsInt() ? int.Parse(PasswordTimestampYear.Text) : 0;
-            int month = PasswordTimestampMonth.Text.IsInt() ? int.Parse(PasswordTimestampMonth.Text) : 0;
-            int day = PasswordTimestampDay.Text.IsInt() ? int.Parse(PasswordTimestampDay.Text) : 0;
-            DateTimeOffset time = new DateTime(year, month, day);
+            int year = PasswordTimestampYear.Text.IsInt() ? int.Parse(PasswordTimestampYear.Text) : 1;
+            int month = PasswordTimestampMonth.Text.IsInt() ? int.Parse(PasswordTimestampMonth.Text) : 1;
+            int day = PasswordTimestampDay.Text.IsInt() ? int.Parse(PasswordTimestampDay.Text) : 1;
+            DateTimeOffset time = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1));
 
             long timestamp = time.ToUnixTimeSeconds();
 
@@ -155,10 +162,10 @@ namespace Vault
             string username = PasswordUsername.Text;
             string value = PasswordValue.Password;
 
-            int year = PasswordTimestampYear.Text.IsInt() ? int.Parse(PasswordTimestampYear.Text) : 0;
-            int month = PasswordTimestampMonth.Text.IsInt() ? int.Parse(PasswordTimestampMonth.Text) : 0;
-            int day = PasswordTimestampDay.Text.IsInt() ? int.Parse(PasswordTimestampDay.Text) : 0;
-            DateTimeOffset time = new DateTime(year, month, day);
+            int year = PasswordTimestampYear.Text.IsInt() ? int.Parse(PasswordTimestampYear.Text) : 1;
+            int month = PasswordTimestampMonth.Text.IsInt() ? int.Parse(PasswordTimestampMonth.Text) : 1;
+            int day = PasswordTimestampDay.Text.IsInt() ? int.Parse(PasswordTimestampDay.Text) : 1;
+            DateTimeOffset time = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1));
 
             long timestamp = time.ToUnixTimeSeconds();
 

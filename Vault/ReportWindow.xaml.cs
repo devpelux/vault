@@ -63,6 +63,9 @@ namespace Vault
                 ReportOld.Text = lastReport.Old.ToString();
                 ReportViolated.Text = lastReport.Violated.ToString();
 
+                DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(lastReport.Timestamp);
+                ReportDate.Text = Utility.FormatDate(time);
+
                 double score = CalculateScore(lastReport);
                 ReportScore.Text = score != -1 ? score.ToString() : "--";
             }
@@ -73,6 +76,7 @@ namespace Vault
                 ReportWeak.Text = "-";
                 ReportOld.Text = "-";
                 ReportViolated.Text = "-";
+                ReportDate.Text = "-";
                 ReportScore.Text = "--";
             }
         }

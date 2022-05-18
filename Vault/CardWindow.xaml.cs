@@ -83,11 +83,18 @@ namespace Vault
         /// </summary>
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            if (card == null) AddCard();
-            else EditCard();
+            try
+            {
+                if (card == null) AddCard();
+                else EditCard();
 
-            Result = "edited";
-            Close();
+                Result = "edited";
+                Close();
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                new MessageWindow("Data non valida!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+            }
         }
 
         /// <summary>
@@ -117,9 +124,9 @@ namespace Vault
             string cvv = CardCvv.Text;
             string? iban = CardIban.Text;
 
-            int year = CardExpirationYear.Text.IsInt() ? int.Parse(CardExpirationYear.Text) : 0;
-            int month = CardExpirationMonth.Text.IsInt() ? int.Parse(CardExpirationMonth.Text) : 0;
-            DateTimeOffset time = new DateTime(year, month, 0);
+            int year = CardExpirationYear.Text.IsInt() ? int.Parse(CardExpirationYear.Text) : 1;
+            int month = CardExpirationMonth.Text.IsInt() ? int.Parse(CardExpirationMonth.Text) : 1;
+            DateTimeOffset time = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), 1);
 
             long expiration = time.ToUnixTimeSeconds();
 
@@ -146,9 +153,9 @@ namespace Vault
             string cvv = CardCvv.Text;
             string? iban = CardIban.Text;
 
-            int year = CardExpirationYear.Text.IsInt() ? int.Parse(CardExpirationYear.Text) : 0;
-            int month = CardExpirationMonth.Text.IsInt() ? int.Parse(CardExpirationMonth.Text) : 0;
-            DateTimeOffset time = new DateTime(year, month, 0);
+            int year = CardExpirationYear.Text.IsInt() ? int.Parse(CardExpirationYear.Text) : 1;
+            int month = CardExpirationMonth.Text.IsInt() ? int.Parse(CardExpirationMonth.Text) : 1;
+            DateTimeOffset time = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), 1);
 
             long expiration = time.ToUnixTimeSeconds();
 
