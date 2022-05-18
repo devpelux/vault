@@ -108,14 +108,23 @@ namespace Vault.Core.Database.Tables
 
         /// <summary>
         /// Gets all the categories.
+        /// The categories are ordered by ascending with the none category as the first item.
         /// </summary>
         public List<Category> GetAll()
         {
             List<Category> categories = new();
 
             //Selects all the categories.
-            string command = "SELECT * FROM `Categories`";
+            string command =
+                @"
+                    SELECT * FROM `Categories` WHERE `name` = @none
+                    UNION ALL
+                    SELECT * FROM (SELECT * FROM `Categories` WHERE `name` <> @none ORDER BY `name`);
+                ";
             SqliteCommand query = new(command, DB.Connection);
+
+            //Injects the none category name into the query.
+            query.Parameters.AddWithValue("@none", Category.None.Name);
 
             query.Prepare();
 
