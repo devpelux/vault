@@ -1,6 +1,8 @@
 # Vault
 Portable password manager open source and completely offline forever.
 
+![home](https://raw.githubusercontent.com/devpelux/vault/1.0.0-pre.1/Assets/home.png)
+
 
 # Single file executable
 The main application is a single `.exe` file, it does not require installation, it creates only 2 files:
@@ -24,4 +26,4 @@ You can move everything into an external pendrive and shutdown your pc!
 Copyright (C) 2020-2022 devpelux (Salvatore Peluso)  
 Licensed under MIT license.
 
-[![mit](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/MIT_logo.svg/64px-MIT_logo.svg.png)](https://github.com/devpelux/vault/blob/main/LICENSE)
+[![mit](https://raw.githubusercontent.com/devpelux/vault/1.0.0-pre.1/Assets/Mit.png)](https://github.com/devpelux/vault/blob/1.0.0-pre.1/LICENSE)
