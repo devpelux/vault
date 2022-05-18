@@ -57,7 +57,7 @@ namespace Vault
                 PasswordAccount.Text = password.Account;
                 PasswordUsername.Text = password.Username;
                 PasswordValue.Password = password.Value;
-                PasswordNotes.Text = password.Account;
+                PasswordNotes.Text = password.Notes;
                 Violated.IsChecked = password.IsViolated;
 
                 DateTime localTime = DateTimeOffset.FromUnixTimeSeconds(password.Timestamp).LocalDateTime;
