@@ -63,8 +63,7 @@ namespace Vault
                 ReportOld.Text = lastReport.Old.ToString();
                 ReportViolated.Text = lastReport.Violated.ToString();
 
-                DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(lastReport.Timestamp);
-                ReportDate.Text = Utility.FormatDate(time);
+                ReportDate.Text = Utility.FormatDate(DateTimeOffset.FromUnixTimeSeconds(lastReport.Timestamp));
 
                 double score = CalculateScore(lastReport);
                 ReportScore.Text = score != -1 ? score.ToString() : "--";
@@ -95,7 +94,7 @@ namespace Vault
         /// </summary>
         private void GenerateReport()
         {
-            long now = DateTimeOffset.Now.ToUnixTimeSeconds();
+            long timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
             int total = DB.Instance.Passwords.Count();
 
@@ -106,12 +105,12 @@ namespace Vault
 
             if (lastReport == null)
             {
-                lastReport = new Report(total, duplicated, weak, old, violated, now);
+                lastReport = new Report(total, duplicated, weak, old, violated, timestamp);
                 DB.Instance.Reports.Add(lastReport);
             }
             else
             {
-                lastReport = new Report(lastReport.Id, total, duplicated, weak, old, violated, now);
+                lastReport = new Report(lastReport.Id, total, duplicated, weak, old, violated, timestamp);
                 DB.Instance.Reports.Update(lastReport);
             }
         }

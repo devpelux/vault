@@ -60,10 +60,10 @@ namespace Vault
                 PasswordNotes.Text = password.Account;
                 Violated.IsChecked = password.IsViolated;
 
-                DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(password.Timestamp);
-                PasswordTimestampYear.Text = time.Year.ToString();
-                PasswordTimestampMonth.Text = time.Month.ToString();
-                PasswordTimestampDay.Text = time.Day.ToString();
+                DateTime localTime = DateTimeOffset.FromUnixTimeSeconds(password.Timestamp).LocalDateTime;
+                PasswordTimestampYear.Text = localTime.Year.ToString();
+                PasswordTimestampMonth.Text = localTime.Month.ToString();
+                PasswordTimestampDay.Text = localTime.Day.ToString();
 
                 Reauthenticate.IsChecked = password.IsLocked;
 
@@ -116,10 +116,10 @@ namespace Vault
         /// </summary>
         private void PasswordTimestampNow_Click(object sender, RoutedEventArgs e)
         {
-            DateTimeOffset now = DateTimeOffset.Now;
-            PasswordTimestampYear.Text = now.Year.ToString();
-            PasswordTimestampMonth.Text = now.Month.ToString();
-            PasswordTimestampDay.Text = now.Day.ToString();
+            DateTime localTime = DateTimeOffset.UtcNow.LocalDateTime;
+            PasswordTimestampYear.Text = localTime.Year.ToString();
+            PasswordTimestampMonth.Text = localTime.Month.ToString();
+            PasswordTimestampDay.Text = localTime.Day.ToString();
         }
 
         /// <summary>
@@ -135,9 +135,9 @@ namespace Vault
             int year = PasswordTimestampYear.Text.IsInt() ? int.Parse(PasswordTimestampYear.Text) : 1;
             int month = PasswordTimestampMonth.Text.IsInt() ? int.Parse(PasswordTimestampMonth.Text) : 1;
             int day = PasswordTimestampDay.Text.IsInt() ? int.Parse(PasswordTimestampDay.Text) : 1;
-            DateTimeOffset time = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1));
+            DateTimeOffset localTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1), 0, 0, 0, DateTimeKind.Local);
 
-            long timestamp = time.ToUnixTimeSeconds();
+            long timestamp = localTime.ToUnixTimeSeconds();
 
             string? notes = PasswordNotes.Text;
             bool isViolated = Violated.IsChecked ?? false;
@@ -165,9 +165,9 @@ namespace Vault
             int year = PasswordTimestampYear.Text.IsInt() ? int.Parse(PasswordTimestampYear.Text) : 1;
             int month = PasswordTimestampMonth.Text.IsInt() ? int.Parse(PasswordTimestampMonth.Text) : 1;
             int day = PasswordTimestampDay.Text.IsInt() ? int.Parse(PasswordTimestampDay.Text) : 1;
-            DateTimeOffset time = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1));
+            DateTimeOffset localTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1), 0, 0, 0, DateTimeKind.Local);
 
-            long timestamp = time.ToUnixTimeSeconds();
+            long timestamp = localTime.ToUnixTimeSeconds();
 
             string? notes = PasswordNotes.Text;
             bool isViolated = Violated.IsChecked ?? false;

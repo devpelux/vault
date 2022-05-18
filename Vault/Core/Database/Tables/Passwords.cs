@@ -241,12 +241,13 @@ namespace Vault.Core.Database.Tables
                 @"
                     SELECT COUNT(*)
 	                FROM `Passwords`
-	                WHERE (strftime('%s', 'now') - `timestamp`) > @time;
+	                WHERE (@currentTimestamp - `timestamp`) > @time;
                 ";
             SqliteCommand query = new(command, DB.Connection);
 
             //Injects the time into the query.
-            query.Parameters.AddWithValue("@time", time);
+            query.Parameters.AddWithValue("@currentTimestamp", DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+            query.Parameters.AddWithValue("@time", (long)time);
 
             query.Prepare();
             return Convert.ToInt32(query.ExecuteScalar());

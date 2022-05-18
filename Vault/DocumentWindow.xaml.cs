@@ -59,10 +59,10 @@ namespace Vault
                 DocumentCode.Text = document.Code;
                 DocumentNotes.Text = document.Notes;
 
-                DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(document.Expiration);
-                DocumentExpirationYear.Text = time.Year.ToString();
-                DocumentExpirationMonth.Text = time.Month.ToString();
-                DocumentExpirationDay.Text = time.Day.ToString();
+                DateTime utcTime = DateTimeOffset.FromUnixTimeSeconds(document.Expiration).UtcDateTime;
+                DocumentExpirationYear.Text = utcTime.Year.ToString();
+                DocumentExpirationMonth.Text = utcTime.Month.ToString();
+                DocumentExpirationDay.Text = utcTime.Day.ToString();
 
                 Reauthenticate.IsChecked = document.IsLocked;
 
@@ -122,9 +122,9 @@ namespace Vault
             int year = DocumentExpirationYear.Text.IsInt() ? int.Parse(DocumentExpirationYear.Text) : 1;
             int month = DocumentExpirationMonth.Text.IsInt() ? int.Parse(DocumentExpirationMonth.Text) : 1;
             int day = DocumentExpirationDay.Text.IsInt() ? int.Parse(DocumentExpirationDay.Text) : 1;
-            DateTimeOffset time = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1));
+            DateTimeOffset utcTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1), 0, 0, 0, DateTimeKind.Utc);
 
-            long expiration = time.ToUnixTimeSeconds();
+            long expiration = utcTime.ToUnixTimeSeconds();
 
             string? notes = DocumentNotes.Text;
             bool isLocked = Reauthenticate.IsChecked ?? false;
@@ -149,9 +149,9 @@ namespace Vault
             int year = DocumentExpirationYear.Text.IsInt() ? int.Parse(DocumentExpirationYear.Text) : 1;
             int month = DocumentExpirationMonth.Text.IsInt() ? int.Parse(DocumentExpirationMonth.Text) : 1;
             int day = DocumentExpirationDay.Text.IsInt() ? int.Parse(DocumentExpirationDay.Text) : 1;
-            DateTimeOffset time = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1));
+            DateTimeOffset utcTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1), 0, 0, 0, DateTimeKind.Utc);
 
-            long expiration = time.ToUnixTimeSeconds();
+            long expiration = utcTime.ToUnixTimeSeconds();
 
             string? notes = DocumentNotes.Text;
             bool isLocked = Reauthenticate.IsChecked ?? false;

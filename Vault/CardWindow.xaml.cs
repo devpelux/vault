@@ -62,9 +62,9 @@ namespace Vault
                 CardIban.Text = card.Iban;
                 CardNotes.Text = card.Notes;
 
-                DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(card.Expiration);
-                CardExpirationYear.Text = time.Year.ToString();
-                CardExpirationMonth.Text = time.Month.ToString();
+                DateTime utcTime = DateTimeOffset.FromUnixTimeSeconds(card.Expiration).UtcDateTime;
+                CardExpirationYear.Text = utcTime.Year.ToString();
+                CardExpirationMonth.Text = utcTime.Month.ToString();
 
                 Reauthenticate.IsChecked = card.IsLocked;
 
@@ -126,9 +126,9 @@ namespace Vault
 
             int year = CardExpirationYear.Text.IsInt() ? int.Parse(CardExpirationYear.Text) : 1;
             int month = CardExpirationMonth.Text.IsInt() ? int.Parse(CardExpirationMonth.Text) : 1;
-            DateTimeOffset time = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), 1);
+            DateTimeOffset utcTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), 1, 0, 0, 0, DateTimeKind.Utc);
 
-            long expiration = time.ToUnixTimeSeconds();
+            long expiration = utcTime.ToUnixTimeSeconds();
 
             string? notes = CardNotes.Text;
             bool isLocked = Reauthenticate.IsChecked ?? false;
@@ -155,9 +155,9 @@ namespace Vault
 
             int year = CardExpirationYear.Text.IsInt() ? int.Parse(CardExpirationYear.Text) : 1;
             int month = CardExpirationMonth.Text.IsInt() ? int.Parse(CardExpirationMonth.Text) : 1;
-            DateTimeOffset time = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), 1);
+            DateTimeOffset utcTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), 1, 0, 0, 0, DateTimeKind.Utc);
 
-            long expiration = time.ToUnixTimeSeconds();
+            long expiration = utcTime.ToUnixTimeSeconds();
 
             string? notes = CardNotes.Text;
             bool isLocked = Reauthenticate.IsChecked ?? false;

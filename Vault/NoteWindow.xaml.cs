@@ -17,7 +17,7 @@ namespace Vault
     {
         private readonly Note? note;
         private readonly List<Category> categories;
-        private readonly DateTimeOffset now = DateTimeOffset.Now;
+        private readonly DateTimeOffset utcNow = DateTimeOffset.UtcNow;
 
         /// <summary>
         /// Result: "edited", "deleted", null = nothing. (default: null)
@@ -57,8 +57,7 @@ namespace Vault
                 NoteTitle.Text = note.Title;
                 NoteText.Text = note.Text;
 
-                DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(note.Timestamp);
-                NoteTimestamp.Text = Utility.FormatDate(time);
+                NoteTimestamp.Text = Utility.FormatDate(DateTimeOffset.FromUnixTimeSeconds(note.Timestamp));
 
                 Reauthenticate.IsChecked = note.IsLocked;
 
@@ -68,7 +67,7 @@ namespace Vault
             {
                 NoteCategory.SelectedIndex = 0;
 
-                NoteTimestamp.Text = Utility.FormatDate(now);
+                NoteTimestamp.Text = Utility.FormatDate(utcNow);
 
                 Delete.Visibility = Visibility.Collapsed;
             }
@@ -109,7 +108,7 @@ namespace Vault
             string category = categories[NoteCategory.SelectedIndex].Name;
             string title = NoteTitle.Text;
             string text = NoteText.Text;
-            long timestamp = now.ToUnixTimeSeconds();
+            long timestamp = utcNow.ToUnixTimeSeconds();
             bool isLocked = Reauthenticate.IsChecked ?? false;
 
             Note newNote = new(category, title, text, timestamp, isLocked);
@@ -129,7 +128,7 @@ namespace Vault
             string category = categories[NoteCategory.SelectedIndex].Name;
             string title = NoteTitle.Text;
             string text = NoteText.Text;
-            long timestamp = now.ToUnixTimeSeconds();
+            long timestamp = note.Timestamp;
             bool isLocked = Reauthenticate.IsChecked ?? false;
 
             Note newNote = new(id, category, title, text, timestamp, isLocked);
