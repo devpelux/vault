@@ -283,7 +283,6 @@ namespace Vault
                     ItemsControlAccordionItem item = new()
                     {
                         Style = FindResource("DarkItemsControlAccordionItem") as Style,
-                        Margin = new Thickness(0, 2, 0, 2),
                         Header = Utility.AdaptLabel(category),
                         IsExpanded = category.IsExpanded,
                         ItemsSource = items,

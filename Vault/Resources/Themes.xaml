@@ -13,7 +13,7 @@
         <Setter Property="BorderBrushOnActive"
                 Value="{StaticResource DarkWindowBorderActive}" />
         <Setter Property="Background"
-                Value="{StaticResource DarkWindowPrimaryColor}" />
+                Value="{StaticResource DarkWindowBackground}" />
         <Setter Property="Foreground"
                 Value="{StaticResource DarkWindowForeground}" />
         <Setter Property="ForegroundOnActive"
@@ -70,11 +70,11 @@
     <Style x:Key="CategorySwitcher"
            TargetType="{x:Type fc:Switcher}">
         <Setter Property="Background"
-                Value="{StaticResource DarkWindowPrimaryColor}" />
+                Value="{StaticResource DarkWindowBackground}" />
         <Setter Property="BackgroundOnChecked"
                 Value="{StaticResource DarkButtonBackgroundChecked}" />
         <Setter Property="BackgroundOnMouseOver"
-                Value="{StaticResource DarkWindowPrimaryColor}" />
+                Value="{StaticResource DarkWindowBackground}" />
         <Setter Property="BackgroundOnMouseOverOnChecked"
                 Value="{StaticResource DarkButtonBackgroundCheckedHover}" />
         <Setter Property="BackgroundOnPressed"
@@ -82,9 +82,9 @@
         <Setter Property="BackgroundOnPressedOnChecked"
                 Value="{StaticResource DarkButtonBackgroundCheckedClicked}" />
         <Setter Property="BackgroundOnDisabled"
-                Value="{StaticResource DarkWindowPrimaryColor}" />
+                Value="{StaticResource DarkWindowBackground}" />
         <Setter Property="BackgroundOnDisabledOnChecked"
-                Value="{StaticResource DarkWindowPrimaryColor}" />
+                Value="{StaticResource DarkWindowBackground}" />
         <Setter Property="BorderBrush"
                 Value="{StaticResource DarkButtonBackgroundChecked}" />
         <Setter Property="BorderBrushOnChecked"

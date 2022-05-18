@@ -6,9 +6,9 @@
                  xmlns:fc="http://devpelux.github.io/fullcontrols"
                  mc:Ignorable="d"
                  Style="{StaticResource DarkAvalonWindow}"
-                 Background="{StaticResource DarkWindowSecondaryColor}"
-                 TitlebarBackground="{StaticResource DarkWindowSecondaryColor}"
-                 TitlebarBackgroundOnActive="{StaticResource DarkWindowSecondaryColor}"
+                 Background="{StaticResource DarkWindowSecondaryBackground}"
+                 TitlebarBackground="{StaticResource DarkWindowSecondaryBackground}"
+                 TitlebarBackgroundOnActive="{StaticResource DarkWindowSecondaryBackground}"
                  TitleMargin="16,0,0,0"
                  Title="Documento"
                  SizeToContent="Height"
@@ -163,7 +163,7 @@
                          Content="Chiedi conferma password" />
 
         <Grid Grid.Row="7"
-              Background="{StaticResource DarkWindowPrimaryColor}">
+              Background="{StaticResource DarkWindowBackground}">
 
             <Grid HorizontalAlignment="Right">
                 <Grid.ColumnDefinitions>

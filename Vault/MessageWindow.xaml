@@ -6,9 +6,9 @@
                  xmlns:fc="http://devpelux.github.io/fullcontrols"
                  mc:Ignorable="d"
                  Style="{StaticResource DarkAvalonWindow}"
-                 Background="{StaticResource DarkWindowSecondaryColor}"
-                 TitlebarBackground="{StaticResource DarkWindowSecondaryColor}"
-                 TitlebarBackgroundOnActive="{StaticResource DarkWindowSecondaryColor}"
+                 Background="{StaticResource DarkWindowSecondaryBackground}"
+                 TitlebarBackground="{StaticResource DarkWindowSecondaryBackground}"
+                 TitlebarBackgroundOnActive="{StaticResource DarkWindowSecondaryBackground}"
                  TitleMargin="16,0,0,0"
                  SizeToContent="Height"
                  Width="270"
@@ -52,7 +52,7 @@
 
         <Grid Grid.Row="4"
               Grid.ColumnSpan="2"
-              Background="{StaticResource DarkWindowPrimaryColor}">
+              Background="{StaticResource DarkWindowBackground}">
 
             <fc:ButtonPlus x:Name="Ok"
                            Style="{StaticResource DarkButtonPlus}"

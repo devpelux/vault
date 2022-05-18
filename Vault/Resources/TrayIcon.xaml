@@ -12,12 +12,14 @@
 
         <tb:TaskbarIcon.TrayToolTip>
             <Border Height="32"
-                    Padding="10"
-                    Background="{StaticResource DarkWindowPrimaryColor}"
-                    BorderBrush="{StaticResource DarkWindowSecondaryColor}"
-                    BorderThickness="1">
+                    Padding="10,0,10,0"
+                    CornerRadius="4"
+                    BorderThickness="1"
+                    Background="{StaticResource DarkMenuBackground}"
+                    BorderBrush="{StaticResource DarkMenuBorder}">
                 <TextBlock Text="Vault"
-                           Foreground="White" />
+                           Foreground="White"
+                           VerticalAlignment="Center" />
             </Border>
         </tb:TaskbarIcon.TrayToolTip>
 
