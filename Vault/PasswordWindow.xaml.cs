@@ -125,6 +125,7 @@ namespace Vault
         /// <summary>
         /// Adds a new password.
         /// </summary>
+        /// <exception cref="ArgumentException"/>
         private void AddPassword()
         {
             string category = categories[PasswordCategory.SelectedIndex].Name;
@@ -132,12 +133,21 @@ namespace Vault
             string username = PasswordUsername.Text;
             string value = PasswordValue.Password;
 
-            int year = PasswordTimestampYear.Text.ToInt(1);
-            int month = PasswordTimestampMonth.Text.ToInt(1);
-            int day = PasswordTimestampDay.Text.ToInt(1);
-            DateTimeOffset localTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1), 0, 0, 0, DateTimeKind.Local);
+            int year = PasswordTimestampYear.Text.ToInt(-1);
+            int month = PasswordTimestampMonth.Text.ToInt(-1);
+            int day = PasswordTimestampDay.Text.ToInt(-1);
 
-            long timestamp = localTime.ToUnixTimeSeconds();
+            long timestamp;
+
+            if (year != -1 || month != -1 || day != -1)
+            {
+                DateTimeOffset localTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1), 0, 0, 0, DateTimeKind.Local);
+                timestamp = localTime.ToUnixTimeSeconds();
+            }
+            else
+            {
+                throw new ArgumentException("Invalid date.");
+            }
 
             string? notes = PasswordNotes.Text;
             bool isViolated = Violated.IsChecked ?? false;
@@ -151,6 +161,7 @@ namespace Vault
         /// <summary>
         /// Edits the password.
         /// </summary>
+        /// <exception cref="ArgumentException"/>
         private void EditPassword()
         {
             if (password == null) return;
@@ -162,12 +173,21 @@ namespace Vault
             string username = PasswordUsername.Text;
             string value = PasswordValue.Password;
 
-            int year = PasswordTimestampYear.Text.ToInt(1);
-            int month = PasswordTimestampMonth.Text.ToInt(1);
-            int day = PasswordTimestampDay.Text.ToInt(1);
-            DateTimeOffset localTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1), 0, 0, 0, DateTimeKind.Local);
+            int year = PasswordTimestampYear.Text.ToInt(-1);
+            int month = PasswordTimestampMonth.Text.ToInt(-1);
+            int day = PasswordTimestampDay.Text.ToInt(-1);
 
-            long timestamp = localTime.ToUnixTimeSeconds();
+            long timestamp;
+
+            if (year != -1 || month != -1 || day != -1)
+            {
+                DateTimeOffset localTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1), 0, 0, 0, DateTimeKind.Local);
+                timestamp = localTime.ToUnixTimeSeconds();
+            }
+            else
+            {
+                throw new ArgumentException("Invalid date.");
+            }
 
             string? notes = PasswordNotes.Text;
             bool isViolated = Violated.IsChecked ?? false;

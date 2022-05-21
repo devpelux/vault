@@ -59,11 +59,14 @@ namespace Vault
                 DocumentCode.Text = document.Code;
                 DocumentNotes.Text = document.Notes;
 
-                DateTime utcTime = DateTimeOffset.FromUnixTimeSeconds(document.Expiration).UtcDateTime;
-                DocumentExpirationYear.Text = utcTime.Year.ToString();
-                DocumentExpirationMonth.Text = utcTime.Month.ToString();
-                DocumentExpirationDay.Text = utcTime.Day.ToString();
-
+                if (document.Expiration != -1)
+                {
+                    DateTime utcTime = DateTimeOffset.FromUnixTimeSeconds(document.Expiration).UtcDateTime;
+                    DocumentExpirationYear.Text = utcTime.Year.ToString();
+                    DocumentExpirationMonth.Text = utcTime.Month.ToString();
+                    DocumentExpirationDay.Text = utcTime.Day.ToString();
+                }
+                
                 Reauthenticate.IsChecked = document.IsLocked;
 
                 Delete.Visibility = Visibility.Visible;
@@ -119,12 +122,17 @@ namespace Vault
             string owner = DocumentOwner.Text;
             string code = DocumentCode.Text;
 
-            int year = DocumentExpirationYear.Text.ToInt(1);
-            int month = DocumentExpirationMonth.Text.ToInt(1);
-            int day = DocumentExpirationDay.Text.ToInt(1);
-            DateTimeOffset utcTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1), 0, 0, 0, DateTimeKind.Utc);
+            int year = DocumentExpirationYear.Text.ToInt(-1);
+            int month = DocumentExpirationMonth.Text.ToInt(-1);
+            int day = DocumentExpirationDay.Text.ToInt(-1);
 
-            long expiration = utcTime.ToUnixTimeSeconds();
+            long expiration = -1;
+
+            if (year != -1 || month != -1 || day != -1)
+            {
+                DateTimeOffset utcTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1), 0, 0, 0, DateTimeKind.Utc);
+                expiration = utcTime.ToUnixTimeSeconds();
+            }
 
             string? notes = DocumentNotes.Text;
             bool isLocked = Reauthenticate.IsChecked ?? false;
@@ -146,12 +154,17 @@ namespace Vault
             string owner = DocumentOwner.Text;
             string code = DocumentCode.Text;
 
-            int year = DocumentExpirationYear.Text.ToInt(1);
-            int month = DocumentExpirationMonth.Text.ToInt(1);
-            int day = DocumentExpirationDay.Text.ToInt(1);
-            DateTimeOffset utcTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1), 0, 0, 0, DateTimeKind.Utc);
+            int year = DocumentExpirationYear.Text.ToInt(-1);
+            int month = DocumentExpirationMonth.Text.ToInt(-1);
+            int day = DocumentExpirationDay.Text.ToInt(-1);
 
-            long expiration = utcTime.ToUnixTimeSeconds();
+            long expiration = -1;
+
+            if (year != -1 || month != -1 || day != -1)
+            {
+                DateTimeOffset utcTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1), 0, 0, 0, DateTimeKind.Utc);
+                expiration = utcTime.ToUnixTimeSeconds();
+            }
 
             string? notes = DocumentNotes.Text;
             bool isLocked = Reauthenticate.IsChecked ?? false;

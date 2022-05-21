@@ -114,6 +114,7 @@ namespace Vault
         /// <summary>
         /// Adds a new card.
         /// </summary>
+        /// <exception cref="ArgumentException"/>
         private void AddCard()
         {
             string category = categories[CardCategory.SelectedIndex].Name;
@@ -124,11 +125,20 @@ namespace Vault
             string cvv = CardCvv.Text;
             string? iban = CardIban.Text;
 
-            int year = CardExpirationYear.Text.ToInt(1);
-            int month = CardExpirationMonth.Text.ToInt(1);
-            DateTimeOffset utcTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), 1, 0, 0, 0, DateTimeKind.Utc);
+            int year = CardExpirationYear.Text.ToInt(-1);
+            int month = CardExpirationMonth.Text.ToInt(-1);
 
-            long expiration = utcTime.ToUnixTimeSeconds();
+            long expiration;
+
+            if (year != -1 || month != -1)
+            {
+                DateTimeOffset utcTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), 1, 0, 0, 0, DateTimeKind.Utc);
+                expiration = utcTime.ToUnixTimeSeconds();
+            }
+            else
+            {
+                throw new ArgumentException("Invalid date.");
+            }
 
             string? notes = CardNotes.Text;
             bool isLocked = Reauthenticate.IsChecked ?? false;
@@ -141,6 +151,7 @@ namespace Vault
         /// <summary>
         /// Edits the card.
         /// </summary>
+        /// <exception cref="ArgumentException"/>
         private void EditCard()
         {
             int id = card?.Id ?? -1;
@@ -153,11 +164,20 @@ namespace Vault
             string cvv = CardCvv.Text;
             string? iban = CardIban.Text;
 
-            int year = CardExpirationYear.Text.ToInt(1);
-            int month = CardExpirationMonth.Text.ToInt(1);
-            DateTimeOffset utcTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), 1, 0, 0, 0, DateTimeKind.Utc);
+            int year = CardExpirationYear.Text.ToInt(-1);
+            int month = CardExpirationMonth.Text.ToInt(-1);
 
-            long expiration = utcTime.ToUnixTimeSeconds();
+            long expiration;
+
+            if (year != -1 || month != -1)
+            {
+                DateTimeOffset utcTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), 1, 0, 0, 0, DateTimeKind.Utc);
+                expiration = utcTime.ToUnixTimeSeconds();
+            }
+            else
+            {
+                throw new ArgumentException("Invalid date.");
+            }
 
             string? notes = CardNotes.Text;
             bool isLocked = Reauthenticate.IsChecked ?? false;
