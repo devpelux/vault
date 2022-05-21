@@ -58,12 +58,10 @@ namespace Vault
 
         /// <summary>
         /// Executed when the window is loaded.
-        /// Changes the tray icon type to locked, removes the listener for the logout by tray,
-        /// request to shut down the application.
+        /// Removes the listener for the logout by tray, then requests to shut down the application.
         /// </summary>
         private void Window_Closed(object sender, EventArgs e)
         {
-            TrayIcon.Instance.SetIconType(TrayIconType.Locked);
             TrayIcon.Instance.LogoutCommandExecuted -= TrayIcon_LogoutClick;
             App.RequestShutDown(this);
         }
@@ -81,11 +79,14 @@ namespace Vault
         private void ExecuteLogout_Click(object sender, RoutedEventArgs e) => Logout();
 
         /// <summary>
-        /// Executes the logout by terminating the current session and loading the credentials window.
-        /// Then closes the window.
+        /// Changes the tray icon type to locked.
+        /// Terminates the current session and loads the credentials window, then closes the window.
         /// </summary>
         private void Logout()
         {
+            //Sets the icon to the locked icon.
+            TrayIcon.Instance.SetIconType(TrayIconType.Locked);
+
             //Terminates the current session.
             App.TerminateSession();
 

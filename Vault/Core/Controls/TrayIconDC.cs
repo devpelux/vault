@@ -20,8 +20,11 @@ namespace Vault.Core.Controls
             get => iconType;
             set
             {
-                iconType = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IconType)));
+                if (iconType != value)
+                {
+                    iconType = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IconType)));
+                }
             }
         }
 

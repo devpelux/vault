@@ -104,7 +104,7 @@
                 Value="00:00:00.2000000" />
     </Style>
 
-    <Style x:Key="CategorySwitcher"
+    <Style x:Key="DarkCategorySwitcher"
            TargetType="{x:Type fc:Switcher}">
         <Setter Property="Background"
                 Value="{StaticResource DarkWindowBackground}" />

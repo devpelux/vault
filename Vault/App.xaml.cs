@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using Vault.Core.Controls;
 using Vault.Core.Database;
@@ -10,7 +9,7 @@ using WpfCoreTools;
 namespace Vault
 {
     /// <summary>
-    /// Logica di interazione per App.xaml
+    /// Start point.
     /// </summary>
     public partial class App : Application
     {
@@ -129,7 +128,7 @@ namespace Vault
             }
             else if (sender is Window && IsHided)
             {
-                //If the request was sent by the tray icon, then checks if can close the application.
+                //If the request was sent by a window, then checks if can close the application.
                 if (Settings.Instance.GetSetting("exit_explicit", true))
                 {
                     //If is requested the explicit exit, instead of close the application, saves the window, so it can be opened again.
@@ -142,6 +141,6 @@ namespace Vault
         /// <summary>
         /// Gets the current version number for the application.
         /// </summary>
-        public static string GetVersionCode() => Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "N/A";
+        public static string GetVersionCode() => typeof(App).Assembly.GetName().Version?.ToString() ?? "N/A";
     }
 }

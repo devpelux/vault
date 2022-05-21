@@ -50,7 +50,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="8">
-                            <fc:Switcher Style="{StaticResource CategorySwitcher}"
+                            <fc:Switcher Style="{StaticResource DarkCategorySwitcher}"
                                          Content="{Binding Name}"
                                          GroupName="CategorySwitchers"
                                          Checked="Category_Checked"
