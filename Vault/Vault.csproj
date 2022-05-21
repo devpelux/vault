@@ -46,7 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FullControls" Version="2.0.2" />
+    <PackageReference Include="FullControls" Version="2.0.3" />
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.5" />
     <PackageReference Include="Nucs.JsonSettings" Version="2.0.0-alpha7" />

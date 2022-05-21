@@ -14,7 +14,7 @@ namespace Vault
     /// <summary>
     /// Window for display and edit a password.
     /// </summary>
-    public partial class PasswordWindow : AvalonWindow, IDialog
+    public partial class PasswordWindow : AvalonWindow, IDialog<string>
     {
         private readonly Password? password;
         private readonly List<Category> categories;
@@ -22,7 +22,7 @@ namespace Vault
         /// <summary>
         /// Result: "edited", "deleted", null = nothing. (default: null)
         /// </summary>
-        private object? Result = null;
+        private string? Result = null;
 
         /// <summary>
         /// Initializes a new <see cref="PasswordWindow"/> with the specified password.
@@ -40,7 +40,7 @@ namespace Vault
         }
 
         /// <inheritdoc/>
-        public object? GetResult() => Result;
+        public string? GetResult() => Result;
 
         /// <summary>
         /// Executed when the window is loaded.
@@ -132,9 +132,9 @@ namespace Vault
             string username = PasswordUsername.Text;
             string value = PasswordValue.Password;
 
-            int year = PasswordTimestampYear.Text.IsInt() ? int.Parse(PasswordTimestampYear.Text) : 1;
-            int month = PasswordTimestampMonth.Text.IsInt() ? int.Parse(PasswordTimestampMonth.Text) : 1;
-            int day = PasswordTimestampDay.Text.IsInt() ? int.Parse(PasswordTimestampDay.Text) : 1;
+            int year = PasswordTimestampYear.Text.ToInt(1);
+            int month = PasswordTimestampMonth.Text.ToInt(1);
+            int day = PasswordTimestampDay.Text.ToInt(1);
             DateTimeOffset localTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1), 0, 0, 0, DateTimeKind.Local);
 
             long timestamp = localTime.ToUnixTimeSeconds();
@@ -162,9 +162,9 @@ namespace Vault
             string username = PasswordUsername.Text;
             string value = PasswordValue.Password;
 
-            int year = PasswordTimestampYear.Text.IsInt() ? int.Parse(PasswordTimestampYear.Text) : 1;
-            int month = PasswordTimestampMonth.Text.IsInt() ? int.Parse(PasswordTimestampMonth.Text) : 1;
-            int day = PasswordTimestampDay.Text.IsInt() ? int.Parse(PasswordTimestampDay.Text) : 1;
+            int year = PasswordTimestampYear.Text.ToInt(1);
+            int month = PasswordTimestampMonth.Text.ToInt(1);
+            int day = PasswordTimestampDay.Text.ToInt(1);
             DateTimeOffset localTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1), 0, 0, 0, DateTimeKind.Local);
 
             long timestamp = localTime.ToUnixTimeSeconds();

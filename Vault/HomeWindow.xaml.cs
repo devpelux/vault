@@ -102,7 +102,7 @@ namespace Vault
         /// </summary>
         private void ShowCategories_Click(object sender, RoutedEventArgs e)
         {
-            if ((bool?)new DialogWindow(new CategoriesWindow()).Show() == true)
+            if (new CategoriesWindow().ShowDialogForResult<bool>())
             {
                 Reload();
             }
@@ -216,20 +216,20 @@ namespace Vault
         /// </summary>
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            object? result = null;
+            string? result = null;
             switch (currentSection)
             {
                 case PASSWORDS_SECTION:
-                    result = new DialogWindow(new PasswordWindow(null)).Show();
+                    result = new PasswordWindow(null).ShowDialogForResult<string>();
                     break;
                 case NOTES_SECTION:
-                    result = new DialogWindow(new NoteWindow(null)).Show();
+                    result = new NoteWindow(null).ShowDialogForResult<string>();
                     break;
                 case CARDS_SECTION:
-                    result = new DialogWindow(new CardWindow(null)).Show();
+                    result = new CardWindow(null).ShowDialogForResult<string>();
                     break;
                 case DOCUMENTS_SECTION:
-                    result = new DialogWindow(new DocumentWindow(null)).Show();
+                    result = new DocumentWindow(null).ShowDialogForResult<string>();
                     break;
                 default:
                     break;
@@ -333,7 +333,7 @@ namespace Vault
             {
                 //If the item is locked, shows the credentials window to reauthenticate
                 //If the reauthentication is succesful, the item will be unlocked
-                isLocked = (bool?)new DialogWindow(new CredentialsWindow(CredentialsWindow.Request.Reauthentication)).Show() == false;
+                isLocked = !new CredentialsWindow(CredentialsWindow.Request.Reauthentication).ShowDialogForResult<bool>();
             }
 
             //If the item is now unlocked, displays the window for viewing the item info and editing the item
@@ -345,19 +345,19 @@ namespace Vault
                 {
                     case PASSWORDS_SECTION:
                         Password? password = DB.Instance.Passwords.Get((int)((DataItem)sender).Tag);
-                        result = (string?)new DialogWindow(new PasswordWindow(password)).Show();
+                        result = new PasswordWindow(password).ShowDialogForResult<string>();
                         break;
                     case NOTES_SECTION:
                         Note? note = DB.Instance.Notes.Get((int)((DataItem)sender).Tag);
-                        result = (string?)new DialogWindow(new NoteWindow(note)).Show();
+                        result = new NoteWindow(note).ShowDialogForResult<string>();
                         break;
                     case CARDS_SECTION:
                         Card? card = DB.Instance.Cards.Get((int)((DataItem)sender).Tag);
-                        result = (string?)new DialogWindow(new CardWindow(card)).Show();
+                        result = new CardWindow(card).ShowDialogForResult<string>();
                         break;
                     case DOCUMENTS_SECTION:
                         Document? document = DB.Instance.Documents.Get((int)((DataItem)sender).Tag);
-                        result = (string?)new DialogWindow(new DocumentWindow(document)).Show();
+                        result = new DocumentWindow(document).ShowDialogForResult<string>();
                         break;
                     default:
                         break;

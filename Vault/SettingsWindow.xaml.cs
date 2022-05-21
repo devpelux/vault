@@ -64,8 +64,8 @@ namespace Vault
             {
                 SystemSettings.StartOnStartup = true;
             }
-            else if ((bool?)new DialogWindow(new ConfirmWindow("L'avvio automatico è già in uso da un altra istanza! Sovrascrivere?",
-                "Attenzione!", MessageBoxImage.Question)).Show() == true)
+            else if (new ConfirmWindow("L'avvio automatico è già in uso da un altra istanza! Sovrascrivere?",
+                "Attenzione!", MessageBoxImage.Question).ShowDialogForResult<bool>())
             {
                 SystemSettings.StartOnStartup = true;
             }

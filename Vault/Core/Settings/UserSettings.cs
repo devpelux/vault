@@ -1,4 +1,5 @@
-﻿using Vault.Core.Database;
+﻿using CoreTools.Extensions;
+using Vault.Core.Database;
 using Vault.Core.Database.Data;
 
 namespace Vault.Core.Settings
@@ -59,7 +60,7 @@ namespace Vault.Core.Settings
 
             if (setting != null)
             {
-                return Utility.ConvertFromString<TValue>(setting.Value) ?? defaultValue;
+                return setting.Value.ParseTo<TValue>() ?? defaultValue;
             }
             return defaultValue;
         }

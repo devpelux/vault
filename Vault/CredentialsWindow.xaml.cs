@@ -13,7 +13,7 @@ namespace Vault
     /// <summary>
     /// Window for input the credentials.
     /// </summary>
-    public partial class CredentialsWindow : AvalonWindow, IDialog
+    public partial class CredentialsWindow : AvalonWindow, IDialog<bool>
     {
         private Request CurrentRequest;
 
@@ -66,7 +66,7 @@ namespace Vault
         }
 
         /// <inheritdoc/>
-        public object? GetResult() => ReauthResult;
+        public bool GetResult() => ReauthResult;
 
         /// <summary>
         /// Executed when the window is loaded.

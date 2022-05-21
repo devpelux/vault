@@ -1,7 +1,6 @@
 ﻿using FullControls.Controls;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Security;
 using System.Windows;
@@ -60,11 +59,6 @@ namespace Vault.Core
             string hashPassword2 = Encryptor.ConvertToString(Encryptor.GenerateKey(password2, salt));
             return hashPassword1.Equals(hashPassword2);
         }
-
-        /// <summary>
-        /// Converts a string to the specific value using a <see cref="TypeDescriptor"/> converter.
-        /// </summary>
-        internal static T? ConvertFromString<T>(string str) => (T?)TypeDescriptor.GetConverter(typeof(T)).ConvertFromString(str);
 
         /// <summary>
         /// Returns the max value from 4 int.

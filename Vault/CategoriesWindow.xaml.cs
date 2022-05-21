@@ -12,7 +12,7 @@ namespace Vault
     /// <summary>
     /// Window for managing the categories.
     /// </summary>
-    public partial class CategoriesWindow : AvalonWindow, IDialog
+    public partial class CategoriesWindow : AvalonWindow, IDialog<bool>
     {
         private List<Category> categories = new();
         private Category? selectedCategory = null;
@@ -31,7 +31,7 @@ namespace Vault
         }
 
         /// <inheritdoc/>
-        public object? GetResult() => EditResult;
+        public bool GetResult() => EditResult;
 
         /// <summary>
         /// Executed when the window is loaded.
@@ -152,7 +152,7 @@ namespace Vault
                     }
                     else EditResult = true;
                 }
-                else if ((bool?)new DialogWindow(new ConfirmWindow("Conferma eliminazione?", "Conferma", MessageBoxImage.Question)).Show() == true)
+                else if (new ConfirmWindow("Conferma eliminazione?", "Conferma", MessageBoxImage.Question).ShowDialogForResult<bool>())
                 {
                     if (!DB.Instance.Categories.Remove(selectedCategory.Name))
                     {

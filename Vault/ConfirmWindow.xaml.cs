@@ -9,7 +9,7 @@ namespace Vault
     /// <summary>
     /// Window for dialog boxes.
     /// </summary>
-    public partial class ConfirmWindow : AvalonWindow, IDialog
+    public partial class ConfirmWindow : AvalonWindow, IDialog<bool>
     {
         /// <summary>
         /// Result: false = no, true = yes. (default: false)
@@ -43,7 +43,7 @@ namespace Vault
         }
 
         /// <inheritdoc/>
-        public object? GetResult() => Result;
+        public bool GetResult() => Result;
 
         /// <summary>
         /// Executed when the window is loaded.

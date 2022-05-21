@@ -14,7 +14,7 @@ namespace Vault
     /// <summary>
     /// Window for display and edit a card.
     /// </summary>
-    public partial class CardWindow : AvalonWindow, IDialog
+    public partial class CardWindow : AvalonWindow, IDialog<string>
     {
         private readonly Card? card;
         private readonly List<Category> categories;
@@ -22,7 +22,7 @@ namespace Vault
         /// <summary>
         /// Result: "edited", "deleted", null = nothing. (default: null)
         /// </summary>
-        private object? Result = null;
+        private string? Result = null;
 
         /// <summary>
         /// Initializes a new <see cref="CardWindow"/> with the specified card.
@@ -40,7 +40,7 @@ namespace Vault
         }
 
         /// <inheritdoc/>
-        public object? GetResult() => Result;
+        public string? GetResult() => Result;
 
         /// <summary>
         /// Executed when the window is loaded.
@@ -124,8 +124,8 @@ namespace Vault
             string cvv = CardCvv.Text;
             string? iban = CardIban.Text;
 
-            int year = CardExpirationYear.Text.IsInt() ? int.Parse(CardExpirationYear.Text) : 1;
-            int month = CardExpirationMonth.Text.IsInt() ? int.Parse(CardExpirationMonth.Text) : 1;
+            int year = CardExpirationYear.Text.ToInt(1);
+            int month = CardExpirationMonth.Text.ToInt(1);
             DateTimeOffset utcTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), 1, 0, 0, 0, DateTimeKind.Utc);
 
             long expiration = utcTime.ToUnixTimeSeconds();
@@ -153,8 +153,8 @@ namespace Vault
             string cvv = CardCvv.Text;
             string? iban = CardIban.Text;
 
-            int year = CardExpirationYear.Text.IsInt() ? int.Parse(CardExpirationYear.Text) : 1;
-            int month = CardExpirationMonth.Text.IsInt() ? int.Parse(CardExpirationMonth.Text) : 1;
+            int year = CardExpirationYear.Text.ToInt(1);
+            int month = CardExpirationMonth.Text.ToInt(1);
             DateTimeOffset utcTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), 1, 0, 0, 0, DateTimeKind.Utc);
 
             long expiration = utcTime.ToUnixTimeSeconds();

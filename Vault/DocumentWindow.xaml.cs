@@ -14,7 +14,7 @@ namespace Vault
     /// <summary>
     /// Window for display and edit a document.
     /// </summary>
-    public partial class DocumentWindow : AvalonWindow, IDialog
+    public partial class DocumentWindow : AvalonWindow, IDialog<string>
     {
         private readonly Document? document;
         private readonly List<Category> categories;
@@ -22,7 +22,7 @@ namespace Vault
         /// <summary>
         /// Result: "edited", "deleted", null = nothing. (default: null)
         /// </summary>
-        private object? Result = null;
+        private string? Result = null;
 
         /// <summary>
         /// Initializes a new <see cref="DocumentWindow"/> with the specified document.
@@ -40,7 +40,7 @@ namespace Vault
         }
 
         /// <inheritdoc/>
-        public object? GetResult() => Result;
+        public string? GetResult() => Result;
 
         /// <summary>
         /// Executed when the window is loaded.
@@ -119,9 +119,9 @@ namespace Vault
             string owner = DocumentOwner.Text;
             string code = DocumentCode.Text;
 
-            int year = DocumentExpirationYear.Text.IsInt() ? int.Parse(DocumentExpirationYear.Text) : 1;
-            int month = DocumentExpirationMonth.Text.IsInt() ? int.Parse(DocumentExpirationMonth.Text) : 1;
-            int day = DocumentExpirationDay.Text.IsInt() ? int.Parse(DocumentExpirationDay.Text) : 1;
+            int year = DocumentExpirationYear.Text.ToInt(1);
+            int month = DocumentExpirationMonth.Text.ToInt(1);
+            int day = DocumentExpirationDay.Text.ToInt(1);
             DateTimeOffset utcTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1), 0, 0, 0, DateTimeKind.Utc);
 
             long expiration = utcTime.ToUnixTimeSeconds();
@@ -146,9 +146,9 @@ namespace Vault
             string owner = DocumentOwner.Text;
             string code = DocumentCode.Text;
 
-            int year = DocumentExpirationYear.Text.IsInt() ? int.Parse(DocumentExpirationYear.Text) : 1;
-            int month = DocumentExpirationMonth.Text.IsInt() ? int.Parse(DocumentExpirationMonth.Text) : 1;
-            int day = DocumentExpirationDay.Text.IsInt() ? int.Parse(DocumentExpirationDay.Text) : 1;
+            int year = DocumentExpirationYear.Text.ToInt(1);
+            int month = DocumentExpirationMonth.Text.ToInt(1);
+            int day = DocumentExpirationDay.Text.ToInt(1);
             DateTimeOffset utcTime = new DateTime(Math.Clamp(year, 1, 9999), Math.Clamp(month, 1, 12), Math.Max(day, 1), 0, 0, 0, DateTimeKind.Utc);
 
             long expiration = utcTime.ToUnixTimeSeconds();

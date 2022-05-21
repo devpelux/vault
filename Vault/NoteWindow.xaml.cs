@@ -13,7 +13,7 @@ namespace Vault
     /// <summary>
     /// Window for display and edit a note.
     /// </summary>
-    public partial class NoteWindow : AvalonWindow, IDialog
+    public partial class NoteWindow : AvalonWindow, IDialog<string>
     {
         private readonly Note? note;
         private readonly List<Category> categories;
@@ -22,7 +22,7 @@ namespace Vault
         /// <summary>
         /// Result: "edited", "deleted", null = nothing. (default: null)
         /// </summary>
-        private object? Result = null;
+        private string? Result = null;
 
         /// <summary>
         /// Initializes a new <see cref="NoteWindow"/> with the specified note.
@@ -40,7 +40,7 @@ namespace Vault
         }
 
         /// <inheritdoc/>
-        public object? GetResult() => Result;
+        public string? GetResult() => Result;
 
         /// <summary>
         /// Executed when the window is loaded.
