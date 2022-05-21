@@ -74,6 +74,9 @@ namespace Vault
         /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            //If there is an owner for this window, then center the window to the owner.
+            if (Owner != null) WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
             string? username = Settings.Instance.GetSetting("username", string.Empty);
             Username.Text = username;
             Remember.IsChecked = username != string.Empty;
@@ -148,7 +151,7 @@ namespace Vault
         {
             if (Username.TextLength == 0 && Password.PasswordLength == 0 || Username.Text.Contains(' '))
             {
-                new MessageWindow("Input non validi!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                new MessageWindow("Input non validi!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
                 return;
             }
 
@@ -164,12 +167,12 @@ namespace Vault
                 }
                 else
                 {
-                    new MessageWindow("Username o password errati o file di dati corrotto!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                    new MessageWindow("Username o password errati o file di dati corrotto!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
                 }
                 return;
             }
 
-            new MessageWindow("Username o password errati!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+            new MessageWindow("Username o password errati!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
         }
 
         /// <summary>
@@ -179,19 +182,19 @@ namespace Vault
         {
             if (Username.TextLength == 0 || Password.PasswordLength == 0 || ConfirmPassword.PasswordLength == 0 || Username.Text.Contains(' '))
             {
-                new MessageWindow("Input non validi!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                new MessageWindow("Input non validi!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
                 return;
             }
 
             if (!Utility.ComparePasswords(Password.SecurePassword, ConfirmPassword.SecurePassword))
             {
-                new MessageWindow("Le password non corrispondono!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                new MessageWindow("Le password non corrispondono!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
                 return;
             }
 
             if (File.Exists(App.GetDBPath(Username.Text)))
             {
-                new MessageWindow("Utente già esistente!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                new MessageWindow("Utente già esistente!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
                 return;
             }
 
@@ -205,7 +208,7 @@ namespace Vault
             }
             else
             {
-                new MessageWindow("Impossibile creare il file di dati!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                new MessageWindow("Impossibile creare il file di dati!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
             }
             return;
         }
@@ -217,7 +220,7 @@ namespace Vault
         {
             if (Password.PasswordLength == 0)
             {
-                new MessageWindow("Input non validi!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                new MessageWindow("Input non validi!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
                 return;
             }
 
@@ -227,7 +230,7 @@ namespace Vault
 
             //Closes the window if the password is verified, otherwise displays an error message.
             if (ReauthResult) Close();
-            else new MessageWindow("Password errata!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+            else new MessageWindow("Password errata!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
         }
 
         /// <summary>

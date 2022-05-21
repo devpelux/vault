@@ -2,7 +2,6 @@
 using System;
 using System.Windows;
 using Vault.Core.Settings;
-using WpfCoreTools;
 
 namespace Vault
 {
@@ -26,7 +25,13 @@ namespace Vault
         /// Executed when the window is loaded.
         /// Loads all the editable settings values in the window.
         /// </summary>
-        private void Window_Loaded(object sender, RoutedEventArgs e) => LoadSettings();
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            //If there is an owner for this window, then center the window to the owner.
+            if (Owner != null) WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+            LoadSettings();
+        }
 
         /// <summary>
         /// Loads all the editable settings values in the window.
@@ -65,7 +70,7 @@ namespace Vault
                 SystemSettings.StartOnStartup = true;
             }
             else if (new ConfirmWindow("L'avvio automatico è già in uso da un altra istanza! Sovrascrivere?",
-                "Attenzione!", MessageBoxImage.Question).ShowDialogForResult<bool>())
+                "Attenzione!", MessageBoxImage.Question) { Owner = this }.ShowDialogForResult<bool>())
             {
                 SystemSettings.StartOnStartup = true;
             }

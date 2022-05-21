@@ -48,6 +48,9 @@ namespace Vault
         /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            //If there is an owner for this window, then center the window to the owner.
+            if (Owner != null) WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
             Utility.LoadCategoryItems(CardCategory, (Style)FindResource("DarkComboBoxItemPlus"), categories);
 
             if (card != null)
@@ -93,7 +96,7 @@ namespace Vault
             }
             catch (ArgumentOutOfRangeException)
             {
-                new MessageWindow("Data non valida!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                new MessageWindow("Data non valida!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
             }
         }
 

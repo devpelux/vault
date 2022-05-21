@@ -11,7 +11,6 @@ using Vault.Core.Controls;
 using Vault.Core.Database;
 using Vault.Core.Database.Data;
 using Vault.Core.Settings;
-using WpfCoreTools;
 
 namespace Vault
 {
@@ -49,6 +48,9 @@ namespace Vault
         /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            //If there is an owner for this window, then center the window to the owner.
+            if (Owner != null) WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
             TrayIcon.Instance.SetIconType(TrayIconType.Unlocked);
             TrayIcon.Instance.LogoutCommandExecuted += TrayIcon_LogoutClick;
             Reload();
@@ -102,7 +104,7 @@ namespace Vault
         /// </summary>
         private void ShowCategories_Click(object sender, RoutedEventArgs e)
         {
-            if (new CategoriesWindow().ShowDialogForResult<bool>())
+            if (new CategoriesWindow() { Owner = this }.ShowDialogForResult<bool>())
             {
                 Reload();
             }
@@ -114,7 +116,7 @@ namespace Vault
         /// </summary>
         private void ShowSettings_Click(object sender, RoutedEventArgs e)
         {
-            new SettingsWindow().ShowDialog();
+            new SettingsWindow() { Owner = this }.ShowDialog();
         }
 
         /// <summary>
@@ -123,7 +125,7 @@ namespace Vault
         /// </summary>
         private void ShowReport_Click(object sender, RoutedEventArgs e)
         {
-            new ReportWindow().ShowDialog();
+            new ReportWindow() { Owner = this }.ShowDialog();
         }
 
         #endregion
@@ -220,16 +222,16 @@ namespace Vault
             switch (currentSection)
             {
                 case PASSWORDS_SECTION:
-                    result = new PasswordWindow(null).ShowDialogForResult<string>();
+                    result = new PasswordWindow(null) { Owner = this }.ShowDialogForResult<string>();
                     break;
                 case NOTES_SECTION:
-                    result = new NoteWindow(null).ShowDialogForResult<string>();
+                    result = new NoteWindow(null) { Owner = this }.ShowDialogForResult<string>();
                     break;
                 case CARDS_SECTION:
-                    result = new CardWindow(null).ShowDialogForResult<string>();
+                    result = new CardWindow(null) { Owner = this }.ShowDialogForResult<string>();
                     break;
                 case DOCUMENTS_SECTION:
-                    result = new DocumentWindow(null).ShowDialogForResult<string>();
+                    result = new DocumentWindow(null) { Owner = this }.ShowDialogForResult<string>();
                     break;
                 default:
                     break;
@@ -333,7 +335,7 @@ namespace Vault
             {
                 //If the item is locked, shows the credentials window to reauthenticate
                 //If the reauthentication is succesful, the item will be unlocked
-                isLocked = !new CredentialsWindow(CredentialsWindow.Request.Reauthentication).ShowDialogForResult<bool>();
+                isLocked = !new CredentialsWindow(CredentialsWindow.Request.Reauthentication) { Owner = this }.ShowDialogForResult<bool>();
             }
 
             //If the item is now unlocked, displays the window for viewing the item info and editing the item
@@ -345,19 +347,19 @@ namespace Vault
                 {
                     case PASSWORDS_SECTION:
                         Password? password = DB.Instance.Passwords.Get((int)((DataItem)sender).Tag);
-                        result = new PasswordWindow(password).ShowDialogForResult<string>();
+                        result = new PasswordWindow(password) { Owner = this }.ShowDialogForResult<string>();
                         break;
                     case NOTES_SECTION:
                         Note? note = DB.Instance.Notes.Get((int)((DataItem)sender).Tag);
-                        result = new NoteWindow(note).ShowDialogForResult<string>();
+                        result = new NoteWindow(note) { Owner = this }.ShowDialogForResult<string>();
                         break;
                     case CARDS_SECTION:
                         Card? card = DB.Instance.Cards.Get((int)((DataItem)sender).Tag);
-                        result = new CardWindow(card).ShowDialogForResult<string>();
+                        result = new CardWindow(card) { Owner = this }.ShowDialogForResult<string>();
                         break;
                     case DOCUMENTS_SECTION:
                         Document? document = DB.Instance.Documents.Get((int)((DataItem)sender).Tag);
-                        result = new DocumentWindow(document).ShowDialogForResult<string>();
+                        result = new DocumentWindow(document) { Owner = this }.ShowDialogForResult<string>();
                         break;
                     default:
                         break;

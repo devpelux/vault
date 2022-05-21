@@ -37,7 +37,13 @@ namespace Vault
         /// Executed when the window is loaded.
         /// Loads the categories details.
         /// </summary>
-        private void Window_Loaded(object sender, RoutedEventArgs e) => Reload();
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            //If there is an owner for this window, then center the window to the owner.
+            if (Owner != null) WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+            Reload();
+        }
 
         /// <summary>
         /// Reloads the categories details.
@@ -135,7 +141,7 @@ namespace Vault
                     if (!DB.Instance.Categories.Add(newCategory))
                     {
                         new MessageWindow("Impossibile aggiungere la categoria perché ne esiste un altra uguale!",
-                            "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                            "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
                     }
                     else EditResult = true;
                 }
@@ -148,7 +154,7 @@ namespace Vault
                     if (!DB.Instance.Categories.Update(selectedCategory.Name, newCategory))
                     {
                         new MessageWindow("Impossibile modificare la categoria perché ne esiste un altra uguale!",
-                            "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                            "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
                     }
                     else EditResult = true;
                 }
@@ -157,7 +163,7 @@ namespace Vault
                     if (!DB.Instance.Categories.Remove(selectedCategory.Name))
                     {
                         new MessageWindow("Impossibile eliminare la categoria perché è in uso!",
-                            "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                            "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
                     }
                     else EditResult = true;
                 }

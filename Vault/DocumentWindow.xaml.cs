@@ -48,6 +48,9 @@ namespace Vault
         /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            //If there is an owner for this window, then center the window to the owner.
+            if (Owner != null) WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
             Utility.LoadCategoryItems(DocumentCategory, (Style)FindResource("DarkComboBoxItemPlus"), categories);
 
             if (document != null)
@@ -66,7 +69,7 @@ namespace Vault
                     DocumentExpirationMonth.Text = utcTime.Month.ToString();
                     DocumentExpirationDay.Text = utcTime.Day.ToString();
                 }
-                
+
                 Reauthenticate.IsChecked = document.IsLocked;
 
                 Delete.Visibility = Visibility.Visible;
@@ -94,7 +97,7 @@ namespace Vault
             }
             catch (ArgumentOutOfRangeException)
             {
-                new MessageWindow("Data non valida!", "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                new MessageWindow("Data non valida!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
             }
         }
 

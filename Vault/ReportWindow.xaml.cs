@@ -30,6 +30,9 @@ namespace Vault
         /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            //If there is an owner for this window, then center the window to the owner.
+            if (Owner != null) WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
             Reload();
         }
 
@@ -47,7 +50,7 @@ namespace Vault
         /// </summary>
         private void WeakPasswordsLink_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            new WeakPasswordsWindow().ShowDialog();
+            new WeakPasswordsWindow() { Owner = this }.ShowDialog();
         }
 
         /// <summary>
