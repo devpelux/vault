@@ -7,9 +7,9 @@
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <StartupObject>Vault.App</StartupObject>
-    <Version>1.0.0-pre.2</Version>
+    <Version>1.0.0-pre.3</Version>
     <ApplicationIcon>Icons\icon.ico</ApplicationIcon>
-    <Authors>Salvatore Peluso</Authors>
+    <Authors>devpelux</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/devpelux/vault</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
