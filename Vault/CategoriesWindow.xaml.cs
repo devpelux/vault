@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using Vault.Core.Database;
 using Vault.Core.Database.Data;
+using Vault.Properties;
 using WpfCoreTools;
 
 namespace Vault
@@ -140,8 +141,7 @@ namespace Vault
                 {
                     if (!DB.Instance.Categories.Add(newCategory))
                     {
-                        new MessageWindow("Impossibile aggiungere la categoria perché ne esiste un altra uguale!",
-                            "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
+                        new MessageWindow(Strings.CategoryDuplicatedAdd, Strings.Error, MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
                     }
                     else EditResult = true;
                 }
@@ -153,17 +153,15 @@ namespace Vault
                     newCategory.IsExpanded = selectedCategory.IsExpanded;
                     if (!DB.Instance.Categories.Update(selectedCategory.Name, newCategory))
                     {
-                        new MessageWindow("Impossibile modificare la categoria perché ne esiste un altra uguale!",
-                            "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
+                        new MessageWindow(Strings.CategoryDuplicatedEdit, Strings.Error, MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
                     }
                     else EditResult = true;
                 }
-                else if (new ConfirmWindow("Conferma eliminazione?", "Conferma", MessageBoxImage.Question).ShowDialogForResult<bool>())
+                else if (new ConfirmWindow(Strings.ConfirmDelete, Strings.Warning, MessageBoxImage.Question).ShowDialogForResult<bool>())
                 {
                     if (!DB.Instance.Categories.Remove(selectedCategory.Name))
                     {
-                        new MessageWindow("Impossibile eliminare la categoria perché è in uso!",
-                            "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
+                        new MessageWindow(Strings.CategoryUsed, Strings.Error, MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
                     }
                     else EditResult = true;
                 }

@@ -34,7 +34,7 @@
         public override string Header => Name;
 
         /// <inheritdoc/>
-        public override string SubHeader => Utility.AdaptHeader(Code, 4, "No code");
+        public override string SubHeader => Utility.FormatHeader(Code, 4);
 
         /// <summary>
         /// Initializes a new <see cref="Document"/> without id.

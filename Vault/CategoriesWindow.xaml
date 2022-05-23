@@ -4,9 +4,10 @@
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:fc="http://devpelux.github.io/fullcontrols"
+                 xmlns:p="clr-namespace:Vault.Properties"
                  mc:Ignorable="d"
                  Style="{StaticResource DarkAvalonWindow}"
-                 Title="Categorie"
+                 Title="{x:Static p:Strings.Categories}"
                  TitleMargin="16,0,0,0"
                  SizeToContent="Height"
                  Width="400"
@@ -26,14 +27,14 @@
         <TextBlock Grid.Row="0"
                    Margin="24,24,24,0"
                    TextWrapping="Wrap"
-                   Text="Seleziona una categoria per modificarla o eliminarla.&#x0a;Non selezionando nulla sarà aggiunta una nuova categoria.&#x0a;Premi INVIO per salvare, o CTRL + INVIO per annullare." />
+                   Text="{x:Static p:Strings.CategoriesDescription}" />
 
         <TextBlock x:Name="NoCategory"
                    Grid.Row="1"
                    Margin="24,16,24,24"
                    TextWrapping="Wrap"
                    Foreground="Gray"
-                   Text="Non ci sono categorie!"
+                   Text="{x:Static p:Strings.NoCategory}"
                    Visibility="Visible" />
 
         <fc:GlassScrollViewer x:Name="CategoryViewer"
@@ -75,9 +76,9 @@
                         Height="56"
                         Margin="24,8,24,0"
                         VerticalContentAlignment="Center"
-                        Label="Nome categoria (svuotare per cancellarla)"
+                        Label="{x:Static p:Strings.CategoryName}"
                         LabelMargin="0,0,0,4"
-                        Hint="category" />
+                        Hint="{x:Static p:Strings.CategoryNameHint}" />
         
         <fc:TextBoxPlus x:Name="CategoryLabel"
                         Style="{StaticResource DarkTextBoxPlus}"
@@ -85,8 +86,8 @@
                         Height="56"
                         Margin="24,8,24,24"
                         VerticalContentAlignment="Center"
-                        Label="Descrizione categoria"
+                        Label="{x:Static p:Strings.CategoryLabel}"
                         LabelMargin="0,0,0,4"
-                        Hint="Category items..." />
+                        Hint="{x:Static p:Strings.CategoryLabelHint}" />
     </Grid>
 </fc:AvalonWindow>

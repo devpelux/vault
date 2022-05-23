@@ -4,10 +4,11 @@
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:fc="http://devpelux.github.io/fullcontrols"
+                 xmlns:p="clr-namespace:Vault.Properties"
                  mc:Ignorable="d"
                  Style="{StaticResource DarkAvalonWindow}"
                  TitleMargin="16,0,0,0"
-                 Title="Checkup sicurezza"
+                 Title="{x:Static p:Strings.Report}"
                  SizeToContent="Height"
                  Width="600"
                  WindowStartupLocation="CenterScreen"
@@ -43,7 +44,7 @@
                    HorizontalAlignment="Left"
                    Margin="0,0,0,0"
                    TextWrapping="Wrap"
-                   Text="Di seguito sono mostrati alcuni parametri sulla sicurezza delle password memorizzate.&#x0a;Questi si basano sulle più comuni pratiche di sicurezza informatica."
+                   Text="{x:Static p:Strings.ReportDescription}"
                    Foreground="White" />
 
         <TextBlock Grid.Row="1"
@@ -52,7 +53,7 @@
                    HorizontalAlignment="Left"
                    Margin="0,8,0,0"
                    TextWrapping="Wrap"
-                   Text="Il punteggio è calcolato dividendo il problema massimo per il numero di password e sottraendolo a 100."
+                   Text="{x:Static p:Strings.ReportScoreDescription}"
                    Foreground="White" />
 
         <Grid Grid.Row="2"
@@ -66,7 +67,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0"
-                       Text="Password totali:"
+                       Text="{x:Static p:Strings.TotalPasswords}"
                        Foreground="White" />
 
             <TextBlock x:Name="ReportTotal"
@@ -82,7 +83,7 @@
                    HorizontalAlignment="Left"
                    Margin="0,2,0,0"
                    TextWrapping="Wrap"
-                   Text="Numero di password presenti nel database"
+                   Text="{x:Static p:Strings.TotalPasswordsDescription}"
                    Foreground="Gray" />
 
         <Grid Grid.Row="4"
@@ -96,7 +97,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0"
-                       Text="Password duplicate:"
+                       Text="{x:Static p:Strings.TotalDuplicatedPasswords}"
                        Foreground="White" />
 
             <TextBlock x:Name="ReportDuplicated"
@@ -112,7 +113,7 @@
                    HorizontalAlignment="Left"
                    Margin="0,2,0,0"
                    TextWrapping="Wrap"
-                   Text="Numero di password usate per più account"
+                   Text="{x:Static p:Strings.TotalDuplicatedPasswordsDescription}"
                    Foreground="Gray" />
 
         <Grid Grid.Row="6"
@@ -127,7 +128,7 @@
 
             <TextBlock x:Name="WeakPasswordsLink"
                        Grid.Column="0"
-                       Text="Password deboli:"
+                       Text="{x:Static p:Strings.TotalWeakPasswords}"
                        Foreground="White"
                        Cursor="Hand"
                        MouseDown="WeakPasswordsLink_MouseDown" />
@@ -146,7 +147,7 @@
                    HorizontalAlignment="Left"
                    Margin="0,2,0,0"
                    TextWrapping="Wrap"
-                   Text="Numero di password banali o deboli"
+                   Text="{x:Static p:Strings.TotalWeakPasswordsDescription}"
                    Foreground="Gray" />
 
         <Grid Grid.Row="8"
@@ -160,7 +161,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0"
-                       Text="Password vecchie:"
+                       Text="{x:Static p:Strings.TotalOldPasswords}"
                        Foreground="White" />
 
             <TextBlock x:Name="ReportOld"
@@ -176,7 +177,7 @@
                    HorizontalAlignment="Left"
                    Margin="0,2,0,0"
                    TextWrapping="Wrap"
-                   Text="Numero di password cambiate più di 90 giorni fa"
+                   Text="{x:Static p:Strings.TotalOldPasswordsDescription}"
                    Foreground="Gray" />
 
         <Grid Grid.Row="10"
@@ -190,7 +191,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0"
-                       Text="Password violate:"
+                       Text="{x:Static p:Strings.TotalViolatedPasswords}"
                        Foreground="White" />
 
             <TextBlock x:Name="ReportViolated"
@@ -206,7 +207,7 @@
                    HorizontalAlignment="Left"
                    Margin="0,2,0,0"
                    TextWrapping="Wrap"
-                   Text="Numero di password indicate come violate"
+                   Text="{x:Static p:Strings.TotalViolatedPasswordsDescription}"
                    Foreground="Gray" />
 
         <Grid Grid.Row="2"
@@ -222,7 +223,7 @@
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0"
-                       Text="Punteggio"
+                       Text="{x:Static p:Strings.Score}"
                        TextAlignment="Center"
                        FontSize="20"
                        Foreground="White" />
@@ -257,7 +258,7 @@
             <fc:ButtonPlus x:Name="NewReport"
                            Style="{StaticResource DarkButtonPlus}"
                            Grid.Row="2"
-                           Content="Ricalcola"
+                           Content="{x:Static p:Strings.Recalculate}"
                            HorizontalAlignment="Center"
                            Margin="0,32,0,0"
                            Width="84"
@@ -274,7 +275,7 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0"
-                           Text="Report del:"
+                           Text="{x:Static p:Strings.ReportOf}"
                            Foreground="White" />
 
                 <TextBlock x:Name="ReportDate"

@@ -4,6 +4,7 @@
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:fc="http://devpelux.github.io/fullcontrols"
+                 xmlns:p="clr-namespace:Vault.Properties"
                  mc:Ignorable="d"
                  Style="{StaticResource DarkAvalonWindow}"
                  Background="{StaticResource DarkWindowSecondaryBackground}"
@@ -56,7 +57,7 @@
 
             <fc:ButtonPlus x:Name="Ok"
                            Style="{StaticResource DarkButtonPlus}"
-                           Content="Ok"
+                           Content="{x:Static p:Strings.Ok}"
                            HorizontalAlignment="Right"
                            Margin="24,24,24,24"
                            Width="64"

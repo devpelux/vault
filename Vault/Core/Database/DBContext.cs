@@ -39,7 +39,7 @@ namespace Vault.Core.Database
             }
             else
             {
-                throw new ArgumentException("Il percorso non può essere vuoto.");
+                throw new ArgumentException("The database path cannot be empty.");
             }
         }
 

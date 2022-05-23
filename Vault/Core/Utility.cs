@@ -1,12 +1,12 @@
 ﻿using FullControls.Controls;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using Vault.Core.Database.Data;
+using Vault.Properties;
 using WpfCoreTools.Extensions;
 
 namespace Vault.Core
@@ -27,24 +27,24 @@ namespace Vault.Core
         internal static string FormatDate(DateTimeOffset date) => date.LocalDateTime.ToString();
 
         /// <summary>
-        /// Adapt the header for displaying in the preview list.
-        /// If the header is null, or empty, returns the default value.
+        /// Format the header for displaying in the preview list.
+        /// If the header is null, or empty, returns "...".
+        /// If the header is too long, returns a substring with "..." in the end.
         /// </summary>
-        internal static string AdaptHeader(string? header, int maxLength, string defaultValue = "")
+        internal static string FormatHeader(string? header, int maxLength)
         {
-            if (header == null) return defaultValue;
-            else if (header.Length == 0) return defaultValue;
+            if (header == null || header.Length == 0) return "...";
             else if (header.Length <= maxLength) return header;
-            else return $"{new string(header.Take(maxLength).ToArray())}...";
+            else return $"{header[..maxLength]}...";
         }
 
         /// <summary>
-        /// Adapt the category label for displaying.
+        /// Format the category label for displaying.
         /// If the label is empty, returns the name.
         /// </summary>
-        internal static string AdaptLabel(Category category)
+        internal static string FormatCategoryLabel(Category category)
         {
-            if (category == Category.None) return "Non categorizzato";
+            if (category == Category.None) return Strings.Uncategorized;
             else if (category.Label.Length == 0) return category.Name;
             else return category.Label;
         }
@@ -117,7 +117,7 @@ namespace Vault.Core
                 ComboBoxItemPlus comboBoxItem = new()
                 {
                     Style = style,
-                    Content = AdaptLabel(category),
+                    Content = FormatCategoryLabel(category),
                     Tag = category.Name
                 };
                 comboBox.Items.Add(comboBoxItem);

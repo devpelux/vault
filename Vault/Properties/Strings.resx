@@ -1,0 +1,420 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Account" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AppLanguage" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>Vault</value>
+  </data>
+  <data name="CannotCreateDatabase" xml:space="preserve">
+    <value>Unable to create the data file!</value>
+  </data>
+  <data name="Card" xml:space="preserve">
+    <value>Card</value>
+  </data>
+  <data name="Cards" xml:space="preserve">
+    <value>Cards</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categories</value>
+  </data>
+  <data name="CategoriesDescription" xml:space="preserve">
+    <value>Select a category to edit or delete it.
+If no category is selected, a new category will be added.
+Press ENTER to save, or CTRL + ENTER to cancel.</value>
+  </data>
+  <data name="CategoryDuplicatedAdd" xml:space="preserve">
+    <value>Is not possible to add the category because a duplicated exists!</value>
+  </data>
+  <data name="CategoryDuplicatedEdit" xml:space="preserve">
+    <value>Is not possible to edit the category because a duplicated exists!</value>
+  </data>
+  <data name="CategoryLabel" xml:space="preserve">
+    <value>Category label</value>
+  </data>
+  <data name="CategoryLabelHint" xml:space="preserve">
+    <value>Category...</value>
+  </data>
+  <data name="CategoryName" xml:space="preserve">
+    <value>Category name (clear to delete)</value>
+  </data>
+  <data name="CategoryNameHint" xml:space="preserve">
+    <value>category</value>
+  </data>
+  <data name="CategoryUsed" xml:space="preserve">
+    <value>Is not possible to delete the category because is used!</value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="ConfigCorrupted" xml:space="preserve">
+    <value>The settings file was corrupted, so it was resetted!</value>
+  </data>
+  <data name="ConfigFixed" xml:space="preserve">
+    <value>The settings file was corrupted, and was not possible to reset it! Will be used the default settings.</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Confirm delete?</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Cvv" xml:space="preserve">
+    <value>CVV</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>DD</value>
+  </data>
+  <data name="Document" xml:space="preserve">
+    <value>Document</value>
+  </data>
+  <data name="Documents" xml:space="preserve">
+    <value>Documents</value>
+  </data>
+  <data name="enUS" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="ExitExplicit" xml:space="preserve">
+    <value>Hide on close</value>
+  </data>
+  <data name="ExitExplicitDescription" xml:space="preserve">
+    <value>The app will be hided without closing if there are no opened windows.</value>
+  </data>
+  <data name="Iban" xml:space="preserve">
+    <value>Iban</value>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="InvalidCredentials" xml:space="preserve">
+    <value>Username or password invalid!</value>
+  </data>
+  <data name="InvalidDate" xml:space="preserve">
+    <value>The date is not a valid date.</value>
+  </data>
+  <data name="InvalidPassword" xml:space="preserve">
+    <value>Wrong password!</value>
+  </data>
+  <data name="itIT" xml:space="preserve">
+    <value>Italian</value>
+  </data>
+  <data name="LanguageChangedInfo" xml:space="preserve">
+    <value>Restart the app to change the language.</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginLink" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>MM</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="NoCategory" xml:space="preserve">
+    <value>No categories!</value>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>N/A</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Overwrite" xml:space="preserve">
+    <value>Overwrite</value>
+  </data>
+  <data name="Owner" xml:space="preserve">
+    <value>Owner</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PasswordList" xml:space="preserve">
+    <value>Password list</value>
+  </data>
+  <data name="Passwords" xml:space="preserve">
+    <value>Passwords</value>
+  </data>
+  <data name="PasswordsNotMatching" xml:space="preserve">
+    <value>Passwords does not match!</value>
+  </data>
+  <data name="Reauthenticate" xml:space="preserve">
+    <value>Require password confirm</value>
+  </data>
+  <data name="ReauthenticateRequest" xml:space="preserve">
+    <value>Password required</value>
+  </data>
+  <data name="Recalculate" xml:space="preserve">
+    <value>Recalculate</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="RegisterLink" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Remember" xml:space="preserve">
+    <value>Remember username</value>
+  </data>
+  <data name="Report" xml:space="preserve">
+    <value>Security report</value>
+  </data>
+  <data name="ReportDescription" xml:space="preserve">
+    <value>Below are shown some security parameters about the saved passwords.
+These are based on the most common security practices.</value>
+  </data>
+  <data name="ReportOf" xml:space="preserve">
+    <value>Report of:</value>
+  </data>
+  <data name="ReportScoreDescription" xml:space="preserve">
+    <value>The score is calculated dividing the max issue with the number of passwords and subtracting to 100.</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Score" xml:space="preserve">
+    <value>Score</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search...</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="StartHided" xml:space="preserve">
+    <value>Start hided</value>
+  </data>
+  <data name="StartHidedDescription" xml:space="preserve">
+    <value>The app will be started hided on tray.</value>
+  </data>
+  <data name="StartOnStartup" xml:space="preserve">
+    <value>Start on Windows startup</value>
+  </data>
+  <data name="StartOnStartupDescription" xml:space="preserve">
+    <value>The app will be started after the Windows startup.</value>
+  </data>
+  <data name="StartOnStartupUsed" xml:space="preserve">
+    <value>The autostart is already used from another instance! Overwrite?</value>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="TotalDuplicatedPasswords" xml:space="preserve">
+    <value>Duplicated passwords:</value>
+  </data>
+  <data name="TotalDuplicatedPasswordsDescription" xml:space="preserve">
+    <value>Number of passwords used for multiple accounts</value>
+  </data>
+  <data name="TotalOldPasswords" xml:space="preserve">
+    <value>Old passwords:</value>
+  </data>
+  <data name="TotalOldPasswordsDescription" xml:space="preserve">
+    <value>Number of passwords changed more than 90 days ago</value>
+  </data>
+  <data name="TotalPasswords" xml:space="preserve">
+    <value>Total passwords:</value>
+  </data>
+  <data name="TotalPasswordsDescription" xml:space="preserve">
+    <value>Number of passwords in the database</value>
+  </data>
+  <data name="TotalViolatedPasswords" xml:space="preserve">
+    <value>Violated passwords:</value>
+  </data>
+  <data name="TotalViolatedPasswordsDescription" xml:space="preserve">
+    <value>Number of passwords marked as violated</value>
+  </data>
+  <data name="TotalWeakPasswords" xml:space="preserve">
+    <value>Weak passwords:</value>
+  </data>
+  <data name="TotalWeakPasswordsDescription" xml:space="preserve">
+    <value>Number of trivial or weak passwords</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Uncategorized" xml:space="preserve">
+    <value>Uncategorized</value>
+  </data>
+  <data name="UserAlreadyExists" xml:space="preserve">
+    <value>User already exists!</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="Violated" xml:space="preserve">
+    <value>The password has been violated!</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="WeakPasswords" xml:space="preserve">
+    <value>Weak passwords</value>
+  </data>
+  <data name="WeakPasswordsDescription" xml:space="preserve">
+    <value>Passwords to avoid, 1 line per password.</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>YYYY</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+</root>

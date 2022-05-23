@@ -1,16 +1,17 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:fc="http://devpelux.github.io/fullcontrols"
-                    xmlns:controls="clr-namespace:Vault.Core.Controls">
+                    xmlns:controls="clr-namespace:Vault.Core.Controls"
+                    xmlns:p="clr-namespace:Vault.Properties">
 
     <fc:FlatContextMenu x:Key="FieldContextMenu"
                         Style="{StaticResource DarkFlatContextMenu}">
         <fc:FlatMenuItem Style="{StaticResource DarkFlatMenuItem}"
-                         Header="Copia"
+                         Header="{x:Static p:Strings.Copy}"
                          Command="controls:FieldCommands.CopyValue"
                          CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}" />
         <fc:FlatMenuItem Style="{StaticResource DarkFlatMenuItem}"
-                         Header="Sovrascrivi"
+                         Header="{x:Static p:Strings.Overwrite}"
                          Command="controls:FieldCommands.ReplaceValue"
                          CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}" />
     </fc:FlatContextMenu>
@@ -18,16 +19,16 @@
     <fc:FlatContextMenu x:Key="TrayIconContextMenu"
                         Style="{StaticResource DarkFlatContextMenu}">
         <fc:FlatMenuItem Style="{StaticResource DarkFlatMenuItem}"
-                         Header="Visualizza"
+                         Header="{x:Static p:Strings.Show}"
                          Command="{Binding TrayCommandShow}"
                          CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}" />
         <fc:FlatMenuSeparator Style="{StaticResource DarkFlatMenuSeparator}" />
         <fc:FlatMenuItem Style="{StaticResource DarkFlatMenuItem}"
-                         Header="Logout"
+                         Header="{x:Static p:Strings.Logout}"
                          Command="{Binding TrayCommandLogout}"
                          CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}" />
         <fc:FlatMenuItem Style="{StaticResource DarkFlatMenuItem}"
-                         Header="Esci"
+                         Header="{x:Static p:Strings.Exit}"
                          Command="{Binding TrayCommandExit}"
                          CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}" />
     </fc:FlatContextMenu>

@@ -7,6 +7,7 @@ using Vault.Core;
 using Vault.Core.Controls;
 using Vault.Core.Database;
 using Vault.Core.Database.Data;
+using Vault.Properties;
 using WpfCoreTools;
 
 namespace Vault
@@ -95,7 +96,7 @@ namespace Vault
             }
             catch (ArgumentOutOfRangeException)
             {
-                new MessageWindow("Data non valida!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
+                new MessageWindow(Strings.InvalidDate, Strings.Error, MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
             }
         }
 

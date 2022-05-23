@@ -4,13 +4,14 @@
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:fc="http://devpelux.github.io/fullcontrols"
+                 xmlns:p="clr-namespace:Vault.Properties"
                  mc:Ignorable="d"
                  Style="{StaticResource DarkAvalonWindow}"
                  Background="{StaticResource DarkWindowSecondaryBackground}"
                  TitlebarBackground="{StaticResource DarkWindowSecondaryBackground}"
                  TitlebarBackgroundOnActive="{StaticResource DarkWindowSecondaryBackground}"
                  TitleMargin="16,0,0,0"
-                 Title="Nota"
+                 Title="{x:Static p:Strings.Note}"
                  Height="500"
                  MinHeight="480"
                  MaxHeight="800"
@@ -57,7 +58,7 @@
                         LabelPlacement="Left"
                         LabelMargin="0,0,8,0"
                         LabelMaxHeight="20"
-                        Hint="Titolo" />
+                        Hint="{x:Static p:Strings.Title}" />
 
         <fc:TextBoxPlus x:Name="NoteText"
                         Style="{StaticResource DarkTextBoxPlus}"
@@ -72,7 +73,7 @@
                         LabelVerticalAlignment="Top"
                         LabelMargin="0,4,8,0"
                         LabelMaxHeight="20"
-                        Hint="Nota" />
+                        Hint="{x:Static p:Strings.Note}" />
         
         <fc:CheckBoxPlus x:Name="Reauthenticate"
                          Style="{StaticResource DarkCheckBoxPlus}"
@@ -80,7 +81,7 @@
                          HorizontalAlignment="Left"
                          Margin="54,16,24,24"
                          Height="16"
-                         Content="Chiedi conferma password" />
+                         Content="{x:Static p:Strings.Reauthenticate}" />
 
         <Grid Grid.Row="5"
               Background="{StaticResource DarkWindowBackground}">
@@ -94,7 +95,7 @@
                 <fc:ButtonPlus x:Name="Save"
                                Style="{StaticResource DarkButtonPlus}"
                                Grid.Column="0"
-                               Content="Salva"
+                               Content="{x:Static p:Strings.Save}"
                                Margin="24,24,24,24"
                                Width="84"
                                Height="36"

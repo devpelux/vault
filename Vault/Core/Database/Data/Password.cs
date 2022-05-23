@@ -39,7 +39,7 @@
         public override string Header => Account;
 
         /// <inheritdoc/>
-        public override string SubHeader => Utility.AdaptHeader(Username, 6, "No username");
+        public override string SubHeader => Utility.FormatHeader(Username, 6);
 
         /// <summary>
         /// Initializes a new <see cref="Password"/> without id.

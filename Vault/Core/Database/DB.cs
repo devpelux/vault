@@ -126,7 +126,7 @@ namespace Vault.Core.Database
         private DB(DBContext? context)
         {
             //Checks if the information needed to connect to the database are present.
-            if (context == null) throw new ArgumentNullException(nameof(context), "The database context cannot be null!");
+            if (context == null) throw new ArgumentNullException(nameof(context), "The database context cannot be null.");
 
             //Saves the connection info.
             CurrentContext = context;

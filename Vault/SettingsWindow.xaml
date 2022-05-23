@@ -4,10 +4,11 @@
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:fc="http://devpelux.github.io/fullcontrols"
+                 xmlns:p="clr-namespace:Vault.Properties"
                  mc:Ignorable="d"
                  Style="{StaticResource DarkAvalonWindow}"
                  TitleMargin="16,0,0,0"
-                 Title="Impostazioni"
+                 Title="{x:Static p:Strings.Settings}"
                  SizeToContent="Height"
                  Width="300"
                  WindowStartupLocation="CenterScreen"
@@ -26,60 +27,84 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <fc:CheckBoxPlus x:Name="StartOnStartup"
-                         Style="{StaticResource DarkCheckBoxPlus}"
-                         Grid.Row="0"
-                         HorizontalAlignment="Left"
-                         Margin="0"
-                         Height="15"
-                         Content="Avvia all'avvio di windows"
-                         Checked="StartOnStartup_Checked"
-                         Unchecked="StartOnStartup_Unchecked" />
-
-        <TextBlock Grid.Row="1"
+        <TextBlock Grid.Row="0"
                    HorizontalAlignment="Left"
-                   Margin="18,2,0,0"
-                   TextWrapping="Wrap"
-                   Text="L'applicazione verrà avviata subito dopo l'avvio di Windows."
-                   Foreground="Gray" />
+                   Text="{x:Static p:Strings.AppLanguage}"
+                   Foreground="White" />
 
-        <fc:CheckBoxPlus x:Name="StartHided"
+        <fc:ComboBoxPlus x:Name="AppLanguage"
+                         Style="{StaticResource DarkComboBoxPlus}"
+                         Grid.Row="1"
+                         Height="36"
+                         HorizontalAlignment="Left"
+                         Margin="0,6,0,0"
+                         SelectedIndex="0"
+                         SelectionChanged="AppLanguage_SelectionChanged">
+            
+            <fc:ComboBoxItemPlus Style="{StaticResource DarkComboBoxItemPlus}"
+                                 Content="{x:Static p:Strings.System}" />
+            <fc:ComboBoxItemPlus Style="{StaticResource DarkComboBoxItemPlus}"
+                                 Content="{x:Static p:Strings.enUS}" />
+            <fc:ComboBoxItemPlus Style="{StaticResource DarkComboBoxItemPlus}"
+                                 Content="{x:Static p:Strings.itIT}" />            
+        </fc:ComboBoxPlus>
+
+        <fc:CheckBoxPlus x:Name="StartOnStartup"
                          Style="{StaticResource DarkCheckBoxPlus}"
                          Grid.Row="2"
                          HorizontalAlignment="Left"
                          Margin="0,16,0,0"
                          Height="15"
-                         Content="Avvia nascosto"
-                         Checked="StartHided_Checked"
-                         Unchecked="StartHided_Unchecked" />
+                         Content="{x:Static p:Strings.StartOnStartup}"
+                         Checked="StartOnStartup_Checked"
+                         Unchecked="StartOnStartup_Unchecked" />
 
         <TextBlock Grid.Row="3"
                    HorizontalAlignment="Left"
                    Margin="18,2,0,0"
                    TextWrapping="Wrap"
-                   Text="L'applicazione verrà avviata nascosta nella tray."
+                   Text="{x:Static p:Strings.StartOnStartupDescription}"
                    Foreground="Gray" />
 
-        <fc:CheckBoxPlus x:Name="ExitExplicit"
+        <fc:CheckBoxPlus x:Name="StartHided"
                          Style="{StaticResource DarkCheckBoxPlus}"
                          Grid.Row="4"
                          HorizontalAlignment="Left"
                          Margin="0,16,0,0"
                          Height="15"
-                         Content="Nascondi alla chiusura"
-                         Checked="ExitExplicit_Checked"
-                         Unchecked="ExitExplicit_Unchecked" />
+                         Content="{x:Static p:Strings.StartHided}"
+                         Checked="StartHided_Checked"
+                         Unchecked="StartHided_Unchecked" />
 
         <TextBlock Grid.Row="5"
                    HorizontalAlignment="Left"
                    Margin="18,2,0,0"
                    TextWrapping="Wrap"
-                   Text="L'applicazione verrà nascosta senza chiuderla se non ci sono finestre aperte."
+                   Text="{x:Static p:Strings.StartHidedDescription}"
                    Foreground="Gray" />
 
-        <Grid Grid.Row="6"
+        <fc:CheckBoxPlus x:Name="ExitExplicit"
+                         Style="{StaticResource DarkCheckBoxPlus}"
+                         Grid.Row="6"
+                         HorizontalAlignment="Left"
+                         Margin="0,16,0,0"
+                         Height="15"
+                         Content="{x:Static p:Strings.ExitExplicit}"
+                         Checked="ExitExplicit_Checked"
+                         Unchecked="ExitExplicit_Unchecked" />
+
+        <TextBlock Grid.Row="7"
+                   HorizontalAlignment="Left"
+                   Margin="18,2,0,0"
+                   TextWrapping="Wrap"
+                   Text="{x:Static p:Strings.ExitExplicitDescription}"
+                   Foreground="Gray" />
+
+        <Grid Grid.Row="8"
               HorizontalAlignment="Right"
               Margin="0,24,0,0">
 
@@ -90,14 +115,14 @@
 
             <TextBlock Grid.Column="0"
                        HorizontalAlignment="Left"
-                       Text="Vault"
+                       Text="{x:Static p:Strings.AppName}"
                        Foreground="Gray" />
 
             <TextBlock x:Name="VersionCode"
                        Grid.Column="1"
                        HorizontalAlignment="Left"
                        Margin="8,0,0,0"
-                       Text="N/A"
+                       Text="{x:Static p:Strings.NotAvailable}"
                        Foreground="Gray" />
         </Grid>
     </Grid>

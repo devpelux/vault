@@ -6,6 +6,7 @@ using System.Windows.Input;
 using Vault.Core;
 using Vault.Core.Database;
 using Vault.Core.Settings;
+using Vault.Properties;
 using WpfCoreTools;
 
 namespace Vault
@@ -44,7 +45,7 @@ namespace Vault
                     Remember.Visibility = Visibility.Visible;
                     RegisterLink.Visibility = Visibility.Visible;
                     LoginLink.Visibility = Visibility.Collapsed;
-                    Title = "Login";
+                    Title = Strings.Login;
                     break;
                 case Request.Registration:
                     ConfirmPassword.Visibility = Visibility.Visible;
@@ -52,7 +53,7 @@ namespace Vault
                     Remember.Visibility = Visibility.Visible;
                     RegisterLink.Visibility = Visibility.Collapsed;
                     LoginLink.Visibility = Visibility.Visible;
-                    Title = "Registrazione";
+                    Title = Strings.Register;
                     break;
                 case Request.Reauthentication:
                     ConfirmPassword.Visibility = Visibility.Collapsed;
@@ -60,7 +61,7 @@ namespace Vault
                     Remember.Visibility = Visibility.Collapsed;
                     RegisterLink.Visibility = Visibility.Collapsed;
                     LoginLink.Visibility = Visibility.Collapsed;
-                    Title = "Password";
+                    Title = Strings.ReauthenticateRequest;
                     break;
             }
         }
@@ -149,30 +150,23 @@ namespace Vault
         /// </summary>
         private void LoginRequest()
         {
-            if (Username.TextLength == 0 && Password.PasswordLength == 0 || Username.Text.Contains(' '))
+            if (Username.TextLength > 0 && Password.PasswordLength > 0 && !Username.Text.Contains(' '))
             {
-                new MessageWindow("Input non validi!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
-                return;
+                if (File.Exists(App.GetDBPath(Username.Text)))
+                {
+                    DB.Context = new(App.GetDBPath(Username.Text), Password.Password);
+
+                    //Try to load the database instance to initialize it and check if the connection is ok.
+                    //If the connection fails aborts the launch and displays an error message.
+                    if (DB.Instance.IsConnected)
+                    {
+                        Login();
+                        return;
+                    }
+                }
             }
 
-            if (File.Exists(App.GetDBPath(Username.Text)))
-            {
-                DB.Context = new(App.GetDBPath(Username.Text), Password.Password);
-
-                //Try to load the database instance to initialize it and check if the connection is ok.
-                //If the connection fails aborts the launch and displays an error message.
-                if (DB.Instance.IsConnected)
-                {
-                    Login();
-                }
-                else
-                {
-                    new MessageWindow("Username o password errati o file di dati corrotto!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
-                }
-                return;
-            }
-
-            new MessageWindow("Username o password errati!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
+            new MessageWindow(Strings.InvalidCredentials, Strings.Error, MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
         }
 
         /// <summary>
@@ -180,37 +174,28 @@ namespace Vault
         /// </summary>
         private void RegisterRequest()
         {
-            if (Username.TextLength == 0 || Password.PasswordLength == 0 || ConfirmPassword.PasswordLength == 0 || Username.Text.Contains(' '))
+            if (Username.TextLength > 0 && Password.PasswordLength > 0 && ConfirmPassword.PasswordLength > 0 && !Username.Text.Contains(' '))
             {
-                new MessageWindow("Input non validi!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
-                return;
-            }
+                if (!Utility.ComparePasswords(Password.SecurePassword, ConfirmPassword.SecurePassword))
+                {
+                    new MessageWindow(Strings.PasswordsNotMatching, Strings.Error, MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
+                    return;
+                }
 
-            if (!Utility.ComparePasswords(Password.SecurePassword, ConfirmPassword.SecurePassword))
-            {
-                new MessageWindow("Le password non corrispondono!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
-                return;
-            }
+                if (File.Exists(App.GetDBPath(Username.Text)))
+                {
+                    new MessageWindow(Strings.UserAlreadyExists, Strings.Error, MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
+                    return;
+                }
 
-            if (File.Exists(App.GetDBPath(Username.Text)))
-            {
-                new MessageWindow("Utente già esistente!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
-                return;
-            }
+                DB.Context = new(App.GetDBPath(Username.Text), Password.Password);
 
-            DB.Context = new(App.GetDBPath(Username.Text), Password.Password);
-
-            //Try to load the database instance to initialize it and check if the connection is ok.
-            //If the connection fails aborts the launch and displays an error message.
-            if (DB.Instance.IsConnected)
-            {
-                Login();
+                //Try to load the database instance to initialize it and check if the connection is ok.
+                //If the connection fails aborts the launch and displays an error message.
+                if (DB.Instance.IsConnected) Login();
+                else new MessageWindow(Strings.CannotCreateDatabase, Strings.Error, MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
             }
-            else
-            {
-                new MessageWindow("Impossibile creare il file di dati!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
-            }
-            return;
+            else new MessageWindow(Strings.InvalidCredentials, Strings.Error, MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
         }
 
         /// <summary>
@@ -218,19 +203,21 @@ namespace Vault
         /// </summary>
         private void ReauthenticateRequest()
         {
-            if (Password.PasswordLength == 0)
+            if (Password.PasswordLength > 0)
             {
-                new MessageWindow("Input non validi!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
-                return;
+                //Checks the password with the current session password.
+                string? sessionPassword = InstanceSettings.Instance.GetSetting<string>("password");
+                ReauthResult = Password.Password.Equals(sessionPassword);
+
+                //Closes the window if the password is verified.
+                if (ReauthResult)
+                {
+                    Close();
+                    return;
+                }
             }
 
-            //Checks the password with the current session password.
-            string? sessionPassword = InstanceSettings.Instance.GetSetting<string>("password");
-            ReauthResult = Password.Password.Equals(sessionPassword);
-
-            //Closes the window if the password is verified, otherwise displays an error message.
-            if (ReauthResult) Close();
-            else new MessageWindow("Password errata!", "Errore", MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
+            new MessageWindow(Strings.InvalidPassword, Strings.Error, MessageBoxImage.Exclamation) { Owner = this }.ShowDialog();
         }
 
         /// <summary>

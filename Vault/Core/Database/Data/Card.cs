@@ -49,7 +49,7 @@
         public override string Header => Name;
 
         /// <inheritdoc/>
-        public override string SubHeader => Utility.AdaptHeader(Number, 4);
+        public override string SubHeader => Utility.FormatHeader(Number, 4);
 
         /// <summary>
         /// Initializes a new <see cref="Card"/> without id.

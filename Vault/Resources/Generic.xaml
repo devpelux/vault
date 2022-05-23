@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=netstandard">
+
+    <!-- Section identifiers -->
+    
+    <sys:Int64 x:Key="PasswordsSection">0</sys:Int64>
+    <sys:Int64 x:Key="NotesSection">1</sys:Int64>
+    <sys:Int64 x:Key="CardsSection">2</sys:Int64>
+    <sys:Int64 x:Key="DocumentsSection">3</sys:Int64>
+
+</ResourceDictionary>

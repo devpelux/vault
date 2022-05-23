@@ -1,7 +1,9 @@
 ﻿using FullControls.SystemComponents;
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using Vault.Core.Settings;
+using Vault.Properties;
 
 namespace Vault
 {
@@ -10,7 +12,8 @@ namespace Vault
     /// </summary>
     public partial class SettingsWindow : AvalonWindow
     {
-        private bool lockCheckboxes;
+        private bool lockCheckboxes = true;
+        private bool lockComboboxes = true;
 
         /// <summary>
         /// Initializes a new <see cref="SettingsWindow"/>.
@@ -39,12 +42,17 @@ namespace Vault
         private void LoadSettings()
         {
             lockCheckboxes = true;
+            lockComboboxes = true;
 
             StartOnStartup.IsChecked = SystemSettings.StartOnStartup == true;
             StartHided.IsChecked = Settings.Instance.GetSetting("start_hided", false);
             ExitExplicit.IsChecked = Settings.Instance.GetSetting("exit_explicit", true);
 
+            //Loads the language setting.
+            LoadLanguage();
+
             lockCheckboxes = false;
+            lockComboboxes = false;
         }
 
         /// <summary>
@@ -69,8 +77,7 @@ namespace Vault
             {
                 SystemSettings.StartOnStartup = true;
             }
-            else if (new ConfirmWindow("L'avvio automatico è già in uso da un altra istanza! Sovrascrivere?",
-                "Attenzione!", MessageBoxImage.Question) { Owner = this }.ShowDialogForResult<bool>())
+            else if (new ConfirmWindow(Strings.StartOnStartupUsed, Strings.Warning, MessageBoxImage.Question) { Owner = this }.ShowDialogForResult<bool>())
             {
                 SystemSettings.StartOnStartup = true;
             }
@@ -112,6 +119,43 @@ namespace Vault
             if (lockCheckboxes) return;
             Settings.Instance.SetSetting("exit_explicit", false);
             StartHided.IsChecked = false;
+        }
+
+        #endregion
+
+        #region Language
+
+        /// <summary>
+        /// Loads the language setting.
+        /// </summary>
+        private void LoadLanguage()
+        {
+            App.Language language = (App.Language)Settings.Instance.GetSetting("language", (long)App.Language.System);
+
+            AppLanguage.SelectedIndex = language switch
+            {
+                App.Language.System => 0,
+                App.Language.enUS => 1,
+                App.Language.itIT => 2,
+                _ => 0,
+            };
+        }
+
+        private void AppLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (lockComboboxes) return;
+
+            App.Language language = AppLanguage.SelectedIndex switch
+            {
+                0 => App.Language.System,
+                1 => App.Language.enUS,
+                2 => App.Language.itIT,
+                _ => App.Language.System,
+            };
+
+            Settings.Instance.SetSetting("language", language);
+
+            new MessageWindow(Strings.LanguageChangedInfo, Strings.Info, MessageBoxImage.Information) { Owner = this }.ShowDialog();
         }
 
         #endregion

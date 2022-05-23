@@ -1,9 +1,11 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using Vault.Core.Controls;
 using Vault.Core.Database;
 using Vault.Core.Settings;
+using Vault.Properties;
 using WpfCoreTools;
 
 namespace Vault
@@ -46,6 +48,8 @@ namespace Vault
         /// </summary>
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            SetCurrentLanguage((Language)Settings.Instance.GetSetting("language", (long)Language.System));
+
             SQLitePCL.Batteries_V2.Init();
 
             TrayIcon.Instance.Show();
@@ -83,13 +87,11 @@ namespace Vault
             {
                 if (Settings.Instance.Reset())
                 {
-                    new MessageWindow("Il file di impostazioni era corrotto, quindi è stato resettato!",
-                        "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                    new MessageWindow(Strings.ConfigFixed, Strings.Warning, MessageBoxImage.Exclamation).ShowDialog();
                 }
                 else
                 {
-                    new MessageWindow("Il file di impostazioni era corrotto, e non è stato possibile resettarlo! Verranno usate le impostazioni di default.",
-                        "Errore", MessageBoxImage.Exclamation).ShowDialog();
+                    new MessageWindow(Strings.ConfigCorrupted, Strings.Error, MessageBoxImage.Exclamation).ShowDialog();
                 }
             }
         }
@@ -142,5 +144,40 @@ namespace Vault
         /// Gets the current version number for the application.
         /// </summary>
         public static string GetVersionCode() => typeof(App).Assembly.GetName().Version?.ToString() ?? "N/A";
+
+        /// <summary>
+        /// Sets the current application language.
+        /// </summary>
+        public static void SetCurrentLanguage(Language language)
+        {
+            CultureInfo.CurrentUICulture = language switch
+            {
+                Language.enUS => CultureInfo.CreateSpecificCulture("en-US"),
+                Language.itIT => CultureInfo.CreateSpecificCulture("it-IT"),
+                _ => CultureInfo.InstalledUICulture
+            };
+        }
+
+
+        /// <summary>
+        /// Represents a language zone.
+        /// </summary>
+        public enum Language
+        {
+            /// <summary>
+            /// System language.
+            /// </summary>
+            System = 0,
+
+            /// <summary>
+            /// English (United States).
+            /// </summary>
+            enUS = 1,
+
+            /// <summary>
+            /// Italian (Italy).
+            /// </summary>
+            itIT = 2
+        }
     }
 }

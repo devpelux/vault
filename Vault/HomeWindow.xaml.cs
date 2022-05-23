@@ -11,6 +11,7 @@ using Vault.Core.Controls;
 using Vault.Core.Database;
 using Vault.Core.Database.Data;
 using Vault.Core.Settings;
+using Vault.Properties;
 
 namespace Vault
 {
@@ -174,22 +175,22 @@ namespace Vault
                 case PASSWORDS_SECTION:
                     ShowPasswords.IsChecked = true;
                     DisplayFilteredDatas(DB.Instance.Passwords.GetAll(), Search.Text);
-                    SectionName.Text = "Password";
+                    SectionName.Text = Strings.Passwords;
                     break;
                 case NOTES_SECTION:
                     ShowNotes.IsChecked = true;
                     DisplayFilteredDatas(DB.Instance.Notes.GetAll(), Search.Text);
-                    SectionName.Text = "Note";
+                    SectionName.Text = Strings.Notes;
                     break;
                 case CARDS_SECTION:
                     ShowCards.IsChecked = true;
                     DisplayFilteredDatas(DB.Instance.Cards.GetAll(), Search.Text);
-                    SectionName.Text = "Carte";
+                    SectionName.Text = Strings.Cards;
                     break;
                 case DOCUMENTS_SECTION:
                     ShowDocuments.IsChecked = true;
                     DisplayFilteredDatas(DB.Instance.Documents.GetAll(), Search.Text);
-                    SectionName.Text = "Documenti";
+                    SectionName.Text = Strings.Documents;
                     break;
                 default:
                     break;
@@ -286,7 +287,7 @@ namespace Vault
                     ItemsControlAccordionItem item = new()
                     {
                         Style = FindResource("DarkAccordionItem") as Style,
-                        Header = Utility.AdaptLabel(category),
+                        Header = Utility.FormatCategoryLabel(category),
                         IsExpanded = category.IsExpanded,
                         ItemsSource = items,
                         ItemTemplate = (DataTemplate)SectionList.FindResource("SectionListItemTemplate"),

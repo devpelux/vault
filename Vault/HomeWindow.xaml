@@ -5,11 +5,11 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:cust="clr-namespace:Vault.Core.Controls"
                  xmlns:fc="http://devpelux.github.io/fullcontrols"
-                 xmlns:sys="clr-namespace:System;assembly=netstandard"
+                 xmlns:p="clr-namespace:Vault.Properties"
                  mc:Ignorable="d"
                  Style="{StaticResource DarkAvalonWindow}"
                  TitleMargin="16,0,0,0"
-                 Title="Vault"
+                 Title="{x:Static p:Strings.AppName}"
                  Height="700"
                  Width="800"
                  MergeTitlebarAndContent="True"
@@ -17,14 +17,6 @@
                  ResizeMode="CanMinimize"
                  Loaded="Window_Loaded"
                  Closed="Window_Closed">
-    <fc:AvalonWindow.Resources>
-        <ResourceDictionary>
-            <sys:Int64 x:Key="PasswordsSection">0</sys:Int64>
-            <sys:Int64 x:Key="NotesSection">1</sys:Int64>
-            <sys:Int64 x:Key="CardsSection">2</sys:Int64>
-            <sys:Int64 x:Key="DocumentsSection">3</sys:Int64>
-        </ResourceDictionary>
-    </fc:AvalonWindow.Resources>
 
     <Grid Margin="0,0,0,0">
 
@@ -62,7 +54,7 @@
                             Style="{StaticResource DarkTextBoxPlus}"
                             Height="32"
                             Margin="12"
-                            Hint="Cerca..."
+                            Hint="{x:Static p:Strings.Search}"
                             Icon="Icons/ic_search.png"
                             LabelPlacement="Left"
                             LabelMargin="0,0,6,0"
@@ -74,7 +66,7 @@
                          Style="{StaticResource DarkNavigationSwitcher}"
                          GroupName="Navigation"
                          Checked="Navigation_Switch"
-                         Content="Password"
+                         Content="{x:Static p:Strings.Passwords}"
                          VerticalAlignment="Top"
                          HorizontalContentAlignment="Left"
                          Height="36"
@@ -86,7 +78,7 @@
                          Style="{StaticResource DarkNavigationSwitcher}"
                          GroupName="Navigation"
                          Checked="Navigation_Switch"
-                         Content="Note"
+                         Content="{x:Static p:Strings.Notes}"
                          VerticalAlignment="Top"
                          HorizontalContentAlignment="Left"
                          Height="36"
@@ -98,7 +90,7 @@
                          Style="{StaticResource DarkNavigationSwitcher}"
                          GroupName="Navigation"
                          Checked="Navigation_Switch"
-                         Content="Carte"
+                         Content="{x:Static p:Strings.Cards}"
                          VerticalAlignment="Top"
                          HorizontalContentAlignment="Left"
                          Height="36"
@@ -110,7 +102,7 @@
                          Style="{StaticResource DarkNavigationSwitcher}"
                          GroupName="Navigation"
                          Checked="Navigation_Switch"
-                         Content="Documenti"
+                         Content="{x:Static p:Strings.Documents}"
                          VerticalAlignment="Top"
                          HorizontalContentAlignment="Left"
                          Height="36"
@@ -126,7 +118,7 @@
                            Grid.Row="6"
                            Style="{StaticResource DarkNavigationButton}"
                            Click="ShowCategories_Click"
-                           Content="Categorie"
+                           Content="{x:Static p:Strings.Categories}"
                            VerticalAlignment="Top"
                            HorizontalContentAlignment="Left"
                            Height="36"
@@ -141,7 +133,7 @@
                            Grid.Row="8"
                            Style="{StaticResource DarkNavigationButton}"
                            Click="ShowReport_Click"
-                           Content="Report"
+                           Content="{x:Static p:Strings.Report}"
                            VerticalAlignment="Top"
                            HorizontalContentAlignment="Left"
                            Height="36"
@@ -151,7 +143,7 @@
                            Grid.Row="9"
                            Style="{StaticResource DarkNavigationButton}"
                            Click="ShowSettings_Click"
-                           Content="Impostazioni"
+                           Content="{x:Static p:Strings.Settings}"
                            VerticalAlignment="Top"
                            HorizontalContentAlignment="Left"
                            Height="36"
@@ -161,7 +153,7 @@
                            Grid.Row="10"
                            Style="{StaticResource DarkNavigationButton}"
                            Click="ExecuteLogout_Click"
-                           Content="Logout"
+                           Content="{x:Static p:Strings.Logout}"
                            VerticalAlignment="Top"
                            HorizontalContentAlignment="Left"
                            Height="36"
@@ -202,7 +194,7 @@
                                Padding="10,0,10,0"
                                Height="36"
                                AnimationTime="00:00:00.2000000"
-                               Content="Aggiungi"
+                               Content="{x:Static p:Strings.Add}"
                                Click="Add_Click" />
 
                 <fc:GlassScrollViewer Grid.Row="1"

@@ -4,13 +4,14 @@
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:fc="http://devpelux.github.io/fullcontrols"
+                 xmlns:p="clr-namespace:Vault.Properties"
                  mc:Ignorable="d"
                  Style="{StaticResource DarkAvalonWindow}"
                  Background="{StaticResource DarkWindowSecondaryBackground}"
                  TitlebarBackground="{StaticResource DarkWindowSecondaryBackground}"
                  TitlebarBackgroundOnActive="{StaticResource DarkWindowSecondaryBackground}"
                  TitleMargin="16,0,0,0"
-                 Title="Carta"
+                 Title="{x:Static p:Strings.Card}"
                  SizeToContent="Height"
                  Width="320"
                  WindowStartupLocation="CenterScreen"
@@ -50,7 +51,7 @@
                         LabelPlacement="Left"
                         LabelMargin="0,0,8,0"
                         LabelMaxHeight="20"
-                        Hint="Nome" />
+                        Hint="{x:Static p:Strings.Name}" />
 
         <fc:TextBoxPlus x:Name="CardOwner"
                         Style="{StaticResource DarkTextBoxPlus}"
@@ -63,7 +64,7 @@
                         LabelPlacement="Left"
                         LabelMargin="0,0,8,0"
                         LabelMaxHeight="20"
-                        Hint="Proprietario" />
+                        Hint="{x:Static p:Strings.Owner}" />
 
         <Grid Grid.Row="3"
               Margin="24,4,24,0">
@@ -84,7 +85,7 @@
                             LabelPlacement="Left"
                             LabelMargin="0,0,8,0"
                             LabelMaxHeight="20"
-                            Hint="Numero" />
+                            Hint="{x:Static p:Strings.Number}" />
 
             <fc:TextBoxPlus x:Name="CardCvv"
                             Style="{StaticResource DarkTextBoxPlus}"
@@ -95,7 +96,7 @@
                             HorizontalAlignment="Right"
                             VerticalContentAlignment="Center"
                             HorizontalContentAlignment="Center"
-                            Hint="CVV"
+                            Hint="{x:Static p:Strings.Cvv}"
                             TextType="NumericOnly" />
         </Grid>
 
@@ -110,7 +111,7 @@
                         LabelPlacement="Left"
                         LabelMargin="0,0,8,0"
                         LabelMaxHeight="20"
-                        Hint="Tipo" />
+                        Hint="{x:Static p:Strings.Type}" />
 
         <fc:TextBoxPlus x:Name="CardIban"
                         Style="{StaticResource DarkTextBoxPlus}"
@@ -123,7 +124,7 @@
                         LabelPlacement="Left"
                         LabelMargin="0,0,8,0"
                         LabelMaxHeight="20"
-                        Hint="Iban" />
+                        Hint="{x:Static p:Strings.Iban}" />
         
         <Grid Grid.Row="6"
               Margin="24,4,24,0">
@@ -146,7 +147,7 @@
                             LabelPlacement="Left"
                             LabelMargin="0,0,8,0"
                             LabelMaxHeight="20"
-                            Hint="MM"
+                            Hint="{x:Static p:Strings.Month}"
                             TextType="NumericOnly" />
 
             <TextBlock Grid.Column="1"
@@ -163,7 +164,7 @@
                             Width="46"
                             VerticalContentAlignment="Center"
                             HorizontalContentAlignment="Center"
-                            Hint="YYYY"
+                            Hint="{x:Static p:Strings.Year}"
                             TextType="NumericOnly" />
         </Grid>
 
@@ -182,7 +183,7 @@
                         LabelVerticalAlignment="Top"
                         LabelMargin="0,4,8,0"
                         LabelMaxHeight="20"
-                        Hint="Note" />
+                        Hint="{x:Static p:Strings.Notes}" />
 
         <fc:CheckBoxPlus x:Name="Reauthenticate"
                          Style="{StaticResource DarkCheckBoxPlus}"
@@ -190,7 +191,7 @@
                          HorizontalAlignment="Left"
                          Margin="54,16,24,24"
                          Height="16"
-                         Content="Chiedi conferma password" />
+                         Content="{x:Static p:Strings.Reauthenticate}" />
 
         <Grid Grid.Row="9"
               Background="{StaticResource DarkWindowBackground}">
@@ -204,7 +205,7 @@
                 <fc:ButtonPlus x:Name="Save"
                                Style="{StaticResource DarkButtonPlus}"
                                Grid.Column="0"
-                               Content="Salva"
+                               Content="{x:Static p:Strings.Save}"
                                Margin="24,24,24,24"
                                Width="84"
                                Height="36"
