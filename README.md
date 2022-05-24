@@ -1,7 +1,10 @@
 # Vault
 Portable password manager open source and completely offline.
 
-![home](https://raw.githubusercontent.com/devpelux/vault/1.0.0-pre.3/Assets/home.png)
+[![download](https://img.shields.io/github/v/release/devpelux/vault?label=DOWNLOAD&sort=semver&style=for-the-badge)](https://github.com/devpelux/vault/releases/latest)
+[![download_latest](https://img.shields.io/github/v/release/devpelux/vault?include_prereleases&label=LATEST%20RELEASE&sort=semver&style=for-the-badge)](https://github.com/devpelux/vault/releases)
+
+![home](https://raw.githubusercontent.com/devpelux/vault/1.0.0-pre.4/Assets/home.png)
 
 
 # Single file executable
@@ -33,4 +36,4 @@ Just backup everything into an external pendrive, this app can be loaded also fr
 Copyright (C) 2020-2022 devpelux (Salvatore Peluso)  
 Licensed under MIT license.
 
-[![mit](https://raw.githubusercontent.com/devpelux/vault/1.0.0-pre.3/Assets/Mit.png)](https://github.com/devpelux/vault/blob/1.0.0-pre.3/LICENSE)
+[![mit](https://raw.githubusercontent.com/devpelux/vault/1.0.0-pre.4/Assets/Mit.png)](https://github.com/devpelux/vault/blob/1.0.0-pre.4/LICENSE)

@@ -19,7 +19,7 @@ namespace Vault.Core
         /// <summary>
         /// Gets a value indicating the number of seconds in an unix day.
         /// </summary>
-        internal const ulong UnixDaySeconds = 86400;
+        internal const ulong UNIX_DAY_SECONDS = 86400;
 
         /// <summary>
         /// Formats the specified date into a string after converting to local time.

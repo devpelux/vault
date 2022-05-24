@@ -63,20 +63,20 @@
 
                 <fc:ButtonPlus x:Name="Yes"
                                Style="{StaticResource DarkButtonPlus}"
-                               Grid.Column="1"
+                               Grid.Column="0"
                                Content="{x:Static p:Strings.Yes}"
                                HorizontalAlignment="Right"
-                               Margin="12,24,24,24"
+                               Margin="24,24,12,24"
                                Width="64"
                                Height="36"
                                Click="Yes_Click" />
 
                 <fc:ButtonPlus x:Name="No"
                                Style="{StaticResource DarkButtonPlus}"
-                               Grid.Column="0"
+                               Grid.Column="1"
                                Content="{x:Static p:Strings.No}"
                                HorizontalAlignment="Right"
-                               Margin="24,24,12,24"
+                               Margin="12,24,24,24"
                                Width="64"
                                Height="36"
                                Click="No_Click" />

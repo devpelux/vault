@@ -110,10 +110,13 @@ namespace Vault
         {
             if (document == null) return;
 
-            DB.Instance.Documents.Remove(document.Id);
+            if (new ConfirmWindow(Strings.ConfirmDelete, Strings.Warning, MessageBoxImage.Question).ShowDialogForResult<bool>())
+            {
+                DB.Instance.Documents.Remove(document.Id);
 
-            Result = "deleted";
-            Close();
+                Result = "deleted";
+                Close();
+            }
         }
 
         /// <summary>

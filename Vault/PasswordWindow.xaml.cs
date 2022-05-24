@@ -108,10 +108,13 @@ namespace Vault
         {
             if (password == null) return;
 
-            DB.Instance.Passwords.Remove(password.Id);
+            if (new ConfirmWindow(Strings.ConfirmDelete, Strings.Warning, MessageBoxImage.Question).ShowDialogForResult<bool>())
+            {
+                DB.Instance.Passwords.Remove(password.Id);
 
-            Result = "deleted";
-            Close();
+                Result = "deleted";
+                Close();
+            }
         }
 
         /// <summary>

@@ -109,10 +109,13 @@ namespace Vault
         {
             if (card == null) return;
 
-            DB.Instance.Cards.Remove(card.Id);
+            if (new ConfirmWindow(Strings.ConfirmDelete, Strings.Warning, MessageBoxImage.Question).ShowDialogForResult<bool>())
+            {
+                DB.Instance.Cards.Remove(card.Id);
 
-            Result = "deleted";
-            Close();
+                Result = "deleted";
+                Close();
+            }
         }
 
         /// <summary>

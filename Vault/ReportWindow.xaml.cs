@@ -17,6 +17,11 @@ namespace Vault
         private Report? lastReport;
 
         /// <summary>
+        /// Gets a value indicating the days after which the password is old.
+        /// </summary>
+        public const ulong OLD_PASSWORD_DAYS_AFTER = 90;
+
+        /// <summary>
         /// Initializes a new <see cref="ReportWindow"/>.
         /// </summary>
         public ReportWindow()
@@ -103,7 +108,7 @@ namespace Vault
 
             int duplicated = DB.Instance.Passwords.DuplicatedCount();
             int weak = DB.Instance.Passwords.WeakCount();
-            int old = DB.Instance.Passwords.OldCount(Utility.UnixDaySeconds);
+            int old = DB.Instance.Passwords.OldCount(Utility.UNIX_DAY_SECONDS * OLD_PASSWORD_DAYS_AFTER);
             int violated = DB.Instance.Passwords.ViolatedCount();
 
             if (lastReport == null)

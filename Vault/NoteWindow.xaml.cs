@@ -6,6 +6,7 @@ using Vault.Core;
 using Vault.Core.Controls;
 using Vault.Core.Database;
 using Vault.Core.Database.Data;
+using Vault.Properties;
 using WpfCoreTools;
 
 namespace Vault
@@ -97,10 +98,13 @@ namespace Vault
         {
             if (note == null) return;
 
-            DB.Instance.Notes.Remove(note.Id);
+            if (new ConfirmWindow(Strings.ConfirmDelete, Strings.Warning, MessageBoxImage.Question).ShowDialogForResult<bool>())
+            {
+                DB.Instance.Notes.Remove(note.Id);
 
-            Result = "deleted";
-            Close();
+                Result = "deleted";
+                Close();
+            }
         }
 
         /// <summary>
